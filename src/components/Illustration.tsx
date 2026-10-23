@@ -1,13 +1,16 @@
-type IllustrationName =
-  | "pillars"
-  | "discover"
-  | "design"
-  | "build"
-  | "grow"
-  | "africa"
-  | "team"
-  | "crm"
-  | "academy";
+export const illustrationNames = [
+  "pillars",
+  "discover",
+  "design",
+  "build",
+  "grow",
+  "africa",
+  "team",
+  "crm",
+  "academy",
+] as const;
+
+export type IllustrationName = (typeof illustrationNames)[number];
 
 type IllustrationProps = {
   name: IllustrationName;
@@ -16,21 +19,28 @@ type IllustrationProps = {
 
 const navy = "#0E1E2B";
 const signal = "#4AA3C6";
-const deep = "#1F6E8C";
-const paper = "#F5F6F3";
+
+// One stroke for every drawing: thin, round ends, navy only.
+const line = {
+  fill: "none",
+  stroke: navy,
+  strokeWidth: 1.75,
+  strokeLinecap: "round" as const,
+  strokeLinejoin: "round" as const,
+};
+
+// The single Signal Blue mark allowed in each drawing.
+function Accent({ cx, cy }: { cx: number; cy: number }) {
+  return <circle cx={cx} cy={cy} r={3.5} fill={signal} />;
+}
 
 /**
- * Simple brand drawings, made with code (not generated images).
- * Navy and signal blue. Gold stays out of these drawings.
+ * Line drawings for the brand. Navy outlines, one blue dot each.
+ * No fills, no gradients, and no people.
  */
 export default function Illustration({ name, className = "" }: IllustrationProps) {
   return (
-    <svg
-      viewBox="0 0 160 120"
-      className={className}
-      role="img"
-      aria-hidden="true"
-    >
+    <svg viewBox="0 0 160 120" className={className} role="img" aria-hidden="true">
       <rect width="160" height="120" fill="none" />
       {name === "pillars" ? <Pillars /> : null}
       {name === "discover" ? <Discover /> : null}
@@ -48,10 +58,10 @@ export default function Illustration({ name, className = "" }: IllustrationProps
 function Pillars() {
   return (
     <g>
-      <rect x="22" y="28" width="32" height="64" rx="8" fill={navy} />
-      <rect x="64" y="40" width="32" height="52" rx="8" fill={signal} />
-      <rect x="106" y="22" width="32" height="70" rx="8" fill={deep} />
-      <circle cx="80" cy="28" r="6" fill={signal} />
+      <rect x="28" y="52" width="28" height="48" rx="2" {...line} />
+      <rect x="66" y="34" width="28" height="66" rx="2" {...line} />
+      <rect x="104" y="22" width="28" height="78" rx="2" {...line} />
+      <Accent cx={118} cy={14} />
     </g>
   );
 }
@@ -59,9 +69,9 @@ function Pillars() {
 function Discover() {
   return (
     <g>
-      <circle cx="80" cy="52" r="28" fill="none" stroke={navy} strokeWidth="4" />
-      <circle cx="80" cy="52" r="8" fill={signal} />
-      <line x1="100" y1="72" x2="122" y2="94" stroke={navy} strokeWidth="6" strokeLinecap="round" />
+      <circle cx="68" cy="52" r="26" {...line} />
+      <line x1="88" y1="72" x2="122" y2="104" {...line} />
+      <Accent cx={68} cy={52} />
     </g>
   );
 }
@@ -69,10 +79,9 @@ function Discover() {
 function Design() {
   return (
     <g>
-      <rect x="30" y="28" width="72" height="52" rx="8" fill="none" stroke={navy} strokeWidth="3" />
-      <rect x="52" y="44" width="72" height="52" rx="8" fill={signal} opacity="0.35" />
-      <rect x="58" y="50" width="28" height="18" rx="4" fill={navy} />
-      <rect x="92" y="50" width="22" height="18" rx="4" fill={deep} />
+      <rect x="22" y="24" width="84" height="58" rx="8" {...line} />
+      <rect x="54" y="42" width="84" height="54" rx="8" {...line} />
+      <Accent cx={126} cy={34} />
     </g>
   );
 }
@@ -80,12 +89,12 @@ function Design() {
 function Build() {
   return (
     <g>
-      <rect x="28" y="36" width="36" height="24" rx="8" fill={navy} />
-      <rect x="96" y="36" width="36" height="24" rx="8" fill={deep} />
-      <rect x="62" y="70" width="36" height="24" rx="8" fill={signal} />
-      <line x1="64" y1="48" x2="96" y2="48" stroke={navy} strokeWidth="3" />
-      <line x1="80" y1="60" x2="80" y2="70" stroke={navy} strokeWidth="3" />
-      <circle cx="80" cy="48" r="4" fill={signal} />
+      <circle cx="36" cy="40" r="12" {...line} />
+      <circle cx="124" cy="40" r="12" {...line} />
+      <circle cx="80" cy="88" r="12" {...line} />
+      <line x1="48" y1="40" x2="112" y2="40" {...line} />
+      <line x1="80" y1="40" x2="80" y2="76" {...line} />
+      <Accent cx={80} cy={40} />
     </g>
   );
 }
@@ -93,12 +102,9 @@ function Build() {
 function Grow() {
   return (
     <g>
-      <path d="M28 88 C52 88 58 40 80 40 C102 40 108 88 132 88" fill="none" stroke={signal} strokeWidth="4" />
-      <circle cx="80" cy="40" r="7" fill={navy} />
-      <rect x="36" y="78" width="10" height="18" rx="3" fill={navy} />
-      <rect x="54" y="66" width="10" height="30" rx="3" fill={deep} />
-      <rect x="72" y="52" width="10" height="44" rx="3" fill={signal} />
-      <rect x="90" y="44" width="10" height="52" rx="3" fill={navy} />
+      <line x1="24" y1="96" x2="140" y2="96" {...line} />
+      <polyline points="32,82 58,70 84,52 110,36 132,24" {...line} />
+      <Accent cx={132} cy={24} />
     </g>
   );
 }
@@ -106,15 +112,10 @@ function Grow() {
 function Africa() {
   return (
     <g>
-      <circle cx="78" cy="58" r="34" fill="none" stroke={navy} strokeWidth="3" />
-      <circle cx="62" cy="50" r="5" fill={signal} />
-      <circle cx="88" cy="44" r="4" fill={deep} />
-      <circle cx="94" cy="68" r="5" fill={navy} />
-      <circle cx="70" cy="74" r="4" fill={signal} />
-      <line x1="62" y1="50" x2="88" y2="44" stroke={signal} strokeWidth="2" />
-      <line x1="88" y1="44" x2="94" y2="68" stroke={signal} strokeWidth="2" />
-      <line x1="94" y1="68" x2="70" y2="74" stroke={signal} strokeWidth="2" />
-      <line x1="70" y1="74" x2="62" y2="50" stroke={signal} strokeWidth="2" />
+      <circle cx="80" cy="60" r="36" {...line} />
+      <ellipse cx="80" cy="60" rx="16" ry="36" {...line} />
+      <line x1="44" y1="60" x2="116" y2="60" {...line} />
+      <Accent cx={98} cy={46} />
     </g>
   );
 }
@@ -122,12 +123,12 @@ function Africa() {
 function Team() {
   return (
     <g>
-      <circle cx="56" cy="42" r="12" fill={navy} />
-      <rect x="38" y="58" width="36" height="28" rx="14" fill={navy} />
-      <circle cx="80" cy="40" r="12" fill={signal} />
-      <rect x="62" y="56" width="36" height="28" rx="14" fill={signal} />
-      <circle cx="104" cy="42" r="12" fill={deep} />
-      <rect x="86" y="58" width="36" height="28" rx="14" fill={deep} />
+      <circle cx="36" cy="64" r="16" {...line} />
+      <circle cx="80" cy="46" r="16" {...line} />
+      <circle cx="124" cy="64" r="16" {...line} />
+      <line x1="50" y1="58" x2="66" y2="52" {...line} />
+      <line x1="94" y1="52" x2="110" y2="58" {...line} />
+      <Accent cx={80} cy={46} />
     </g>
   );
 }
@@ -135,12 +136,13 @@ function Team() {
 function Crm() {
   return (
     <g>
-      <rect x="22" y="30" width="34" height="60" rx="8" fill={navy} />
-      <rect x="63" y="30" width="34" height="60" rx="8" fill={signal} />
-      <rect x="104" y="30" width="34" height="60" rx="8" fill={deep} />
-      <circle cx="39" cy="48" r="6" fill={paper} />
-      <circle cx="80" cy="48" r="6" fill={paper} />
-      <circle cx="121" cy="48" r="6" fill={paper} />
+      <rect x="16" y="28" width="38" height="68" rx="6" {...line} />
+      <rect x="61" y="28" width="38" height="68" rx="6" {...line} />
+      <rect x="106" y="28" width="38" height="68" rx="6" {...line} />
+      <line x1="26" y1="46" x2="44" y2="46" {...line} />
+      <line x1="71" y1="46" x2="89" y2="46" {...line} />
+      <line x1="116" y1="46" x2="134" y2="46" {...line} />
+      <Accent cx={80} cy={18} />
     </g>
   );
 }
@@ -148,9 +150,10 @@ function Crm() {
 function Academy() {
   return (
     <g>
-      <rect x="40" y="70" width="80" height="10" rx="4" fill={navy} />
-      <path d="M48 70 L80 28 L112 70 Z" fill={signal} />
-      <rect x="74" y="48" width="12" height="22" fill={navy} />
+      <path d="M80 34 L34 54 V96 L80 76 Z" {...line} />
+      <path d="M80 34 L126 54 V96 L80 76 Z" {...line} />
+      <line x1="80" y1="34" x2="80" y2="76" {...line} />
+      <Accent cx={80} cy={24} />
     </g>
   );
 }

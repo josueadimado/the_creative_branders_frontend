@@ -16,6 +16,7 @@ import Placeholder from "./pages/Placeholder";
 import Privacy from "./pages/Privacy";
 import Services from "./pages/Services";
 import SmartCRM from "./pages/SmartCRM";
+import StyleGuide from "./pages/StyleGuide";
 import Work from "./pages/Work";
 
 function PageViews() {
@@ -51,6 +52,7 @@ export default function App() {
                 <Route path="/smartcrm" element={<SmartCRM />} />
                 <Route path="/academy" element={<Academy />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/dev/styleguide" element={<StyleGuide />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/terms" element={<Placeholder kicker="Legal" title="Terms" />} />
                 <Route path="/cookies" element={<Placeholder kicker="Legal" title="Cookies" />} />

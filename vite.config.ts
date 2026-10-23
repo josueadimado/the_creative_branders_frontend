@@ -4,6 +4,8 @@ import { fileURLToPath, URL } from "node:url";
 import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 
+// Public pages only. /dev/styleguide is a private review page:
+// leave it out of the sitemap and out of any future prerender step.
 const publicRoutes = [
   "/",
   "/services",
@@ -43,7 +45,7 @@ function sitemapXml() {
 function robotsTxt() {
   const origin = siteOrigin();
   const sitemap = origin ? `\nSitemap: ${origin}/sitemap.xml\n` : "\n";
-  return `User-agent: *\nAllow: /${sitemap}`;
+  return `User-agent: *\nAllow: /\nDisallow: /dev/\n${sitemap.startsWith("\n") ? sitemap.slice(1) : sitemap}`;
 }
 
 /** Writes sitemap.xml and robots.txt when the production site is built. */
