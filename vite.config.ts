@@ -51,6 +51,8 @@ function siteFiles(): Plugin {
       const outDir = resolve(fileURLToPath(new URL(".", import.meta.url)), "dist");
       writeFileSync(resolve(outDir, "sitemap.xml"), sitemapXml());
       writeFileSync(resolve(outDir, "robots.txt"), robotsTxt());
+      // Same list the sitemap uses. The prerender script reads it, then deletes it.
+      writeFileSync(resolve(outDir, ".prerender-routes.json"), JSON.stringify(publicRoutes));
     },
   };
 }

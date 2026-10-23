@@ -27,7 +27,12 @@ export default function Seo({ title, description, path, image = DEFAULT_IMAGE }:
   const imageUrl = image.startsWith("http") ? image : origin ? `${origin}${image}` : image;
 
   return (
-    <Helmet>
+    <Helmet
+      onChangeClientState={(newState) => {
+        // Set only after the title is actually in the document, not merely queued.
+        window.prerenderReady = newState.title === fullTitle;
+      }}
+    >
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
       {pageUrl ? <link rel="canonical" href={pageUrl} /> : null}

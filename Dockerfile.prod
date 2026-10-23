@@ -1,12 +1,17 @@
 # Production image: build the static site, then serve it with nginx.
 #
-# Stage 1 — compile React. Vite bakes VITE_* env vars into the JS
-# bundle, so VITE_API_URL MUST be set before `npm run build`.
-FROM node:20-alpine AS builder
+# Stage 1 — compile React, then open each public page in a headless browser
+# and save the HTML. Alpine cannot install that browser, so this stage uses Debian.
+# Vite bakes VITE_* env vars into the JS bundle, so VITE_API_URL MUST be set
+# before `npm run build`.
+FROM node:20-bookworm-slim AS builder
 WORKDIR /app
 
 COPY package.json package-lock.json ./
 RUN npm ci
+# Download Chromium once, before the source is copied, so later code edits
+# do not download it again. --with-deps installs the system libraries it needs.
+RUN npx playwright install --with-deps chromium
 
 COPY . .
 

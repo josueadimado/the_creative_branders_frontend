@@ -10,3 +10,8 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+interface Window {
+  /** False until this page's own title is in the document. The prerender step waits for true. */
+  prerenderReady?: boolean;
+}
