@@ -9,7 +9,7 @@ import PortfolioCard from "../components/PortfolioCard";
 import SectionHeading from "../components/SectionHeading";
 import { home } from "../content/home";
 import { track } from "../lib/analytics";
-import { portfolio } from "../data/portfolio";
+import { coverImage, featuredStudies } from "../data/portfolio";
 import { socials } from "../data/socials";
 
 const siteOrigin = (import.meta.env.VITE_SITE_URL || "").replace(/\/$/, "");
@@ -23,13 +23,15 @@ const organization = {
   sameAs: socials.map((item) => item.href),
 };
 
-const featured = portfolio.slice(0, 4);
+const featured = featuredStudies();
 
 export default function Home() {
   useEffect(() => {
     featured.forEach((item) => {
+      const src = coverImage(item);
+      if (!src) return;
       const img = new Image();
-      img.src = item.image;
+      img.src = src;
     });
   }, []);
 
@@ -128,7 +130,7 @@ export default function Home() {
           <SectionHeading eyebrow={home.work.eyebrow} title={home.work.title} lede={home.work.lede} />
           <div className="mt-20 grid gap-x-10 gap-y-16 md:grid-cols-2">
             {featured.map((item) => (
-              <PortfolioCard key={item.id} item={item} />
+              <PortfolioCard key={item.slug} item={item} />
             ))}
           </div>
           <p className="mt-14">
