@@ -26,11 +26,6 @@ export default function Academy() {
                 <p className="type-body mt-4 text-slate">{block.body}</p>
               </div>
             ))}
-            <div className="border-t border-mist pt-10">
-              <p className="type-kicker text-deep">{academy.impact.kicker}</p>
-              <p className="type-stat mt-4 text-navy">{academy.impact.figure}</p>
-              <p className="type-caption mt-3 text-slate">{academy.impact.caption}</p>
-            </div>
           </div>
           <AcademyForm />
         </div>
@@ -46,7 +41,6 @@ export default function Academy() {
           >
             {academy.footerLink}
           </Link>
-          .
         </div>
       </section>
     </>
@@ -80,7 +74,7 @@ function AcademyForm() {
     return (
       <div className="border border-white/15 bg-navy p-10 text-white sm:p-12">
         <p className="type-title">{academy.form.success}</p>
-        <p className="type-lede mt-4 text-white/70">{academy.form.followUp}</p>
+        {academy.form.followUp ? <p className="type-lede mt-4 text-white/70">{academy.form.followUp}</p> : null}
       </div>
     );
   }
@@ -125,7 +119,7 @@ function AcademyForm() {
         </p>
       ) : null}
       <button type="submit" disabled={status === "sending"} className="btn btn-inverse btn-full mt-8 disabled:opacity-60">
-        {status === "sending" ? "Sending…" : "Submit interest"}
+        {status === "sending" ? "Sending…" : academy.form.submit}
       </button>
     </form>
   );

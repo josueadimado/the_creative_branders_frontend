@@ -1,41 +1,37 @@
-/** Words for the Academy page. */
+/** Words for the Academy page. The 200+ figure stays off this page. */
 
 export const academy = {
   seo: {
     title: "Academy",
     description:
-      "A learning track for people who want to build brand, systems, and intelligence, not just take a course. Opening soon.",
+      "A practical training programme in digital brand, business systems and data, built with COME. Register your interest.",
     path: "/academy",
   },
   hero: {
     image: "/images/academy-workshop.jpg",
     kicker: "Academy",
-    title: "Train for intelligent work.",
-    lede: "A learning track for people who want to build brand, systems, and intelligence, not just take a course. Opening soon.",
+    title: "Academy",
+    lede: "A practical training programme for young people and small-business teams who want to learn digital work the way we do it: on real briefs, with the tools we use every day. We're building it with COME.",
   },
   blocks: [
     {
-      title: "What the Academy teaches",
-      body: "Practical tracks in digital brand, business systems, and data, taught the way the studio works: on real briefs, with real tools.",
+      title: "What you'll learn",
+      body: "Digital brand and design, business systems and automation, and working with data.",
     },
     {
-      title: "Partnership",
-      body: "Built in partnership with COME. Together we are aiming at 200+ youth trained. That is a target, not a claim of work already done.",
+      title: "Who it's for",
+      body: "Early-career builders, people working in small businesses, and anyone who wants practical skills without a four-year course.",
     },
     {
-      title: "Who should apply",
-      body: "Early-career builders, operators inside SMEs, and people who want studio-grade craft without a four-year detour.",
+      title: "When it starts",
+      body: "We'll open the first cohort once the programme is ready. Register your interest to hear first.",
     },
   ],
-  impact: {
-    kicker: "Impact",
-    figure: "200+",
-    caption: "Our goal with COME: young people trained",
-  },
   form: {
-    title: "Expression of interest",
-    success: "Interest received.",
-    followUp: "We will be in touch as the Academy opens.",
+    title: "Register your interest",
+    success: "Thanks, we've got your details. We'll be in touch when the first cohort opens.",
+    followUp: "",
+    submit: "Register your interest",
   },
   footer: "Looking for studio work instead?",
   footerLink: "Start a project",
