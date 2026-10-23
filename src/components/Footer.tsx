@@ -1,14 +1,15 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { serviceFamilies } from "../content/placeholder";
+import { serviceFamilies } from "../content/services";
+import { site } from "../content/site";
 import { track } from "../lib/analytics";
 import { studioEmail, whatsappHref } from "../data/socials";
 import Logo from "./Logo";
 import SocialLinks from "./SocialLinks";
 
-const serviceLinks = Object.entries(serviceFamilies).map(([slug, label]) => ({
-  to: `/services/${slug}`,
-  label,
+const serviceLinks = serviceFamilies.map((family) => ({
+  to: `/services/${family.slug}`,
+  label: family.name,
 }));
 
 const studio = [
@@ -63,7 +64,7 @@ export default function Footer() {
           <Link to="/" className="inline-flex">
             <Logo variant="dark" />
           </Link>
-          <p className="type-caption mt-5 max-w-xs text-white/70">Designed for intelligent growth.</p>
+          <p className="type-caption mt-5 max-w-xs text-white/70">{site.footerTagline}</p>
           <ul className="mt-8 space-y-3 type-caption text-white/70">
             <li>
               <a href={`mailto:${studioEmail}`} className="transition-colors hover:text-white">

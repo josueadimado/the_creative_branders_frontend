@@ -7,7 +7,12 @@ import { whatsappHref } from "../data/socials";
  * The same closing invitation on every page.
  * The WhatsApp button only appears once a number is set.
  */
-export default function CtaBand() {
+type CtaBandProps = {
+  /** Family pages ask for a quote by name. Other pages use the shared button. */
+  primary?: string;
+};
+
+export default function CtaBand({ primary }: CtaBandProps) {
   return (
     <section className="dot-grid border-t border-white/[0.08] bg-navy py-24 sm:py-28">
       <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-10 px-6 lg:flex-row lg:items-center">
@@ -21,7 +26,7 @@ export default function CtaBand() {
             className="btn btn-primary"
             onClick={() => track("start_project_click", { location: "cta" })}
           >
-            {cta.primary}
+            {primary ?? cta.primary}
           </Link>
           {whatsappHref ? (
             <a
