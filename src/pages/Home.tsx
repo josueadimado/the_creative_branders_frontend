@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
+import { BrowserPlaceholder } from "../components/DeviceFrame";
 import CtaBand from "../components/CtaBand";
 import FamilyIcon from "../components/FamilyIcon";
 import Seo from "../components/Seo";
@@ -143,16 +144,19 @@ export default function Home() {
       </section>
 
       <section className="border-t border-mist bg-paper py-28 sm:py-36">
-        <div className="mx-auto max-w-6xl px-6">
-          <h2 className="type-display max-w-3xl text-navy">{home.different.title}</h2>
-          <ul className="mt-16 max-w-3xl">
-            {home.different.points.map((point) => (
-              <li key={point.title} className="border-t border-mist py-8">
-                <h3 className="type-title text-navy">{point.title}</h3>
-                <p className="type-body mt-3 text-slate">{point.body}</p>
-              </li>
-            ))}
-          </ul>
+        <div className="mx-auto grid max-w-6xl items-start gap-16 px-6 lg:grid-cols-2">
+          <div>
+            <h2 className="type-display text-navy">{home.different.title}</h2>
+            <ul className="mt-10">
+              {home.different.points.map((point) => (
+                <li key={point.title} className="border-t border-mist py-8">
+                  <h3 className="type-title text-navy">{point.title}</h3>
+                  <p className="type-body mt-3 text-slate">{point.body}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <BrowserPlaceholder label={home.different.portal} />
         </div>
       </section>
 

@@ -56,6 +56,8 @@ export const home = {
   },
   different: {
     title: "Why clients stay with us",
+    /** Shown inside the browser frame until a real client-portal screenshot exists. */
+    portal: "Client portal",
     points: [
       {
         title: "You work with the person doing the work.",
