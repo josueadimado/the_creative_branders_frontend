@@ -1,3 +1,4 @@
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Navigate, useLocation, useSearchParams } from "react-router-dom";
 import CtaBand from "../components/CtaBand";
 import PortfolioCard from "../components/PortfolioCard";
@@ -55,6 +56,8 @@ function FilterGroup({
 export default function Work() {
   const { hash } = useLocation();
   const [params, setParams] = useSearchParams();
+  // Auto-animate skips the motion when the visitor has asked for reduced motion.
+  const [grid] = useAutoAnimate();
 
   // Old links looked like /work#relief-chiropractic. Send them to the real page.
   const legacySlug = decodeURIComponent(hash.replace(/^#/, ""));
@@ -112,15 +115,15 @@ export default function Work() {
             />
           </div>
 
-          {studies.length > 0 ? (
-            <div className="mt-16 grid gap-x-10 gap-y-16 md:grid-cols-2">
-              {studies.map((item) => (
-                <PortfolioCard key={item.slug} item={item} />
-              ))}
-            </div>
-          ) : (
-            <p className="type-body mt-16 text-slate">{workPage.empty}</p>
-          )}
+          <div
+            ref={grid}
+            className={studies.length > 0 ? "mt-16 grid gap-x-10 gap-y-16 md:grid-cols-2" : undefined}
+          >
+            {studies.map((item) => (
+              <PortfolioCard key={item.slug} item={item} />
+            ))}
+          </div>
+          {studies.length === 0 ? <p className="type-body mt-16 text-slate">{workPage.empty}</p> : null}
         </div>
       </section>
 
