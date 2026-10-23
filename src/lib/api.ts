@@ -6,8 +6,11 @@ export type InquiryPayload = {
   email: string;
   phone?: string;
   company?: string;
-  country: string;
-  budget_range: string;
+  country?: string;
+  needs: string[];
+  timeline?: string;
+  budget_range?: string;
+  brief_link?: string;
   message: string;
 };
 

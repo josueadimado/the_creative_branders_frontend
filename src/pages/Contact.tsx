@@ -1,10 +1,14 @@
-import Illustration from "../components/Illustration";
 import Seo from "../components/Seo";
 import InquiryForm from "../components/InquiryForm";
 import SocialLinks from "../components/SocialLinks";
 import { contact } from "../content/contact";
+import { studioEmail, whatsappHref } from "../data/socials";
+import { track } from "../lib/analytics";
 
 export default function Contact() {
+  const email = studioEmail;
+  const [beforeEmail, afterEmail] = contact.aside.split(email);
+
   return (
     <>
       <Seo {...contact.seo} />
@@ -22,12 +26,27 @@ export default function Contact() {
             <InquiryForm />
           </div>
           <aside>
-            <Illustration name="team" className="mb-12 w-full" />
-            <p className="type-kicker text-deep">{contact.aside.kicker}</p>
-            <p className="type-display mt-4 text-navy">{contact.aside.title}</p>
-            <p className="type-lede mt-6 text-slate">{contact.aside.body}</p>
-            <p className="type-kicker mt-14 text-deep">{contact.aside.socials}</p>
-            <div className="mt-3">
+            <p className="type-lede text-slate">
+              {beforeEmail}
+              <a href={`mailto:${email}`} className="text-deep transition-colors hover:text-deep-hover">
+                {email}
+              </a>
+              {afterEmail}
+            </p>
+            {whatsappHref ? (
+              <p className="mt-6">
+                <a
+                  href={whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="type-body text-deep transition-colors hover:text-deep-hover"
+                  onClick={() => track("whatsapp_click", { location: "contact" })}
+                >
+                  WhatsApp
+                </a>
+              </p>
+            ) : null}
+            <div className="mt-10">
               <SocialLinks tone="light" />
             </div>
           </aside>

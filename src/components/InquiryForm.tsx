@@ -1,38 +1,63 @@
 import { FormEvent, ReactNode, useState } from "react";
+import { budgetOptions, contact, needOptions, timelineOptions } from "../content/contact";
 import { postInquiry } from "../lib/api";
 import { track } from "../lib/analytics";
 
-const emptyForm = {
-  name: "",
-  email: "",
-  phone: "",
-  company: "",
-  country: "",
-  message: "",
-};
+const emptyNeeds: string[] = [];
 
 export default function InquiryForm() {
-  const [form, setForm] = useState(emptyForm);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [company, setCompany] = useState("");
+  const [country, setCountry] = useState("");
+  const [needs, setNeeds] = useState(emptyNeeds);
+  const [timeline, setTimeline] = useState("");
+  const [budget, setBudget] = useState("");
+  const [message, setMessage] = useState("");
+  const [link, setLink] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [error, setError] = useState("");
 
+  function toggleNeed(option: string) {
+    setNeeds((current) =>
+      current.includes(option) ? current.filter((item) => item !== option) : [...current, option],
+    );
+  }
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (needs.length === 0) {
+      setStatus("error");
+      setError(contact.needsError);
+      return;
+    }
     setStatus("sending");
     setError("");
     try {
       await postInquiry({
-        name: form.name,
-        email: form.email,
-        phone: form.phone || undefined,
-        company: form.company || undefined,
-        country: form.country,
-        // The studio still stores a budget note. Visitors are not asked for a figure.
-        budget_range: "Not sure yet",
-        message: form.message,
+        name,
+        email,
+        phone: phone || undefined,
+        company: company || undefined,
+        country: country || undefined,
+        needs,
+        timeline: timeline || undefined,
+        budget_range: budget || undefined,
+        brief_link: link || undefined,
+        message,
       });
       setStatus("success");
-      setForm(emptyForm);
+      setName("");
+      setEmail("");
+      setPhone("");
+      setCompany("");
+      setCountry("");
+      setNeeds([]);
+      setTimeline("");
+      setBudget("");
+      setMessage("");
+      setLink("");
       track("inquiry_submit");
     } catch (err) {
       setStatus("error");
@@ -43,71 +68,85 @@ export default function InquiryForm() {
   if (status === "success") {
     return (
       <div className="border border-white/15 bg-navy p-10 text-white sm:p-12">
-        <p className="type-title">Inquiry received.</p>
-        <p className="type-lede mt-3 text-white/70">
-          Thank you. We reply within 48 hours. If your brief is time-sensitive, include that in a
-          follow-up once we write back.
-        </p>
+        <p className="type-title">{contact.success}</p>
       </div>
     );
   }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
-      <Field label="Name" htmlFor="name">
-        <input
-          id="name"
-          required
-          value={form.name}
-          onChange={(event) => setForm({ ...form, name: event.target.value })}
-          className={inputClass}
-        />
+      <Field label={contact.fields.name} htmlFor="name">
+        <input id="name" required value={name} onChange={(event) => setName(event.target.value)} className={inputClass} />
       </Field>
-      <Field label="Email" htmlFor="email">
+      <Field label={contact.fields.email} htmlFor="email">
         <input
           id="email"
           type="email"
           required
-          value={form.email}
-          onChange={(event) => setForm({ ...form, email: event.target.value })}
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
           className={inputClass}
         />
       </Field>
-      <Field label="WhatsApp or phone (optional)" htmlFor="phone">
-        <input
-          id="phone"
-          type="tel"
-          value={form.phone}
-          onChange={(event) => setForm({ ...form, phone: event.target.value })}
-          className={inputClass}
-        />
+      <Field label={contact.fields.company} htmlFor="company">
+        <input id="company" value={company} onChange={(event) => setCompany(event.target.value)} className={inputClass} />
       </Field>
-      <Field label="Company (optional)" htmlFor="company">
-        <input
-          id="company"
-          value={form.company}
-          onChange={(event) => setForm({ ...form, company: event.target.value })}
-          className={inputClass}
-        />
+      <Field label={contact.fields.country} htmlFor="country">
+        <input id="country" value={country} onChange={(event) => setCountry(event.target.value)} className={inputClass} />
       </Field>
-      <Field label="Country" htmlFor="country">
-        <input
-          id="country"
-          required
-          value={form.country}
-          onChange={(event) => setForm({ ...form, country: event.target.value })}
-          className={inputClass}
-        />
+      <Field label={contact.fields.phone} htmlFor="phone">
+        <input id="phone" type="tel" value={phone} onChange={(event) => setPhone(event.target.value)} className={inputClass} />
       </Field>
-      <Field label="Message" htmlFor="message">
+
+      <fieldset>
+        <legend className="type-caption font-medium text-navy">{contact.fields.needs}</legend>
+        <div className="mt-3 grid gap-2 sm:grid-cols-2">
+          {needOptions.map((option) => (
+            <label key={option} className="type-body flex items-center gap-3 text-navy">
+              <input
+                type="checkbox"
+                checked={needs.includes(option)}
+                onChange={() => toggleNeed(option)}
+                className="h-4 w-4 accent-deep"
+              />
+              {option}
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <Field label={contact.fields.timeline} htmlFor="timeline">
+        <select id="timeline" value={timeline} onChange={(event) => setTimeline(event.target.value)} className={inputClass}>
+          <option value="">{contact.choose}</option>
+          {timelineOptions.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+      </Field>
+      <Field label={contact.fields.budget} htmlFor="budget">
+        <select id="budget" value={budget} onChange={(event) => setBudget(event.target.value)} className={inputClass}>
+          <option value="">{contact.choose}</option>
+          {budgetOptions.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+      </Field>
+      <Field label={contact.fields.message} htmlFor="message">
         <textarea
           id="message"
           required
           rows={5}
-          value={form.message}
-          onChange={(event) => setForm({ ...form, message: event.target.value })}
+          value={message}
+          onChange={(event) => setMessage(event.target.value)}
           className={`${inputClass} resize-y`}
         />
+      </Field>
+      <Field label={contact.fields.link} htmlFor="link">
+        <input id="link" value={link} onChange={(event) => setLink(event.target.value)} className={inputClass} />
       </Field>
 
       {status === "error" ? (
@@ -117,7 +156,7 @@ export default function InquiryForm() {
       ) : null}
 
       <button type="submit" disabled={status === "sending"} className="btn btn-inverse btn-full disabled:opacity-60">
-        {status === "sending" ? "Sending…" : "Send inquiry"}
+        {status === "sending" ? contact.sending : contact.submit}
       </button>
     </form>
   );
@@ -126,15 +165,7 @@ export default function InquiryForm() {
 const inputClass =
   "mt-2 w-full border border-mist bg-paper px-4 py-3.5 text-[17px] text-navy outline-none transition-colors focus:border-deep";
 
-function Field({
-  label,
-  htmlFor,
-  children,
-}: {
-  label: string;
-  htmlFor: string;
-  children: ReactNode;
-}) {
+function Field({ label, htmlFor, children }: { label: string; htmlFor: string; children: ReactNode }) {
   return (
     <label htmlFor={htmlFor} className="type-caption block font-medium text-navy">
       {label}
