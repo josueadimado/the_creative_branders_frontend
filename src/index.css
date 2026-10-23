@@ -143,13 +143,6 @@ h4 {
   outline-offset: 3px;
 }
 
-.grid-overlay {
-  background-image:
-    linear-gradient(rgba(74, 159, 204, 0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(74, 159, 204, 0.1) 1px, transparent 1px);
-  background-size: 48px 48px;
-}
-
 @layer components {
   .type-kicker {
     font-family: Poppins, "Segoe UI", Helvetica, Arial, sans-serif;
