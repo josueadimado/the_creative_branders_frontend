@@ -10,7 +10,7 @@ export default function About() {
       <PageHero {...about.hero} />
 
       <section className="bg-paper py-28 sm:py-36">
-        <div className="mx-auto max-w-3xl space-y-16 px-6">
+        <div className="mx-auto max-w-6xl space-y-16 px-6">
           <div>
             <h2 className="type-display text-navy">{about.started.title}</h2>
             <p className="type-body mt-6 text-slate">{about.started.body}</p>
