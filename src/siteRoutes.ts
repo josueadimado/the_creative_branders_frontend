@@ -1,3 +1,4 @@
+import { insightPaths } from "./content/insights";
 import { publicWorkPaths } from "./data/portfolio";
 
 /**
@@ -18,6 +19,7 @@ export const publicRoutes = [
   ...publicWorkPaths(),
   "/about",
   "/insights",
+  ...insightPaths(),
   "/smartcrm",
   "/academy",
   "/contact",

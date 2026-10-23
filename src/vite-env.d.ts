@@ -11,6 +11,11 @@ interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
 
+declare module "*.md?raw" {
+  const content: string;
+  export default content;
+}
+
 interface Window {
   /** False until this page's own title is in the document. The prerender step waits for true. */
   prerenderReady?: boolean;
