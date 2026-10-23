@@ -161,7 +161,7 @@ export default function Services() {
         </div>
       </section>
 
-      <CtaBand title="Tell us what you need to grow." />
+      <CtaBand />
     </>
   );
 }

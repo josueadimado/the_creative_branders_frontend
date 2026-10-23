@@ -167,10 +167,7 @@ export default function Home() {
         </div>
       </section>
 
-      <CtaBand
-        title="Ready to build something intelligent?"
-        lede="Tell us what you are building. We reply within 48 hours."
-      />
+      <CtaBand />
     </>
   );
 }

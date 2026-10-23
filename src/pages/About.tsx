@@ -95,7 +95,7 @@ export default function About() {
         </div>
       </section>
 
-      <CtaBand title="Work with us." />
+      <CtaBand />
     </>
   );
 }

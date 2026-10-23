@@ -68,7 +68,7 @@ export default function Work() {
         </div>
       </section>
 
-      <CtaBand title="Start your project." />
+      <CtaBand />
     </>
   );
 }
