@@ -2,14 +2,14 @@
 
 export const workPage = {
   seo: {
-    title: "Work",
+    title: "Our work",
     description:
-      "Work that moved the numbers. Each study is the problem we walked into, how we approached it, and what we shipped.",
+      "Websites, web apps and platforms we've built for clinics, schools, nonprofits and startups in the US, Ghana and Nigeria.",
     path: "/work",
   },
   kicker: "Work",
-  title: "Work that moved the numbers.",
-  lede: "Each study is the problem we walked into, how we approached it, and what we shipped.",
+  title: "Our work",
+  lede: "A selection of what we've designed and built. Each project page explains what the client needed, what we made and what it runs on.",
   filters: {
     family: "Service",
     sector: "Sector",
@@ -19,7 +19,7 @@ export const workPage = {
   read: "Read the case study",
   labels: {
     challenge: "The challenge",
-    approach: "Our approach",
+    approach: "How we approached it",
     built: "What we built",
     stack: "Built with",
     results: "Results",
