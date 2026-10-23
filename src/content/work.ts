@@ -26,6 +26,7 @@ export const workPage = {
     gallery: "Gallery",
     visit: "Visit site",
     similar: "Start a similar project",
+    company: "Company",
     sector: "Sector",
     country: "Country",
     family: "Service",

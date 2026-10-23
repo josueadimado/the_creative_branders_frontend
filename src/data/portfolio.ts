@@ -33,6 +33,8 @@ export type WorkQuote = {
 type StudyInput = {
   slug: string;
   publicName: string;
+  /** Legal company name, shown only in the case-study detail block. */
+  company?: string;
   anonymousName: string;
   nameApproved?: boolean;
   /** Shown only when nameApproved is true. */
@@ -64,6 +66,8 @@ type StudyInput = {
 export type PortfolioItem = {
   slug: string;
   publicName: string;
+  /** Legal company name, shown only in the case-study detail block. */
+  company?: string;
   anonymousName: string;
   nameApproved: boolean;
   logo?: string;
@@ -156,7 +160,8 @@ const studies: StudyInput[] = [
   },
   {
     slug: "push-it",
-    publicName: "Push It Global Technologies",
+    publicName: "Push-it",
+    company: "Push It Global Technologies",
     anonymousName: "A creator marketplace in Nigeria",
     nameApproved: true,
     liveUrl: "https://pushit.now",

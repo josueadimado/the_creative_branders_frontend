@@ -45,10 +45,12 @@ export default function WorkStudy() {
   const quote = visibleQuote(item);
   const images = studyScreenshots(item);
   const hero = images[0];
+  const company = visibleText(item.company);
   const sector = visibleText(item.sector);
   const country = displayCountry(item);
   const families = studyFamilies(item).map((family) => familyLabel(family)).join(", ");
   const facts = [
+    company ? { label: workPage.labels.company, value: company } : null,
     sector ? { label: workPage.labels.sector, value: sector } : null,
     country ? { label: workPage.labels.country, value: country } : null,
     { label: workPage.labels.family, value: families },
