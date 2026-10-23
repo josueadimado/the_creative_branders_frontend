@@ -1,5 +1,7 @@
+import { Helmet } from "react-helmet-async";
 import { useParams } from "react-router-dom";
 import CtaBand from "../components/CtaBand";
+import FaqAccordion from "../components/FaqAccordion";
 import Illustration from "../components/Illustration";
 import PageHero from "../components/PageHero";
 import PortfolioCard from "../components/PortfolioCard";
@@ -22,9 +24,25 @@ export default function ServiceFamily() {
     .map((itemSlug) => getPublishedStudy(itemSlug))
     .filter((item): item is PortfolioItem => item !== undefined);
 
+  const faqPage = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: family.faqs.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
+
   return (
     <>
       <Seo title={family.promise} description={family.description} path={`/services/${family.slug}`} />
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(faqPage)}</script>
+      </Helmet>
       <PageHero image={family.image} kicker={family.name} title={family.promise} lede={family.intro} />
 
       <section className="bg-paper py-28 sm:py-36">
@@ -73,14 +91,7 @@ export default function ServiceFamily() {
       <section className="border-t border-mist bg-paper py-28 sm:py-36">
         <div className="mx-auto max-w-3xl px-6">
           <h2 className="type-display text-navy">Questions</h2>
-          <dl className="mt-14 space-y-12">
-            {family.faqs.map((item) => (
-              <div key={item.question} className="border-t border-mist pt-8">
-                <dt className="type-title text-navy">{item.question}</dt>
-                <dd className="type-body mt-4 text-slate">{item.answer}</dd>
-              </div>
-            ))}
-          </dl>
+          <FaqAccordion items={family.faqs} />
         </div>
       </section>
 
