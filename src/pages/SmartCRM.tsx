@@ -18,8 +18,7 @@ export default function SmartCRM() {
 
       <section className="bg-paper py-28 sm:py-36">
         <div className="mx-auto max-w-6xl px-6">
-          <p className="type-kicker text-deep">{smartcrm.featuresKicker}</p>
-          <div className="mt-16 grid gap-12 md:grid-cols-3 md:gap-0 md:divide-x md:divide-mist md:border-t md:border-mist md:pt-16">
+          <div className="grid gap-12 md:grid-cols-3 md:gap-0 md:divide-x md:divide-mist md:border-t md:border-mist md:pt-16">
             {smartcrm.features.map((feature, index) => (
               <article key={feature.title} className="md:px-8 md:first:pl-0 md:last:pr-0">
                 <Illustration name={feature.drawing} className="h-32 w-full" />
@@ -35,8 +34,7 @@ export default function SmartCRM() {
       <section className="border-t border-mist bg-paper py-28 sm:py-36">
         <div className="mx-auto grid max-w-6xl gap-16 px-6 lg:grid-cols-2 lg:gap-24">
           <div>
-            <p className="type-kicker text-deep">{smartcrm.waitlist.kicker}</p>
-            <h2 className="type-display mt-4 text-navy">{smartcrm.waitlist.title}</h2>
+            <h2 className="type-display text-navy">{smartcrm.waitlist.title}</h2>
             <p className="type-lede mt-6 text-slate">{smartcrm.waitlist.body}</p>
           </div>
           <WaitlistForm />
@@ -67,7 +65,6 @@ export default function SmartCRM() {
           >
             {smartcrm.footerLink}
           </Link>
-          .
         </div>
       </section>
     </>

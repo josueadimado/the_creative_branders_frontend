@@ -1,55 +1,54 @@
-/** Words for the SmartCRM page. */
+/** Words for the SmartCRM page. The waitlist form reads the success lines. */
 
 export const smartcrm = {
   seo: {
     title: "SmartCRM",
-    description:
-      "A CRM for growing businesses that have outgrown notebooks, spreadsheets, and scattered WhatsApp chats. Join the waitlist for early access.",
+    description: "SmartCRM is a simple CRM for growing businesses. Join the waitlist for early access.",
     path: "/smartcrm",
   },
   hero: {
     image: "/images/smartcrm-product.jpg",
-    kicker: "Product",
-    title: "SmartCRM. A CRM built for how you actually sell.",
-    lede: "A CRM for growing businesses that have outgrown notebooks, spreadsheets, and scattered WhatsApp chats. Join the waitlist for early access.",
+    kicker: "SmartCRM",
+    title: "SmartCRM",
+    lede: "A simple CRM for businesses that keep customer details in WhatsApp chats, notebooks and spreadsheets. We're building it now and opening it to a small group first.",
   },
-  featuresKicker: "What we're designing for",
+  featuresKicker: "",
   features: [
     {
       title: "Every customer in one place",
-      body: "Contacts, conversations, and history together, instead of spread across phones, notebooks, and spreadsheets.",
+      body: "Contact details, conversations and history together.",
       drawing: "crm",
     },
     {
-      title: "Follow-ups that don't slip",
-      body: "Know who needs a call back, a quote, or a reminder, before the deal goes cold.",
+      title: "Follow-ups you won't forget",
+      body: "Reminders for call-backs, quotes and payments.",
       drawing: "build",
     },
     {
-      title: "A clear view of your pipeline",
-      body: "See what's coming in, what's stuck, and what's closing, without building a report by hand.",
+      title: "A clear view of sales",
+      body: "What's new, what's stuck and what's about to close.",
       drawing: "grow",
     },
   ],
   waitlist: {
-    kicker: "Early access",
-    title: "Join the waitlist.",
-    body: "Standalone product. No project minimum. You'll hear from us before it opens more widely.",
+    kicker: "",
+    title: "Join the waitlist",
+    body: "Leave your email and we'll let you know when early access opens.",
     already: "You're already on the list.",
-    success: "You are on the list.",
-    followUp: "We will write when SmartCRM is ready.",
+    success: "You're on the list.",
+    followUp: "We'll let you know when early access opens.",
   },
-  faqsTitle: "FAQ",
+  faqsTitle: "Questions",
   faqs: [
     {
-      q: "When does SmartCRM launch?",
-      a: "We're onboarding a small group of pilot businesses first. Join the waitlist and you'll hear before anyone else.",
+      q: "When does it open?",
+      a: "We're starting with a small pilot group. People on the waitlist hear first.",
     },
     {
       q: "Who is it for?",
-      a: "Growing SMEs that need a real CRM without enterprise complexity.",
+      a: "Small and growing businesses that need to keep track of customers without a complicated system.",
     },
   ],
-  footer: "Need a custom system instead?",
-  footerLink: "Talk to the studio",
+  footer: "Need a system built around your own process?",
+  footerLink: "Start a project",
 } as const;
