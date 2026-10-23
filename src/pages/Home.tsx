@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import CtaBand from "../components/CtaBand";
 import Seo from "../components/Seo";
@@ -9,6 +10,18 @@ import SectionHeading from "../components/SectionHeading";
 import { home } from "../content/home";
 import { track } from "../lib/analytics";
 import { portfolio } from "../data/portfolio";
+import { socials } from "../data/socials";
+
+const siteOrigin = (import.meta.env.VITE_SITE_URL || "").replace(/\/$/, "");
+
+const organization = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "The Creative Branders",
+  url: siteOrigin || undefined,
+  logo: `${siteOrigin}/brand/png/tcb-monogram-dark-512.png`,
+  sameAs: socials.map((item) => item.href),
+};
 
 const featured = portfolio.slice(0, 4);
 
@@ -23,6 +36,9 @@ export default function Home() {
   return (
     <>
       <Seo {...home.seo} />
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(organization)}</script>
+      </Helmet>
       {/* Full-height opener: the photograph is the luxury; type sits in the quiet left. */}
       <section className="relative isolate min-h-[100svh] overflow-hidden bg-navy">
         <img
