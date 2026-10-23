@@ -59,16 +59,18 @@ function Item({ to, label }: { to: string; label: string }) {
 export default function Footer() {
   return (
     <footer className="dot-grid border-t border-white/[0.06] bg-navy">
-      <div className="mx-auto grid max-w-6xl gap-14 px-6 py-20 sm:grid-cols-2 lg:grid-cols-5">
-        <div className="sm:col-span-2 lg:col-span-1">
+      <div className="mx-auto grid max-w-6xl gap-14 px-6 py-20 sm:grid-cols-2 lg:grid-cols-[16rem_repeat(4,minmax(0,1fr))]">
+        <div className="w-full sm:col-span-2 lg:col-span-1 lg:w-64">
           <Link to="/" className="inline-flex">
             <Logo variant="dark" />
           </Link>
           <p className="type-caption mt-5 max-w-xs text-white/70">{site.footerTagline}</p>
           <ul className="mt-8 space-y-3 type-caption text-white/70">
             <li>
-              <a href={`mailto:${studioEmail}`} className="transition-colors hover:text-white">
-                {studioEmail}
+              <a href={`mailto:${studioEmail}`} className="break-words transition-colors hover:text-white">
+                {studioEmail.slice(0, studioEmail.indexOf("@") + 1)}
+                <wbr />
+                {studioEmail.slice(studioEmail.indexOf("@") + 1)}
               </a>
             </li>
             {whatsappHref ? (
@@ -85,7 +87,7 @@ export default function Footer() {
               </li>
             ) : null}
           </ul>
-          <SocialLinks />
+          <SocialLinks flush />
         </div>
 
         <Column title="Services">
