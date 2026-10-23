@@ -3,7 +3,6 @@ import CtaBand from "../components/CtaBand";
 import Illustration from "../components/Illustration";
 import Media from "../components/Media";
 import PageHero from "../components/PageHero";
-import PricingTier from "../components/PricingTier";
 import SectionHeading from "../components/SectionHeading";
 
 const services = [
@@ -23,7 +22,7 @@ const services = [
     what: "The software that actually runs the business: bookings, client records, operations. Built to fit how you work, including SmartCRM when a dedicated CRM is the right tool.",
     get: [
       "Custom operational tools and workflows",
-      "SmartCRM as a standalone product ($10–$30 / month)",
+      "SmartCRM as a standalone product",
       "Integrations so data does not live in five different places",
     ],
   },
@@ -36,6 +35,28 @@ const services = [
       "Simple reporting cadence for owners and operators",
       "A shared picture of growth across brand, systems, and sales",
     ],
+  },
+];
+
+const offers = [
+  {
+    description: "A focused first move: a site, a brand pass, or a single operational tool.",
+    features: ["One primary surface", "Tight scope, fast delivery", "A foundation you can grow from"],
+    highlighted: false,
+  },
+  {
+    description: "The range most growing businesses land in: brand plus systems that work together.",
+    features: [
+      "Brand and digital experience",
+      "An operational system or CRM setup",
+      "A reporting view of what matters",
+    ],
+    highlighted: true,
+  },
+  {
+    description: "Multi-surface work: platforms, integrations, and intelligence across the business.",
+    features: ["Custom platforms", "Deeper integrations", "Ongoing studio partnership"],
+    highlighted: false,
   },
 ];
 
@@ -111,33 +132,41 @@ export default function Services() {
             title="Clear ranges. No theatre."
             lede="Project work is scoped after a discovery call. SmartCRM is available on its own if you only need the product."
           />
-          <div className="mt-20 grid overflow-hidden border border-mist divide-y divide-mist lg:grid-cols-3 lg:divide-x lg:divide-y-0">
-            <PricingTier
-              name="Starter"
-              range="$400–$800"
-              description="A focused first move: a site, a brand pass, or a single operational tool."
-              features={["One primary surface", "Tight scope, fast delivery", "A foundation you can grow from"]}
-            />
-            <PricingTier
-              highlighted
-              name="Growth"
-              range="$1,200–$2,500"
-              description="The range most growing businesses land in: brand plus systems that work together."
-              features={[
-                "Brand and digital experience",
-                "An operational system or CRM setup",
-                "A reporting view of what matters",
-              ]}
-            />
-            <PricingTier
-              name="Enterprise"
-              range="$5,000+"
-              description="Multi-surface work: platforms, integrations, and intelligence across the business."
-              features={["Custom platforms", "Deeper integrations", "Ongoing studio partnership"]}
-            />
+          <div className="mt-20 grid gap-6 lg:grid-cols-3">
+            {offers.map((offer) => (
+              <article
+                key={offer.description}
+                className={
+                  offer.highlighted
+                    ? "flex flex-col rounded-card border border-mist bg-navy p-10 text-white sm:p-12"
+                    : "flex flex-col rounded-card border border-mist bg-white p-10 text-navy sm:p-12"
+                }
+              >
+                {offer.highlighted ? <p className="type-kicker mb-6 text-gold">Most chosen</p> : null}
+                <p className={`type-body ${offer.highlighted ? "text-white/70" : "text-slate"}`}>
+                  {offer.description}
+                </p>
+                <ul className="mt-10 flex-1 space-y-3.5 type-body">
+                  {offer.features.map((feature) => (
+                    <li key={feature} className="flex gap-3">
+                      <span className={offer.highlighted ? "text-signal" : "text-deep"} aria-hidden>
+                        –
+                      </span>
+                      <span className={offer.highlighted ? "text-white/90" : "text-slate"}>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  to="/contact"
+                  className={`mt-10 self-start ${offer.highlighted ? "btn btn-primary" : "btn btn-inverse"}`}
+                >
+                  Get a quote
+                </Link>
+              </article>
+            ))}
           </div>
           <p className="type-body mt-12 text-slate">
-            SmartCRM as a standalone SaaS product is $10–$30 / month.{" "}
+            SmartCRM is also available on its own.{" "}
             <Link to="/smartcrm" className="text-deep transition-colors hover:text-deep-hover">
               See SmartCRM
             </Link>

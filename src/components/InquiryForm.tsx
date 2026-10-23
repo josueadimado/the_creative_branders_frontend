@@ -1,15 +1,12 @@
 import { FormEvent, ReactNode, useState } from "react";
 import { postInquiry } from "../lib/api";
 
-const BUDGETS = ["$400–$800", "$1,200–$2,500", "$5,000+", "Not sure yet"];
-
 const emptyForm = {
   name: "",
   email: "",
   phone: "",
   company: "",
   country: "",
-  budget_range: BUDGETS[1],
   message: "",
 };
 
@@ -29,7 +26,8 @@ export default function InquiryForm() {
         phone: form.phone || undefined,
         company: form.company || undefined,
         country: form.country,
-        budget_range: form.budget_range,
+        // The studio still stores a budget note. Visitors are not asked for a figure.
+        budget_range: "Not sure yet",
         message: form.message,
       });
       setStatus("success");
@@ -42,7 +40,7 @@ export default function InquiryForm() {
 
   if (status === "success") {
     return (
-      <div className="border border-blue/40 bg-navy p-10 text-white sm:p-12">
+      <div className="border border-white/15 bg-navy p-10 text-white sm:p-12">
         <p className="type-title">Inquiry received.</p>
         <p className="type-lede mt-3 text-white/70">
           Thank you. We reply within 48 hours. If your brief is time-sensitive, include that in a
@@ -98,21 +96,6 @@ export default function InquiryForm() {
           onChange={(event) => setForm({ ...form, country: event.target.value })}
           className={inputClass}
         />
-      </Field>
-      <Field label="Budget range" htmlFor="budget_range">
-        <select
-          id="budget_range"
-          required
-          value={form.budget_range}
-          onChange={(event) => setForm({ ...form, budget_range: event.target.value })}
-          className={inputClass}
-        >
-          {BUDGETS.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
       </Field>
       <Field label="Message" htmlFor="message">
         <textarea

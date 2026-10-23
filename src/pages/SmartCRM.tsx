@@ -29,7 +29,7 @@ const faqs = [
   },
   {
     q: "Who is it for?",
-    a: "Growing SMEs that need a real CRM without enterprise complexity or enterprise pricing.",
+    a: "Growing SMEs that need a real CRM without enterprise complexity.",
   },
 ];
 
@@ -43,7 +43,7 @@ export default function SmartCRM() {
         image="/images/smartcrm-product.jpg"
         kicker="Product"
         title="SmartCRM. A CRM built for how you actually sell."
-        lede="$10–$30 / month. A CRM for growing businesses that have outgrown notebooks, spreadsheets, and scattered WhatsApp chats. Join the waitlist for early access."
+        lede="A CRM for growing businesses that have outgrown notebooks, spreadsheets, and scattered WhatsApp chats. Join the waitlist for early access."
       />
 
       <section className="bg-paper py-28 sm:py-36">
@@ -65,10 +65,10 @@ export default function SmartCRM() {
       <section className="border-t border-mist bg-paper py-28 sm:py-36">
         <div className="mx-auto grid max-w-6xl gap-16 px-6 lg:grid-cols-2 lg:gap-24">
           <div>
-            <p className="type-kicker text-deep">Pricing</p>
-            <h2 className="type-display mt-4 text-navy">$10–$30 / month</h2>
+            <p className="type-kicker text-deep">Early access</p>
+            <h2 className="type-display mt-4 text-navy">Join the waitlist.</h2>
             <p className="type-lede mt-6 text-slate">
-              Standalone SaaS. No project minimum. Final plans will be published at launch.
+              Standalone product. No project minimum. You'll hear from us before it opens more widely.
             </p>
           </div>
           <WaitlistForm />
