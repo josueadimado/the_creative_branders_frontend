@@ -72,7 +72,12 @@ export default function WorkStudy() {
             {summary ? <p className="type-lede mt-8 text-slate">{summary}</p> : null}
             {liveUrl ? (
               <p className="mt-6">
-                <a href={liveUrl} className="type-body text-deep hover:text-deep-hover" target="_blank" rel="noreferrer">
+                <a
+                  href={liveUrl}
+                  className="type-body text-deep hover:text-deep-hover"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {workPage.labels.visit}
                 </a>
               </p>

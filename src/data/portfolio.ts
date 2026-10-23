@@ -39,6 +39,8 @@ type StudyInput = {
   logo?: string;
   liveUrl?: string;
   linkApproved?: boolean;
+  /** A client hired us. A venture is our own product. Defaults to client. */
+  relationship?: "client" | "venture";
   family: FamilySlug;
   /** Other families this study also belongs to. The first family above is the main one. */
   secondaryFamilies?: FamilySlug[];
@@ -67,6 +69,7 @@ export type PortfolioItem = {
   logo?: string;
   liveUrl?: string;
   linkApproved: boolean;
+  relationship: "client" | "venture";
   family: FamilySlug;
   secondaryFamilies: FamilySlug[];
   sector: string;
@@ -107,6 +110,7 @@ function settle(item: StudyInput): PortfolioItem {
     ...item,
     nameApproved: item.nameApproved ?? false,
     linkApproved: item.linkApproved ?? false,
+    relationship: item.relationship ?? "client",
     secondaryFamilies: item.secondaryFamilies ?? [],
     featured: item.featured ?? false,
     published: item.published ?? false,
@@ -121,9 +125,9 @@ const studies: StudyInput[] = [
     slug: "relief-chiropractic",
     publicName: "Relief Chiropractic & Wellness Center",
     anonymousName: "A chiropractic clinic in Michigan",
-    nameApproved: false,
-    liveUrl: "https://book.reliefchiropractic.net",
-    linkApproved: false,
+    nameApproved: true,
+    liveUrl: "https://www.reliefchiropractic.net",
+    linkApproved: true,
     family: "web-applications",
     secondaryFamilies: ["automation-ai"],
     sector: "Healthcare",
@@ -154,9 +158,9 @@ const studies: StudyInput[] = [
     slug: "push-it",
     publicName: "Push It Global Technologies",
     anonymousName: "A creator marketplace in Nigeria",
-    nameApproved: false,
+    nameApproved: true,
     liveUrl: "https://pushit.now",
-    linkApproved: false,
+    linkApproved: true,
     family: "web-applications",
     sector: "Marketing and advertising",
     country: "Nigeria",
@@ -187,9 +191,9 @@ const studies: StudyInput[] = [
     slug: "come-clarity",
     publicName: "COME|CLARITY",
     anonymousName: "A leadership learning platform in Ghana",
-    nameApproved: false,
+    nameApproved: true,
     liveUrl: "https://comeclarity.org",
-    linkApproved: false,
+    linkApproved: true,
     family: "web-applications",
     secondaryFamilies: ["websites"],
     sector: "Education",
@@ -218,9 +222,9 @@ const studies: StudyInput[] = [
     slug: "up2date-connect",
     publicName: "Up2Date Connect",
     anonymousName: "A counseling platform in the United States",
-    nameApproved: false,
+    nameApproved: true,
     liveUrl: "https://up2dateconnect.com",
-    linkApproved: false,
+    linkApproved: true,
     family: "web-applications",
     secondaryFamilies: ["websites"],
     sector: "Behavioral health",
@@ -232,7 +236,7 @@ const studies: StudyInput[] = [
     challenge:
       "Counseling teams, the people in their programmes and the agencies that refer them were each keeping their own record, in spreadsheets, on paper and over the phone. Nobody shared one current picture of a case, and every status update meant another call.",
     approach:
-      "We took a system proven inside one clinic and turned it into a product many organisations can use. Each organisation gets its own branded portal and web address, while every record stays tied to the organisation it belongs to.",
+      "We took a system proven inside one clinic and turned it into a product many organisations can use. Each organisation gets its own branded portal and web address, while every record stays tied to the organisation it belongs to. It began as the system we built for a single counseling clinic, then grew into a platform other organisations sign up for.",
     built: [
       "Self-serve signup for counseling organisations, each with its own branding, letterhead and web address",
       "Staff workspace: a \"Today\" dashboard, client directory, sessions, groups, attendance and calendar",
@@ -252,8 +256,8 @@ const studies: StudyInput[] = [
     slug: "set-free-in-christ",
     publicName: "Set Free in Christ Mission",
     anonymousName: "A multilingual ministry in the United States",
-    nameApproved: false,
-    liveUrl: "https://setfreeinchrist.org",
+    nameApproved: true,
+    liveUrl: "https://www.setfreeinchrist.org",
     linkApproved: true,
     family: "websites",
     secondaryFamilies: ["web-applications"],
@@ -303,7 +307,7 @@ const studies: StudyInput[] = [
     slug: "secure-counseling",
     publicName: "Secure Counseling & Psychological Centers",
     anonymousName: "A counseling clinic in the United States",
-    nameApproved: false,
+    nameApproved: true,
     linkApproved: false,
     family: "web-applications",
     sector: "Behavioral health",
@@ -434,11 +438,21 @@ export function displayLogo(item: PortfolioItem): string | undefined {
   return visibleText(item.logo);
 }
 
+/** A staff desk or admin login must never be offered as the public site. */
+function isStaffOrAdminUrl(url: string): boolean {
+  try {
+    const path = new URL(url).pathname.toLowerCase();
+    return path.includes("/admin") || path.includes("/login") || path.includes("/staff");
+  } catch {
+    return true;
+  }
+}
+
 /** The public site link. Hidden unless the owner has approved it. */
 export function displayLiveUrl(item: PortfolioItem): string | undefined {
   if (!item.linkApproved) return undefined;
   const url = visibleText(item.liveUrl);
-  if (!url || !/^https?:\/\//i.test(url)) return undefined;
+  if (!url || !/^https?:\/\//i.test(url) || isStaffOrAdminUrl(url)) return undefined;
   return url;
 }
 
@@ -446,13 +460,14 @@ export function displayCountry(item: PortfolioItem): string | undefined {
   return visibleText(item.country);
 }
 
-/** Family, sector, and country. Empty country is left out. No middle dots. */
+/** Family, sector, and country. Empty country is left out. A venture also gets "Studio venture". */
 export function studyTags(item: PortfolioItem): string[] {
   const tags = studyFamilies(item).map((slug) => familyLabel(slug));
   const sector = visibleText(item.sector);
   if (sector) tags.push(sector);
   const country = displayCountry(item);
   if (country) tags.push(country);
+  if (item.relationship === "venture") tags.push("Studio venture");
   return tags;
 }
 
