@@ -2,7 +2,7 @@ import { FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import Illustration from "../components/Illustration";
 import Seo from "../components/Seo";
-import PageHero from "../components/PageHero";
+import TextHero from "../components/TextHero";
 import { smartcrm } from "../content/smartcrm";
 import { track } from "../lib/analytics";
 import { postWaitlist } from "../lib/api";
@@ -14,7 +14,7 @@ export default function SmartCRM() {
   return (
     <>
       <Seo {...smartcrm.seo} />
-      <PageHero {...smartcrm.hero} />
+      <TextHero kicker={smartcrm.hero.kicker} title={smartcrm.hero.title} lede={smartcrm.hero.lede} />
 
       <section className="bg-paper py-28 sm:py-36">
         <div className="mx-auto max-w-6xl px-6">

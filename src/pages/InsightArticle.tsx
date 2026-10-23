@@ -16,7 +16,6 @@ export default function InsightArticle() {
         title={article.title}
         description={article.description}
         path={`/insights/${article.slug}`}
-        image={article.cover}
       />
       <article>
         <header className="bg-navy py-32 sm:py-44">
@@ -36,7 +35,6 @@ export default function InsightArticle() {
         </header>
         <div className="bg-paper py-16 sm:py-24">
           <div className="mx-auto max-w-3xl px-6">
-            <img src={article.cover} alt="" className="mb-12 aspect-[16/10] w-full rounded-card border border-mist object-cover" />
             <ArticleBody body={article.body} />
           </div>
         </div>

@@ -2,7 +2,7 @@ import { FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import Illustration from "../components/Illustration";
 import Seo from "../components/Seo";
-import PageHero from "../components/PageHero";
+import TextHero from "../components/TextHero";
 import { academy } from "../content/academy";
 import { track } from "../lib/analytics";
 import { postAcademyInterest } from "../lib/api";
@@ -14,7 +14,7 @@ export default function Academy() {
   return (
     <>
       <Seo {...academy.seo} />
-      <PageHero {...academy.hero} />
+      <TextHero kicker={academy.hero.kicker} title={academy.hero.title} lede={academy.hero.lede} />
 
       <section className="bg-paper py-28 sm:py-36">
         <div className="mx-auto grid max-w-6xl gap-20 px-6 lg:grid-cols-2">

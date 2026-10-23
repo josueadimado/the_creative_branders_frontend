@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import CtaBand from "../components/CtaBand";
-import WorkFrame from "../components/DeviceFrame";
+import WorkFrame, { BrowserPlaceholder } from "../components/DeviceFrame";
 import Seo from "../components/Seo";
 import { workPage } from "../content/work";
 import {
@@ -16,6 +16,7 @@ import {
   visibleQuote,
   visibleResults,
   visibleStack,
+  studyScreenshots,
   visibleText,
 } from "../data/portfolio";
 import { track } from "../lib/analytics";
@@ -42,10 +43,7 @@ export default function WorkStudy() {
   const stack = visibleStack(item);
   const results = visibleResults(item);
   const quote = visibleQuote(item);
-  const images = item.images.flatMap((src) => {
-    const text = visibleText(src);
-    return text ? [text] : [];
-  });
+  const images = studyScreenshots(item);
   const hero = images[0];
   const sector = visibleText(item.sector);
   const country = displayCountry(item);
@@ -95,10 +93,10 @@ export default function WorkStudy() {
           </div>
         </header>
 
-        {images.length > 0 ? (
-          <div className="bg-paper py-16 sm:py-24">
-            <div className="mx-auto flex max-w-6xl flex-col gap-12 px-6">
-              {images.map((src, index) => (
+        <div className="bg-paper py-16 sm:py-24">
+          <div className="mx-auto flex max-w-6xl flex-col gap-12 px-6">
+            {images.length > 0 ? (
+              images.map((src, index) => (
                 <WorkFrame
                   key={`${src}-${index}`}
                   src={src}
@@ -107,10 +105,12 @@ export default function WorkStudy() {
                   feature
                   loading={index === 0 ? "eager" : "lazy"}
                 />
-              ))}
-            </div>
+              ))
+            ) : (
+              <BrowserPlaceholder label={name} />
+            )}
           </div>
-        ) : null}
+        </div>
 
         <div className="mx-auto max-w-6xl px-6 pb-16 sm:pb-24">
 

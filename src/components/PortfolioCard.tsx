@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { coverImage, displayName, studyTags, visibleText, type PortfolioItem } from "../data/portfolio";
 import { workPage } from "../content/work";
 import { track } from "../lib/analytics";
-import WorkFrame from "./DeviceFrame";
+import WorkFrame, { BrowserPlaceholder } from "./DeviceFrame";
 
 type PortfolioCardProps = {
   item: PortfolioItem;
@@ -28,7 +28,9 @@ export default function PortfolioCard({ item, summary: summaryOverride, device }
       >
         {image ? (
           <WorkFrame src={image} alt={name} device={device ?? item.device} embedded />
-        ) : null}
+        ) : (
+          <BrowserPlaceholder label={name} embedded />
+        )}
         <div className="flex flex-1 flex-col p-6">
           <h3 className="type-title text-navy">{name}</h3>
           {summary ? <p className="type-body mt-3 flex-1 text-slate">{summary}</p> : null}

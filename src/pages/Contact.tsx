@@ -12,7 +12,7 @@ export default function Contact() {
   return (
     <>
       <Seo {...contact.seo} />
-      <section className="bg-navy py-32 sm:py-44">
+      <section className="dot-grid bg-navy py-32 sm:py-44">
         <div className="mx-auto max-w-6xl px-6">
           <p className="type-kicker text-signal">{contact.hero.kicker}</p>
           <h1 className="type-h1 mt-5 text-white">{contact.hero.title}</h1>

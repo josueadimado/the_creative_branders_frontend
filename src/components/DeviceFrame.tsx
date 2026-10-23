@@ -15,6 +15,32 @@ type FrameProps = {
  * A flat browser window. Mist border, no shadow.
  * Screenshots sit inside it so a photo reads as a product, not a poster.
  */
+type PlaceholderProps = {
+  /** The client name, or a short label such as "Client portal". */
+  label: string;
+  embedded?: boolean;
+  className?: string;
+};
+
+/**
+ * A browser window with no screenshot yet.
+ * Navy panel, faint dot grid, and the name in the heading typeface.
+ */
+export function BrowserPlaceholder({ label, embedded = false, className = "" }: PlaceholderProps) {
+  return (
+    <div className={`bg-white ${embedded ? "" : "overflow-hidden rounded-card border border-mist"} ${className}`}>
+      <div className="flex items-center gap-1.5 border-b border-mist bg-white px-4 py-3" aria-hidden="true">
+        <span className="h-2 w-2 rounded-full border border-mist bg-paper" />
+        <span className="h-2 w-2 rounded-full border border-mist bg-paper" />
+        <span className="h-2 w-2 rounded-full border border-mist bg-paper" />
+      </div>
+      <div className="dot-grid flex aspect-[16/10] items-center justify-center bg-navy px-8">
+        <p className="type-title text-center text-white">{label}</p>
+      </div>
+    </div>
+  );
+}
+
 export function BrowserFrame({ src, alt, className = "", loading = "lazy", embedded = false }: FrameProps) {
   return (
     <div

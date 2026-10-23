@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import CtaBand from "../components/CtaBand";
+import FamilyIcon from "../components/FamilyIcon";
 import Seo from "../components/Seo";
 import HowWeWork from "../components/HowWeWork";
 import PortfolioCard from "../components/PortfolioCard";
@@ -190,7 +191,8 @@ export default function Home() {
               {articles.slice(0, 3).map((article) => (
                 <article key={article.slug}>
                   <Link to={`/insights/${article.slug}`} className="block">
-                    <p className="type-caption flex flex-wrap gap-x-3 text-slate">
+                    <FamilyIcon family={article.family} className="text-deep" />
+                    <p className="type-caption mt-6 flex flex-wrap gap-x-3 text-slate">
                       <span>{article.familyLabel}</span>
                       <span>{formatInsightDate(article.date)}</span>
                     </p>

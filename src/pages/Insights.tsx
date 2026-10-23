@@ -1,5 +1,6 @@
 import { Link, useSearchParams } from "react-router-dom";
 import CtaBand from "../components/CtaBand";
+import FamilyIcon from "../components/FamilyIcon";
 import Seo from "../components/Seo";
 import { articles, formatInsightDate, insightsPage } from "../content/insights";
 
@@ -13,7 +14,7 @@ export default function Insights() {
   return (
     <>
       <Seo {...insightsPage.seo} />
-      <section className="bg-navy py-32 sm:py-44">
+      <section className="dot-grid bg-navy py-32 sm:py-44">
         <div className="mx-auto max-w-6xl px-6">
           <p className="type-kicker text-signal">{insightsPage.kicker}</p>
           <h1 className="type-h1 mt-5 max-w-3xl text-white">{insightsPage.title}</h1>
@@ -44,10 +45,10 @@ export default function Insights() {
           ) : (
             <div className="mt-16 grid gap-10 md:grid-cols-3">
               {visible.map((article) => (
-                <article key={article.slug} className="flex flex-col overflow-hidden rounded-card border border-mist bg-white">
-                  <Link to={`/insights/${article.slug}`} className="flex flex-1 flex-col">
-                    <img src={article.cover} alt="" className="aspect-[16/10] w-full object-cover" />
-                    <div className="flex flex-1 flex-col p-6">
+                <article key={article.slug} className="flex flex-col rounded-card border border-mist bg-white">
+                  <Link to={`/insights/${article.slug}`} className="flex flex-1 flex-col p-6">
+                    <FamilyIcon family={article.family} className="text-deep" />
+                    <div className="mt-6 flex flex-1 flex-col">
                       <p className="type-caption flex flex-wrap gap-x-3 text-slate">
                         <span>{article.familyLabel}</span>
                         <span>{formatInsightDate(article.date)}</span>

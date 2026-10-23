@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import CtaBand from "../components/CtaBand";
-import PageHero from "../components/PageHero";
 import Seo from "../components/Seo";
+import TextHero from "../components/TextHero";
 import { serviceFamilies, servicesPage } from "../content/services";
 
 /**
@@ -12,12 +12,7 @@ export default function Services() {
   return (
     <>
       <Seo {...servicesPage.seo} />
-      <PageHero
-        image={servicesPage.image}
-        kicker={servicesPage.kicker}
-        title={servicesPage.title}
-        lede={servicesPage.lede}
-      />
+      <TextHero kicker={servicesPage.kicker} title={servicesPage.title} lede={servicesPage.lede} />
 
       <section className="bg-paper py-28 sm:py-36">
         <div className="mx-auto grid max-w-6xl gap-6 px-6 md:grid-cols-2">

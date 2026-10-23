@@ -152,7 +152,7 @@ const studies: StudyInput[] = [
     ],
     stack: ["Next.js", "Django", "PostgreSQL", "Celery", "Square", "Twilio (SMS and voice)", "OpenAI", "Google Calendar"],
     results: [],
-    images: ["/images/work-clinic.jpg"],
+    images: [],
   },
   {
     slug: "push-it",
@@ -186,7 +186,7 @@ const studies: StudyInput[] = [
     ],
     stack: ["React", "TypeScript", "Django", "PostgreSQL", "Celery", "Paystack"],
     results: [],
-    images: ["/images/work-ops.jpg"],
+    images: [],
   },
   {
     slug: "come-clarity",
@@ -217,7 +217,7 @@ const studies: StudyInput[] = [
     ],
     stack: ["Next.js", "Django", "PostgreSQL", "Celery", "Paystack", "Cloudflare R2"],
     results: [],
-    images: ["/images/work-edtech.jpg"],
+    images: [],
   },
   {
     slug: "up2date-connect",
@@ -251,7 +251,7 @@ const studies: StudyInput[] = [
     ],
     stack: ["React", "TypeScript", "Django", "PostgreSQL", "Celery", "Square", "Twilio", "Zoom"],
     results: [],
-    images: ["/images/work-counseling.jpg"],
+    images: [],
   },
   {
     slug: "set-free-in-christ",
@@ -283,7 +283,7 @@ const studies: StudyInput[] = [
     ],
     stack: ["React", "TypeScript", "Django", "Stripe"],
     results: [],
-    images: ["/images/work-nonprofit.jpg"],
+    images: [],
   },
   {
     slug: "come",
@@ -300,7 +300,7 @@ const studies: StudyInput[] = [
     built: [
       "A leadership website and content platform with programme pages, a publishing structure for teaching and stories, and a clear way to take part. It sits alongside the Academy work we still hold with COME.",
     ],
-    images: ["/images/work-nonprofit.jpg"],
+    images: [],
     published: true,
   },
   {
@@ -334,7 +334,7 @@ const studies: StudyInput[] = [
     ],
     stack: ["Next.js", "Django", "PostgreSQL", "Celery", "Square", "Twilio"],
     results: [],
-    images: ["/images/work-counseling.jpg"],
+    images: [],
   },
   {
     slug: "elevate-tribe-learning",
@@ -351,7 +351,7 @@ const studies: StudyInput[] = [
     built: [
       "A mentorship platform with mentor and learner profiles, matching, session booking and a shared view of the work. The site and the product share one identity.",
     ],
-    images: ["/images/work-mentorship.jpg"],
+    images: [],
     published: true,
   },
   {
@@ -369,7 +369,7 @@ const studies: StudyInput[] = [
     built: [
       "A data and training services site with clear service lines, a path into an engagement, and a visual system for the analytics and training work.",
     ],
-    images: ["/images/work-analytics.jpg"],
+    images: [],
     published: true,
   },
   {
@@ -387,7 +387,7 @@ const studies: StudyInput[] = [
     built: [
       "A devotion and community platform with daily content, a simple community layer and a public presence that matches the practice. It is meant to be opened in the morning.",
     ],
-    images: ["/images/work-faith.jpg"],
+    images: [],
     published: true,
   },
   {
@@ -406,7 +406,7 @@ const studies: StudyInput[] = [
     built: [
       "A course and enrollment site for Twi and Fante, with group and one-to-one options, in person and online, and a clear checkout into the next class.",
     ],
-    images: ["/images/work-twi.jpg"],
+    images: [],
     published: true,
   },
 ];
@@ -472,8 +472,20 @@ export function studyTags(item: PortfolioItem): string[] {
   return tags;
 }
 
+/**
+ * Real product screenshots live in public/images/work/[slug]/.
+ * Anything else in the images list is ignored, so a stock photo cannot slip onto a card.
+ */
+export function studyScreenshots(item: PortfolioItem): string[] {
+  const prefix = `/images/work/${item.slug}/`;
+  return item.images.flatMap((src) => {
+    const text = visibleText(src);
+    return text && text.startsWith(prefix) ? [text] : [];
+  });
+}
+
 export function coverImage(item: PortfolioItem): string | undefined {
-  return item.images.map((src) => visibleText(src)).find((src): src is string => Boolean(src));
+  return studyScreenshots(item)[0];
 }
 
 export function visibleBuilt(item: PortfolioItem): string[] {

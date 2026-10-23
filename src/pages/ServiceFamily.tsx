@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import CtaBand from "../components/CtaBand";
 import FaqAccordion from "../components/FaqAccordion";
 import HowWeWork from "../components/HowWeWork";
-import PageHero from "../components/PageHero";
+import TextHero from "../components/TextHero";
 import PortfolioCard from "../components/PortfolioCard";
 import Seo from "../components/Seo";
 import { getServiceFamily } from "../content/services";
@@ -42,7 +42,7 @@ export default function ServiceFamily() {
       <Helmet>
         <script type="application/ld+json">{JSON.stringify(faqPage)}</script>
       </Helmet>
-      <PageHero image={family.image} kicker={family.name} title={family.promise} lede={family.intro} />
+      <TextHero kicker={family.name} title={family.promise} lede={family.intro} />
 
       <section className="bg-paper py-28 sm:py-36">
         <div className="mx-auto max-w-6xl px-6">
