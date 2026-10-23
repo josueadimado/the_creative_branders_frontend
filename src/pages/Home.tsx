@@ -50,7 +50,7 @@ export default function Home() {
         <div className="relative mx-auto flex min-h-[100svh] max-w-6xl items-end px-6 pb-28 pt-40 sm:pb-36">
           {/* The node line stays behind the words, faint, so it does not split the paragraph from the buttons. */}
           <svg
-            className="hero-nodes pointer-events-none absolute left-6 top-1/2 h-16 w-full max-w-3xl -translate-y-1/2 opacity-20"
+            className="hero-nodes pointer-events-none absolute left-6 top-16 h-16 w-full max-w-3xl opacity-20"
             viewBox="0 0 560 64"
             fill="none"
             aria-hidden="true"
