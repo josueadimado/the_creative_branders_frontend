@@ -54,6 +54,16 @@ export const home = {
     lede: "Clinics, nonprofits, learning platforms, and community products. Open any story to read the full brief.",
     link: "View all work",
   },
+  different: {
+    title: "What makes us different.",
+    points: [
+      "One accountable lead from brief to launch. You deal with the person doing the thinking, not an account manager.",
+      "The right specialist for each job. Vetted developers, designers and data experts join when the project needs them, so you get depth without a big agency's overheads.",
+      "Built for real markets. We've designed for customers in very different economies, so the work fits how your customers actually buy, pay and talk to you.",
+      "Measured, not guessed. Every project ships with the numbers that show it worked.",
+      "You see every change and every bill. Our client portal shows what we shipped, what it took and what's next, updated as the work happens.",
+    ],
+  },
   why: {
     image: "/images/about-studio.jpg",
     eyebrow: "Why TCB",

@@ -141,6 +141,19 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="border-t border-mist bg-paper py-28 sm:py-36">
+        <div className="mx-auto max-w-6xl px-6">
+          <SectionHeading title={home.different.title} />
+          <ul className="mt-16 max-w-3xl">
+            {home.different.points.map((point) => (
+              <li key={point} className="border-t border-mist py-8">
+                <p className="type-body text-navy">{point}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
       <section className="relative overflow-hidden bg-navy py-32 sm:py-40">
         <img
           src={home.why.image}

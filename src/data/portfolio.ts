@@ -119,60 +119,166 @@ function settle(item: StudyInput): PortfolioItem {
 const studies: StudyInput[] = [
   {
     slug: "relief-chiropractic",
-    publicName: "Relief Chiropractic",
+    publicName: "Relief Chiropractic & Wellness Center",
     anonymousName: "A chiropractic clinic in Michigan",
-    nameApproved: true,
+    nameApproved: false,
+    liveUrl: "https://book.reliefchiropractic.net",
+    linkApproved: false,
     family: "web-applications",
+    secondaryFamilies: ["automation-ai"],
     sector: "Healthcare",
-    summary: "A clinic booking system so patients can take a slot without a phone tag loop.",
-    challenge:
-      "The front desk was the system. Appointments lived in a book, a phone, and whoever was standing at reception. Patients dropped off. Staff spent the morning chasing confirmations instead of preparing rooms.",
-    approach:
-      "We treated booking as the product, not a form on a brochure site. The flow had to work on a phone, in a noisy waiting area, and for a first-time patient who does not know the difference between an adjustment and a follow-up.",
-    built: [
-      "A clinic booking system: service types, practitioner calendars, reminders, and a simple admin view of the day. Brand and site sit around that system so the clinic looks as organised as the diary now is.",
-    ],
-    images: ["/images/work-clinic.jpg"],
+    country: "United States",
     featured: true,
     published: true,
+    summary:
+      "One system for booking, check-in, charts and payments, with a phone assistant that books appointments on its own.",
+    challenge:
+      "Booking, front-desk check-in, doctor charts and billing lived in separate places: a website, paper forms, a card reader and a billing tool. Every appointment meant re-entering the same patient several times, and every reminder was a phone call someone had to make.",
+    approach:
+      "We treated the clinic's day as one flow, from the first booking to the paid invoice. Patients get a simple path on their phone. Doctors get the day on one screen. The front desk gets fewer calls, because reminders and phone bookings run without them.",
+    built: [
+      "Online booking, rescheduling and cancellation, with intake forms completed before the visit",
+      "A lobby check-in screen that tells the front desk a patient has arrived",
+      "Doctor day view with charts, visit history and billing in one place",
+      "Admin tools for schedule, services, providers, invoices, patient credit and US insurance claims (CMS-1500)",
+      "Card payments online, by link, on a card reader or with a saved card",
+      "Automatic text and email confirmations and reminders",
+      "An AI phone assistant that books callers into real open slots",
+      "Two-way sync with each doctor's Google Calendar",
+    ],
+    stack: ["Next.js", "Django", "PostgreSQL", "Celery", "Square", "Twilio (SMS and voice)", "OpenAI", "Google Calendar"],
+    results: [],
+    images: ["/images/work-clinic.jpg"],
   },
   {
-    slug: "secure-counseling",
-    publicName: "Secure Counseling & Psychological Centers",
-    anonymousName: "A counseling clinic in the United States",
-    nameApproved: true,
+    slug: "push-it",
+    publicName: "Push It Global Technologies",
+    anonymousName: "A creator marketplace in Nigeria",
+    nameApproved: false,
+    liveUrl: "https://pushit.now",
+    linkApproved: false,
     family: "web-applications",
-    sector: "Behavioral health",
-    summary: "A session management platform that keeps notes, schedules, and follow-up in one place.",
-    challenge:
-      "Counselors were holding caseloads in their heads and in scattered files. Session notes, next appointments, and who needed a check-in did not live together. That is a risk for care, and a drain on the people doing the work.",
-    approach:
-      "We designed for privacy and calm first. The interface had to be quiet enough for a clinician between sessions, and strict enough that records stay where they belong. No extra chrome. No theatre.",
-    built: [
-      "A session management platform: calendars, client records, session notes, and follow-up prompts in one login. The public site explains the practice. The product runs the practice.",
-    ],
-    images: ["/images/work-counseling.jpg"],
+    sector: "Marketing and advertising",
+    country: "Nigeria",
     featured: true,
     published: true,
+    summary:
+      "A marketplace where brands pay for promotional videos and verified creators get paid in their own currency, including mobile money.",
+    challenge:
+      "Brands wanted many creators to promote a product at once, but had no reliable way to pay dozens of people across countries, or to be sure each video was actually posted. Creators needed to know they would be paid.",
+    approach:
+      "We built the trust into the money. Brand funds sit in a wallet, each video is checked before payment is released, and creators withdraw locally. Every wallet movement is recorded in a ledger, so balances can always be proved.",
+    built: [
+      "Brand onboarding with business verification and wallet top-ups by card or bank",
+      "Campaign builder with live pricing before launch",
+      "Campaign tracking with every creator's submission and status",
+      "Creator onboarding with verified TikTok, Instagram, YouTube and Facebook accounts",
+      "A job feed, video submission and in-app earnings",
+      "Payouts to bank accounts or MTN, Vodafone and AirtelTigo mobile money",
+      "Multi-currency support (NGN, GHS, KES, ZAR, USD) with live exchange rates",
+      "An operations dashboard for verifications, video approval, payouts and reports",
+      "Team roles for brands, two-factor login for everyone",
+    ],
+    stack: ["React", "TypeScript", "Django", "PostgreSQL", "Celery", "Paystack"],
+    results: [],
+    images: ["/images/work-ops.jpg"],
+  },
+  {
+    slug: "come-clarity",
+    publicName: "COME|CLARITY",
+    anonymousName: "A leadership learning platform in Ghana",
+    nameApproved: false,
+    liveUrl: "https://comeclarity.org",
+    linkApproved: false,
+    family: "web-applications",
+    secondaryFamilies: ["websites"],
+    sector: "Education",
+    country: "Ghana",
+    featured: true,
+    published: true,
+    summary: "An executive learning platform: apply, pay, join a live cohort and finish with a certificate, all in one place.",
+    challenge:
+      "Leaders had conviction but no structured place to practise it. Applications, payments, class schedules and materials were spread across forms, chats and documents, which made cohorts hard to run and harder to finish.",
+    approach:
+      "We designed around the pathway, not a library of videos. A person moves from programme page to application, payment, cohort and certificate in one product, and facilitators run their class from the same system.",
+    built: [
+      "Public site with programme pages and an online application",
+      "Checkout through Paystack, priced in cedis for Ghana and US dollars elsewhere, plus payment plans reviewed by staff",
+      "Week-by-week learner pathway: live classes, recordings, assignments, quizzes and reading",
+      "Leadership self-assessment with a personal profile",
+      "Facilitator tools for attendance, grading, announcements and unlocking weeks",
+      "Admin area for applications, cohorts, programmes and offline payments",
+      "PDF certificates and an alumni area",
+    ],
+    stack: ["Next.js", "Django", "PostgreSQL", "Celery", "Paystack", "Cloudflare R2"],
+    results: [],
+    images: ["/images/work-edtech.jpg"],
   },
   {
     slug: "up2date-connect",
     publicName: "Up2Date Connect",
     anonymousName: "A counseling platform in the United States",
-    nameApproved: true,
+    nameApproved: false,
+    liveUrl: "https://up2dateconnect.com",
+    linkApproved: false,
     family: "web-applications",
+    secondaryFamilies: ["websites"],
     sector: "Behavioral health",
-    summary: "Real-time case coordination so teams see the same case, at the same time.",
-    challenge:
-      "Cases moved between people faster than the paperwork. A coordinator, a clinician, and a partner organisation could each be working from a different version of the truth. Handoffs leaked. Clients felt it.",
-    approach:
-      "We mapped the actual path of a case, not an org chart. Then we built a shared board that updates as work happens, so coordination is the default instead of a meeting.",
-    built: [
-      "A real-time case coordination tool: shared case status, assignments, notes, and alerts when something changes. Built for teams who cannot wait until Friday to find out a client fell through.",
-    ],
-    images: ["/images/work-ops.jpg"],
+    country: "United States",
     featured: true,
     published: true,
+    summary:
+      "A software platform that lets any counseling organisation run its programmes, clients, referral partners and payments under its own brand.",
+    challenge:
+      "Counseling teams, the people in their programmes and the agencies that refer them were each keeping their own record, in spreadsheets, on paper and over the phone. Nobody shared one current picture of a case, and every status update meant another call.",
+    approach:
+      "We took a system proven inside one clinic and turned it into a product many organisations can use. Each organisation gets its own branded portal and web address, while every record stays tied to the organisation it belongs to.",
+    built: [
+      "Self-serve signup for counseling organisations, each with its own branding, letterhead and web address",
+      "Staff workspace: a \"Today\" dashboard, client directory, sessions, groups, attendance and calendar",
+      "Client portal for intake, sessions, documents and payments",
+      "Referral partner portal to submit referrals and receive progress updates",
+      "Payments by card (Square), plus optional Cash App and Venmo, with reminders",
+      "Monthly progress reports and completion certificates as PDFs",
+      "Email and text reminders, Zoom sessions and Google Calendar sync",
+      "Operator tools for organisations, plans and billing, plus a content editor for the public site",
+      "English, Spanish and French interface; authenticator-app sign-in; encrypted secrets; nightly encrypted backups",
+    ],
+    stack: ["React", "TypeScript", "Django", "PostgreSQL", "Celery", "Square", "Twilio", "Zoom"],
+    results: [],
+    images: ["/images/work-counseling.jpg"],
+  },
+  {
+    slug: "set-free-in-christ",
+    publicName: "Set Free in Christ Mission",
+    anonymousName: "A multilingual ministry in the United States",
+    nameApproved: false,
+    liveUrl: "https://setfreeinchrist.org",
+    linkApproved: true,
+    family: "websites",
+    secondaryFamilies: ["web-applications"],
+    sector: "Nonprofit / faith",
+    country: "United States",
+    featured: false,
+    published: true,
+    summary:
+      "A ministry website in four languages, with online giving and a staff desk that lets the team run the site without a developer.",
+    challenge:
+      "Teaching, help requests, trainings and giving were spread across channels, and every content change needed technical help. The ministry also serves readers who don't read English first.",
+    approach:
+      "We built a website the staff can own. Every page, notice, story and training is editable from a private desk. Requests for help and gifts arrive in the same place, kept away from the public site.",
+    built: [
+      "Public site in English, French, Spanish and Portuguese",
+      "Find Help requests for prayer and pastoral support",
+      "Teaching library, videos, trainings and trip sign-ups",
+      "One-time and monthly giving by card, with a way to finish an incomplete gift",
+      "Newsletter sign-up and sending",
+      "Mission Desk, a staff workspace for content, messages, help requests, gifts and the newsletter",
+      "Search, share previews and sitemap for discoverability",
+    ],
+    stack: ["React", "TypeScript", "Django", "Stripe"],
+    results: [],
+    images: ["/images/work-nonprofit.jpg"],
   },
   {
     slug: "come",
@@ -190,26 +296,40 @@ const studies: StudyInput[] = [
       "A leadership website and content platform: programme pages, a publishing structure for teaching and stories, and a clear way to take part. Partner to the Academy work we still hold with COME.",
     ],
     images: ["/images/work-nonprofit.jpg"],
-    featured: true,
     published: true,
   },
   {
-    slug: "come-clarity",
-    publicName: "COME|CLARITY",
-    anonymousName: "A leadership learning platform in Ghana",
-    nameApproved: true,
+    // Kept unpublished. Up2Date Connect grew out of this clinic system, and that study is the public one.
+    slug: "secure-counseling",
+    publicName: "Secure Counseling & Psychological Centers",
+    anonymousName: "A counseling clinic in the United States",
+    nameApproved: false,
+    linkApproved: false,
     family: "web-applications",
-    sector: "EdTech",
-    summary: "An executive learning platform for cohort pathways, live formation, and alumni, not a pile of videos.",
+    sector: "Behavioral health",
+    country: "United States",
+    featured: false,
+    published: false,
+    summary:
+      "A private platform where a counseling clinic, its clients and referral partners manage programmes, sessions, payments and progress reports.",
     challenge:
-      "Leaders across Africa and the diaspora were being asked to grow from PDFs and generic courses. Conviction was already there. The missing piece was a structured place to practice, with a cohort, and leave with something they could use at work the next morning.",
+      "The clinic runs court-referred and voluntary programmes. Each case needs enrollment, attendance, payments and written progress, and referral partners such as probation officers and attorneys need accurate updates. That work was being assembled by hand from a calendar, a payment tool, paper intake and report documents.",
     approach:
-      "We designed around pathways and live cohorts, not a content dump. Application, placement, weekly sessions, and alumni had to feel like one product. The public site had to explain that without sounding like a campus brochure.",
+      "We designed for privacy and calm. Three separate signed-in areas (staff, clients, partners) each see only what they should. The interface stays quiet enough for a clinician between sessions.",
     built: [
-      "An executive learning platform: formation pathways, cohort application and seating, live-session structure, and a public site that states the offer in plain language. Curriculum copy on the marketing surface stays theirs to own.",
+      "Staff dashboard for clients, referrals, groups, programmes, assessments and calendar",
+      "Attendance tracking with follow-up for people who stop attending",
+      "Client portal for intake paperwork with signature, sessions, assessment booking and online payment",
+      "Referral partner portal to refer clients, follow cases and download reports",
+      "PDF progress reports and programme completion certificates",
+      "Email and text reminders for sessions, payments and case updates",
+      "In-person, phone and video sessions",
+      "English, Spanish and French interface",
+      "Privacy controls: role-based access, an audit log and texting held back until a privacy agreement is in place",
     ],
-    images: ["/images/work-edtech.jpg"],
-    published: true,
+    stack: ["Next.js", "Django", "PostgreSQL", "Celery", "Square", "Twilio"],
+    results: [],
+    images: ["/images/work-counseling.jpg"],
   },
   {
     slug: "elevate-tribe-learning",
@@ -289,7 +409,7 @@ const studies: StudyInput[] = [
 export const portfolio: PortfolioItem[] = studies.map(settle);
 
 /** Homepage order. Studies not in this list still appear on /work, after the featured ones. */
-const FEATURED_ORDER = ["relief-chiropractic", "secure-counseling", "up2date-connect", "come"];
+const FEATURED_ORDER = ["relief-chiropractic", "push-it", "come-clarity", "up2date-connect"];
 
 export function familyLabel(slug: FamilySlug): string {
   return FAMILIES.find((family) => family.slug === slug)?.label ?? slug;
