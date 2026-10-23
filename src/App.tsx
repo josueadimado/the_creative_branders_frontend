@@ -10,10 +10,15 @@ import About from "./pages/About";
 import Academy from "./pages/Academy";
 import Contact from "./pages/Contact";
 import Home from "./pages/Home";
+import LegalPage from "./pages/LegalPage";
+import InsightArticle from "./pages/InsightArticle";
 import Insights from "./pages/Insights";
+import ResponsibleAI from "./pages/ResponsibleAI";
 import NotFound from "./pages/NotFound";
-import Placeholder from "./pages/Placeholder";
 import Privacy from "./pages/Privacy";
+import { cookies } from "./content/cookies";
+import { terms } from "./content/terms";
+import ServiceFamily from "./pages/ServiceFamily";
 import Services from "./pages/Services";
 import SmartCRM from "./pages/SmartCRM";
 import StyleGuide from "./pages/StyleGuide";
@@ -46,22 +51,20 @@ export default function App() {
               <Routes location={location}>
                 <Route path="/" element={<Home />} />
                 <Route path="/services" element={<Services />} />
-                <Route path="/services/:slug" element={<Placeholder />} />
+                <Route path="/services/:slug" element={<ServiceFamily />} />
                 <Route path="/work" element={<Work />} />
                 <Route path="/work/:slug" element={<WorkStudy />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/insights" element={<Insights />} />
+                <Route path="/insights/:slug" element={<InsightArticle />} />
                 <Route path="/smartcrm" element={<SmartCRM />} />
                 <Route path="/academy" element={<Academy />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/dev/styleguide" element={<StyleGuide />} />
                 <Route path="/privacy" element={<Privacy />} />
-                <Route path="/terms" element={<Placeholder kicker="Legal" title="Terms" />} />
-                <Route path="/cookies" element={<Placeholder kicker="Legal" title="Cookies" />} />
-                <Route
-                  path="/responsible-ai"
-                  element={<Placeholder kicker="Legal" title="Responsible AI" />}
-                />
+                <Route path="/terms" element={<LegalPage {...terms} />} />
+                <Route path="/cookies" element={<LegalPage {...cookies} />} />
+                <Route path="/responsible-ai" element={<ResponsibleAI />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>
