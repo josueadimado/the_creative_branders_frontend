@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import CtaBand from "../components/CtaBand";
-import Media from "../components/Media";
+import WorkFrame from "../components/DeviceFrame";
 import Seo from "../components/Seo";
 import { workPage } from "../content/work";
 import {
@@ -55,7 +55,7 @@ export default function WorkStudy() {
 
       <article className="bg-paper py-16 sm:py-24">
         <div className="mx-auto max-w-6xl px-6">
-          {hero ? <Media src={hero} alt={name} className="aspect-[16/10]" loading="eager" /> : null}
+          {hero ? <WorkFrame src={hero} alt={name} device={item.device} loading="eager" /> : null}
 
           <div className="mt-12 max-w-3xl">
             {logo ? <img src={logo} alt="" className="mb-6 h-10 w-auto" /> : null}
@@ -138,7 +138,7 @@ export default function WorkStudy() {
               <h2 className="type-kicker text-deep">{workPage.labels.gallery}</h2>
               <div className="mt-6 grid gap-8 md:grid-cols-2">
                 {gallery.map((src) => (
-                  <Media key={src} src={src} alt={name} className="aspect-[16/10]" />
+                  <WorkFrame key={src} src={src} alt={name} device={item.device} />
                 ))}
               </div>
             </section>

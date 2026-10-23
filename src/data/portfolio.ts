@@ -273,7 +273,7 @@ const studies: StudyInput[] = [
       "Teaching library, videos, trainings and trip sign-ups",
       "One-time and monthly giving by card, with a way to finish an incomplete gift",
       "Newsletter sign-up and sending",
-      "Mission Desk, a staff workspace for content, messages, help requests, gifts and the newsletter",
+      "\"Mission Desk\", a staff workspace for content, messages, help requests, gifts and the newsletter",
       "Search, share previews and sitemap for discoverability",
     ],
     stack: ["React", "TypeScript", "Django", "Stripe"],
