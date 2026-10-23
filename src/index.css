@@ -5,6 +5,7 @@
   /* Space-separated channels so Tailwind can add opacity, e.g. bg-navy/80. */
   --tcb-navy: 14 30 43;
   --tcb-signal: 74 163 198;
+  --tcb-signal-hover: 107 184 214;
   --tcb-deep: 31 110 140;
   --tcb-deep-hover: 23 85 108;
   --tcb-paper: 245 246 243;
@@ -261,7 +262,7 @@ h4 {
   }
 
   .btn-primary:hover {
-    filter: brightness(0.92);
+    background: rgb(var(--tcb-signal-hover) / 1);
   }
 
   .btn-secondary {

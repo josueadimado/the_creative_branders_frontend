@@ -6,7 +6,10 @@ const config: Config = {
     extend: {
       colors: {
         navy: "rgb(var(--tcb-navy) / <alpha-value>)",
-        signal: "rgb(var(--tcb-signal) / <alpha-value>)",
+        signal: {
+          DEFAULT: "rgb(var(--tcb-signal) / <alpha-value>)",
+          hover: "rgb(var(--tcb-signal-hover) / <alpha-value>)",
+        },
         deep: {
           DEFAULT: "rgb(var(--tcb-deep) / <alpha-value>)",
           hover: "rgb(var(--tcb-deep-hover) / <alpha-value>)",
