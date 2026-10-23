@@ -1,73 +1,94 @@
+import { site } from "./site";
+
 /** Words for the homepage. The page file only handles layout. */
 
 export const home = {
   seo: {
-    title: "We make your business look, run, and scale smarter",
-    description:
-      "Brand, systems, and intelligence for African SMEs and diaspora founders. One studio. One scope. Built to last.",
+    title: "Designed for intelligent growth",
+    description: site.description,
     path: "/",
   },
   hero: {
     image: "/images/hero-studio.jpg",
-    kicker: "Digital Intelligence Studio",
-    title: "We make your business look, run, and scale smarter.",
-    lede: "Brand, systems, and intelligence for African SMEs and diaspora founders. One studio. One scope. Built to last.",
-    primary: "Book your free discovery call",
+    kicker: "Digital intelligence studio",
+    title: "Designed for intelligent growth.",
+    lede: "We design and build websites, web apps and mobile apps, then connect them to the payments, messages and numbers your business runs on.",
+    primary: "Start a project",
     secondary: "See the work",
   },
-  pillars: {
-    eyebrow: "What we do",
-    title: "Three disciplines. One studio.",
-    lede: "Most businesses are asked to hire an agency for the look, a freelancer for the build, and a consultant for the numbers. We hold the whole stack.",
-    items: [
-      {
-        title: "Brand & Digital Experience",
-        body: "Identity, websites, and digital presence that make a business look as capable as it is.",
-        image: "/images/pillar-brand.jpg",
-      },
-      {
-        title: "Intelligent Systems",
-        body: "Booking, CRM, and operations tools that run the work, so growth does not depend on memory and spreadsheets.",
-        image: "/images/pillar-systems.jpg",
-      },
-      {
-        title: "Business Intelligence",
-        body: "Clear numbers and reporting so founders can see what is working and decide with evidence.",
-        image: "/images/pillar-intelligence.jpg",
-      },
+  proof: {
+    stats: [
+      { value: "10", label: "projects shipped" },
+      { value: "3", label: "countries" },
+      { value: "4", label: "languages" },
+      { value: "5", label: "currencies" },
     ],
-  },
-  process: {
-    eyebrow: "How we work",
-    title: "A short path from brief to growth.",
-    lede: "Four steps, held by one team. Discover, design, build, then stay close as you grow.",
-    steps: [
-      { name: "Discover", body: "We learn the business and the outcome that would actually change things.", drawing: "discover" },
-      { name: "Design", body: "Experience and system, designed together so they do not fight later.", drawing: "design" },
-      { name: "Build", body: "Working software and a coherent brand. Not slides.", drawing: "build" },
-      { name: "Grow", body: "We stay close: iterate, measure, and extend what is working.", drawing: "grow" },
+    names: [
+      "Relief Chiropractic",
+      "Push-it",
+      "COME|CLARITY",
+      "Up2Date Connect",
+      "Set Free in Christ Mission",
+      "COME",
+      "Elevate Tribe",
+      "Twi Learning Center",
     ],
+    line: "Some of the organisations we've built with.",
   },
   work: {
-    eyebrow: "Selected work",
-    title: "Proof, not promises.",
-    lede: "Clinics, nonprofits, learning platforms, and community products. Open any story to read the full brief.",
-    link: "View all work",
+    title: "Recent work",
+    lede: "Clinics, learning platforms, a creator marketplace and a ministry. Each one is live and used every day.",
+    link: "See all work",
+    /** One line under the name on the homepage card. The case study keeps its own summary. */
+    lines: {
+      "relief-chiropractic":
+        "Patients book online or by phone, check in on a lobby screen and pay at the desk, all in one system.",
+      "push-it": "Brands fund campaigns, creators post the videos and get paid in naira, cedis or mobile money.",
+      "come-clarity":
+        "Leaders apply, pay and learn in live cohorts, with facilitators running each class from the same platform.",
+      "up2date-connect":
+        "Counseling organisations run their programmes, clients and referral partners under their own brand.",
+    } as Record<string, string>,
+  },
+  offer: {
+    title: "What we build",
+    lede: "Most clients come to us for a website or an app. The other services usually follow once that's live.",
   },
   different: {
-    title: "What makes us different.",
+    title: "Why clients stay with us",
     points: [
-      "One accountable lead from brief to launch. You deal with the person doing the thinking, not an account manager.",
-      "The right specialist for each job. Vetted developers, designers and data experts join when the project needs them, so you get depth without a big agency's overheads.",
-      "Built for real markets. We've designed for customers in very different economies, so the work fits how your customers actually buy, pay and talk to you.",
-      "Measured, not guessed. Every project ships with the numbers that show it worked.",
-      "You see every change and every bill. Our client portal shows what we shipped, what it took and what's next, updated as the work happens.",
+      {
+        title: "You work with the person doing the work.",
+        body: "One lead takes your project from the first call to launch. You won't be passed to an account manager.",
+      },
+      {
+        title: "We bring in specialists when you need them.",
+        body: "For a mobile app, a payments integration or a data project, we add people who've done exactly that before. You don't pay for a large team you don't need.",
+      },
+      {
+        title: "We build for how your customers actually pay and talk.",
+        body: "Mobile money and Paystack in Ghana and Nigeria. Square and insurance claims in the US. WhatsApp and SMS where email gets ignored.",
+      },
+      {
+        title: "You can see what you're paying for.",
+        body: "Our client portal shows every change we ship, how long it took and what's next.",
+      },
+      {
+        title: "It keeps working after launch.",
+        body: "We host, monitor and update what we build, so you're not left with a site nobody maintains.",
+      },
     ],
   },
-  why: {
-    image: "/images/about-studio.jpg",
-    eyebrow: "Why TCB",
-    title: "Not an agency. Not a freelancer. Something better.",
-    lede: "Agencies scale by adding layers. Freelancers scale by adding hours. We are a studio: a small team with a full brief. Brand, systems, and intelligence, held together so the work stays coherent as you grow.",
+  lab: {
+    text: "We're building SmartCRM, a simple CRM for businesses that keep their customers in WhatsApp chats and notebooks.",
+    link: "Join the waitlist",
   },
 } as const;
+
+/** Quotes stay off the homepage until a client has approved one. */
+export const testimonials: readonly {
+  quote: string;
+  name: string;
+  role: string;
+  company: string;
+}[] = [];
