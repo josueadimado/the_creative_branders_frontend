@@ -8,6 +8,7 @@ import Contact from "./pages/Contact";
 import Home from "./pages/Home";
 import Insights from "./pages/Insights";
 import NotFound from "./pages/NotFound";
+import Placeholder from "./pages/Placeholder";
 import Privacy from "./pages/Privacy";
 import Services from "./pages/Services";
 import SmartCRM from "./pages/SmartCRM";
@@ -26,6 +27,7 @@ export default function App() {
               <Routes location={location}>
                 <Route path="/" element={<Home />} />
                 <Route path="/services" element={<Services />} />
+                <Route path="/services/:slug" element={<Placeholder />} />
                 <Route path="/work" element={<Work />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/insights" element={<Insights />} />
@@ -33,6 +35,12 @@ export default function App() {
                 <Route path="/academy" element={<Academy />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/privacy" element={<Privacy />} />
+                <Route path="/terms" element={<Placeholder kicker="Legal" title="Terms" />} />
+                <Route path="/cookies" element={<Placeholder kicker="Legal" title="Cookies" />} />
+                <Route
+                  path="/responsible-ai"
+                  element={<Placeholder kicker="Legal" title="Responsible AI" />}
+                />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>
