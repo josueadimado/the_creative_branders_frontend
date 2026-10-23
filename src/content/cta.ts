@@ -2,7 +2,7 @@
 
 export const cta = {
   title: "Tell us what you're building.",
-  body: "Share a short brief and we'll send a tailored proposal and quote within [one business day].",
+  body: "Send a short brief. We'll read it properly and reply within one business day with questions or a proposal and quote.",
   primary: "Start a project",
   whatsapp: "Chat on WhatsApp",
 } as const;

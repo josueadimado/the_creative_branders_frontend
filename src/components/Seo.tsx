@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
+import { site } from "../content/site";
 
-const SITE_NAME = "The Creative Branders";
+const SITE_NAME = site.name;
 const DEFAULT_IMAGE = "/brand/png/og-default-1200.png";
 
 type SeoProps = {
@@ -22,7 +23,7 @@ function siteOrigin() {
  */
 export default function Seo({ title, description, path, image = DEFAULT_IMAGE }: SeoProps) {
   const origin = siteOrigin();
-  const fullTitle = `${title} — ${SITE_NAME}`;
+  const fullTitle = `${title}${site.titleJoin}${SITE_NAME}`;
   const pageUrl = origin ? `${origin}${path}` : undefined;
   const imageUrl = image.startsWith("http") ? image : origin ? `${origin}${image}` : image;
 
