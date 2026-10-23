@@ -33,21 +33,27 @@ export default function Contact() {
               </a>
               {afterEmail}
             </p>
+            <h2 className="type-title mt-12 text-navy">{contact.next.title}</h2>
+            <ol className="mt-6 list-decimal space-y-4 pl-5 type-body text-slate marker:text-navy">
+              {contact.next.steps.map((step) => (
+                <li key={step} className="pl-2">
+                  {step}
+                </li>
+              ))}
+            </ol>
             {whatsappHref ? (
-              <p className="mt-6">
-                <a
-                  href={whatsappHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="type-body text-deep transition-colors hover:text-deep-hover"
-                  onClick={() => track("whatsapp_click", { location: "contact" })}
-                >
-                  WhatsApp
-                </a>
-              </p>
+              <a
+                href={whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-inverse mt-10"
+                onClick={() => track("whatsapp_click", { location: "contact" })}
+              >
+                {contact.next.whatsapp}
+              </a>
             ) : null}
             <div className="mt-10">
-              <SocialLinks tone="light" />
+              <SocialLinks tone="light" flush />
             </div>
           </aside>
         </div>

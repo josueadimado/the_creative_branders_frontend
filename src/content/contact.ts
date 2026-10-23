@@ -39,6 +39,15 @@ export const contact = {
   },
   aside:
     "We reply within one business day. If it's easier to talk, message us on WhatsApp or email hello@thecreativebranders.com.",
+  next: {
+    title: "What happens next",
+    steps: [
+      "We read your brief.",
+      "We reply within one business day with questions or a time to talk.",
+      "You get a written proposal and quote.",
+    ],
+    whatsapp: "Chat on WhatsApp",
+  },
   fields: {
     name: "Your name",
     email: "Email",
