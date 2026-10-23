@@ -8,7 +8,7 @@ export default function Contact() {
       <section className="bg-navy py-32 sm:py-44">
         <div className="mx-auto max-w-6xl px-6">
           <p className="type-kicker text-signal">Contact</p>
-          <h1 className="type-hero mt-5 text-white">Book your free discovery call.</h1>
+          <h1 className="type-h1 mt-5 text-white">Book your free discovery call.</h1>
           <p className="type-lede mt-8 max-w-xl text-white/70">
             Inquiry-first. We reply within 48 hours. No phone number. Write us here and we will
             take it from there.

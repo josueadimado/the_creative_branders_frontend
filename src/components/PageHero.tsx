@@ -17,7 +17,7 @@ export default function PageHero({ image, kicker, title, lede }: PageHeroProps) 
       <div className="absolute inset-0 bg-gradient-to-r from-navy via-[rgb(14_30_43/0.70)] to-[rgb(14_30_43/0.20)]" />
       <div className="relative mx-auto max-w-6xl px-6 py-32 sm:py-44">
         <p className="type-kicker text-signal">{kicker}</p>
-        <h1 className="type-hero mt-5 max-w-4xl text-white">{title}</h1>
+        <h1 className="type-h1 mt-5 max-w-4xl text-white">{title}</h1>
         <p className="type-lede mt-8 max-w-xl text-white/70">{lede}</p>
       </div>
     </section>

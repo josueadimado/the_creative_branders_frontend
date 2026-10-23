@@ -6,7 +6,7 @@ export default function Privacy() {
       <section className="bg-navy py-32 sm:py-44">
         <div className="mx-auto max-w-6xl px-6">
           <p className="type-kicker text-signal">Legal</p>
-          <h1 className="type-hero mt-5 text-white">Privacy policy</h1>
+          <h1 className="type-h1 mt-5 text-white">Privacy policy</h1>
           <p className="type-lede mt-8 max-w-xl text-white/70">
             How The Creative Branders Ltd handles information you send through this website.
           </p>

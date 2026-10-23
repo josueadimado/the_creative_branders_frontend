@@ -183,6 +183,14 @@ h4 {
     line-height: 1.1;
   }
 
+  .type-h1 {
+    font-family: "Montserrat Variable", Montserrat, "Inter Variable", Arial, sans-serif;
+    font-size: 34px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.1;
+  }
+
   .type-display {
     font-family: "Montserrat Variable", Montserrat, "Inter Variable", Arial, sans-serif;
     font-size: 28px;
@@ -363,6 +371,11 @@ h4 {
 
     .type-hero {
       font-size: 64px;
+    }
+
+    .type-h1 {
+      font-size: 48px;
+      letter-spacing: -0.01em;
     }
 
     .type-display {
