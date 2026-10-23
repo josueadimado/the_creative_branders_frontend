@@ -90,14 +90,14 @@ export default function Home() {
               </li>
             ))}
           </ul>
-          <ul className="mt-16 flex flex-wrap gap-x-10 gap-y-4">
+          <p className="type-caption mt-16 text-slate">{home.proof.line}</p>
+          <ul className="mt-6 flex flex-wrap gap-x-10 gap-y-4">
             {home.proof.names.map((name) => (
               <li key={name} className="type-title text-navy">
                 {name}
               </li>
             ))}
           </ul>
-          <p className="type-body mt-8 text-slate">{home.proof.line}</p>
         </div>
       </section>
 
