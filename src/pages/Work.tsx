@@ -4,6 +4,7 @@ import CtaBand from "../components/CtaBand";
 import Seo from "../components/Seo";
 import Media from "../components/Media";
 import PageHero from "../components/PageHero";
+import { workPage } from "../content/work";
 import { portfolio } from "../data/portfolio";
 
 function preloadWorkImages() {
@@ -31,17 +32,8 @@ export default function Work() {
 
   return (
     <>
-      <Seo
-        title="Work"
-        description="Nine studios, clinics, and platforms. Each write-up is the problem we walked into, how we approached it, and what we shipped."
-        path="/work"
-      />
-      <PageHero
-        image="/images/work-clinic.jpg"
-        kicker="Work"
-        title="Proof, not promises."
-        lede="Nine studios, clinics, and platforms. Each write-up is the problem we walked into, how we approached it, and what we shipped. We do not invent outcome numbers."
-      />
+      <Seo {...workPage.seo} />
+      <PageHero {...workPage.hero} />
 
       <section className="bg-paper py-24 sm:py-32">
         <div className="mx-auto max-w-6xl space-y-28 px-6">
@@ -60,13 +52,13 @@ export default function Work() {
                 <h2 className="type-display mt-4 text-navy">{item.client}</h2>
                 <p className="type-lede mt-6 text-slate">{item.summary}</p>
 
-                <p className="type-kicker mt-12 text-deep">The problem</p>
+                <p className="type-kicker mt-12 text-deep">{workPage.labels.problem}</p>
                 <p className="type-body mt-3 text-slate">{item.problem}</p>
 
-                <p className="type-kicker mt-9 text-deep">How we approached it</p>
+                <p className="type-kicker mt-9 text-deep">{workPage.labels.approach}</p>
                 <p className="type-body mt-3 text-slate">{item.approach}</p>
 
-                <p className="type-kicker mt-9 text-deep">What we built</p>
+                <p className="type-kicker mt-9 text-deep">{workPage.labels.built}</p>
                 <p className="type-body mt-3 text-slate">{item.built}</p>
               </div>
             </article>

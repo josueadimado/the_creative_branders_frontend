@@ -3,36 +3,8 @@ import { Link } from "react-router-dom";
 import Illustration from "../components/Illustration";
 import Seo from "../components/Seo";
 import PageHero from "../components/PageHero";
+import { smartcrm } from "../content/smartcrm";
 import { postWaitlist } from "../lib/api";
-
-const features = [
-  {
-    title: "Every customer in one place",
-    body: "Contacts, conversations, and history together, instead of spread across phones, notebooks, and spreadsheets.",
-    drawing: "crm" as const,
-  },
-  {
-    title: "Follow-ups that don't slip",
-    body: "Know who needs a call back, a quote, or a reminder, before the deal goes cold.",
-    drawing: "build" as const,
-  },
-  {
-    title: "A clear view of your pipeline",
-    body: "See what's coming in, what's stuck, and what's closing, without building a report by hand.",
-    drawing: "grow" as const,
-  },
-];
-
-const faqs = [
-  {
-    q: "When does SmartCRM launch?",
-    a: "We're onboarding a small group of pilot businesses first. Join the waitlist and you'll hear before anyone else.",
-  },
-  {
-    q: "Who is it for?",
-    a: "Growing SMEs that need a real CRM without enterprise complexity.",
-  },
-];
 
 const fieldClass =
   "mt-2 w-full border border-mist bg-paper px-4 py-3.5 text-[17px] text-navy outline-none transition-colors focus:border-deep";
@@ -40,23 +12,14 @@ const fieldClass =
 export default function SmartCRM() {
   return (
     <>
-      <Seo
-        title="SmartCRM"
-        description="A CRM for growing businesses that have outgrown notebooks, spreadsheets, and scattered WhatsApp chats. Join the waitlist for early access."
-        path="/smartcrm"
-      />
-      <PageHero
-        image="/images/smartcrm-product.jpg"
-        kicker="Product"
-        title="SmartCRM. A CRM built for how you actually sell."
-        lede="A CRM for growing businesses that have outgrown notebooks, spreadsheets, and scattered WhatsApp chats. Join the waitlist for early access."
-      />
+      <Seo {...smartcrm.seo} />
+      <PageHero {...smartcrm.hero} />
 
       <section className="bg-paper py-28 sm:py-36">
         <div className="mx-auto max-w-6xl px-6">
-          <p className="type-kicker text-deep">What we're designing for</p>
+          <p className="type-kicker text-deep">{smartcrm.featuresKicker}</p>
           <div className="mt-16 grid gap-12 md:grid-cols-3 md:gap-0 md:divide-x md:divide-mist md:border-t md:border-mist md:pt-16">
-            {features.map((feature, index) => (
+            {smartcrm.features.map((feature, index) => (
               <article key={feature.title} className="md:px-8 md:first:pl-0 md:last:pr-0">
                 <Illustration name={feature.drawing} className="h-32 w-full" />
                 <p className="type-kicker mt-6 text-deep">0{index + 1}</p>
@@ -71,11 +34,9 @@ export default function SmartCRM() {
       <section className="border-t border-mist bg-paper py-28 sm:py-36">
         <div className="mx-auto grid max-w-6xl gap-16 px-6 lg:grid-cols-2 lg:gap-24">
           <div>
-            <p className="type-kicker text-deep">Early access</p>
-            <h2 className="type-display mt-4 text-navy">Join the waitlist.</h2>
-            <p className="type-lede mt-6 text-slate">
-              Standalone product. No project minimum. You'll hear from us before it opens more widely.
-            </p>
+            <p className="type-kicker text-deep">{smartcrm.waitlist.kicker}</p>
+            <h2 className="type-display mt-4 text-navy">{smartcrm.waitlist.title}</h2>
+            <p className="type-lede mt-6 text-slate">{smartcrm.waitlist.body}</p>
           </div>
           <WaitlistForm />
         </div>
@@ -83,9 +44,9 @@ export default function SmartCRM() {
 
       <section className="border-t border-mist bg-paper py-28 sm:py-36">
         <div className="mx-auto max-w-3xl px-6">
-          <h2 className="type-display text-navy">FAQ</h2>
+          <h2 className="type-display text-navy">{smartcrm.faqsTitle}</h2>
           <dl className="mt-14 space-y-12">
-            {faqs.map((item) => (
+            {smartcrm.faqs.map((item) => (
               <div key={item.q} className="border-t border-mist pt-8">
                 <dt className="type-title text-navy">{item.q}</dt>
                 <dd className="type-body mt-4 text-slate">{item.a}</dd>
@@ -97,9 +58,9 @@ export default function SmartCRM() {
 
       <section className="bg-navy py-20">
         <div className="mx-auto max-w-6xl px-6 type-body text-white/70">
-          Need a custom system instead?{" "}
+          {smartcrm.footer}{" "}
           <Link to="/contact" className="text-signal transition-colors hover:text-white">
-            Talk to the studio
+            {smartcrm.footerLink}
           </Link>
           .
         </div>
@@ -135,9 +96,9 @@ function WaitlistForm() {
     return (
       <div className="border border-white/15 bg-navy p-10 text-white sm:p-12">
         <p className="type-title">
-          {status === "already" ? "You're already on the list." : "You are on the list."}
+          {status === "already" ? smartcrm.waitlist.already : smartcrm.waitlist.success}
         </p>
-        <p className="type-lede mt-4 text-white/70">We will write when SmartCRM is ready.</p>
+        <p className="type-lede mt-4 text-white/70">{smartcrm.waitlist.followUp}</p>
       </div>
     );
   }

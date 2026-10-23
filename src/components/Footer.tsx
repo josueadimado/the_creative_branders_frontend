@@ -1,16 +1,13 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
+import { serviceFamilies } from "../content/placeholder";
 import { socials, studioEmail, whatsappHref } from "../data/socials";
 import Logo from "./Logo";
 
-const serviceFamilies = [
-  { to: "/services/websites", label: "Websites" },
-  { to: "/services/web-applications", label: "Web Applications" },
-  { to: "/services/mobile-apps", label: "Mobile Apps" },
-  { to: "/services/brand-design", label: "Brand & Design" },
-  { to: "/services/automation-ai", label: "Automation & AI" },
-  { to: "/services/data-growth", label: "Data & Growth" },
-];
+const serviceLinks = Object.entries(serviceFamilies).map(([slug, label]) => ({
+  to: `/services/${slug}`,
+  label,
+}));
 
 const studio = [
   { to: "/work", label: "Work" },
@@ -83,7 +80,7 @@ export default function Footer() {
         </div>
 
         <Column title="Services">
-          {serviceFamilies.map((item) => (
+          {serviceLinks.map((item) => (
             <Item key={item.to} {...item} />
           ))}
         </Column>

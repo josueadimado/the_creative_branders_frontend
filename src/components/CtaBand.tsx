@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { cta } from "../content/cta";
 import { whatsappHref } from "../data/socials";
 
 /**
@@ -10,18 +11,16 @@ export default function CtaBand() {
     <section className="dot-grid border-t border-white/[0.08] bg-navy py-24 sm:py-28">
       <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-10 px-6 lg:flex-row lg:items-center">
         <div className="max-w-2xl">
-          <h2 className="type-display text-white">Tell us what you're building.</h2>
-          <p className="type-lede mt-4 text-white/70">
-            Share a short brief and we'll send a tailored proposal and quote within [one business day].
-          </p>
+          <h2 className="type-display text-white">{cta.title}</h2>
+          <p className="type-lede mt-4 text-white/70">{cta.body}</p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row">
           <Link to="/contact" className="btn btn-primary">
-            Start a project
+            {cta.primary}
           </Link>
           {whatsappHref ? (
             <a href={whatsappHref} target="_blank" rel="noreferrer" className="btn btn-secondary">
-              Chat on WhatsApp
+              {cta.whatsapp}
             </a>
           ) : null}
         </div>
