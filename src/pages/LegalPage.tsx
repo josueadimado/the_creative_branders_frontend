@@ -19,7 +19,7 @@ export default function LegalPage({ seo, kicker, title, lede, sections }: LegalP
   return (
     <>
       <Seo {...seo} />
-      <section className="bg-navy py-32 sm:py-44">
+      <section className="text-hero bg-navy">
         <div className="mx-auto max-w-6xl px-6">
           <p className="type-kicker text-signal">{kicker}</p>
           <h1 className="type-h1 mt-5 text-white">{title}</h1>

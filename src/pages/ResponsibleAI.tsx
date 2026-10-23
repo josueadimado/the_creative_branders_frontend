@@ -6,7 +6,7 @@ export default function ResponsibleAI() {
   return (
     <>
       <Seo {...responsibleAi.seo} />
-      <section className="bg-navy py-32 sm:py-44">
+      <section className="text-hero bg-navy">
         <div className="mx-auto max-w-6xl px-6">
           <p className="type-kicker text-signal">{responsibleAi.kicker}</p>
           <h1 className="type-h1 mt-5 text-white">{responsibleAi.title}</h1>

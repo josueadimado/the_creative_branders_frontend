@@ -18,7 +18,7 @@ export default function InsightArticle() {
         path={`/insights/${article.slug}`}
       />
       <article>
-        <header className="bg-navy py-32 sm:py-44">
+        <header className="text-hero bg-navy">
           <div className="mx-auto max-w-3xl px-6">
             <p className="type-kicker text-signal">
               <Link to="/insights" className="hover:text-white">

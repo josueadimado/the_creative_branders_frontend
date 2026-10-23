@@ -14,7 +14,7 @@ export default function Insights() {
   return (
     <>
       <Seo {...insightsPage.seo} />
-      <section className="dot-grid bg-navy py-32 sm:py-44">
+      <section className="dot-grid text-hero bg-navy">
         <div className="mx-auto max-w-6xl px-6">
           <p className="type-kicker text-signal">{insightsPage.kicker}</p>
           <h1 className="type-h1 mt-5 max-w-3xl text-white">{insightsPage.title}</h1>

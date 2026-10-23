@@ -90,7 +90,7 @@ export default function Work() {
   return (
     <>
       <Seo {...workPage.seo} />
-      <section className="bg-navy py-32 sm:py-40">
+      <section className="text-hero bg-navy">
         <div className="mx-auto max-w-6xl px-6">
           <p className="type-kicker text-signal">{workPage.kicker}</p>
           <h1 className="type-h1 mt-5 max-w-3xl text-white">{workPage.title}</h1>

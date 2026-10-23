@@ -307,6 +307,19 @@ h4 {
     background-size: 24px 24px;
   }
 
+  /* Text-only heroes: about half the old height, still with room to breathe. */
+  .text-hero {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  @media (min-width: 640px) {
+    .text-hero {
+      padding-top: 4rem;
+      padding-bottom: 4rem;
+    }
+  }
+
   .hero-nodes path {
     stroke-dasharray: 560;
     stroke-dashoffset: 560;

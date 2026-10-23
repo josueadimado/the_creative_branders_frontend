@@ -21,7 +21,7 @@ export default function Placeholder({ kicker = "", title = "" }: PlaceholderProp
   const heading = familyName || title;
 
   return (
-    <section className="bg-navy py-32 sm:py-40">
+    <section className="text-hero bg-navy">
       <Seo title={heading} description={placeholder.lede} path={pathname} />
       <div className="mx-auto max-w-6xl px-6">
         {kicker || familyName ? (
