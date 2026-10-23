@@ -11,9 +11,11 @@ RUN npm ci
 COPY . .
 
 ARG VITE_API_URL
+ARG VITE_WHATSAPP_NUMBER=
 # Fail the image build if the API URL was not provided.
 RUN test -n "$VITE_API_URL" || (echo "ERROR: VITE_API_URL build-arg is required" && exit 1)
 ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_WHATSAPP_NUMBER=$VITE_WHATSAPP_NUMBER
 
 RUN npm run build
 

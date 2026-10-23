@@ -10,6 +10,7 @@ services:
       dockerfile: Dockerfile.prod
       args:
         VITE_API_URL: ${VITE_API_URL:?VITE_API_URL is required}
+        VITE_WHATSAPP_NUMBER: ${VITE_WHATSAPP_NUMBER:-}
     restart: unless-stopped
     expose:
       - "80"

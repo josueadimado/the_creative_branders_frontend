@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
+import WhatsAppButton from "./components/WhatsAppButton";
 import PageTransition from "./components/PageTransition";
 import About from "./pages/About";
 import Academy from "./pages/Academy";
@@ -20,6 +21,7 @@ export default function App() {
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />
+      <WhatsAppButton />
       <PageTransition>
         {(location) => (
           <>
