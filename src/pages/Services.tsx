@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import CtaBand from "../components/CtaBand";
+import Seo from "../components/Seo";
 import Illustration from "../components/Illustration";
 import Media from "../components/Media";
 import PageHero from "../components/PageHero";
@@ -86,6 +87,11 @@ const steps = [
 export default function Services() {
   return (
     <>
+      <Seo
+        title="Services"
+        description="Brand, systems, and intelligence as a single brief. Accessible retainers and project ranges, not a menu of add-ons."
+        path="/services"
+      />
       <PageHero
         image="/images/hero-studio.jpg"
         kicker="Services"

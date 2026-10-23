@@ -1,6 +1,7 @@
 import { FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import Illustration from "../components/Illustration";
+import Seo from "../components/Seo";
 import PageHero from "../components/PageHero";
 import { postWaitlist } from "../lib/api";
 
@@ -39,6 +40,11 @@ const fieldClass =
 export default function SmartCRM() {
   return (
     <>
+      <Seo
+        title="SmartCRM"
+        description="A CRM for growing businesses that have outgrown notebooks, spreadsheets, and scattered WhatsApp chats. Join the waitlist for early access."
+        path="/smartcrm"
+      />
       <PageHero
         image="/images/smartcrm-product.jpg"
         kicker="Product"
@@ -127,7 +133,7 @@ function WaitlistForm() {
 
   if (status === "success" || status === "already") {
     return (
-      <div className="border border-blue/40 bg-navy p-10 text-white sm:p-12">
+      <div className="border border-white/15 bg-navy p-10 text-white sm:p-12">
         <p className="type-title">
           {status === "already" ? "You're already on the list." : "You are on the list."}
         </p>

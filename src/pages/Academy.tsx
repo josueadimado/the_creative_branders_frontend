@@ -1,6 +1,7 @@
 import { FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import Illustration from "../components/Illustration";
+import Seo from "../components/Seo";
 import PageHero from "../components/PageHero";
 import { postAcademyInterest } from "../lib/api";
 
@@ -10,6 +11,11 @@ const fieldClass =
 export default function Academy() {
   return (
     <>
+      <Seo
+        title="Academy"
+        description="A learning track for people who want to build brand, systems, and intelligence, not just take a course. Opening soon."
+        path="/academy"
+      />
       <PageHero
         image="/images/academy-workshop.jpg"
         kicker="Academy"
@@ -92,7 +98,7 @@ function AcademyForm() {
 
   if (status === "success") {
     return (
-      <div className="border border-blue/40 bg-navy p-10 text-white sm:p-12">
+      <div className="border border-white/15 bg-navy p-10 text-white sm:p-12">
         <p className="type-title">Interest received.</p>
         <p className="type-lede mt-4 text-white/70">We will be in touch as the Academy opens.</p>
       </div>

@@ -1,8 +1,14 @@
 import { Link } from "react-router-dom";
+import Seo from "../components/Seo";
 
 export default function Privacy() {
   return (
     <>
+      <Seo
+        title="Privacy policy"
+        description="How The Creative Branders handles information you send through this website."
+        path="/privacy"
+      />
       <section className="bg-navy py-32 sm:py-44">
         <div className="mx-auto max-w-6xl px-6">
           <p className="type-kicker text-signal">Legal</p>

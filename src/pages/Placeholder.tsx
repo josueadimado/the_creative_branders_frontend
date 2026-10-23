@@ -1,4 +1,5 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
+import Seo from "../components/Seo";
 import NotFound from "./NotFound";
 
 const families: Record<string, string> = {
@@ -18,6 +19,7 @@ type PlaceholderProps = {
 // Short stand-in so new menu links open a real page. Later phases replace the words.
 export default function Placeholder({ kicker = "", title = "" }: PlaceholderProps) {
   const { slug } = useParams();
+  const { pathname } = useLocation();
   const familyName = slug ? families[slug] : undefined;
 
   if (slug && !familyName) {
@@ -28,6 +30,11 @@ export default function Placeholder({ kicker = "", title = "" }: PlaceholderProp
 
   return (
     <section className="bg-navy py-32 sm:py-40">
+      <Seo
+        title={heading}
+        description="This page is being written."
+        path={pathname}
+      />
       <div className="mx-auto max-w-6xl px-6">
         {kicker || familyName ? (
           <p className="type-kicker text-signal">{familyName ? "Services" : kicker}</p>

@@ -1,10 +1,16 @@
 import Illustration from "../components/Illustration";
+import Seo from "../components/Seo";
 import InquiryForm from "../components/InquiryForm";
 import { socials } from "../data/socials";
 
 export default function Contact() {
   return (
     <>
+      <Seo
+        title="Contact"
+        description="Inquiry-first. We reply within 48 hours. Write to the studio and we will take it from there."
+        path="/contact"
+      />
       <section className="bg-navy py-32 sm:py-44">
         <div className="mx-auto max-w-6xl px-6">
           <p className="type-kicker text-signal">Contact</p>

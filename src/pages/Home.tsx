@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import CtaBand from "../components/CtaBand";
+import Seo from "../components/Seo";
 import Illustration from "../components/Illustration";
 import Media from "../components/Media";
 import PortfolioCard from "../components/PortfolioCard";
@@ -44,6 +45,11 @@ export default function Home() {
 
   return (
     <>
+      <Seo
+        title="We make your business look, run, and scale smarter"
+        description="Brand, systems, and intelligence for African SMEs and diaspora founders. One studio. One scope. Built to last."
+        path="/"
+      />
       {/* Full-height opener: the photograph is the luxury; type sits in the quiet left. */}
       <section className="relative isolate min-h-[100svh] overflow-hidden bg-navy">
         <img

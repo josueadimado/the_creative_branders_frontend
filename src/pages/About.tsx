@@ -1,4 +1,5 @@
 import CtaBand from "../components/CtaBand";
+import Seo from "../components/Seo";
 import Illustration from "../components/Illustration";
 import Media from "../components/Media";
 import PageHero from "../components/PageHero";
@@ -27,6 +28,11 @@ const values = ["Intelligence", "Clarity", "Impact"];
 export default function About() {
   return (
     <>
+      <Seo
+        title="About"
+        description="African businesses and diaspora-founded companies deserve a studio that holds brand, systems, and intelligence as one brief."
+        path="/about"
+      />
       <PageHero
         image="/images/about-studio.jpg"
         kicker="About"

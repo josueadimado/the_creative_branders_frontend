@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import CtaBand from "../components/CtaBand";
+import Seo from "../components/Seo";
 import Media from "../components/Media";
 import PageHero from "../components/PageHero";
 import { portfolio } from "../data/portfolio";
@@ -30,6 +31,11 @@ export default function Work() {
 
   return (
     <>
+      <Seo
+        title="Work"
+        description="Nine studios, clinics, and platforms. Each write-up is the problem we walked into, how we approached it, and what we shipped."
+        path="/work"
+      />
       <PageHero
         image="/images/work-clinic.jpg"
         kicker="Work"
