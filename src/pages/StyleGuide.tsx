@@ -99,8 +99,8 @@ export default function StyleGuide() {
           {icons.map(({ name, Icon }) => (
             <li key={name} className="rounded-card border border-mist bg-white p-4">
               <div className="flex items-center gap-4 text-deep">
-                <Icon size={20} strokeWidth={1.75} aria-hidden="true" />
-                <Icon size={24} strokeWidth={1.75} aria-hidden="true" />
+                <Icon size={20} aria-hidden="true" />
+                <Icon size={24} aria-hidden="true" />
               </div>
               <p className="type-caption mt-3 text-navy">{name}</p>
             </li>
@@ -109,7 +109,7 @@ export default function StyleGuide() {
         <div className="mt-6 rounded-card bg-navy p-6 text-signal">
           <div className="flex flex-wrap gap-6">
             {icons.map(({ name, Icon }) => (
-              <Icon key={name} size={24} strokeWidth={1.75} aria-hidden="true" />
+              <Icon key={name} size={24} aria-hidden="true" />
             ))}
           </div>
           <div className="mt-4">
