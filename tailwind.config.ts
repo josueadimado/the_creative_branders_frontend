@@ -1,0 +1,43 @@
+import type { Config } from "tailwindcss";
+
+// TCB palette: navy ground, blue workhorse accent, yellow used sparingly.
+const config: Config = {
+  content: ["./index.html", "./src/**/*.{ts,tsx}"],
+  theme: {
+    extend: {
+      colors: {
+        navy: "#0E1E2B",
+        blue: "#4A9FCC",
+        blueDark: "#0C447C",
+        yellow: "#E8E154",
+        offwhite: "#F4F1E8",
+        ink: "#2C2C2A",
+        // Warm gray for paragraphs. DEFAULT so `text-slate` is this, not Tailwind’s blue-gray.
+        slate: {
+          DEFAULT: "#3E3D39",
+        },
+      },
+      fontFamily: {
+        sans: [
+          "Poppins",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "Helvetica Neue",
+          "Arial",
+          "sans-serif",
+        ],
+        serif: [
+          "Cormorant Garamond",
+          "Cormorant",
+          "Garamond",
+          "Georgia",
+          "serif",
+        ],
+      },
+    },
+  },
+  plugins: [],
+};
+
+export default config;

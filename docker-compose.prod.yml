@@ -1,0 +1,22 @@
+# Production compose for the Hetzner server.
+# Caddy (on the host) sits on the Docker network named web.
+# VITE_API_URL is read from a sibling .env and baked in at build time.
+# No published ports — Caddy reverse-proxies to the container by name.
+services:
+  tcb-frontend:
+    container_name: tcb-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+      args:
+        VITE_API_URL: ${VITE_API_URL:?VITE_API_URL is required}
+    restart: unless-stopped
+    expose:
+      - "80"
+    networks:
+      - default
+      - web
+
+networks:
+  web:
+    external: true
