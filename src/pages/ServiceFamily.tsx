@@ -58,10 +58,10 @@ export default function ServiceFamily() {
         </div>
       </section>
 
-      <HowWeWork />
+      <HowWeWork surface="white" />
 
       {related.length > 0 ? (
-        <section className="border-t border-mist bg-paper py-28 sm:py-36">
+        <section className="bg-paper py-28 sm:py-36">
           <div className="mx-auto max-w-6xl px-6">
             <h2 className="type-display text-navy">Related work</h2>
             <div className="mt-16 grid gap-x-10 gap-y-16 md:grid-cols-2">
@@ -73,7 +73,7 @@ export default function ServiceFamily() {
         </section>
       ) : null}
 
-      <section className="border-t border-mist bg-paper py-28 sm:py-36">
+      <section className={`${related.length > 0 ? "bg-white" : "bg-paper"} py-28 sm:py-36`}>
         <div className="mx-auto max-w-3xl px-6">
           <h2 className="type-display text-navy">Questions</h2>
           <FaqAccordion items={family.faqs} />

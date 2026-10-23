@@ -102,7 +102,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="border-t border-mist bg-paper py-28 sm:py-36">
+      <section className="bg-white py-28 sm:py-36">
         <div className="mx-auto max-w-6xl px-6">
           <h2 className="type-display max-w-3xl text-navy">{home.work.title}</h2>
           <p className="type-lede mt-6 max-w-2xl text-slate">{home.work.lede}</p>
@@ -119,7 +119,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="border-t border-mist bg-paper py-28 sm:py-36">
+      <section className="bg-paper py-28 sm:py-36">
         <div className="mx-auto max-w-6xl px-6">
           <h2 className="type-display max-w-3xl text-navy">{home.offer.title}</h2>
           <p className="type-lede mt-6 max-w-2xl text-slate">{home.offer.lede}</p>
@@ -143,7 +143,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="border-t border-mist bg-paper py-28 sm:py-36">
+      <section className="bg-white py-28 sm:py-36">
         <div className="mx-auto grid max-w-6xl items-start gap-16 px-6 lg:grid-cols-2">
           <div>
             <h2 className="type-display text-navy">{home.different.title}</h2>
@@ -162,7 +162,7 @@ export default function Home() {
 
       <HowWeWork />
 
-      <section className="border-t border-mist bg-paper py-16 sm:py-20">
+      <section className="bg-white py-16 sm:py-20">
         <div className="mx-auto flex max-w-6xl flex-col items-start gap-6 px-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="type-body max-w-2xl text-navy">{home.lab.text}</p>
           <Link to="/smartcrm" className="type-body text-deep transition-colors hover:text-deep-hover">
@@ -173,7 +173,7 @@ export default function Home() {
 
       {/* Hidden until a client approves a real quote. An empty list means this renders nothing. */}
       {testimonials.length > 0 ? (
-        <section className="border-t border-mist bg-paper py-28 sm:py-36">
+        <section className="bg-paper py-28 sm:py-36">
           <div className="mx-auto max-w-6xl px-6">
             <ul className="grid gap-10 md:grid-cols-2">
               {testimonials.map((item) => (
@@ -190,7 +190,7 @@ export default function Home() {
       ) : null}
 
       {articles.length > 0 ? (
-        <section className="border-t border-mist bg-paper py-28 sm:py-36">
+        <section className={`${testimonials.length > 0 ? "bg-white" : "bg-paper"} py-28 sm:py-36`}>
           <div className="mx-auto max-w-6xl px-6">
             <h2 className="type-display text-navy">
               <Link to="/insights" className="transition-colors hover:text-deep">

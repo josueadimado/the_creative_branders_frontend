@@ -1,14 +1,21 @@
 import Illustration from "./Illustration";
 import { howWeWork } from "../content/services/howWeWork";
 
+type HowWeWorkProps = {
+  /** Paper or white, so this block never matches the section above it. */
+  surface?: "paper" | "white";
+};
+
 /**
  * The same four steps on the homepage and every service page.
  * On a phone the steps stack, with a line down the left.
  * On a desktop they sit in one row, with a line across the top.
  */
-export default function HowWeWork() {
+export default function HowWeWork({ surface = "paper" }: HowWeWorkProps) {
+  const background = surface === "white" ? "bg-white" : "bg-paper";
+
   return (
-    <section className="border-t border-mist bg-paper py-28 sm:py-36">
+    <section className={`${background} py-28 sm:py-36`}>
       <div className="mx-auto max-w-6xl px-6">
         <h2 className="type-display text-navy">{howWeWork.title}</h2>
         <ol className="stepper mt-16 lg:mt-20">
