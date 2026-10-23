@@ -94,9 +94,19 @@ html.is-paging {
   .route-progress,
   .btn,
   .media img,
-  .photo {
+  .photo,
+  .hero-nodes path,
+  .hero-nodes circle {
     transition: none;
-    filter: none;
+    animation: none;
+  }
+
+  .hero-nodes path {
+    stroke-dashoffset: 0;
+  }
+
+  .hero-nodes circle {
+    opacity: 1;
   }
 
   .media:hover img {
@@ -125,17 +135,10 @@ body {
   color: var(--tcb-navy);
 }
 
-/* Editorial photo frame: crop is tight, motion is slow.
-   A slight desaturate pulls stock photos toward navy and cream. */
-.photo,
-.media img {
-  filter: saturate(0.78) contrast(1.04);
-}
-
 .media {
   overflow: hidden;
-  background: #0e1e2b;
-  border-radius: 1.25rem;
+  background: var(--tcb-navy);
+  border-radius: 1rem;
 }
 
 .media img {
@@ -276,6 +279,83 @@ h4 {
     width: 100%;
   }
 
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    background: var(--tcb-paper);
+    color: var(--tcb-slate);
+    padding: 0.15rem 0.65rem;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  /* Faint dot grid for solid navy sections. 1px dots, 24px apart. */
+  .dot-grid {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ccircle cx='1' cy='1' r='0.5' fill='%234AA3C6' fill-opacity='0.12'/%3E%3C/svg%3E");
+    background-size: 24px 24px;
+  }
+
+  .hero-nodes path {
+    stroke-dasharray: 560;
+    stroke-dashoffset: 560;
+    animation: hero-draw 0.8s ease forwards;
+  }
+
+  .hero-nodes circle {
+    opacity: 0;
+    animation: hero-node 0.8s ease forwards;
+  }
+
+  .hero-nodes circle:nth-child(2) {
+    animation-delay: 0.1s;
+  }
+
+  .hero-nodes circle:nth-child(3) {
+    animation-delay: 0.2s;
+  }
+
+  .hero-nodes circle:nth-child(4) {
+    animation-delay: 0.35s;
+  }
+
+  .hero-nodes circle:nth-child(5) {
+    animation-delay: 0.5s;
+  }
+
+  @media (min-width: 1024px) {
+    .node-row {
+      position: relative;
+    }
+
+    .node-row::before {
+      content: "";
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      right: 4px;
+      height: 1px;
+      background: var(--tcb-deep);
+    }
+
+    .node-row article {
+      position: relative;
+      padding-top: 1.75rem;
+    }
+
+    .node-row article::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--tcb-deep);
+    }
+  }
+
   @media (min-width: 640px) {
     .type-kicker {
       font-size: 15px;
@@ -305,5 +385,17 @@ h4 {
     .type-stat {
       font-size: 64px;
     }
+  }
+}
+
+@keyframes hero-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes hero-node {
+  to {
+    opacity: 1;
   }
 }

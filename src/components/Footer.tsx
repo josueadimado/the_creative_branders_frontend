@@ -4,7 +4,7 @@ import Logo from "./Logo";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/[0.06] bg-navy">
+    <footer className="dot-grid border-t border-white/[0.06] bg-navy">
       <div className="mx-auto grid max-w-6xl gap-16 px-6 py-20 md:grid-cols-3">
         <div>
           <Link to="/" className="inline-flex">

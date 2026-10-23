@@ -11,7 +11,7 @@ type CtaBandProps = {
  */
 export default function CtaBand({ title, lede }: CtaBandProps) {
   return (
-    <section className="border-t border-white/[0.08] bg-navy py-24 sm:py-28">
+    <section className="dot-grid border-t border-white/[0.08] bg-navy py-24 sm:py-28">
       <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-10 px-6 sm:flex-row sm:items-center">
         <div className="max-w-2xl">
           <p className="type-display text-white">{title}</p>

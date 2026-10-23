@@ -19,8 +19,8 @@ export default function PricingTier({
     <article
       className={
         highlighted
-          ? "flex flex-col bg-navy p-10 text-white sm:p-12"
-          : "flex flex-col bg-paper p-10 text-navy sm:p-12"
+          ? "flex flex-col rounded-card border border-mist bg-navy p-10 text-white sm:p-12"
+          : "flex flex-col rounded-card border border-mist bg-white p-10 text-navy sm:p-12"
       }
     >
       {highlighted ? <p className="type-kicker mb-6 text-gold">Most chosen</p> : null}

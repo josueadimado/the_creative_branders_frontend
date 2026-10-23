@@ -18,7 +18,7 @@ export default function Contact() {
 
       <section className="bg-paper py-28 sm:py-36">
         <div className="mx-auto grid max-w-6xl gap-20 px-6 lg:grid-cols-[1.15fr_0.85fr]">
-          <div className="border border-mist p-8 sm:p-12">
+          <div className="rounded-card border border-mist bg-white p-8 sm:p-12">
             <InquiryForm />
           </div>
           <aside>

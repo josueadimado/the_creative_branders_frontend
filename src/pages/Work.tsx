@@ -50,7 +50,7 @@ export default function Work() {
                 className={`aspect-[4/3] ${index % 2 === 1 ? "lg:order-2" : ""}`}
               />
               <div>
-                <p className="type-kicker text-deep">{item.sector}</p>
+                <p className="tag">{item.sector}</p>
                 <h2 className="type-display mt-4 text-navy">{item.client}</h2>
                 <p className="type-lede mt-6 text-slate">{item.summary}</p>
 

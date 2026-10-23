@@ -44,7 +44,7 @@ export default function Academy() {
             </div>
             <div className="border-t border-mist pt-10">
               <p className="type-kicker text-deep">Impact</p>
-              <p className="type-hero mt-4 text-navy">200+</p>
+              <p className="type-stat mt-4 text-navy">200+</p>
               <p className="type-caption mt-3 text-slate">
                 Our goal with COME: young people trained
               </p>
@@ -100,7 +100,7 @@ function AcademyForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="h-fit border border-mist p-10 sm:p-12">
+    <form onSubmit={handleSubmit} className="h-fit rounded-card border border-mist bg-white p-10 sm:p-12">
       <h3 className="type-title text-navy">Expression of interest</h3>
       <label className="type-caption mt-8 block font-medium text-navy" htmlFor="academy-name">
         Name

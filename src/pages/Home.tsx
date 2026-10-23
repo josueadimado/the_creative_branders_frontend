@@ -56,17 +56,25 @@ export default function Home() {
           <div className="max-w-3xl">
             <p className="type-kicker text-signal">Digital Intelligence Studio</p>
             <h1 className="type-hero mt-5 text-white">
-              We make your business look, run, and scale{" "}
-              <span className="underline decoration-yellow decoration-2 underline-offset-[0.12em]">
-                smarter
-              </span>
-              .
+              We make your business look, run, and scale smarter.
             </h1>
             <p className="type-lede mt-8 max-w-xl text-white/70">
               Brand, systems, and intelligence for African SMEs and diaspora founders. One studio.
               One scope. Built to last.
             </p>
-            <div className="mt-14 flex flex-wrap gap-4">
+            <svg
+              className="hero-nodes mt-14 h-16 w-full max-w-xl"
+              viewBox="0 0 560 64"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path d="M8 32 H552" stroke="#4AA3C6" strokeWidth="1" />
+              <circle cx="8" cy="32" r="4" fill="#4AA3C6" />
+              <circle cx="190" cy="32" r="4" fill="#4AA3C6" />
+              <circle cx="370" cy="32" r="4" fill="#4AA3C6" />
+              <circle cx="552" cy="32" r="4" fill="#4AA3C6" />
+            </svg>
+            <div className="mt-10 flex flex-wrap gap-4">
               <Link to="/contact" className="btn btn-primary">
                 Book your free discovery call
               </Link>
@@ -108,12 +116,9 @@ export default function Home() {
             title="A short path from brief to growth."
             lede="Four steps, held by one team. Discover, design, build, then stay close as you grow."
           />
-          <div className="mt-20 grid gap-12 border-t border-mist pt-16 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0">
+          <div className="node-row mt-20 grid gap-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
             {process.map((step, index) => (
-              <article
-                key={step.name}
-                className="lg:border-r lg:border-mist lg:px-8 lg:first:pl-0 lg:last:border-r-0 lg:last:pr-0"
-              >
+              <article key={step.name}>
                 <Illustration name={step.drawing} className="h-28 w-full" />
                 <p className="type-kicker mt-6 text-deep">0{index + 1}</p>
                 <h3 className="type-title mt-3 text-navy">{step.name}</h3>

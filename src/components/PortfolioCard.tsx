@@ -8,12 +8,12 @@ type PortfolioCardProps = {
 
 export default function PortfolioCard({ item }: PortfolioCardProps) {
   return (
-    <article className="flex flex-col">
+    <article className="flex flex-col overflow-hidden rounded-card border border-mist bg-white">
       <Link to={`/work#${item.id}`} className="block">
-        <Media src={item.image} className="aspect-[4/3]" />
+        <Media src={item.image} className="aspect-[4/3] rounded-none" />
       </Link>
-      <div className="flex flex-1 flex-col pt-7">
-        <p className="type-caption font-semibold text-deep">{item.sector}</p>
+      <div className="flex flex-1 flex-col p-6">
+        <p className="tag self-start">{item.sector}</p>
         <h3 className="type-title mt-3 text-navy">{item.client}</h3>
         <p className="type-body mt-3 flex-1 text-slate">{item.summary}</p>
         <Link

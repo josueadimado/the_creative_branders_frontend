@@ -148,12 +148,9 @@ export default function Services() {
       <section className="border-t border-mist bg-paper py-28 sm:py-36">
         <div className="mx-auto max-w-6xl px-6">
           <SectionHeading eyebrow="Process" title="How we work" />
-          <div className="mt-20 grid gap-12 border-t border-mist pt-16 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0">
+          <div className="node-row mt-20 grid gap-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
             {steps.map((step, index) => (
-              <article
-                key={step.name}
-                className="lg:border-r lg:border-mist lg:px-8 lg:first:pl-0 lg:last:border-r-0 lg:last:pr-0"
-              >
+              <article key={step.name}>
                 <Illustration name={step.drawing} className="h-28 w-full" />
                 <p className="type-kicker mt-6 text-deep">0{index + 1}</p>
                 <h3 className="type-title mt-3 text-navy">{step.name}</h3>

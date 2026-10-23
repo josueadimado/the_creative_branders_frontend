@@ -137,7 +137,7 @@ function WaitlistForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="border border-mist p-10 sm:p-12">
+    <form onSubmit={handleSubmit} className="rounded-card border border-mist bg-white p-10 sm:p-12">
       <h3 className="type-title text-navy">Join the waitlist</h3>
       <label className="type-caption mt-8 block font-medium text-navy" htmlFor="waitlist-name">
         Name <span className="text-slate">(optional)</span>
