@@ -13,12 +13,12 @@ export default function PortfolioCard({ item }: PortfolioCardProps) {
         <Media src={item.image} className="aspect-[4/3]" />
       </Link>
       <div className="flex flex-1 flex-col pt-7">
-        <p className="type-caption font-semibold text-blueDark">{item.sector}</p>
-        <h3 className="type-title mt-3 text-ink">{item.client}</h3>
+        <p className="type-caption font-semibold text-deep">{item.sector}</p>
+        <h3 className="type-title mt-3 text-navy">{item.client}</h3>
         <p className="type-body mt-3 flex-1 text-slate">{item.summary}</p>
         <Link
           to={`/work#${item.id}`}
-          className="type-body mt-6 self-start text-blue transition-colors hover:text-blueDark"
+          className="type-body mt-6 self-start text-deep transition-colors hover:text-deep-hover"
         >
           Read the case study
         </Link>

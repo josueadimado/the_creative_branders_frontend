@@ -37,30 +37,30 @@ export default function Work() {
         lede="Nine studios, clinics, and platforms. Each write-up is the problem we walked into, how we approached it, and what we shipped. We do not invent outcome numbers."
       />
 
-      <section className="bg-offwhite py-24 sm:py-32">
+      <section className="bg-paper py-24 sm:py-32">
         <div className="mx-auto max-w-6xl space-y-28 px-6">
           {portfolio.map((item, index) => (
             <article
               key={item.id}
               id={item.id}
-              className="scroll-mt-28 grid items-center gap-12 border-b border-navy/10 pb-28 last:border-0 last:pb-0 lg:grid-cols-2 lg:gap-20"
+              className="scroll-mt-28 grid items-center gap-12 border-b border-mist pb-28 last:border-0 last:pb-0 lg:grid-cols-2 lg:gap-20"
             >
               <Media
                 src={item.image}
                 className={`aspect-[4/3] ${index % 2 === 1 ? "lg:order-2" : ""}`}
               />
               <div>
-                <p className="type-kicker text-blueDark">{item.sector}</p>
-                <h2 className="type-display mt-4 text-ink">{item.client}</h2>
+                <p className="type-kicker text-deep">{item.sector}</p>
+                <h2 className="type-display mt-4 text-navy">{item.client}</h2>
                 <p className="type-lede mt-6 text-slate">{item.summary}</p>
 
-                <p className="type-kicker mt-12 text-blueDark">The problem</p>
+                <p className="type-kicker mt-12 text-deep">The problem</p>
                 <p className="type-body mt-3 text-slate">{item.problem}</p>
 
-                <p className="type-kicker mt-9 text-blueDark">How we approached it</p>
+                <p className="type-kicker mt-9 text-deep">How we approached it</p>
                 <p className="type-body mt-3 text-slate">{item.approach}</p>
 
-                <p className="type-kicker mt-9 text-blueDark">What we built</p>
+                <p className="type-kicker mt-9 text-deep">What we built</p>
                 <p className="type-body mt-3 text-slate">{item.built}</p>
               </div>
             </article>

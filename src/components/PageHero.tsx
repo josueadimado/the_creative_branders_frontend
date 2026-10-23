@@ -14,9 +14,9 @@ export default function PageHero({ image, kicker, title, lede }: PageHeroProps) 
   return (
     <section className="relative isolate overflow-hidden bg-navy">
       <img src={image} alt="" className="photo absolute inset-0 h-full w-full object-cover" />
-      <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/70 to-navy/20" />
+      <div className="absolute inset-0 bg-gradient-to-r from-navy via-[rgb(14_30_43/0.70)] to-[rgb(14_30_43/0.20)]" />
       <div className="relative mx-auto max-w-6xl px-6 py-32 sm:py-44">
-        <p className="type-kicker text-blue">{kicker}</p>
+        <p className="type-kicker text-signal">{kicker}</p>
         <h1 className="type-hero mt-5 max-w-4xl text-white">{title}</h1>
         <p className="type-lede mt-8 max-w-xl text-white/70">{lede}</p>
       </div>

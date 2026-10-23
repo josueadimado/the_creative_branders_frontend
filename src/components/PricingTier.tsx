@@ -20,17 +20,17 @@ export default function PricingTier({
       className={
         highlighted
           ? "flex flex-col bg-navy p-10 text-white sm:p-12"
-          : "flex flex-col bg-offwhite p-10 text-ink sm:p-12"
+          : "flex flex-col bg-paper p-10 text-navy sm:p-12"
       }
     >
-      {highlighted ? <p className="type-kicker mb-6 text-yellow">Most chosen</p> : null}
+      {highlighted ? <p className="type-kicker mb-6 text-gold">Most chosen</p> : null}
       <h3 className="type-title">{name}</h3>
-      <p className={`type-display mt-3 ${highlighted ? "text-white" : "text-ink"}`}>{range}</p>
+      <p className={`type-display mt-3 ${highlighted ? "text-white" : "text-navy"}`}>{range}</p>
       <p className={`type-body mt-5 ${highlighted ? "text-white/70" : "text-slate"}`}>{description}</p>
       <ul className="mt-10 flex-1 space-y-3.5 type-body">
         {features.map((feature) => (
           <li key={feature} className="flex gap-3">
-            <span className={highlighted ? "text-blue" : "text-blueDark"} aria-hidden>
+            <span className={highlighted ? "text-signal" : "text-deep"} aria-hidden>
               –
             </span>
             <span className={highlighted ? "text-white/90" : "text-slate"}>{feature}</span>

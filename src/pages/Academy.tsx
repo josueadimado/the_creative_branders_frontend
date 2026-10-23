@@ -5,7 +5,7 @@ import PageHero from "../components/PageHero";
 import { postAcademyInterest } from "../lib/api";
 
 const fieldClass =
-  "mt-2 w-full border border-navy/15 bg-navy/[0.04] px-4 py-3.5 text-[17px] text-ink outline-none transition-colors focus:border-blue";
+  "mt-2 w-full border border-mist bg-paper px-4 py-3.5 text-[17px] text-navy outline-none transition-colors focus:border-deep";
 
 export default function Academy() {
   return (
@@ -17,34 +17,34 @@ export default function Academy() {
         lede="A learning track for people who want to build brand, systems, and intelligence, not just take a course. Opening soon."
       />
 
-      <section className="bg-offwhite py-28 sm:py-36">
+      <section className="bg-paper py-28 sm:py-36">
         <div className="mx-auto grid max-w-6xl gap-20 px-6 lg:grid-cols-2">
           <div className="space-y-14">
             <Illustration name="academy" className="w-full" />
             <div>
-              <h2 className="type-title text-ink">What the Academy teaches</h2>
+              <h2 className="type-title text-navy">What the Academy teaches</h2>
               <p className="type-body mt-4 text-slate">
                 Practical tracks in digital brand, business systems, and data, taught the way the
                 studio works: on real briefs, with real tools.
               </p>
             </div>
             <div>
-              <h2 className="type-title text-ink">Partnership</h2>
+              <h2 className="type-title text-navy">Partnership</h2>
               <p className="type-body mt-4 text-slate">
                 Built in partnership with COME. Together we are aiming at 200+ youth trained. That
                 is a target, not a claim of work already done.
               </p>
             </div>
             <div>
-              <h2 className="type-title text-ink">Who should apply</h2>
+              <h2 className="type-title text-navy">Who should apply</h2>
               <p className="type-body mt-4 text-slate">
                 Early-career builders, operators inside SMEs, and people who want studio-grade craft
                 without a four-year detour.
               </p>
             </div>
-            <div className="border-t border-navy/10 pt-10">
-              <p className="type-kicker text-blueDark">Impact</p>
-              <p className="type-hero mt-4 text-ink">200+</p>
+            <div className="border-t border-mist pt-10">
+              <p className="type-kicker text-deep">Impact</p>
+              <p className="type-hero mt-4 text-navy">200+</p>
               <p className="type-caption mt-3 text-slate">
                 Our goal with COME: young people trained
               </p>
@@ -57,7 +57,7 @@ export default function Academy() {
       <section className="bg-navy py-20">
         <div className="mx-auto max-w-6xl px-6 type-body text-white/70">
           Looking for studio work instead?{" "}
-          <Link to="/contact" className="text-blue transition-colors hover:text-white">
+          <Link to="/contact" className="text-signal transition-colors hover:text-white">
             Start a project
           </Link>
           .
@@ -100,9 +100,9 @@ function AcademyForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="h-fit border border-navy/10 p-10 sm:p-12">
-      <h3 className="type-title text-ink">Expression of interest</h3>
-      <label className="type-caption mt-8 block font-medium text-ink" htmlFor="academy-name">
+    <form onSubmit={handleSubmit} className="h-fit border border-mist p-10 sm:p-12">
+      <h3 className="type-title text-navy">Expression of interest</h3>
+      <label className="type-caption mt-8 block font-medium text-navy" htmlFor="academy-name">
         Name
         <input
           id="academy-name"
@@ -112,7 +112,7 @@ function AcademyForm() {
           className={fieldClass}
         />
       </label>
-      <label className="type-caption mt-5 block font-medium text-ink" htmlFor="academy-email">
+      <label className="type-caption mt-5 block font-medium text-navy" htmlFor="academy-email">
         Email
         <input
           id="academy-email"
@@ -123,7 +123,7 @@ function AcademyForm() {
           className={fieldClass}
         />
       </label>
-      <label className="type-caption mt-5 block font-medium text-ink" htmlFor="academy-message">
+      <label className="type-caption mt-5 block font-medium text-navy" htmlFor="academy-message">
         Message <span className="text-slate">(optional)</span>
         <textarea
           id="academy-message"

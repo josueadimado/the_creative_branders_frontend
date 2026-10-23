@@ -34,7 +34,7 @@ const faqs = [
 ];
 
 const fieldClass =
-  "mt-2 w-full border border-navy/15 bg-navy/[0.04] px-4 py-3.5 text-[17px] text-ink outline-none transition-colors focus:border-blue";
+  "mt-2 w-full border border-mist bg-paper px-4 py-3.5 text-[17px] text-navy outline-none transition-colors focus:border-deep";
 
 export default function SmartCRM() {
   return (
@@ -46,15 +46,15 @@ export default function SmartCRM() {
         lede="$10–$30 / month. A CRM for growing businesses that have outgrown notebooks, spreadsheets, and scattered WhatsApp chats. Join the waitlist for early access."
       />
 
-      <section className="bg-offwhite py-28 sm:py-36">
+      <section className="bg-paper py-28 sm:py-36">
         <div className="mx-auto max-w-6xl px-6">
-          <p className="type-kicker text-blueDark">What we're designing for</p>
-          <div className="mt-16 grid gap-12 md:grid-cols-3 md:gap-0 md:divide-x md:divide-navy/10 md:border-t md:border-navy/10 md:pt-16">
+          <p className="type-kicker text-deep">What we're designing for</p>
+          <div className="mt-16 grid gap-12 md:grid-cols-3 md:gap-0 md:divide-x md:divide-mist md:border-t md:border-mist md:pt-16">
             {features.map((feature, index) => (
               <article key={feature.title} className="md:px-8 md:first:pl-0 md:last:pr-0">
                 <Illustration name={feature.drawing} className="h-32 w-full" />
-                <p className="type-kicker mt-6 text-blueDark">0{index + 1}</p>
-                <h2 className="type-title mt-3 text-ink">{feature.title}</h2>
+                <p className="type-kicker mt-6 text-deep">0{index + 1}</p>
+                <h2 className="type-title mt-3 text-navy">{feature.title}</h2>
                 <p className="type-body mt-4 text-slate">{feature.body}</p>
               </article>
             ))}
@@ -62,11 +62,11 @@ export default function SmartCRM() {
         </div>
       </section>
 
-      <section className="border-t border-navy/10 bg-offwhite py-28 sm:py-36">
+      <section className="border-t border-mist bg-paper py-28 sm:py-36">
         <div className="mx-auto grid max-w-6xl gap-16 px-6 lg:grid-cols-2 lg:gap-24">
           <div>
-            <p className="type-kicker text-blueDark">Pricing</p>
-            <h2 className="type-display mt-4 text-ink">$10–$30 / month</h2>
+            <p className="type-kicker text-deep">Pricing</p>
+            <h2 className="type-display mt-4 text-navy">$10–$30 / month</h2>
             <p className="type-lede mt-6 text-slate">
               Standalone SaaS. No project minimum. Final plans will be published at launch.
             </p>
@@ -75,13 +75,13 @@ export default function SmartCRM() {
         </div>
       </section>
 
-      <section className="border-t border-navy/10 bg-offwhite py-28 sm:py-36">
+      <section className="border-t border-mist bg-paper py-28 sm:py-36">
         <div className="mx-auto max-w-3xl px-6">
-          <h2 className="type-display text-ink">FAQ</h2>
+          <h2 className="type-display text-navy">FAQ</h2>
           <dl className="mt-14 space-y-12">
             {faqs.map((item) => (
-              <div key={item.q} className="border-t border-navy/10 pt-8">
-                <dt className="type-title text-ink">{item.q}</dt>
+              <div key={item.q} className="border-t border-mist pt-8">
+                <dt className="type-title text-navy">{item.q}</dt>
                 <dd className="type-body mt-4 text-slate">{item.a}</dd>
               </div>
             ))}
@@ -92,7 +92,7 @@ export default function SmartCRM() {
       <section className="bg-navy py-20">
         <div className="mx-auto max-w-6xl px-6 type-body text-white/70">
           Need a custom system instead?{" "}
-          <Link to="/contact" className="text-blue transition-colors hover:text-white">
+          <Link to="/contact" className="text-signal transition-colors hover:text-white">
             Talk to the studio
           </Link>
           .
@@ -137,9 +137,9 @@ function WaitlistForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="border border-navy/10 p-10 sm:p-12">
-      <h3 className="type-title text-ink">Join the waitlist</h3>
-      <label className="type-caption mt-8 block font-medium text-ink" htmlFor="waitlist-name">
+    <form onSubmit={handleSubmit} className="border border-mist p-10 sm:p-12">
+      <h3 className="type-title text-navy">Join the waitlist</h3>
+      <label className="type-caption mt-8 block font-medium text-navy" htmlFor="waitlist-name">
         Name <span className="text-slate">(optional)</span>
         <input
           id="waitlist-name"
@@ -148,7 +148,7 @@ function WaitlistForm() {
           className={fieldClass}
         />
       </label>
-      <label className="type-caption mt-5 block font-medium text-ink" htmlFor="waitlist-email">
+      <label className="type-caption mt-5 block font-medium text-navy" htmlFor="waitlist-email">
         Email
         <input
           id="waitlist-email"

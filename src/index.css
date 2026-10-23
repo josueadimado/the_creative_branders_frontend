@@ -1,6 +1,17 @@
 @import "@fontsource-variable/montserrat";
 @import "@fontsource-variable/inter";
 
+:root {
+  --tcb-navy: #0e1e2b;
+  --tcb-signal: #4aa3c6;
+  --tcb-deep: #1f6e8c;
+  --tcb-deep-hover: #17556c;
+  --tcb-paper: #f5f6f3;
+  --tcb-slate: #5b6873;
+  --tcb-mist: #dce3e8;
+  --tcb-gold: #e8c547;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -26,8 +37,8 @@ html.is-paging {
   z-index: 50;
   height: 2px;
   width: 100%;
-  background: #4a9fcc;
-  box-shadow: 0 0 12px rgba(74, 159, 204, 0.45);
+  background: var(--tcb-signal);
+  box-shadow: 0 0 12px rgba(74, 163, 198, 0.45);
   pointer-events: none;
   transform: scaleX(0);
   transform-origin: left center;
@@ -110,8 +121,8 @@ body {
 }
 
 ::selection {
-  background: #4a9fcc;
-  color: #ffffff;
+  background: var(--tcb-signal);
+  color: var(--tcb-navy);
 }
 
 /* Editorial photo frame: crop is tight, motion is slow.
@@ -148,8 +159,8 @@ h4 {
 }
 
 :focus-visible {
-  outline: 2px solid #4a9fcc;
-  outline-offset: 3px;
+  outline: 2px solid var(--tcb-signal);
+  outline-offset: 2px;
 }
 
 @layer components {
@@ -227,37 +238,38 @@ h4 {
   }
 
   .btn:focus-visible {
-    outline: 2px solid #4aa3c6;
+    outline: 2px solid var(--tcb-signal);
     outline-offset: 2px;
   }
 
+  /* Primary on navy. Primary on a light page uses .btn-inverse. */
   .btn-primary {
-    background: #4a9fcc;
-    color: #ffffff;
+    background: var(--tcb-signal);
+    color: var(--tcb-navy);
   }
 
   .btn-primary:hover {
-    background: #0c447c;
-    color: #ffffff;
+    filter: brightness(0.92);
   }
 
   .btn-secondary {
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    color: #ffffff;
+    border: 1px solid var(--tcb-signal);
+    color: var(--tcb-signal);
+    background: transparent;
   }
 
   .btn-secondary:hover {
-    border-color: #4a9fcc;
-    color: #4a9fcc;
+    background: var(--tcb-signal);
+    color: var(--tcb-navy);
   }
 
   .btn-inverse {
-    background: #0e1e2b;
+    background: var(--tcb-deep);
     color: #ffffff;
   }
 
   .btn-inverse:hover {
-    background: #0c447c;
+    background: var(--tcb-deep-hover);
   }
 
   .btn-full {

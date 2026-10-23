@@ -139,7 +139,7 @@ export default function InquiryForm() {
 }
 
 const inputClass =
-  "mt-2 w-full border border-navy/15 bg-navy/[0.04] px-4 py-3.5 text-[17px] text-ink outline-none transition-colors focus:border-blue";
+  "mt-2 w-full border border-mist bg-paper px-4 py-3.5 text-[17px] text-navy outline-none transition-colors focus:border-deep";
 
 function Field({
   label,
@@ -151,7 +151,7 @@ function Field({
   children: ReactNode;
 }) {
   return (
-    <label htmlFor={htmlFor} className="type-caption block font-medium text-ink">
+    <label htmlFor={htmlFor} className="type-caption block font-medium text-navy">
       {label}
       {children}
     </label>

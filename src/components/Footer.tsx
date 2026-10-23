@@ -16,7 +16,7 @@ export default function Footer() {
         </div>
 
         <div>
-          <p className="type-caption font-semibold text-blue">Studio</p>
+          <p className="type-caption font-semibold text-signal">Studio</p>
           <ul className="mt-5 space-y-3 type-caption text-white/70">
             <li>
               <Link to="/services" className="transition-colors hover:text-white">
@@ -47,7 +47,7 @@ export default function Footer() {
         </div>
 
         <div>
-          <p className="type-caption font-semibold text-blue">Connect</p>
+          <p className="type-caption font-semibold text-signal">Connect</p>
           <ul className="mt-5 space-y-3 type-caption text-white/70">
             {socials.map((item) => (
               <li key={item.label}>

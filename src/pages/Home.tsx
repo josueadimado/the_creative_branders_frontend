@@ -51,10 +51,10 @@ export default function Home() {
           alt=""
           className="photo absolute inset-0 h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/65 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-navy via-[rgb(14_30_43/0.65)] to-transparent" />
         <div className="relative mx-auto flex min-h-[100svh] max-w-6xl items-end px-6 pb-28 pt-40 sm:pb-36">
           <div className="max-w-3xl">
-            <p className="type-kicker text-blue">Digital Intelligence Studio</p>
+            <p className="type-kicker text-signal">Digital Intelligence Studio</p>
             <h1 className="type-hero mt-5 text-white">
               We make your business look, run, and scale{" "}
               <span className="underline decoration-yellow decoration-2 underline-offset-[0.12em]">
@@ -78,7 +78,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-offwhite py-28 sm:py-36">
+      <section className="bg-paper py-28 sm:py-36">
         <div className="mx-auto max-w-6xl px-6">
           <div className="grid items-end gap-16 lg:grid-cols-[1.15fr_0.85fr]">
             <SectionHeading
@@ -92,8 +92,8 @@ export default function Home() {
             {pillars.map((pillar, index) => (
               <article key={pillar.title}>
                 <Media src={pillar.image} className="aspect-[4/3]" />
-                <p className="type-kicker mt-7 text-blueDark">0{index + 1}</p>
-                <h3 className="type-title mt-3 text-ink">{pillar.title}</h3>
+                <p className="type-kicker mt-7 text-deep">0{index + 1}</p>
+                <h3 className="type-title mt-3 text-navy">{pillar.title}</h3>
                 <p className="type-body mt-4 text-slate">{pillar.body}</p>
               </article>
             ))}
@@ -101,22 +101,22 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="border-t border-navy/10 bg-offwhite py-28 sm:py-36">
+      <section className="border-t border-mist bg-paper py-28 sm:py-36">
         <div className="mx-auto max-w-6xl px-6">
           <SectionHeading
             eyebrow="How we work"
             title="A short path from brief to growth."
             lede="Four steps, held by one team. Discover, design, build, then stay close as you grow."
           />
-          <div className="mt-20 grid gap-12 border-t border-navy/10 pt-16 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0">
+          <div className="mt-20 grid gap-12 border-t border-mist pt-16 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0">
             {process.map((step, index) => (
               <article
                 key={step.name}
-                className="lg:border-r lg:border-navy/10 lg:px-8 lg:first:pl-0 lg:last:border-r-0 lg:last:pr-0"
+                className="lg:border-r lg:border-mist lg:px-8 lg:first:pl-0 lg:last:border-r-0 lg:last:pr-0"
               >
                 <Illustration name={step.drawing} className="h-28 w-full" />
-                <p className="type-kicker mt-6 text-blueDark">0{index + 1}</p>
-                <h3 className="type-title mt-3 text-ink">{step.name}</h3>
+                <p className="type-kicker mt-6 text-deep">0{index + 1}</p>
+                <h3 className="type-title mt-3 text-navy">{step.name}</h3>
                 <p className="type-body mt-4 text-slate">{step.body}</p>
               </article>
             ))}
@@ -124,7 +124,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="border-t border-navy/10 bg-offwhite py-28 sm:py-36">
+      <section className="border-t border-mist bg-paper py-28 sm:py-36">
         <div className="mx-auto max-w-6xl px-6">
           <SectionHeading
             eyebrow="Selected work"
@@ -137,7 +137,7 @@ export default function Home() {
             ))}
           </div>
           <p className="mt-14">
-            <Link to="/work" className="type-lede text-blue transition-colors hover:text-blueDark">
+            <Link to="/work" className="type-lede text-deep transition-colors hover:text-deep-hover">
               View all work
             </Link>
           </p>
@@ -151,7 +151,7 @@ export default function Home() {
           className="photo absolute inset-0 h-full w-full object-cover"
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-navy/55" />
+        <div className="absolute inset-0 bg-[rgb(14_30_43/0.55)]" />
         <div className="relative mx-auto max-w-6xl px-6">
           <SectionHeading
             tone="light"

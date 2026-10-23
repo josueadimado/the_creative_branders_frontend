@@ -19,7 +19,7 @@ export default function Navbar() {
   }, [pathname]);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/[0.06] bg-navy/80 backdrop-blur-2xl">
+    <header className="sticky top-0 z-40 border-b border-white/[0.06] bg-navy backdrop-blur-2xl">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-8 px-6 py-4">
         <Link to="/" className="inline-flex shrink-0" onClick={() => setOpen(false)}>
           <Logo variant="dark" />
@@ -32,7 +32,7 @@ export default function Navbar() {
               to={link.to}
               className={({ isActive }) =>
                 `text-[15px] font-medium tracking-normal transition-colors duration-300 ${
-                  isActive ? "text-blue" : "text-white/70 hover:text-white"
+                  isActive ? "text-signal" : "text-white/70 hover:text-white"
                 }`
               }
             >
@@ -66,7 +66,7 @@ export default function Navbar() {
                 to={link.to}
                 onClick={() => setOpen(false)}
                 className={({ isActive }) =>
-                  `type-lede ${isActive ? "text-blue" : "text-white"}`
+                  `type-lede ${isActive ? "text-signal" : "text-white"}`
                 }
               >
                 {link.label}

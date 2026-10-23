@@ -72,26 +72,26 @@ export default function Services() {
         lede="Brand, systems, and intelligence as a single brief. Accessible retainers and project ranges, not a menu of add-ons."
       />
 
-      <section className="bg-offwhite py-28 sm:py-36">
+      <section className="bg-paper py-28 sm:py-36">
         <div className="mx-auto max-w-6xl space-y-28 px-6">
           {services.map((service, index) => (
             <article
               key={service.title}
-              className="grid items-center gap-12 border-b border-navy/10 pb-28 last:border-0 last:pb-0 md:grid-cols-2 lg:gap-20"
+              className="grid items-center gap-12 border-b border-mist pb-28 last:border-0 last:pb-0 md:grid-cols-2 lg:gap-20"
             >
               <Media
                 src={service.image}
                 className={`aspect-[4/3] ${index % 2 === 1 ? "md:order-2" : ""}`}
               />
               <div>
-                <h2 className="type-display text-ink">{service.title}</h2>
-                <p className="type-kicker mt-10 text-blueDark">What it is</p>
+                <h2 className="type-display text-navy">{service.title}</h2>
+                <p className="type-kicker mt-10 text-deep">What it is</p>
                 <p className="type-body mt-3 text-slate">{service.what}</p>
-                <p className="type-kicker mt-9 text-blueDark">What you get</p>
+                <p className="type-kicker mt-9 text-deep">What you get</p>
                 <ul className="mt-4 space-y-3.5 type-body text-slate">
                   {service.get.map((item) => (
                     <li key={item} className="flex gap-3">
-                      <span className="text-blueDark" aria-hidden>
+                      <span className="text-deep" aria-hidden>
                         –
                       </span>
                       {item}
@@ -104,14 +104,14 @@ export default function Services() {
         </div>
       </section>
 
-      <section className="border-t border-navy/10 bg-offwhite py-28 sm:py-36">
+      <section className="border-t border-mist bg-paper py-28 sm:py-36">
         <div className="mx-auto max-w-6xl px-6">
           <SectionHeading
             eyebrow="Investment"
             title="Clear ranges. No theatre."
             lede="Project work is scoped after a discovery call. SmartCRM is available on its own if you only need the product."
           />
-          <div className="mt-20 grid overflow-hidden border border-navy/10 divide-y divide-navy/10 lg:grid-cols-3 lg:divide-x lg:divide-y-0">
+          <div className="mt-20 grid overflow-hidden border border-mist divide-y divide-mist lg:grid-cols-3 lg:divide-x lg:divide-y-0">
             <PricingTier
               name="Starter"
               range="$400–$800"
@@ -138,25 +138,25 @@ export default function Services() {
           </div>
           <p className="type-body mt-12 text-slate">
             SmartCRM as a standalone SaaS product is $10–$30 / month.{" "}
-            <Link to="/smartcrm" className="text-blue transition-colors hover:text-blueDark">
+            <Link to="/smartcrm" className="text-deep transition-colors hover:text-deep-hover">
               See SmartCRM
             </Link>
           </p>
         </div>
       </section>
 
-      <section className="border-t border-navy/10 bg-offwhite py-28 sm:py-36">
+      <section className="border-t border-mist bg-paper py-28 sm:py-36">
         <div className="mx-auto max-w-6xl px-6">
           <SectionHeading eyebrow="Process" title="How we work" />
-          <div className="mt-20 grid gap-12 border-t border-navy/10 pt-16 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0">
+          <div className="mt-20 grid gap-12 border-t border-mist pt-16 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0">
             {steps.map((step, index) => (
               <article
                 key={step.name}
-                className="lg:border-r lg:border-navy/10 lg:px-8 lg:first:pl-0 lg:last:border-r-0 lg:last:pr-0"
+                className="lg:border-r lg:border-mist lg:px-8 lg:first:pl-0 lg:last:border-r-0 lg:last:pr-0"
               >
                 <Illustration name={step.drawing} className="h-28 w-full" />
-                <p className="type-kicker mt-6 text-blueDark">0{index + 1}</p>
-                <h3 className="type-title mt-3 text-ink">{step.name}</h3>
+                <p className="type-kicker mt-6 text-deep">0{index + 1}</p>
+                <h3 className="type-title mt-3 text-navy">{step.name}</h3>
                 <p className="type-body mt-4 text-slate">{step.body}</p>
               </article>
             ))}
