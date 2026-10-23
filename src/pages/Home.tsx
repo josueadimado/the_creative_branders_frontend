@@ -51,7 +51,7 @@ export default function Home() {
           alt=""
           className="photo absolute inset-0 h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-navy via-[rgb(14_30_43/0.65)] to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/65 to-transparent" />
         <div className="relative mx-auto flex min-h-[100svh] max-w-6xl items-end px-6 pb-28 pt-40 sm:pb-36">
           <div className="max-w-3xl">
             <p className="type-kicker text-signal">Digital Intelligence Studio</p>
@@ -156,7 +156,7 @@ export default function Home() {
           className="photo absolute inset-0 h-full w-full object-cover"
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-[rgb(14_30_43/0.55)]" />
+        <div className="absolute inset-0 bg-navy/55" />
         <div className="relative mx-auto max-w-6xl px-6">
           <SectionHeading
             tone="light"

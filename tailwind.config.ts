@@ -5,13 +5,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        navy: "var(--tcb-navy)",
-        signal: "var(--tcb-signal)",
-        deep: { DEFAULT: "var(--tcb-deep)", hover: "var(--tcb-deep-hover)" },
-        paper: "var(--tcb-paper)",
-        slate: { DEFAULT: "var(--tcb-slate)" },
-        mist: "var(--tcb-mist)",
-        gold: "var(--tcb-gold)",
+        navy: "rgb(var(--tcb-navy) / <alpha-value>)",
+        signal: "rgb(var(--tcb-signal) / <alpha-value>)",
+        deep: {
+          DEFAULT: "rgb(var(--tcb-deep) / <alpha-value>)",
+          hover: "rgb(var(--tcb-deep-hover) / <alpha-value>)",
+        },
+        paper: "rgb(var(--tcb-paper) / <alpha-value>)",
+        slate: { DEFAULT: "rgb(var(--tcb-slate) / <alpha-value>)" },
+        mist: "rgb(var(--tcb-mist) / <alpha-value>)",
+        gold: "rgb(var(--tcb-gold) / <alpha-value>)",
       },
       fontFamily: {
         sans: ["Inter Variable", "Inter", "-apple-system", "Segoe UI", "Helvetica Neue", "Arial", "sans-serif"],

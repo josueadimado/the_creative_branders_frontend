@@ -2,14 +2,15 @@
 @import "@fontsource-variable/inter";
 
 :root {
-  --tcb-navy: #0e1e2b;
-  --tcb-signal: #4aa3c6;
-  --tcb-deep: #1f6e8c;
-  --tcb-deep-hover: #17556c;
-  --tcb-paper: #f5f6f3;
-  --tcb-slate: #5b6873;
-  --tcb-mist: #dce3e8;
-  --tcb-gold: #e8c547;
+  /* Space-separated channels so Tailwind can add opacity, e.g. bg-navy/80. */
+  --tcb-navy: 14 30 43;
+  --tcb-signal: 74 163 198;
+  --tcb-deep: 31 110 140;
+  --tcb-deep-hover: 23 85 108;
+  --tcb-paper: 245 246 243;
+  --tcb-slate: 91 104 115;
+  --tcb-mist: 220 227 232;
+  --tcb-gold: 232 197 71;
 }
 
 @tailwind base;
@@ -37,8 +38,8 @@ html.is-paging {
   z-index: 50;
   height: 2px;
   width: 100%;
-  background: var(--tcb-signal);
-  box-shadow: 0 0 12px rgba(74, 163, 198, 0.45);
+  background: rgb(var(--tcb-signal) / 1);
+  box-shadow: 0 0 12px rgb(var(--tcb-signal) / 0.45);
   pointer-events: none;
   transform: scaleX(0);
   transform-origin: left center;
@@ -131,13 +132,13 @@ body {
 }
 
 ::selection {
-  background: var(--tcb-signal);
-  color: var(--tcb-navy);
+  background: rgb(var(--tcb-signal) / 1);
+  color: rgb(var(--tcb-navy) / 1);
 }
 
 .media {
   overflow: hidden;
-  background: var(--tcb-navy);
+  background: rgb(var(--tcb-navy) / 1);
   border-radius: 1rem;
 }
 
@@ -162,7 +163,7 @@ h4 {
 }
 
 :focus-visible {
-  outline: 2px solid var(--tcb-signal);
+  outline: 2px solid rgb(var(--tcb-signal) / 1);
   outline-offset: 2px;
 }
 
@@ -249,14 +250,14 @@ h4 {
   }
 
   .btn:focus-visible {
-    outline: 2px solid var(--tcb-signal);
+    outline: 2px solid rgb(var(--tcb-signal) / 1);
     outline-offset: 2px;
   }
 
   /* Primary on navy. Primary on a light page uses .btn-inverse. */
   .btn-primary {
-    background: var(--tcb-signal);
-    color: var(--tcb-navy);
+    background: rgb(var(--tcb-signal) / 1);
+    color: rgb(var(--tcb-navy) / 1);
   }
 
   .btn-primary:hover {
@@ -264,23 +265,23 @@ h4 {
   }
 
   .btn-secondary {
-    border: 1px solid var(--tcb-signal);
-    color: var(--tcb-signal);
+    border: 1px solid rgb(var(--tcb-signal) / 1);
+    color: rgb(var(--tcb-signal) / 1);
     background: transparent;
   }
 
   .btn-secondary:hover {
-    background: var(--tcb-signal);
-    color: var(--tcb-navy);
+    background: rgb(var(--tcb-signal) / 1);
+    color: rgb(var(--tcb-navy) / 1);
   }
 
   .btn-inverse {
-    background: var(--tcb-deep);
+    background: rgb(var(--tcb-deep) / 1);
     color: #ffffff;
   }
 
   .btn-inverse:hover {
-    background: var(--tcb-deep-hover);
+    background: rgb(var(--tcb-deep-hover) / 1);
   }
 
   .btn-full {
@@ -291,8 +292,8 @@ h4 {
     display: inline-flex;
     align-items: center;
     border-radius: 999px;
-    background: var(--tcb-paper);
-    color: var(--tcb-slate);
+    background: rgb(var(--tcb-paper) / 1);
+    color: rgb(var(--tcb-slate) / 1);
     padding: 0.15rem 0.65rem;
     font-size: 13px;
     font-weight: 500;
@@ -301,7 +302,7 @@ h4 {
 
   /* Faint dot grid for solid navy sections. 1px dots, 24px apart. */
   .dot-grid {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ccircle cx='1' cy='1' r='0.5' fill='%234AA3C6' fill-opacity='0.12'/%3E%3C/svg%3E");
+    background-image: radial-gradient(rgb(var(--tcb-signal) / 0.12) 0.5px, transparent 0.5px);
     background-size: 24px 24px;
   }
 
@@ -344,7 +345,7 @@ h4 {
       left: 4px;
       right: 4px;
       height: 1px;
-      background: var(--tcb-deep);
+      background: rgb(var(--tcb-deep) / 1);
     }
 
     .node-row article {
@@ -360,7 +361,7 @@ h4 {
       width: 9px;
       height: 9px;
       border-radius: 999px;
-      background: var(--tcb-deep);
+      background: rgb(var(--tcb-deep) / 1);
     }
   }
 
