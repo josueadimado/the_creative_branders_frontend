@@ -334,35 +334,86 @@ h4 {
     animation-delay: 0.5s;
   }
 
+  /*
+    How we work. A vertical stepper on a phone, one row on a desktop.
+    Each step is a dot. A 1px line joins the dots. Same motif as the hero.
+  */
+  .stepper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stepper > li {
+    display: grid;
+    grid-template-columns: 9px minmax(0, 1fr);
+    column-gap: 1.5rem;
+  }
+
+  .stepper-node {
+    position: relative;
+  }
+
+  .stepper-dot {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 9px;
+    height: 9px;
+    margin-top: 0.45rem;
+    border-radius: 999px;
+    background: rgb(var(--tcb-deep) / 1);
+  }
+
+  .stepper > li:not(:last-child) .stepper-node::before {
+    content: "";
+    position: absolute;
+    top: calc(0.45rem + 4px);
+    bottom: calc(-0.45rem - 4.5px);
+    left: 4px;
+    width: 1px;
+    background: rgb(var(--tcb-deep) / 1);
+  }
+
+  .stepper-body {
+    min-width: 0;
+    padding-bottom: 2.75rem;
+  }
+
+  .stepper > li:last-child .stepper-body {
+    padding-bottom: 0;
+  }
+
   @media (min-width: 1024px) {
-    .node-row {
-      position: relative;
+    .stepper {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      column-gap: 2.5rem;
     }
 
-    .node-row::before {
-      content: "";
-      position: absolute;
-      top: 4px;
-      left: 4px;
-      right: 4px;
-      height: 1px;
-      background: rgb(var(--tcb-deep) / 1);
+    .stepper > li {
+      display: block;
     }
 
-    .node-row article {
-      position: relative;
-      padding-top: 1.75rem;
-    }
-
-    .node-row article::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 9px;
+    .stepper-node {
       height: 9px;
-      border-radius: 999px;
-      background: rgb(var(--tcb-deep) / 1);
+      margin-bottom: 1.75rem;
+    }
+
+    .stepper-dot {
+      margin-top: 0;
+    }
+
+    .stepper > li:not(:last-child) .stepper-node::before {
+      top: 4px;
+      bottom: auto;
+      left: 9px;
+      width: calc(100% + 2.5rem - 9px);
+      height: 1px;
+    }
+
+    .stepper-body,
+    .stepper > li:last-child .stepper-body {
+      padding-bottom: 0;
     }
   }
 

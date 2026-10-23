@@ -2,11 +2,10 @@ import { Helmet } from "react-helmet-async";
 import { useParams } from "react-router-dom";
 import CtaBand from "../components/CtaBand";
 import FaqAccordion from "../components/FaqAccordion";
-import Illustration from "../components/Illustration";
+import HowWeWork from "../components/HowWeWork";
 import PageHero from "../components/PageHero";
 import PortfolioCard from "../components/PortfolioCard";
 import Seo from "../components/Seo";
-import { howWeWork } from "../content/services/howWeWork";
 import { getServiceFamily } from "../content/services";
 import { getPublishedStudy, type PortfolioItem } from "../data/portfolio";
 import NotFound from "./NotFound";
@@ -59,21 +58,7 @@ export default function ServiceFamily() {
         </div>
       </section>
 
-      <section className="border-t border-mist bg-paper py-28 sm:py-36">
-        <div className="mx-auto max-w-6xl px-6">
-          <h2 className="type-display text-navy">{howWeWork.title}</h2>
-          <div className="node-row mt-20 grid gap-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
-            {howWeWork.steps.map((step, index) => (
-              <article key={step.name}>
-                <Illustration name={step.drawing} className="h-28 w-full" />
-                <p className="type-kicker mt-6 text-deep">0{index + 1}</p>
-                <h3 className="type-title mt-3 text-navy">{step.name}</h3>
-                <p className="type-body mt-4 text-slate">{step.body}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+      <HowWeWork />
 
       {related.length > 0 ? (
         <section className="border-t border-mist bg-paper py-28 sm:py-36">
