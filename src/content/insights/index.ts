@@ -2,6 +2,7 @@ import weeklyNumbers from "./weekly-numbers.md?raw";
 import websiteSigns from "./website-signs.md?raw";
 import whatsappBookings from "./whatsapp-bookings.md?raw";
 import { familyLabel, type FamilySlug } from "../../data/portfolio";
+import { insightSlugs } from "./slugs";
 
 export const insightsPage = {
   seo: {
@@ -28,11 +29,13 @@ export type InsightArticle = {
   minutes: number;
 };
 
-const sources: { slug: string; raw: string }[] = [
-  { slug: "whatsapp-bookings", raw: whatsappBookings },
-  { slug: "website-signs", raw: websiteSigns },
-  { slug: "weekly-numbers", raw: weeklyNumbers },
-];
+const rawBySlug = {
+  "whatsapp-bookings": whatsappBookings,
+  "website-signs": websiteSigns,
+  "weekly-numbers": weeklyNumbers,
+} as const;
+
+const sources = insightSlugs.map((slug) => ({ slug, raw: rawBySlug[slug] }));
 
 function readFrontmatter(raw: string): { meta: Record<string, string>; body: string } {
   const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
@@ -74,10 +77,6 @@ export const articles: InsightArticle[] = sources
 
 export function getArticle(slug: string | undefined): InsightArticle | undefined {
   return articles.find((article) => article.slug === slug);
-}
-
-export function insightPaths(): string[] {
-  return articles.map((article) => `/insights/${article.slug}`);
 }
 
 export function formatInsightDate(iso: string): string {

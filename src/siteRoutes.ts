@@ -1,4 +1,4 @@
-import { insightPaths } from "./content/insights";
+import { insightPaths } from "./content/insights/slugs";
 import { publicWorkPaths } from "./data/portfolio";
 
 /**
