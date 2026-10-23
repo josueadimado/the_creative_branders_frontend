@@ -49,9 +49,10 @@ function readFrontmatter(raw: string): { meta: Record<string, string>; body: str
   return { meta, body: match[2].trim() };
 }
 
+/** 200 words a minute, rounded up, and never shorter than 2 minutes. */
 function readingMinutes(body: string): number {
   const words = body.split(/\s+/).filter(Boolean).length;
-  return Math.max(1, Math.round(words / 200));
+  return Math.max(2, Math.ceil(words / 200));
 }
 
 function toArticle(slug: string, raw: string): InsightArticle {
