@@ -5,11 +5,13 @@ import WorkFrame from "../components/DeviceFrame";
 import Seo from "../components/Seo";
 import { workPage } from "../content/work";
 import {
+  displayCountry,
   displayLiveUrl,
   displayLogo,
   displayName,
+  familyLabel,
   getPublishedStudy,
-  studyTags,
+  studyFamilies,
   visibleBuilt,
   visibleQuote,
   visibleResults,
@@ -45,44 +47,72 @@ export default function WorkStudy() {
     return text ? [text] : [];
   });
   const hero = images[0];
-  const gallery = images.slice(1);
-  const tags = studyTags(item);
+  const sector = visibleText(item.sector);
+  const country = displayCountry(item);
+  const families = studyFamilies(item).map((family) => familyLabel(family)).join(", ");
+  const facts = [
+    sector ? { label: workPage.labels.sector, value: sector } : null,
+    country ? { label: workPage.labels.country, value: country } : null,
+    { label: workPage.labels.family, value: families },
+  ].flatMap((fact) => (fact ? [fact] : []));
   const description = summary ?? workPage.lede;
 
   return (
     <>
       <Seo title={name} description={description} path={`/work/${item.slug}`} image={hero} />
 
-      <article className="bg-paper py-16 sm:py-24">
-        <div className="mx-auto max-w-6xl px-6">
-          {hero ? <WorkFrame src={hero} alt={name} device={item.device} loading="eager" /> : null}
-
-          <div className="mt-12 max-w-3xl">
-            {logo ? <img src={logo} alt="" className="mb-6 h-10 w-auto" /> : null}
-            <h1 className="type-h1 text-navy">{name}</h1>
-            {tags.length > 0 ? (
-              <ul className="mt-5 flex flex-wrap gap-2">
-                {tags.map((tag) => (
-                  <li key={tag} className="tag">
-                    {tag}
-                  </li>
+      <article className="bg-paper">
+        <header className="border-b border-mist py-16 sm:py-24">
+          <div className="mx-auto max-w-6xl px-6">
+            <div className="max-w-3xl">
+              {logo ? <img src={logo} alt="" className="mb-6 h-10 w-auto" /> : null}
+              <h1 className="type-h1 text-navy">{name}</h1>
+              {item.relationship === "venture" ? (
+                <p className="type-caption mt-4 text-slate">Studio venture</p>
+              ) : null}
+              <dl className="mt-10 border-t border-mist">
+                {facts.map((fact) => (
+                  <div key={fact.label} className="grid grid-cols-[7.5rem_1fr] gap-4 border-b border-mist py-4 sm:grid-cols-[9rem_1fr]">
+                    <dt className="type-caption text-slate">{fact.label}</dt>
+                    <dd className="type-body text-navy">{fact.value}</dd>
+                  </div>
                 ))}
-              </ul>
-            ) : null}
-            {summary ? <p className="type-lede mt-8 text-slate">{summary}</p> : null}
-            {liveUrl ? (
-              <p className="mt-6">
-                <a
-                  href={liveUrl}
-                  className="type-body text-deep hover:text-deep-hover"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {workPage.labels.visit}
-                </a>
-              </p>
-            ) : null}
+              </dl>
+              {liveUrl ? (
+                <p className="mt-6">
+                  <a
+                    href={liveUrl}
+                    className="type-body text-deep hover:text-deep-hover"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {workPage.labels.visit}
+                  </a>
+                </p>
+              ) : null}
+              {summary ? <p className="type-lede mt-8 text-slate">{summary}</p> : null}
+            </div>
           </div>
+        </header>
+
+        {images.length > 0 ? (
+          <div className="bg-paper py-16 sm:py-24">
+            <div className="mx-auto flex max-w-6xl flex-col gap-12 px-6">
+              {images.map((src, index) => (
+                <WorkFrame
+                  key={`${src}-${index}`}
+                  src={src}
+                  alt={name}
+                  device={item.device}
+                  feature
+                  loading={index === 0 ? "eager" : "lazy"}
+                />
+              ))}
+            </div>
+          </div>
+        ) : null}
+
+        <div className="mx-auto max-w-6xl px-6 pb-16 sm:pb-24">
 
           {challenge ? (
             <section className="mt-16 max-w-3xl">
@@ -133,17 +163,6 @@ export default function WorkStudy() {
                     <p className="type-stat text-navy">{result.value}</p>
                     <p className="type-body mt-2 text-slate">{result.label}</p>
                   </div>
-                ))}
-              </div>
-            </section>
-          ) : null}
-
-          {gallery.length > 0 ? (
-            <section className="mt-16">
-              <h2 className="type-kicker text-deep">{workPage.labels.gallery}</h2>
-              <div className="mt-6 grid gap-8 md:grid-cols-2">
-                {gallery.map((src) => (
-                  <WorkFrame key={src} src={src} alt={name} device={item.device} />
                 ))}
               </div>
             </section>
