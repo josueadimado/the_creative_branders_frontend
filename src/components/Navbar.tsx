@@ -3,10 +3,10 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import Logo from "./Logo";
 
 const links = [
-  { to: "/services", label: "Services" },
   { to: "/work", label: "Work" },
+  { to: "/services", label: "Services" },
   { to: "/about", label: "About" },
-  { to: "/smartcrm", label: "SmartCRM" },
+  { to: "/insights", label: "Insights" },
 ];
 
 export default function Navbar() {
@@ -17,6 +17,14 @@ export default function Navbar() {
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
+
+  // A full-screen menu should not leave the page scrolling behind it.
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/[0.06] bg-navy/80 backdrop-blur-2xl">
@@ -40,46 +48,45 @@ export default function Navbar() {
             </NavLink>
           ))}
           <Link to="/contact" className="btn btn-primary !px-5 !py-2">
-            Book a discovery call
+            Start a project
           </Link>
         </nav>
 
         <button
           type="button"
-          className="text-white lg:hidden"
+          className="relative z-50 text-white lg:hidden"
           aria-expanded={open}
           aria-label={open ? "Close menu" : "Open menu"}
           onClick={() => setOpen((value) => !value)}
         >
-          <span className="block h-px w-6 bg-white" />
-          <span className="mt-2 block h-px w-6 bg-white" />
-          <span className="mt-2 block h-px w-6 bg-white" />
+          <span className={`block h-px w-6 bg-white transition ${open ? "translate-y-[5px] rotate-45" : ""}`} />
+          <span className={`mt-2 block h-px w-6 bg-white transition ${open ? "opacity-0" : ""}`} />
+          <span className={`mt-2 block h-px w-6 bg-white transition ${open ? "-translate-y-[13px] -rotate-45" : ""}`} />
         </button>
       </div>
 
       {open ? (
-        <nav className="border-t border-white/[0.06] px-6 py-8 lg:hidden" aria-label="Mobile">
-          <div className="flex flex-col gap-6">
+        <nav
+          className="fixed inset-0 z-40 flex flex-col bg-navy px-6 pb-12 pt-24 lg:hidden"
+          aria-label="Mobile"
+        >
+          <div className="flex flex-1 flex-col gap-8">
             {links.map((link) => (
               <NavLink
                 key={link.to}
                 to={link.to}
                 onClick={() => setOpen(false)}
                 className={({ isActive }) =>
-                  `type-lede ${isActive ? "text-signal" : "text-white"}`
+                  `type-display ${isActive ? "text-signal" : "text-white"}`
                 }
               >
                 {link.label}
               </NavLink>
             ))}
-            <Link
-              to="/contact"
-              onClick={() => setOpen(false)}
-              className="btn btn-primary self-start"
-            >
-              Book a discovery call
-            </Link>
           </div>
+          <Link to="/contact" onClick={() => setOpen(false)} className="btn btn-primary self-start">
+            Start a project
+          </Link>
         </nav>
       ) : null}
     </header>

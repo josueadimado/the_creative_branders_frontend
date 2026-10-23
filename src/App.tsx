@@ -6,6 +6,7 @@ import About from "./pages/About";
 import Academy from "./pages/Academy";
 import Contact from "./pages/Contact";
 import Home from "./pages/Home";
+import Insights from "./pages/Insights";
 import NotFound from "./pages/NotFound";
 import Privacy from "./pages/Privacy";
 import Services from "./pages/Services";
@@ -27,6 +28,7 @@ export default function App() {
                 <Route path="/services" element={<Services />} />
                 <Route path="/work" element={<Work />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/insights" element={<Insights />} />
                 <Route path="/smartcrm" element={<SmartCRM />} />
                 <Route path="/academy" element={<Academy />} />
                 <Route path="/contact" element={<Contact />} />
