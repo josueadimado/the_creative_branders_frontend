@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { cta } from "../content/cta";
+import { track } from "../lib/analytics";
 import { whatsappHref } from "../data/socials";
 
 /**
@@ -15,11 +16,21 @@ export default function CtaBand() {
           <p className="type-lede mt-4 text-white/70">{cta.body}</p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row">
-          <Link to="/contact" className="btn btn-primary">
+          <Link
+            to="/contact"
+            className="btn btn-primary"
+            onClick={() => track("start_project_click", { location: "cta" })}
+          >
             {cta.primary}
           </Link>
           {whatsappHref ? (
-            <a href={whatsappHref} target="_blank" rel="noreferrer" className="btn btn-secondary">
+            <a
+              href={whatsappHref}
+              target="_blank"
+              rel="noreferrer"
+              className="btn btn-secondary"
+              onClick={() => track("whatsapp_click", { location: "cta" })}
+            >
               {cta.whatsapp}
             </a>
           ) : null}

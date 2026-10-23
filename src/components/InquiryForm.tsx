@@ -1,5 +1,6 @@
 import { FormEvent, ReactNode, useState } from "react";
 import { postInquiry } from "../lib/api";
+import { track } from "../lib/analytics";
 
 const emptyForm = {
   name: "",
@@ -32,6 +33,7 @@ export default function InquiryForm() {
       });
       setStatus("success");
       setForm(emptyForm);
+      track("inquiry_submit");
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "We could not send that. Please try again.");

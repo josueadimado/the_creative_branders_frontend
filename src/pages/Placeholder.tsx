@@ -1,6 +1,7 @@
 import { Link, useLocation, useParams } from "react-router-dom";
 import Seo from "../components/Seo";
 import { placeholder, serviceFamilies } from "../content/placeholder";
+import { track } from "../lib/analytics";
 import NotFound from "./NotFound";
 
 type PlaceholderProps = {
@@ -28,7 +29,11 @@ export default function Placeholder({ kicker = "", title = "" }: PlaceholderProp
         ) : null}
         <h1 className="type-h1 mt-5 max-w-3xl text-white">{heading}</h1>
         <p className="type-lede mt-8 text-white/70">{placeholder.lede}</p>
-        <Link to="/contact" className="btn btn-primary mt-12">
+        <Link
+          to="/contact"
+          className="btn btn-primary mt-12"
+          onClick={() => track("start_project_click", { location: familyName ? "service" : "placeholder" })}
+        >
           {familyName ? placeholder.serviceButton : placeholder.pageButton}
         </Link>
       </div>

@@ -7,6 +7,7 @@ import Media from "../components/Media";
 import PortfolioCard from "../components/PortfolioCard";
 import SectionHeading from "../components/SectionHeading";
 import { home } from "../content/home";
+import { track } from "../lib/analytics";
 import { portfolio } from "../data/portfolio";
 
 const featured = portfolio.slice(0, 4);
@@ -48,7 +49,11 @@ export default function Home() {
               <circle cx="552" cy="32" r="4" fill="#4AA3C6" />
             </svg>
             <div className="mt-10 flex flex-wrap gap-4">
-              <Link to="/contact" className="btn btn-primary">
+              <Link
+                to="/contact"
+                className="btn btn-primary"
+                onClick={() => track("start_project_click", { location: "home" })}
+              >
                 {home.hero.primary}
               </Link>
               <Link to="/work" className="btn btn-secondary">

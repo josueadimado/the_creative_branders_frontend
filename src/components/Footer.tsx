@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { serviceFamilies } from "../content/placeholder";
+import { track } from "../lib/analytics";
 import { socials, studioEmail, whatsappHref } from "../data/socials";
 import Logo from "./Logo";
 
@@ -40,7 +41,13 @@ function Column({ title, children }: { title: string; children: ReactNode }) {
 function Item({ to, label }: { to: string; label: string }) {
   return (
     <li>
-      <Link to={to} className="transition-colors hover:text-white">
+      <Link
+        to={to}
+        className="transition-colors hover:text-white"
+        onClick={() => {
+          if (to === "/contact") track("start_project_click", { location: "footer" });
+        }}
+      >
         {label}
       </Link>
     </li>
@@ -64,7 +71,13 @@ export default function Footer() {
             </li>
             {whatsappHref ? (
               <li>
-                <a href={whatsappHref} className="transition-colors hover:text-white" target="_blank" rel="noreferrer">
+                <a
+                  href={whatsappHref}
+                  className="transition-colors hover:text-white"
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => track("whatsapp_click", { location: "footer" })}
+                >
                   WhatsApp
                 </a>
               </li>

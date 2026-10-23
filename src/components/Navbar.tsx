@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
+import { track } from "../lib/analytics";
 import Logo from "./Logo";
 
 const links = [
@@ -47,7 +48,11 @@ export default function Navbar() {
               {link.label}
             </NavLink>
           ))}
-          <Link to="/contact" className="btn btn-primary !px-5 !py-2">
+          <Link
+            to="/contact"
+            className="btn btn-primary !px-5 !py-2"
+            onClick={() => track("start_project_click", { location: "navbar" })}
+          >
             Start a project
           </Link>
         </nav>
@@ -84,7 +89,14 @@ export default function Navbar() {
               </NavLink>
             ))}
           </div>
-          <Link to="/contact" onClick={() => setOpen(false)} className="btn btn-primary self-start">
+          <Link
+            to="/contact"
+            onClick={() => {
+              setOpen(false);
+              track("start_project_click", { location: "navbar" });
+            }}
+            className="btn btn-primary self-start"
+          >
             Start a project
           </Link>
         </nav>

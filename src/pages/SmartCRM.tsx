@@ -4,6 +4,7 @@ import Illustration from "../components/Illustration";
 import Seo from "../components/Seo";
 import PageHero from "../components/PageHero";
 import { smartcrm } from "../content/smartcrm";
+import { track } from "../lib/analytics";
 import { postWaitlist } from "../lib/api";
 
 const fieldClass =
@@ -59,7 +60,11 @@ export default function SmartCRM() {
       <section className="bg-navy py-20">
         <div className="mx-auto max-w-6xl px-6 type-body text-white/70">
           {smartcrm.footer}{" "}
-          <Link to="/contact" className="text-signal transition-colors hover:text-white">
+          <Link
+            to="/contact"
+            className="text-signal transition-colors hover:text-white"
+            onClick={() => track("start_project_click", { location: "smartcrm" })}
+          >
             {smartcrm.footerLink}
           </Link>
           .

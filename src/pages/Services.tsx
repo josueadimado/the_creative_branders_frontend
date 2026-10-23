@@ -6,6 +6,7 @@ import Media from "../components/Media";
 import PageHero from "../components/PageHero";
 import SectionHeading from "../components/SectionHeading";
 import { servicesPage } from "../content/services";
+import { track } from "../lib/analytics";
 
 export default function Services() {
   return (
@@ -79,6 +80,7 @@ export default function Services() {
                 <Link
                   to="/contact"
                   className={`mt-10 self-start ${offer.highlighted ? "btn btn-primary" : "btn btn-inverse"}`}
+                  onClick={() => track("start_project_click", { location: "services" })}
                 >
                   {servicesPage.offers.quote}
                 </Link>

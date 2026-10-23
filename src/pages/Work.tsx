@@ -5,6 +5,7 @@ import Seo from "../components/Seo";
 import Media from "../components/Media";
 import PageHero from "../components/PageHero";
 import { workPage } from "../content/work";
+import { track } from "../lib/analytics";
 import { portfolio } from "../data/portfolio";
 
 function preloadWorkImages() {
@@ -24,6 +25,7 @@ export default function Work() {
   useEffect(() => {
     const id = hash.replace("#", "");
     if (!id) return;
+    track("case_study_view", { case_study: id });
     const timer = window.setTimeout(() => {
       document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     }, 420);

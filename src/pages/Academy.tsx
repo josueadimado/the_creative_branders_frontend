@@ -4,6 +4,7 @@ import Illustration from "../components/Illustration";
 import Seo from "../components/Seo";
 import PageHero from "../components/PageHero";
 import { academy } from "../content/academy";
+import { track } from "../lib/analytics";
 import { postAcademyInterest } from "../lib/api";
 
 const fieldClass =
@@ -38,7 +39,11 @@ export default function Academy() {
       <section className="bg-navy py-20">
         <div className="mx-auto max-w-6xl px-6 type-body text-white/70">
           {academy.footer}{" "}
-          <Link to="/contact" className="text-signal transition-colors hover:text-white">
+          <Link
+            to="/contact"
+            className="text-signal transition-colors hover:text-white"
+            onClick={() => track("start_project_click", { location: "academy" })}
+          >
             {academy.footerLink}
           </Link>
           .

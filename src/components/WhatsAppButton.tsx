@@ -1,4 +1,5 @@
 import { whatsappHref } from "../data/socials";
+import { track } from "../lib/analytics";
 
 /**
  * A round chat button that sits in the bottom-right corner on phones.
@@ -13,6 +14,7 @@ export default function WhatsAppButton() {
       target="_blank"
       rel="noreferrer"
       aria-label="Chat on WhatsApp"
+      onClick={() => track("whatsapp_click", { location: "floating" })}
       className="fixed bottom-5 right-5 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-signal text-navy shadow-lg transition-colors hover:bg-signal-hover md:hidden"
     >
       <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" fill="currentColor">

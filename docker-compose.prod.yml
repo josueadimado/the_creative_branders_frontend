@@ -12,6 +12,7 @@ services:
         VITE_API_URL: ${VITE_API_URL:?VITE_API_URL is required}
         VITE_WHATSAPP_NUMBER: ${VITE_WHATSAPP_NUMBER:-}
         VITE_SITE_URL: ${VITE_SITE_URL:-}
+        VITE_GA_ID: ${VITE_GA_ID:-}
     restart: unless-stopped
     expose:
       - "80"

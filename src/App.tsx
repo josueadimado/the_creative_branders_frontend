@@ -1,7 +1,10 @@
-import { Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
+import CookieConsent from "./components/CookieConsent";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import WhatsAppButton from "./components/WhatsAppButton";
+import { track } from "./lib/analytics";
 import PageTransition from "./components/PageTransition";
 import About from "./pages/About";
 import Academy from "./pages/Academy";
@@ -15,11 +18,23 @@ import Services from "./pages/Services";
 import SmartCRM from "./pages/SmartCRM";
 import Work from "./pages/Work";
 
+function PageViews() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    track("page_view", { page_path: pathname });
+  }, [pathname]);
+
+  return null;
+}
+
 // App.tsx is the map of the website: which URL shows which page.
 // Navbar stays put. Page + footer fade together so the swap feels smooth.
 export default function App() {
   return (
     <div className="flex min-h-screen flex-col">
+      <CookieConsent />
+      <PageViews />
       <Navbar />
       <WhatsAppButton />
       <PageTransition>
