@@ -10,7 +10,7 @@ export const serviceFamilies: Record<string, string> = {
 };
 
 export const placeholder = {
-  lede: "[This page is being written.]",
+  lede: "This page is being written.",
   serviceButton: "Get a quote",
   pageButton: "Start a project",
 } as const;

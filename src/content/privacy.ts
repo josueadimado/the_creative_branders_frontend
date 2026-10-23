@@ -13,7 +13,7 @@ export const privacy = {
     {
       title: "Who we are",
       paragraphs: [
-        "This website is operated by The Creative Branders Ltd, a company registered in the United Kingdom. Company number: [TO CONFIRM]. Contact for privacy requests: [TO CONFIRM].",
+        "This website is operated by The Creative Branders Ltd, a company registered in the United Kingdom. Contact for privacy requests: hello@thecreativebranders.com.",
       ],
     },
     {
@@ -30,7 +30,7 @@ export const privacy = {
       items: [
         {
           label: "Contact inquiry",
-          text: "name, email, optional WhatsApp or phone, optional company, country, budget range, and your message.",
+          text: "name, email, what you need, your project description, and any optional details you add: company, country, phone, timeline, budget range, and a link.",
         },
         {
           label: "SmartCRM waitlist",
@@ -69,7 +69,7 @@ export const privacy = {
     {
       title: "Your rights",
       paragraphs: [
-        "Depending on where you live, you may ask us for a copy of your data, ask us to correct it, or ask us to delete it. To make a request, email [TO CONFIRM] and tell us which form you used and the email address you submitted.",
+        "Depending on where you live, you may ask us for a copy of your data, ask us to correct it, or ask us to delete it. To make a request, email hello@thecreativebranders.com and tell us which form you used and the email address you submitted.",
       ],
     },
     {

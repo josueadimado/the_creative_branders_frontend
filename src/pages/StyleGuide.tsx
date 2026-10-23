@@ -36,7 +36,7 @@ export default function StyleGuide() {
   return (
     <div className="bg-paper">
       <Helmet>
-        <title>Style guide — The Creative Branders</title>
+        <title>Style guide | The Creative Branders</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
