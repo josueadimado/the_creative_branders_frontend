@@ -59,10 +59,7 @@ export function track(event: string, params?: Record<string, string>) {
   window.gtag("event", event, params);
 }
 
-/**
- * The work page does not have filters yet. When those chips are added,
- * call track("work_filter", { filter: name }) from the chip click.
- */
+/** A work-page filter chip. `filter` is the chosen family, sector, or "all". */
 export function trackWorkFilter(filter: string) {
   track("work_filter", { filter });
 }

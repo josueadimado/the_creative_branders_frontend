@@ -37,12 +37,12 @@ export default function PageTransition({ children }: PageTransitionProps) {
 
   useEffect(() => {
     const current = shownRef.current;
-    const samePage =
-      location.pathname === current.pathname && location.search === current.search;
+    // Filter changes (?family=) and old hash links stay on the same page.
+    // They should update the address without replaying the loading animation.
+    const samePage = location.pathname === current.pathname;
 
-    // Hash jumps on the same page should not replay the loading animation.
     if (samePage) {
-      if (location.hash !== current.hash) setShown(location);
+      if (location.search !== current.search || location.hash !== current.hash) setShown(location);
       return;
     }
 

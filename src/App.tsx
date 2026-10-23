@@ -18,6 +18,7 @@ import Services from "./pages/Services";
 import SmartCRM from "./pages/SmartCRM";
 import StyleGuide from "./pages/StyleGuide";
 import Work from "./pages/Work";
+import WorkStudy from "./pages/WorkStudy";
 
 function PageViews() {
   const { pathname } = useLocation();
@@ -47,6 +48,7 @@ export default function App() {
                 <Route path="/services" element={<Services />} />
                 <Route path="/services/:slug" element={<Placeholder />} />
                 <Route path="/work" element={<Work />} />
+                <Route path="/work/:slug" element={<WorkStudy />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/insights" element={<Insights />} />
                 <Route path="/smartcrm" element={<SmartCRM />} />

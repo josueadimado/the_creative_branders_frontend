@@ -3,29 +3,9 @@ import { resolve } from "node:path";
 import { fileURLToPath, URL } from "node:url";
 import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
-
-// Public pages only. /dev/styleguide is a private review page:
-// leave it out of the sitemap and out of any future prerender step.
-const publicRoutes = [
-  "/",
-  "/services",
-  "/services/websites",
-  "/services/web-applications",
-  "/services/mobile-apps",
-  "/services/brand-design",
-  "/services/automation-ai",
-  "/services/data-growth",
-  "/work",
-  "/about",
-  "/insights",
-  "/smartcrm",
-  "/academy",
-  "/contact",
-  "/privacy",
-  "/terms",
-  "/cookies",
-  "/responsible-ai",
-];
+// Public URLs, including each published case study.
+// /dev/styleguide stays off this list, so it is left out of the sitemap and prerender.
+import { publicRoutes } from "./src/siteRoutes";
 
 function siteOrigin() {
   return (process.env.VITE_SITE_URL || "").replace(/\/$/, "");
