@@ -2,8 +2,9 @@ import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { serviceFamilies } from "../content/placeholder";
 import { track } from "../lib/analytics";
-import { socials, studioEmail, whatsappHref } from "../data/socials";
+import { studioEmail, whatsappHref } from "../data/socials";
 import Logo from "./Logo";
+import SocialLinks from "./SocialLinks";
 
 const serviceLinks = Object.entries(serviceFamilies).map(([slug, label]) => ({
   to: `/services/${slug}`,
@@ -75,21 +76,15 @@ export default function Footer() {
                   href={whatsappHref}
                   className="transition-colors hover:text-white"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   onClick={() => track("whatsapp_click", { location: "footer" })}
                 >
                   WhatsApp
                 </a>
               </li>
             ) : null}
-            {socials.map((item) => (
-              <li key={item.label}>
-                <a href={item.href} target="_blank" rel="noreferrer" className="transition-colors hover:text-white">
-                  {item.label}
-                </a>
-              </li>
-            ))}
           </ul>
+          <SocialLinks />
         </div>
 
         <Column title="Services">

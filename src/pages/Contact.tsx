@@ -1,8 +1,8 @@
 import Illustration from "../components/Illustration";
 import Seo from "../components/Seo";
 import InquiryForm from "../components/InquiryForm";
+import SocialLinks from "../components/SocialLinks";
 import { contact } from "../content/contact";
-import { socials } from "../data/socials";
 
 export default function Contact() {
   return (
@@ -27,20 +27,9 @@ export default function Contact() {
             <p className="type-display mt-4 text-navy">{contact.aside.title}</p>
             <p className="type-lede mt-6 text-slate">{contact.aside.body}</p>
             <p className="type-kicker mt-14 text-deep">{contact.aside.socials}</p>
-            <ul className="mt-5 space-y-3 type-body">
-              {socials.map((item) => (
-                <li key={item.label}>
-                  <a
-                    href={item.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-deep transition-colors hover:text-deep-hover"
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            <div className="mt-3">
+              <SocialLinks tone="light" />
+            </div>
           </aside>
         </div>
       </section>
