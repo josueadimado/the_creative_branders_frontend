@@ -47,17 +47,23 @@ export default function Home() {
         <img src={home.hero.image} alt="" className="photo absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/65 to-transparent" />
         <div className="relative mx-auto flex min-h-[100svh] max-w-6xl items-end px-6 pb-28 pt-40 sm:pb-36">
-          <div className="max-w-3xl">
+          {/* The node line stays behind the words, faint, so it does not split the paragraph from the buttons. */}
+          <svg
+            className="hero-nodes pointer-events-none absolute left-6 top-1/2 h-16 w-full max-w-3xl -translate-y-1/2 opacity-20"
+            viewBox="0 0 560 64"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path d="M8 32 H552" stroke="#4AA3C6" strokeWidth="1" />
+            <circle cx="8" cy="32" r="4" fill="#4AA3C6" />
+            <circle cx="190" cy="32" r="4" fill="#4AA3C6" />
+            <circle cx="370" cy="32" r="4" fill="#4AA3C6" />
+            <circle cx="552" cy="32" r="4" fill="#4AA3C6" />
+          </svg>
+          <div className="relative max-w-3xl">
             <p className="type-kicker text-signal">{home.hero.kicker}</p>
             <h1 className="type-hero mt-5 text-white">{home.hero.title}</h1>
             <p className="type-lede mt-8 max-w-xl text-white/70">{home.hero.lede}</p>
-            <svg className="hero-nodes mt-14 h-16 w-full max-w-xl" viewBox="0 0 560 64" fill="none" aria-hidden="true">
-              <path d="M8 32 H552" stroke="#4AA3C6" strokeWidth="1" />
-              <circle cx="8" cy="32" r="4" fill="#4AA3C6" />
-              <circle cx="190" cy="32" r="4" fill="#4AA3C6" />
-              <circle cx="370" cy="32" r="4" fill="#4AA3C6" />
-              <circle cx="552" cy="32" r="4" fill="#4AA3C6" />
-            </svg>
             <div className="mt-10 flex flex-wrap gap-4">
               <Link
                 to="/contact"
