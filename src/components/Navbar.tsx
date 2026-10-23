@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import CBMark from "./CBMark";
+import Logo from "./Logo";
 
 const links = [
   { to: "/services", label: "Services" },
@@ -21,15 +21,8 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-white/[0.06] bg-navy/80 backdrop-blur-2xl">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-8 px-6 py-4">
-        <Link
-          to="/"
-          className="flex min-w-0 items-center gap-4"
-          onClick={() => setOpen(false)}
-        >
-          <CBMark size={72} variant="dark" />
-          <span className="truncate font-semibold tracking-[0.2em] text-[13px] text-white sm:text-[15px]">
-            CREATIVE BRANDERS
-          </span>
+        <Link to="/" className="inline-flex shrink-0" onClick={() => setOpen(false)}>
+          <Logo variant="dark" />
         </Link>
 
         <nav className="hidden items-center gap-10 lg:flex" aria-label="Primary">

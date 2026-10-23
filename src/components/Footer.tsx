@@ -1,17 +1,14 @@
 import { Link } from "react-router-dom";
 import { socials } from "../data/socials";
-import CBMark from "./CBMark";
+import Logo from "./Logo";
 
 export default function Footer() {
   return (
     <footer className="border-t border-white/[0.06] bg-navy">
       <div className="mx-auto grid max-w-6xl gap-16 px-6 py-20 md:grid-cols-3">
         <div>
-          <Link to="/" className="inline-flex items-center gap-4">
-            <CBMark size={72} variant="dark" />
-            <span className="font-semibold tracking-[0.2em] text-[13px] text-white sm:text-[15px]">
-              CREATIVE BRANDERS
-            </span>
+          <Link to="/" className="inline-flex">
+            <Logo variant="dark" />
           </Link>
           <p className="type-caption mt-5 max-w-xs text-white/70">
             Digital intelligence studio. Designed for intelligent growth.
