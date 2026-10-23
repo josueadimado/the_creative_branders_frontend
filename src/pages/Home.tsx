@@ -76,11 +76,11 @@ export default function Home() {
 
       <section className="bg-paper py-20 sm:py-28">
         <div className="mx-auto max-w-6xl px-6">
-          <ul className="grid grid-cols-2 gap-10 sm:grid-cols-4">
+          <ul className="grid grid-cols-4 divide-x divide-mist">
             {home.proof.stats.map((stat) => (
-              <li key={stat.label}>
+              <li key={stat.label} className="px-3 first:pl-0 last:pr-0 sm:px-8">
                 <p className="type-stat text-navy">{stat.value}</p>
-                <p className="type-body mt-2 text-slate">{stat.label}</p>
+                <p className="type-caption mt-3 text-slate">{stat.label}</p>
               </li>
             ))}
           </ul>
