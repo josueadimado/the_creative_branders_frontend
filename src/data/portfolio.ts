@@ -139,7 +139,7 @@ const studies: StudyInput[] = [
     challenge:
       "Booking, front-desk check-in, doctor charts and billing lived in separate places: a website, paper forms, a card reader and a billing tool. Every appointment meant re-entering the same patient several times, and every reminder was a phone call someone had to make.",
     approach:
-      "We treated the clinic's day as one flow, from the first booking to the paid invoice. Patients get a simple path on their phone. Doctors get the day on one screen. The front desk gets fewer calls, because reminders and phone bookings run without them.",
+      "We mapped the clinic's day from the first booking to the paid invoice and built one system around it. Patients use their phones. Doctors see their day on one screen. Reminders and phone bookings run without the front desk.",
     built: [
       "Online booking, rescheduling and cancellation, with intake forms completed before the visit",
       "A lobby check-in screen that tells the front desk a patient has arrived",
@@ -161,6 +161,7 @@ const studies: StudyInput[] = [
     nameApproved: true,
     liveUrl: "https://pushit.now",
     linkApproved: true,
+    relationship: "venture",
     family: "web-applications",
     sector: "Marketing and advertising",
     country: "Nigeria",
@@ -169,9 +170,9 @@ const studies: StudyInput[] = [
     summary:
       "A marketplace where brands pay for promotional videos and verified creators get paid in their own currency, including mobile money.",
     challenge:
-      "Brands wanted many creators to promote a product at once, but had no reliable way to pay dozens of people across countries, or to be sure each video was actually posted. Creators needed to know they would be paid.",
+      "Brands across African markets wanted many creators to promote a product at once, but had no reliable way to pay dozens of people across countries, or to be sure each video was actually posted. Creators needed to know they would be paid.",
     approach:
-      "We built the trust into the money. Brand funds sit in a wallet, each video is checked before payment is released, and creators withdraw locally. Every wallet movement is recorded in a ledger, so balances can always be proved.",
+      "Brand funds go into a wallet. Each video is checked before the creator is paid, and creators withdraw to a bank account or mobile money. Every movement of money is recorded, so balances can always be checked.",
     built: [
       "Brand onboarding with business verification and wallet top-ups by card or bank",
       "Campaign builder with live pricing before launch",
@@ -204,7 +205,7 @@ const studies: StudyInput[] = [
     challenge:
       "Leaders had conviction but no structured place to practise it. Applications, payments, class schedules and materials were spread across forms, chats and documents, which made cohorts hard to run and harder to finish.",
     approach:
-      "We designed around the pathway, not a library of videos. A person moves from programme page to application, payment, cohort and certificate in one product, and facilitators run their class from the same system.",
+      "We built the whole path in one product: programme page, application, payment, cohort and certificate. Facilitators run their classes from the same system.",
     built: [
       "Public site with programme pages and an online application",
       "Checkout through Paystack, priced in cedis for Ghana and US dollars elsewhere, plus payment plans reviewed by staff",
@@ -236,7 +237,7 @@ const studies: StudyInput[] = [
     challenge:
       "Counseling teams, the people in their programmes and the agencies that refer them were each keeping their own record, in spreadsheets, on paper and over the phone. Nobody shared one current picture of a case, and every status update meant another call.",
     approach:
-      "We took a system proven inside one clinic and turned it into a product many organisations can use. Each organisation gets its own branded portal and web address, while every record stays tied to the organisation it belongs to. It began as the system we built for a single counseling clinic, then grew into a platform other organisations sign up for.",
+      "It began as the system we built for a single counseling clinic. We turned it into a platform any counseling organisation can sign up for, each with its own branded portal and web address.",
     built: [
       "Self-serve signup for counseling organisations, each with its own branding, letterhead and web address",
       "Staff workspace: a \"Today\" dashboard, client directory, sessions, groups, attendance and calendar",
@@ -270,7 +271,7 @@ const studies: StudyInput[] = [
     challenge:
       "Teaching, help requests, trainings and giving were spread across channels, and every content change needed technical help. The ministry also serves readers who don't read English first.",
     approach:
-      "We built a website the staff can own. Every page, notice, story and training is editable from a private desk. Requests for help and gifts arrive in the same place, kept away from the public site.",
+      "We gave the staff a private desk where they can change every page, notice and story themselves. Help requests and gifts arrive there too, away from the public site.",
     built: [
       "Public site in English, French, Spanish and Portuguese",
       "Find Help requests for prayer and pastoral support",
@@ -291,13 +292,13 @@ const studies: StudyInput[] = [
     nameApproved: true,
     family: "websites",
     sector: "Nonprofit",
-    summary: "A leadership website and content platform that can hold programmes, not just a homepage.",
+    summary: "A leadership website and content platform for programmes, stories and a clear way to take part.",
     challenge:
-      "The work was serious. The site was not. Programmes, stories, and calls to action sat in documents and social posts. Visitors could not see a clear path from conviction to a next step.",
+      "Programmes, stories and calls to action sat in documents and social posts. Visitors could not see a clear path from interest to a next step.",
     approach:
-      "We built a content system, not a one-off brochure. Pages had to be easy to update as cohorts, events, and teaching material change. The voice stayed institutional. We, not a founder headline.",
+      "We built a content system the team can update as cohorts, events and teaching material change. Programme pages, stories and a way to take part live in one place. The voice stayed the organisation's own.",
     built: [
-      "A leadership website and content platform: programme pages, a publishing structure for teaching and stories, and a clear way to take part. Partner to the Academy work we still hold with COME.",
+      "A leadership website and content platform with programme pages, a publishing structure for teaching and stories, and a clear way to take part. It sits alongside the Academy work we still hold with COME.",
     ],
     images: ["/images/work-nonprofit.jpg"],
     published: true,
@@ -342,13 +343,13 @@ const studies: StudyInput[] = [
     nameApproved: true,
     family: "web-applications",
     sector: "EdTech",
-    summary: "A mentorship platform where matching, sessions, and progress sit in one product.",
+    summary: "A mentorship platform where matching, sessions and progress sit in one product.",
     challenge:
-      "Mentorship was happening in chats and calendars that did not talk to each other. Mentors could not see a clean picture of who they were holding. Learners could not see the path. The programme was stronger than the tooling.",
+      "Mentorship was happening in chats and calendars that did not talk to each other. Mentors could not see who they were working with, and learners could not see the path ahead.",
     approach:
-      "We made the relationship the unit of the product. Profiles, matching, session cadence, and a simple progress view. Brand and UI had to feel like a studio, not a school portal from 2012.",
+      "Profiles, matching, a session rhythm and a simple progress view sit in one product. The brand and the screens match the rest of the programme.",
     built: [
-      "A mentorship platform: mentor and learner profiles, matching, session booking, and a shared view of the work. Site and product share one identity so the programme looks as considered as the conversations it holds.",
+      "A mentorship platform with mentor and learner profiles, matching, session booking and a shared view of the work. The site and the product share one identity.",
     ],
     images: ["/images/work-mentorship.jpg"],
     published: true,
@@ -360,13 +361,13 @@ const studies: StudyInput[] = [
     nameApproved: true,
     family: "websites",
     sector: "Data / training",
-    summary: "A data and training services site that explains the offer without drowning people in charts.",
+    summary: "A data and training services site that explains the offer in plain language.",
     challenge:
-      "The team could do the work. The website could not say so. Prospects had to infer capability from a thin page. Training offers and analytics services blurred into each other.",
+      "Prospects had to guess what the team could do from a thin page. Training offers and analytics services were hard to tell apart.",
     approach:
-      "We split the story: what you hire them for, how an engagement runs, and what a training track looks like. Visuals stay spare. Numbers on the site are only the ones they are ready to stand behind.",
+      "The site says what you hire them for, how an engagement runs and what a training track looks like. The visuals stay spare, and the numbers on the site are ones they are ready to stand behind.",
     built: [
-      "A data and training services site: clear service lines, a path into an engagement, and a visual system that reads as intelligence work, not generic consulting.",
+      "A data and training services site with clear service lines, a path into an engagement, and a visual system for the analytics and training work.",
     ],
     images: ["/images/work-analytics.jpg"],
     published: true,
@@ -378,13 +379,13 @@ const studies: StudyInput[] = [
     nameApproved: true,
     family: "web-applications",
     sector: "Faith / community",
-    summary: "A devotion and community platform for a daily rhythm, not a dump of posts.",
+    summary: "A devotion and community platform built around a daily rhythm.",
     challenge:
-      "The practice was daily. The tools were not. Devotionals, discussion, and belonging lived across apps. People who needed a quiet morning kept getting a noisy feed.",
+      "Devotionals, discussion and belonging lived across several apps. A daily practice needed a quieter place than a busy feed.",
     approach:
-      "We designed for a short, repeatable ritual: something to read, a way to sit with it, a way to stay in community without scrolling for an hour. Tone stayed warm. The product stayed small.",
+      "The product is a short ritual: something to read, a way to sit with it, and a way to stay in community. The tone stays warm, and the product stays small.",
     built: [
-      "A devotion and community platform: daily content, a simple community layer, and a public presence that matches the practice. Built to be opened in the morning, then put down.",
+      "A devotion and community platform with daily content, a simple community layer and a public presence that matches the practice. It is meant to be opened in the morning.",
     ],
     images: ["/images/work-faith.jpg"],
     published: true,
@@ -399,11 +400,11 @@ const studies: StudyInput[] = [
     country: "Ghana",
     summary: "A course and enrollment site for Twi and Fante, in person and online, with a path that is easy to start.",
     challenge:
-      "People in Ghana and in the diaspora wanted structured Twi and Fante, not a random tutor chat. Courses existed. Getting from “I want to learn” to a paid seat was still friction: packages, kids vs adults, in-person vs virtual, all explained in too many places.",
+      "People in Ghana and in the diaspora wanted structured Twi and Fante. Courses existed, but packages, age groups and in-person or virtual options were explained in too many places.",
     approach:
-      "We organised the catalogue the way a new student thinks: language, level, format, then enroll. Tutors and testimonials support the decision. The site had to work for a traveller on a phone and a parent booking a child.",
+      "We organised the catalogue the way a new student thinks: language, level, format, then enroll. Tutors and testimonials support the decision. The site works for a traveller on a phone and a parent booking a child.",
     built: [
-      "A course and enrollment site: Twi and Fante tracks, group and one-to-one options, in-person and virtual, and a clear checkout into the next class. Copy stays theirs. The structure is ours.",
+      "A course and enrollment site for Twi and Fante, with group and one-to-one options, in person and online, and a clear checkout into the next class.",
     ],
     images: ["/images/work-twi.jpg"],
     published: true,
