@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { serviceFamilies } from "../content/services";
 import { site } from "../content/site";
 import { track } from "../lib/analytics";
@@ -57,6 +57,10 @@ function Item({ to, label }: { to: string; label: string }) {
 }
 
 export default function Footer() {
+  const { pathname } = useLocation();
+  // The homepage hero already says this line. Don't repeat it under the logo.
+  const showTagline = pathname !== "/";
+
   return (
     <footer className="dot-grid border-t border-white/[0.06] bg-navy">
       <div className="mx-auto grid max-w-6xl gap-14 px-6 py-20 sm:grid-cols-2 lg:grid-cols-[16rem_repeat(4,minmax(0,1fr))]">
@@ -64,7 +68,7 @@ export default function Footer() {
           <Link to="/" className="inline-flex">
             <Logo variant="dark" />
           </Link>
-          <p className="type-caption mt-5 max-w-xs text-white/70">{site.footerTagline}</p>
+          {showTagline ? <p className="type-caption mt-5 max-w-xs text-white/70">{site.footerTagline}</p> : null}
           <ul className="mt-8 space-y-3 type-caption text-white/70">
             <li>
               <a href={`mailto:${studioEmail}`} className="break-words transition-colors hover:text-white">
