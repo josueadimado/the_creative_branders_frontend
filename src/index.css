@@ -12,6 +12,9 @@
   --tcb-slate: 91 104 115;
   --tcb-mist: 220 227 232;
   --tcb-gold: 232 197 71;
+  /* Pale backgrounds. Blue tint and gold tint stay soft, never the bright gold. */
+  --tcb-tint: 227 240 246;
+  --tcb-gold-tint: 251 243 217;
 }
 
 @tailwind base;
@@ -98,7 +101,8 @@ html.is-paging {
   .media img,
   .photo,
   .hero-nodes path,
-  .hero-nodes circle {
+  .hero-nodes circle,
+  .home-marquee {
     transition: none;
     animation: none;
   }
@@ -476,5 +480,18 @@ h4 {
 @keyframes hero-node {
   to {
     opacity: 1;
+  }
+}
+
+.home-marquee {
+  animation: home-marquee 32s linear infinite;
+}
+
+@keyframes home-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
   }
 }

@@ -1,17 +1,20 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import * as Accordion from "@radix-ui/react-accordion";
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
-import { BrowserPlaceholder } from "../components/DeviceFrame";
-import CtaBand from "../components/CtaBand";
+import { Menu, Minus, Plus, X } from "lucide-react";
+import { Link, NavLink } from "react-router-dom";
 import FamilyIcon from "../components/FamilyIcon";
+import Logo from "../components/Logo";
 import Seo from "../components/Seo";
-import HowWeWork from "../components/HowWeWork";
-import PortfolioCard from "../components/PortfolioCard";
-import { home, testimonials } from "../content/home";
+import { cta } from "../content/cta";
+import { home } from "../content/home";
+import { site } from "../content/site";
 import { articles, formatInsightDate } from "../content/insights";
 import { serviceFamilies } from "../content/services";
+import { howWeWork } from "../content/services/howWeWork";
+import { workPage } from "../content/work";
 import { track } from "../lib/analytics";
-import { coverImage, featuredStudies } from "../data/portfolio";
+import { coverImage, displayName, familyLabel, featuredStudies } from "../data/portfolio";
 import { socials } from "../data/socials";
 
 const siteOrigin = (import.meta.env.VITE_SITE_URL || "").replace(/\/$/, "");
@@ -27,7 +30,122 @@ const organization = {
 
 const featured = featuredStudies();
 
+/** Same links as the dark bar on the other pages. */
+const navLinks = [
+  { to: "/work", label: "Work" },
+  { to: "/services", label: "Services" },
+  { to: "/about", label: "About" },
+  { to: "/insights", label: "Insights" },
+];
+
+/**
+ * Case-study cards take turns through the brand backgrounds.
+ * Navy is the only dark one, so its text and links flip.
+ */
+const workLooks = [
+  { shell: "bg-navy text-white", muted: "text-white/70", link: "text-signal", logo: "brightness-0 invert" },
+  { shell: "bg-tint text-navy", muted: "text-slate", link: "text-deep", logo: "" },
+  { shell: "bg-paper text-navy", muted: "text-slate", link: "text-deep", logo: "" },
+  { shell: "bg-gold-tint text-navy", muted: "text-slate", link: "text-deep", logo: "" },
+];
+
+const workLogos: Record<string, string> = {
+  "relief-chiropractic": "/images/logos/relief-chiropractic.png",
+  "push-it": "/images/logos/push-it.png",
+  "come-clarity": "/images/logos/come-clarity.png",
+  "up2date-connect": "/images/logos/up2date-connect.png",
+};
+
+/** Words that drift across the page. Built from the services we actually offer. */
+const marqueeLine = serviceFamilies.map((family) => family.name).join("    ·    ");
+
+/**
+ * The black button used on this page.
+ * It is a rounded rectangle, matching the reference, not the pill used elsewhere.
+ */
+function SolidButton({
+  to,
+  children,
+  location,
+  onDark = false,
+}: {
+  to: string;
+  children: string;
+  location: string;
+  /** Signal button when it sits on navy. Navy button on paper, white, or the tints. */
+  onDark?: boolean;
+}) {
+  const colours = onDark
+    ? "bg-signal text-navy hover:bg-signal-hover"
+    : "bg-navy text-white hover:bg-deep";
+
+  return (
+    <Link
+      to={to}
+      className={`inline-flex items-center justify-center rounded-2xl px-6 py-3.5 text-[15px] font-medium transition-colors ${colours}`}
+      onClick={() => track("start_project_click", { location })}
+    >
+      {children}
+    </Link>
+  );
+}
+
+/**
+ * Organisation logos.
+ * On a wide screen they stay in one row, in grey, with a short line between each.
+ * On a phone they wrap onto more than one line.
+ */
+function LogoRow({ wide = false }: { wide?: boolean }) {
+  return (
+    <div className={wide ? "w-full" : undefined}>
+      <p className={`text-center text-navy ${wide ? "text-[13px]" : "text-sm text-slate"}`}>
+        {home.proof.line}
+      </p>
+      <ul className={`mt-4 flex items-center justify-center ${wide ? "flex-nowrap" : "flex-wrap"}`}>
+        {home.proof.logos.map((item, index) => (
+          <li key={item.name} className="flex items-center">
+            <img
+              src={item.logo}
+              alt={item.name}
+              className={`w-auto object-contain grayscale opacity-80 transition hover:opacity-100 hover:grayscale-0 ${
+                wide ? "h-6 max-w-[3rem]" : "m-2 h-6 max-w-[4.25rem]"
+              }`}
+            />
+            {wide && index < home.proof.logos.length - 1 ? (
+              <span className="mx-2.5 h-6 w-px shrink-0 bg-mist" aria-hidden="true" />
+            ) : null}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+/**
+ * Bottom edge of the white card on a wide screen.
+ * The right side rises in one smooth wave, the same shape as the reference,
+ * so the logos sit on the colour showing through.
+ */
+function HeroWave() {
+  return (
+    <svg
+      className="hidden h-[200px] w-full lg:block"
+      viewBox="0 0 1240 200"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
+      <path
+        fill="#ffffff"
+        d="M0 0 H1240 V16 A44 44 0 0 1 1196 60 H720 C590 60, 620 200, 460 200 H44 A44 44 0 0 1 0 156 V0 Z"
+      />
+    </svg>
+  );
+}
+
 export default function Home() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [openPanel, setOpenPanel] = useState(0);
+
   useEffect(() => {
     featured.forEach((item) => {
       const src = coverImage(item);
@@ -37,6 +155,14 @@ export default function Home() {
     });
   }, []);
 
+  // A full-screen menu should not leave the page scrolling behind it.
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
   return (
     <>
       <Seo {...home.seo} />
@@ -44,179 +170,461 @@ export default function Home() {
         <script type="application/ld+json">{JSON.stringify(organization)}</script>
       </Helmet>
 
-      <section className="relative isolate min-h-[100svh] overflow-hidden bg-navy">
-        <img src={home.hero.image} alt="" className="photo absolute inset-0 h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/65 to-transparent" />
-        <div className="relative mx-auto flex min-h-[100svh] max-w-6xl items-end px-6 pb-28 pt-40 sm:pb-36">
-          {/* The node line stays behind the words, faint, so it does not split the paragraph from the buttons. */}
-          <svg
-            className="hero-nodes pointer-events-none absolute left-6 top-16 h-16 w-full max-w-3xl opacity-20"
-            viewBox="0 0 560 64"
-            fill="none"
-            aria-hidden="true"
-          >
-            <path d="M8 32 H552" stroke="#4AA3C6" strokeWidth="1" />
-            <circle cx="8" cy="32" r="4" fill="#4AA3C6" />
-            <circle cx="190" cy="32" r="4" fill="#4AA3C6" />
-            <circle cx="370" cy="32" r="4" fill="#4AA3C6" />
-            <circle cx="552" cy="32" r="4" fill="#4AA3C6" />
-          </svg>
-          <div className="relative max-w-3xl">
-            <p className="type-kicker text-signal">{home.hero.kicker}</p>
-            <h1 className="type-hero mt-5 text-white">{home.hero.title}</h1>
-            <p className="type-lede mt-8 max-w-xl text-white/70">{home.hero.lede}</p>
-            <div className="mt-10 flex flex-wrap gap-4">
+      <div id="home" className="bg-white text-navy">
+        {/* Phone header. On a wide screen the same links sit inside the white card. */}
+        <header className="sticky top-0 z-40 border-b border-mist bg-white lg:hidden">
+          <div className="flex items-center justify-between px-4 py-3">
+            <Link to="/" className="inline-flex" onClick={() => setMenuOpen(false)}>
+              <Logo variant="black" />
+            </Link>
+            <button
+              type="button"
+              className="inline-flex size-11 items-center justify-center"
+              aria-expanded={menuOpen}
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              onClick={() => setMenuOpen((open) => !open)}
+            >
+              {menuOpen ? <X /> : <Menu />}
+            </button>
+          </div>
+          {menuOpen ? (
+            <nav className="fixed inset-0 z-40 flex flex-col bg-white px-6 pb-12 pt-24" aria-label="Mobile">
+              <button
+                type="button"
+                className="absolute right-4 top-4 inline-flex size-11 items-center justify-center"
+                aria-label="Close menu"
+                onClick={() => setMenuOpen(false)}
+              >
+                <X />
+              </button>
+              <div className="flex flex-1 flex-col gap-6">
+                {navLinks.map((link) => (
+                  <NavLink
+                    key={link.to}
+                    to={link.to}
+                    onClick={() => setMenuOpen(false)}
+                    className="font-display text-3xl font-semibold"
+                  >
+                    {link.label}
+                  </NavLink>
+                ))}
+              </div>
               <Link
                 to="/contact"
-                className="btn btn-primary"
-                onClick={() => track("start_project_click", { location: "home" })}
+                onClick={() => {
+                  setMenuOpen(false);
+                  track("start_project_click", { location: "home-menu" });
+                }}
+                className="inline-flex w-fit rounded-2xl bg-navy px-6 py-3.5 text-white hover:bg-deep"
               >
                 {home.hero.primary}
               </Link>
-              <Link to="/work" className="btn btn-secondary">
-                {home.hero.secondary}
-              </Link>
+            </nav>
+          ) : null}
+        </header>
+
+        {/* Pale wash behind the opening, the same idea as the reference background. */}
+        <div className="bg-[linear-gradient(145deg,#F5F6F3_0%,#ffffff_48%,#E3F0F6_100%)]">
+          <section className="px-3 pb-4 pt-3 sm:px-6 sm:pt-6 lg:px-10 lg:pt-8">
+            <div className="relative mx-auto max-w-[1240px]">
+            <div className="rounded-[40px] bg-white px-6 py-8 sm:px-10 sm:py-12 lg:rounded-b-none lg:px-16 lg:pb-10 lg:pt-8">
+              <div className="hidden items-center justify-between gap-8 lg:flex">
+                <Link to="/" className="inline-flex shrink-0">
+                  <Logo variant="black" />
+                </Link>
+                <nav className="flex items-center gap-8" aria-label="Primary">
+                  {navLinks.map((link) => (
+                    <NavLink
+                      key={link.to}
+                      to={link.to}
+                      className={({ isActive }) =>
+                        `text-[15px] font-medium ${isActive ? "text-navy" : "text-navy/70 hover:text-navy"}`
+                      }
+                    >
+                      {link.label}
+                    </NavLink>
+                  ))}
+                </nav>
+                <SolidButton to="/contact" location="home-header">
+                  {home.hero.primary}
+                </SolidButton>
+              </div>
+
+              <div className="mt-10 grid items-center gap-10 lg:mt-20 lg:grid-cols-2 lg:gap-12">
+                <div>
+                  <p className="inline-flex items-center rounded-full border border-mist bg-white/70 px-3 py-1 text-sm text-deep">
+                    {home.hero.kicker}
+                  </p>
+                  <h1 className="mt-6 font-display text-[2.65rem] font-bold leading-[1.02] tracking-[-0.03em] sm:text-6xl lg:text-[4.4rem]">
+                    {home.hero.title}
+                  </h1>
+                  <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate">{home.hero.lede}</p>
+                  <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
+                    <SolidButton to="/contact" location="home">
+                      {home.hero.primary}
+                    </SolidButton>
+                    <Link to="/work" className="text-navy underline decoration-navy/40 underline-offset-4">
+                      {home.hero.secondary}
+                    </Link>
+                  </div>
+                </div>
+                <img
+                  src={home.hero.image}
+                  alt=""
+                  className="h-64 w-full rounded-[28px] object-cover sm:h-80 lg:h-[26rem]"
+                />
+              </div>
+
+            </div>
+
+            {/* The wave is the bottom of the card. Logos sit in the open part, to the right of the curve. */}
+            <HeroWave />
+            <div id="organisations" className="absolute bottom-0 right-[3%] hidden h-[132px] w-[40%] items-center lg:flex">
+              <LogoRow wide />
+            </div>
+            </div>
+
+            <div className="mx-auto mt-8 max-w-[1240px] px-2 lg:hidden">
+              <LogoRow />
+            </div>
+          </section>
+
+          <section id="services" className="scroll-mt-24 px-6 pb-24 pt-16 sm:pb-32 sm:pt-20">
+            <div className="mx-auto grid max-w-[1240px] items-start gap-12 lg:grid-cols-2 lg:gap-20">
+              <div className="lg:sticky lg:top-10">
+                <h2 className="font-display text-4xl font-semibold tracking-tight sm:text-5xl">
+                  <Link to="/services" className="hover:text-deep">
+                    {home.offer.title}
+                  </Link>
+                </h2>
+                <p className="mt-6 max-w-md text-lg leading-relaxed text-slate">{home.offer.lede}</p>
+                <p className="mt-8">
+                  <Link to="/services" className="text-deep underline decoration-deep/40 underline-offset-4">
+                    Learn more
+                  </Link>
+                </p>
+              </div>
+              <Accordion.Root type="single" collapsible className="flex flex-col gap-5">
+                {serviceFamilies.map((family) => (
+                  <Accordion.Item
+                    key={family.slug}
+                    value={family.slug}
+                    className="overflow-hidden rounded-[28px] border-2 border-mist bg-white/60 data-[state=open]:border-deep data-[state=open]:bg-white"
+                  >
+                    <Accordion.Header className="m-0">
+                      <Accordion.Trigger className="group flex w-full cursor-pointer items-center justify-between gap-6 border-0 bg-transparent px-7 py-7 text-left">
+                        <span className="font-display text-xl font-semibold">{family.name}</span>
+                        <Plus className="size-5 shrink-0 text-deep group-data-[state=open]:hidden" aria-hidden="true" />
+                        <Minus className="hidden size-5 shrink-0 text-deep group-data-[state=open]:block" aria-hidden="true" />
+                      </Accordion.Trigger>
+                    </Accordion.Header>
+                    <Accordion.Content>
+                      <p className="px-7 text-navy">{family.promise}</p>
+                      <ul className="mt-4 space-y-2 px-7 pb-7 text-slate">
+                        {family.services.slice(0, 3).map((service) => (
+                          <li key={service.title}>
+                            <Link to={`/services/${family.slug}`} className="transition-colors hover:text-deep">
+                              {service.title}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </Accordion.Content>
+                  </Accordion.Item>
+                ))}
+              </Accordion.Root>
+            </div>
+          </section>
+        </div>
+
+        {/* Photo on the left. Numbers and service tiles on the right. */}
+        <section className="bg-white px-6 py-24 sm:py-32">
+          <div className="mx-auto grid max-w-[1240px] items-center gap-16 lg:grid-cols-2">
+            <div className="relative mx-auto w-full max-w-md">
+              <div
+                className="absolute -inset-8 -z-10 rounded-[48px] bg-[linear-gradient(140deg,#F5F6F3,#ffffff_50%,#E3F0F6)] blur-2xl"
+                aria-hidden="true"
+              />
+              <img
+                src="/images/pillar-systems.jpg"
+                alt=""
+                className="relative aspect-[4/5] w-full rotate-2 rounded-[32px] object-cover"
+              />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-deep">{home.hero.kicker}</p>
+              <h2 className="mt-4 font-display text-4xl font-semibold tracking-tight sm:text-5xl">
+                {site.footerTagline}
+              </h2>
+              <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate">{home.offer.lede}</p>
+              <ul className="mt-10 grid grid-cols-2 gap-8 sm:grid-cols-4">
+                {home.proof.stats.map((stat) => (
+                  <li key={stat.label}>
+                    <p className="font-display text-5xl font-semibold tracking-tight text-deep">{stat.value}</p>
+                    <p className="mt-2 text-sm text-slate">{stat.label}</p>
+                  </li>
+                ))}
+              </ul>
+              <ul className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3">
+                {serviceFamilies.map((family) => (
+                  <li key={family.slug}>
+                    <Link
+                      to={`/services/${family.slug}`}
+                      className="flex h-32 flex-col justify-between rounded-3xl border border-mist bg-paper p-4 text-navy transition-colors hover:border-deep hover:bg-tint"
+                    >
+                      <FamilyIcon family={family.slug} className="text-deep" />
+                      <span className="text-sm font-medium">{family.name}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="bg-paper py-20 sm:py-28">
-        <div className="mx-auto max-w-6xl px-6">
-          <ul className="grid grid-cols-4 divide-x divide-mist">
-            {home.proof.stats.map((stat) => (
-              <li key={stat.label} className="px-3 first:pl-0 last:pr-0 sm:px-8">
-                <p className="type-stat text-navy">{stat.value}</p>
-                <p className="type-caption mt-3 text-slate">{stat.label}</p>
-              </li>
-            ))}
-          </ul>
-          <p className="type-caption mt-16 text-slate">{home.proof.line}</p>
-          <ul className="mt-6 flex flex-wrap gap-x-10 gap-y-4">
-            {home.proof.names.map((name) => (
-              <li key={name} className="type-title text-navy">
-                {name}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
+        {/* Wide panels. The open one shows the reason. The others stay as slim titles. */}
+        <section className="bg-white px-6 pb-8">
+          <div className="mx-auto max-w-[1240px] text-center">
+            <h2 className="mx-auto mt-4 max-w-3xl font-display text-4xl font-semibold tracking-tight sm:text-5xl">
+              {home.different.title}
+            </h2>
+          </div>
 
-      <section className="bg-white py-28 sm:py-36">
-        <div className="mx-auto max-w-6xl px-6">
-          <h2 className="type-display max-w-3xl text-navy">{home.work.title}</h2>
-          <p className="type-lede mt-6 max-w-2xl text-slate">{home.work.lede}</p>
-          <div className="mt-20 grid gap-x-10 gap-y-16 md:grid-cols-2">
-            {featured.map((item) => (
-              <PortfolioCard key={item.slug} item={item} summary={home.work.lines[item.slug]} />
+          <div className="mx-auto mt-12 hidden h-[28rem] max-w-[1240px] gap-3 lg:flex">
+            {home.different.points.map((point, index) => {
+              const open = openPanel === index;
+              return (
+                <button
+                  key={point.title}
+                  type="button"
+                  aria-expanded={open}
+                  onClick={() => setOpenPanel(index)}
+                  className={`overflow-hidden rounded-[28px] border text-left text-navy transition-all ${
+                    open ? "flex-[4] border-deep bg-white p-8" : "w-16 border-mist bg-paper"
+                  }`}
+                >
+                  {open ? (
+                    <span className="flex h-full flex-col">
+                      <span className="font-display text-3xl font-semibold">{point.title}</span>
+                      <span className="mt-4 max-w-md text-slate">{point.body}</span>
+                    </span>
+                  ) : (
+                    <span className="flex h-full items-center justify-center px-2 font-display text-sm font-semibold [writing-mode:vertical-rl]">
+                      {point.title}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          <Accordion.Root type="single" collapsible className="mx-auto mt-10 flex max-w-[1240px] flex-col gap-4 lg:hidden">
+            {home.different.points.map((point) => (
+              <Accordion.Item
+                key={point.title}
+                value={point.title}
+                className="overflow-hidden rounded-[28px] border-2 border-mist bg-paper data-[state=open]:border-deep data-[state=open]:bg-white"
+              >
+                <Accordion.Header className="m-0">
+                  <Accordion.Trigger className="group flex w-full items-center justify-between gap-4 bg-transparent px-6 py-6 text-left">
+                    <span className="font-display text-lg font-semibold">{point.title}</span>
+                    <Plus className="size-5 shrink-0 text-deep group-data-[state=open]:hidden" aria-hidden="true" />
+                    <Minus className="hidden size-5 shrink-0 text-deep group-data-[state=open]:block" aria-hidden="true" />
+                  </Accordion.Trigger>
+                </Accordion.Header>
+                <Accordion.Content>
+                  <p className="px-6 pb-6 text-slate">{point.body}</p>
+                </Accordion.Content>
+              </Accordion.Item>
+            ))}
+          </Accordion.Root>
+        </section>
+
+        <div className="overflow-hidden border-y border-mist bg-white py-8" aria-hidden="true">
+          <div className="home-marquee flex w-max">
+            {[0, 1].map((copy) => (
+              <p
+                key={copy}
+                className="px-8 font-display text-5xl font-semibold tracking-tight text-transparent sm:text-7xl"
+                style={{ WebkitTextStroke: "1.5px #0E1E2B" }}
+              >
+                {marqueeLine}
+              </p>
             ))}
           </div>
-          <p className="mt-14">
-            <Link to="/work" className="type-lede text-deep transition-colors hover:text-deep-hover">
+        </div>
+
+        <section id="approach" className="scroll-mt-24 bg-white px-6 py-24 sm:py-32">
+          <div className="mx-auto grid max-w-[1240px] items-start gap-16 lg:grid-cols-2">
+            <div>
+              <h2 className="font-display text-4xl font-semibold tracking-tight sm:text-5xl">{howWeWork.title}</h2>
+              <ol className="mt-10 space-y-8">
+                {howWeWork.steps.map((step, index) => (
+                  <li key={step.name} className="flex gap-5">
+                    <span className="flex size-12 shrink-0 items-center justify-center rounded-full border border-deep font-display text-sm font-semibold text-deep">
+                      0{index + 1}
+                    </span>
+                    <span>
+                      <span className="block font-display text-xl font-semibold">{step.name}</span>
+                      <span className="mt-2 block text-slate">{step.body}</span>
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+            <div className="lg:sticky lg:top-24">
+              <div className="relative mx-auto max-w-md">
+                <img
+                  src="/images/about-studio.jpg"
+                  alt=""
+                  className="aspect-[4/5] w-full -rotate-2 rounded-[32px] object-cover"
+                />
+                <Link
+                  to="/contact"
+                  onClick={() => track("start_project_click", { location: "home-approach" })}
+                  className="absolute bottom-6 left-6 rounded-full bg-white px-5 py-3 text-sm font-medium text-navy"
+                >
+                  {home.hero.primary}
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-white px-6 pb-24">
+          <ul className="mx-auto flex max-w-[1240px] flex-wrap justify-center gap-3">
+            {serviceFamilies.flatMap((family) =>
+              family.services.slice(0, 2).map((service) => (
+                <li key={`${family.slug}-${service.title}`}>
+                  <Link
+                    to={`/services/${family.slug}`}
+                    className="inline-flex rounded-full border border-mist px-5 py-3 text-base text-navy hover:border-deep hover:text-deep"
+                  >
+                    {service.title}
+                  </Link>
+                </li>
+              )),
+            )}
+          </ul>
+        </section>
+
+        <section id="work" className="scroll-mt-24 bg-paper px-3 py-24 sm:px-6 sm:py-32">
+          <div className="mx-auto max-w-[1100px] text-center">
+            <h2 className="font-display text-4xl font-semibold tracking-tight sm:text-5xl">{home.work.title}</h2>
+            <p className="mx-auto mt-5 max-w-2xl text-lg text-slate">{home.work.lede}</p>
+          </div>
+          <div className="mx-auto mt-14 max-w-[1100px] space-y-6">
+            {featured.map((item, index) => {
+              const look = workLooks[index] ?? workLooks[1];
+              const name = displayName(item);
+              return (
+                <article
+                  key={item.slug}
+                  className={`rounded-[30px] px-6 py-8 sm:px-10 sm:py-10 md:sticky md:top-6 md:min-h-[70vh] ${look.shell}`}
+                >
+                  <div className="flex items-start justify-between gap-6">
+                    <h3 className="font-display text-3xl font-semibold sm:text-4xl">{name}</h3>
+                    <p className={`text-sm ${look.muted}`}>{familyLabel(item.family)}</p>
+                  </div>
+                  <p className={`mt-4 max-w-xl ${look.muted}`}>
+                    {home.work.lines[item.slug] ?? item.summary}
+                  </p>
+                  {workLogos[item.slug] ? (
+                    <img
+                      src={workLogos[item.slug]}
+                      alt=""
+                      className={`mx-auto mt-10 h-16 w-auto max-w-[16rem] object-contain sm:h-20 ${look.logo}`}
+                    />
+                  ) : null}
+                  <p className="mt-10">
+                    <Link
+                      to={`/work/${item.slug}`}
+                      className={`underline underline-offset-4 ${look.link}`}
+                      onClick={() => track("case_study_view", { case_study: item.slug })}
+                    >
+                      {workPage.read}
+                    </Link>
+                  </p>
+                </article>
+              );
+            })}
+          </div>
+          <p className="mx-auto mt-10 max-w-[1100px] text-center">
+            <Link to="/work" className="text-lg underline underline-offset-4">
               {home.work.link}
             </Link>
           </p>
-        </div>
-      </section>
-
-      <section className="bg-paper py-28 sm:py-36">
-        <div className="mx-auto max-w-6xl px-6">
-          <h2 className="type-display max-w-3xl text-navy">{home.offer.title}</h2>
-          <p className="type-lede mt-6 max-w-2xl text-slate">{home.offer.lede}</p>
-          <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {serviceFamilies.map((family) => (
-              <Link
-                key={family.slug}
-                to={`/services/${family.slug}`}
-                className="flex flex-col rounded-card border border-mist bg-white p-8 transition-colors hover:border-deep"
-              >
-                <h3 className="type-title text-navy">{family.name}</h3>
-                <p className="type-body mt-4 text-navy">{family.promise}</p>
-                <ul className="mt-6 space-y-2 type-body text-slate">
-                  {family.services.slice(0, 3).map((service) => (
-                    <li key={service.title}>{service.title}</li>
-                  ))}
-                </ul>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-white py-28 sm:py-36">
-        <div className="mx-auto grid max-w-6xl items-start gap-16 px-6 lg:grid-cols-2">
-          <div>
-            <h2 className="type-display text-navy">{home.different.title}</h2>
-            <ul className="mt-10">
-              {home.different.points.map((point) => (
-                <li key={point.title} className="border-t border-mist py-8">
-                  <h3 className="type-title text-navy">{point.title}</h3>
-                  <p className="type-body mt-3 text-slate">{point.body}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <BrowserPlaceholder label={home.different.portal} />
-        </div>
-      </section>
-
-      <HowWeWork />
-
-      <section className="bg-white py-16 sm:py-20">
-        <div className="mx-auto flex max-w-6xl flex-col items-start gap-6 px-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="type-body max-w-2xl text-navy">{home.lab.text}</p>
-          <Link to="/smartcrm" className="type-body text-deep transition-colors hover:text-deep-hover">
-            {home.lab.link}
-          </Link>
-        </div>
-      </section>
-
-      {/* Hidden until a client approves a real quote. An empty list means this renders nothing. */}
-      {testimonials.length > 0 ? (
-        <section className="bg-paper py-28 sm:py-36">
-          <div className="mx-auto max-w-6xl px-6">
-            <ul className="grid gap-10 md:grid-cols-2">
-              {testimonials.map((item) => (
-                <li key={item.name} className="rounded-card border border-mist bg-white p-8">
-                  <p className="type-body text-navy">{item.quote}</p>
-                  <p className="type-caption mt-6 text-slate">
-                    {item.name}, {item.role}, {item.company}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          </div>
         </section>
-      ) : null}
 
-      {articles.length > 0 ? (
-        <section className={`${testimonials.length > 0 ? "bg-white" : "bg-paper"} py-28 sm:py-36`}>
-          <div className="mx-auto max-w-6xl px-6">
-            <h2 className="type-display text-navy">
-              <Link to="/insights" className="transition-colors hover:text-deep">
-                Notes from the studio
-              </Link>
-            </h2>
-            <div className="mt-16 grid gap-10 md:grid-cols-3">
-              {articles.slice(0, 3).map((article) => (
-                <article key={article.slug}>
-                  <Link to={`/insights/${article.slug}`} className="block">
-                    <FamilyIcon family={article.family} className="text-deep" />
-                    <p className="type-caption mt-6 flex flex-wrap gap-x-3 text-slate">
-                      <span>{article.familyLabel}</span>
-                      <span>{formatInsightDate(article.date)}</span>
-                    </p>
-                    <h3 className="type-title mt-3 text-navy">{article.title}</h3>
-                    <p className="type-body mt-3 text-slate">{article.description}</p>
-                  </Link>
-                </article>
-              ))}
+        {articles.length > 0 ? (
+          <section className="bg-white px-6 py-24 sm:py-32">
+            <div className="mx-auto max-w-[1240px]">
+              <h2 className="font-display text-4xl font-semibold tracking-tight">
+                <Link to="/insights">Notes from the studio</Link>
+              </h2>
+              <div className="mt-12 grid gap-10 md:grid-cols-3">
+                {articles.slice(0, 3).map((article) => (
+                  <article key={article.slug}>
+                    <Link to={`/insights/${article.slug}`} className="block">
+                      <FamilyIcon family={article.family} className="text-deep" />
+                      <p className="mt-5 flex flex-wrap gap-x-3 text-sm text-slate">
+                        <span>{article.familyLabel}</span>
+                        <span>{formatInsightDate(article.date)}</span>
+                      </p>
+                      <h3 className="mt-3 font-display text-xl font-semibold">{article.title}</h3>
+                      <p className="mt-3 text-slate">{article.description}</p>
+                    </Link>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+        ) : null}
+
+        <section className="bg-white px-3 pb-16 sm:px-6">
+          <div className="mx-auto grid max-w-[1240px] overflow-hidden rounded-[40px] lg:grid-cols-2">
+            <div className="bg-navy px-8 py-12 text-white sm:px-12 sm:py-16">
+              <h2 className="font-display text-4xl font-semibold tracking-tight text-white sm:text-5xl">{cta.title}</h2>
+              <p className="mt-5 max-w-md text-lg leading-relaxed text-white/75">{cta.body}</p>
+              <div className="mt-8">
+                <SolidButton to="/contact" location="home-cta" onDark>
+                  {cta.primary}
+                </SolidButton>
+              </div>
+              <p className="mt-10 max-w-md text-white/75">
+                {home.lab.text}{" "}
+                <Link to="/smartcrm" className="text-signal underline underline-offset-4">
+                  {home.lab.link}
+                </Link>
+              </p>
+            </div>
+            <div className="flex items-center overflow-hidden bg-tint px-8 py-12 text-navy">
+              <p className="font-display text-4xl font-semibold leading-tight sm:text-5xl">{marqueeLine}</p>
             </div>
           </div>
         </section>
-      ) : null}
 
-      <CtaBand />
+        <nav
+          className="fixed bottom-5 left-1/2 z-40 hidden -translate-x-1/2 items-center gap-1 rounded-full border border-mist bg-white/95 px-2 py-2 text-navy lg:flex"
+          aria-label="On this page"
+        >
+          <a href="#home" className="rounded-full px-4 py-2 text-sm hover:bg-paper">
+            Home
+          </a>
+          <a href="#services" className="rounded-full px-4 py-2 text-sm hover:bg-paper">
+            Services
+          </a>
+          <a href="#work" className="rounded-full px-4 py-2 text-sm hover:bg-paper">
+            Work
+          </a>
+          <a href="#approach" className="rounded-full px-4 py-2 text-sm hover:bg-paper">
+            Approach
+          </a>
+          <Link to="/contact" className="rounded-full px-4 py-2 text-sm hover:bg-paper">
+            Contact
+          </Link>
+        </nav>
+      </div>
     </>
   );
 }

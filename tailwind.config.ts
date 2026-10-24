@@ -18,6 +18,8 @@ const config: Config = {
         slate: { DEFAULT: "rgb(var(--tcb-slate) / <alpha-value>)" },
         mist: "rgb(var(--tcb-mist) / <alpha-value>)",
         gold: "rgb(var(--tcb-gold) / <alpha-value>)",
+        tint: "rgb(var(--tcb-tint) / <alpha-value>)",
+        goldTint: "rgb(var(--tcb-gold-tint) / <alpha-value>)",
       },
       fontFamily: {
         sans: ["Inter Variable", "Inter", "-apple-system", "Segoe UI", "Helvetica Neue", "Arial", "sans-serif"],

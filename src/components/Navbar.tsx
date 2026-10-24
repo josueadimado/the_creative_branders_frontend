@@ -27,6 +27,9 @@ export default function Navbar() {
     };
   }, [open]);
 
+  // The homepage draws its own light header inside the opening card.
+  if (pathname === "/") return null;
+
   return (
     <header className="sticky top-0 z-40 border-b border-white/[0.06] bg-navy/80 backdrop-blur-2xl">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-8 px-6 py-4">
