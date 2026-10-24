@@ -1,21 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as Accordion from "@radix-ui/react-accordion";
 import { Helmet } from "react-helmet-async";
 import { Menu, Minus, Plus, X } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
+import { BrowserFrame, BrowserPlaceholder } from "../components/DeviceFrame";
 import FamilyIcon from "../components/FamilyIcon";
 import Logo from "../components/Logo";
 import Seo from "../components/Seo";
 import { cta } from "../content/cta";
 import { home } from "../content/home";
-import { site } from "../content/site";
 import { articles, formatInsightDate } from "../content/insights";
 import { serviceFamilies } from "../content/services";
 import { howWeWork } from "../content/services/howWeWork";
 import { workPage } from "../content/work";
 import { track } from "../lib/analytics";
-import { coverImage, displayName, familyLabel, featuredStudies } from "../data/portfolio";
-import { socials } from "../data/socials";
+import { coverImage, displayName, featuredStudies, studyTags } from "../data/portfolio";
+import { socials, studioEmail, whatsappHref } from "../data/socials";
 
 const siteOrigin = (import.meta.env.VITE_SITE_URL || "").replace(/\/$/, "");
 
@@ -43,10 +43,10 @@ const navLinks = [
  * Navy is the only dark one, so its text and links flip.
  */
 const workLooks = [
-  { shell: "bg-navy text-white", muted: "text-white/70", link: "text-signal", logo: "brightness-0 invert" },
-  { shell: "bg-tint text-navy", muted: "text-slate", link: "text-deep", logo: "" },
-  { shell: "bg-paper text-navy", muted: "text-slate", link: "text-deep", logo: "" },
-  { shell: "bg-gold-tint text-navy", muted: "text-slate", link: "text-deep", logo: "" },
+  { shell: "bg-navy text-white", muted: "text-white/70", link: "text-signal" },
+  { shell: "bg-tint text-navy", muted: "text-slate", link: "text-deep" },
+  { shell: "bg-paper text-navy", muted: "text-slate", link: "text-deep" },
+  { shell: "bg-gold-tint text-navy", muted: "text-slate", link: "text-deep" },
 ];
 
 const workLogos: Record<string, string> = {
@@ -56,8 +56,8 @@ const workLogos: Record<string, string> = {
   "up2date-connect": "/images/logos/up2date-connect.png",
 };
 
-/** Words that drift across the page. Built from the services we actually offer. */
-const marqueeLine = serviceFamilies.map((family) => family.name).join("    ·    ");
+/** The same sector line twice, so the scroll can loop without a jump. */
+const sectorBand = `${home.sectors}   ${home.sectors}   `;
 
 /**
  * The black button used on this page.
@@ -145,6 +145,8 @@ function HeroWave() {
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [openPanel, setOpenPanel] = useState(0);
+  const [dockVisible, setDockVisible] = useState(false);
+  const menuSentinel = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     featured.forEach((item) => {
@@ -153,6 +155,17 @@ export default function Home() {
       const img = new Image();
       img.src = src;
     });
+  }, []);
+
+  // The bottom menu stays hidden until the top menu has scrolled away.
+  useEffect(() => {
+    const node = menuSentinel.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      setDockVisible(!entry.isIntersecting);
+    });
+    observer.observe(node);
+    return () => observer.disconnect();
   }, []);
 
   // A full-screen menu should not leave the page scrolling behind it.
@@ -228,6 +241,7 @@ export default function Home() {
           <section className="px-3 pb-4 pt-3 sm:px-6 sm:pt-6 lg:px-10 lg:pt-8">
             <div className="relative mx-auto max-w-[1240px]">
             <div className="rounded-[40px] bg-white px-6 py-8 sm:px-10 sm:py-12 lg:rounded-b-none lg:px-16 lg:pb-10 lg:pt-8">
+              <div ref={menuSentinel} className="h-px w-full" aria-hidden="true" />
               <div className="hidden items-center justify-between gap-8 lg:flex">
                 <Link to="/" className="inline-flex shrink-0">
                   <Logo variant="black" />
@@ -298,11 +312,6 @@ export default function Home() {
                   </Link>
                 </h2>
                 <p className="mt-6 max-w-md text-lg leading-relaxed text-slate">{home.offer.lede}</p>
-                <p className="mt-8">
-                  <Link to="/services" className="text-deep underline decoration-deep/40 underline-offset-4">
-                    Learn more
-                  </Link>
-                </p>
               </div>
               <Accordion.Root type="single" collapsible className="flex flex-col gap-5">
                 {serviceFamilies.map((family) => (
@@ -320,15 +329,16 @@ export default function Home() {
                     </Accordion.Header>
                     <Accordion.Content>
                       <p className="px-7 text-navy">{family.promise}</p>
-                      <ul className="mt-4 space-y-2 px-7 pb-7 text-slate">
+                      <ul className="mt-4 space-y-2 px-7 text-slate">
                         {family.services.slice(0, 3).map((service) => (
-                          <li key={service.title}>
-                            <Link to={`/services/${family.slug}`} className="transition-colors hover:text-deep">
-                              {service.title}
-                            </Link>
-                          </li>
+                          <li key={service.title}>{service.title}</li>
                         ))}
                       </ul>
+                      <p className="px-7 pb-7 pt-4">
+                        <Link to={`/services/${family.slug}`} className="text-deep underline decoration-deep/40 underline-offset-4">
+                          View {family.name}
+                        </Link>
+                      </p>
                     </Accordion.Content>
                   </Accordion.Item>
                 ))}
@@ -346,35 +356,19 @@ export default function Home() {
                 aria-hidden="true"
               />
               <img
-                src="/images/pillar-systems.jpg"
+                src={home.built.image}
                 alt=""
                 className="relative aspect-[4/5] w-full rotate-2 rounded-[32px] object-cover"
               />
             </div>
             <div>
-              <p className="text-sm font-medium text-deep">{home.hero.kicker}</p>
-              <h2 className="mt-4 font-display text-4xl font-semibold tracking-tight sm:text-5xl">
-                {site.footerTagline}
-              </h2>
-              <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate">{home.offer.lede}</p>
+              <h2 className="font-display text-4xl font-semibold tracking-tight sm:text-5xl">{home.built.title}</h2>
+              <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate">{home.built.lede}</p>
               <ul className="mt-10 grid grid-cols-2 gap-8 sm:grid-cols-4">
                 {home.proof.stats.map((stat) => (
                   <li key={stat.label}>
                     <p className="font-display text-5xl font-semibold tracking-tight text-deep">{stat.value}</p>
                     <p className="mt-2 text-sm text-slate">{stat.label}</p>
-                  </li>
-                ))}
-              </ul>
-              <ul className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3">
-                {serviceFamilies.map((family) => (
-                  <li key={family.slug}>
-                    <Link
-                      to={`/services/${family.slug}`}
-                      className="flex h-32 flex-col justify-between rounded-3xl border border-mist bg-paper p-4 text-navy transition-colors hover:border-deep hover:bg-tint"
-                    >
-                      <FamilyIcon family={family.slug} className="text-deep" />
-                      <span className="text-sm font-medium">{family.name}</span>
-                    </Link>
                   </li>
                 ))}
               </ul>
@@ -448,7 +442,7 @@ export default function Home() {
                 className="px-8 font-display text-5xl font-semibold tracking-tight text-transparent sm:text-7xl"
                 style={{ WebkitTextStroke: "1.5px #0E1E2B" }}
               >
-                {marqueeLine}
+                {sectorBand}
               </p>
             ))}
           </div>
@@ -475,7 +469,7 @@ export default function Home() {
             <div className="lg:sticky lg:top-24">
               <div className="relative mx-auto max-w-md">
                 <img
-                  src="/images/about-studio.jpg"
+                  src={home.approachImage}
                   alt=""
                   className="aspect-[4/5] w-full -rotate-2 rounded-[32px] object-cover"
                 />
@@ -489,23 +483,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-        </section>
-
-        <section className="bg-white px-6 pb-24">
-          <ul className="mx-auto flex max-w-[1240px] flex-wrap justify-center gap-3">
-            {serviceFamilies.flatMap((family) =>
-              family.services.slice(0, 2).map((service) => (
-                <li key={`${family.slug}-${service.title}`}>
-                  <Link
-                    to={`/services/${family.slug}`}
-                    className="inline-flex rounded-full border border-mist px-5 py-3 text-base text-navy hover:border-deep hover:text-deep"
-                  >
-                    {service.title}
-                  </Link>
-                </li>
-              )),
-            )}
-          </ul>
         </section>
 
         <section id="work" className="scroll-mt-24 bg-paper px-3 py-24 sm:px-6 sm:py-32">
@@ -523,20 +500,37 @@ export default function Home() {
                   className={`rounded-[30px] px-6 py-8 sm:px-10 sm:py-10 md:sticky md:top-6 md:min-h-[70vh] ${look.shell}`}
                 >
                   <div className="flex items-start justify-between gap-6">
-                    <h3 className="font-display text-3xl font-semibold sm:text-4xl">{name}</h3>
-                    <p className={`text-sm ${look.muted}`}>{familyLabel(item.family)}</p>
+                    {workLogos[item.slug] ? (
+                      <span className="inline-flex rounded-xl bg-white px-3 py-2">
+                        <img
+                          src={workLogos[item.slug]}
+                          alt=""
+                          className="h-8 w-auto max-w-[7rem] object-contain"
+                        />
+                      </span>
+                    ) : (
+                      <h3 className="font-display text-3xl font-semibold sm:text-4xl">{name}</h3>
+                    )}
                   </div>
-                  <p className={`mt-4 max-w-xl ${look.muted}`}>
-                    {home.work.lines[item.slug] ?? item.summary}
-                  </p>
                   {workLogos[item.slug] ? (
-                    <img
-                      src={workLogos[item.slug]}
-                      alt=""
-                      className={`mx-auto mt-10 h-16 w-auto max-w-[16rem] object-contain sm:h-20 ${look.logo}`}
-                    />
+                    <h3 className="mt-6 font-display text-3xl font-semibold sm:text-4xl">{name}</h3>
                   ) : null}
-                  <p className="mt-10">
+                  <ul className="mt-4 flex flex-wrap gap-2">
+                    {studyTags(item).map((tag) => (
+                      <li key={tag} className="tag bg-white/80 text-slate">
+                        {tag}
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-8">
+                    {coverImage(item) ? (
+                      <BrowserFrame src={coverImage(item) as string} alt="" embedded />
+                    ) : (
+                      <BrowserPlaceholder label={name} embedded />
+                    )}
+                  </div>
+                  <p className={`mt-6 max-w-xl ${look.muted}`}>{home.work.lines[item.slug] ?? item.summary}</p>
+                  <p className="mt-6">
                     <Link
                       to={`/work/${item.slug}`}
                       className={`underline underline-offset-4 ${look.link}`}
@@ -598,30 +592,48 @@ export default function Home() {
                 </Link>
               </p>
             </div>
-            <div className="flex items-center overflow-hidden bg-tint px-8 py-12 text-navy">
-              <p className="font-display text-4xl font-semibold leading-tight sm:text-5xl">{marqueeLine}</p>
+            <div className="flex flex-col justify-center gap-6 bg-tint px-8 py-12 sm:px-12">
+              <Link to="/contact" className="font-display text-3xl font-semibold text-navy hover:text-deep sm:text-4xl">
+                Send a brief
+              </Link>
+              {whatsappHref ? (
+                <a
+                  href={whatsappHref}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-display text-3xl font-semibold text-navy hover:text-deep sm:text-4xl"
+                  onClick={() => track("whatsapp_click", { location: "home-cta" })}
+                >
+                  Chat on WhatsApp
+                </a>
+              ) : null}
+              <a
+                href={`mailto:${studioEmail}`}
+                className="font-display text-2xl font-semibold text-navy hover:text-deep sm:text-3xl"
+              >
+                {studioEmail}
+              </a>
             </div>
           </div>
         </section>
 
         <nav
-          className="fixed bottom-5 left-1/2 z-40 hidden -translate-x-1/2 items-center gap-1 rounded-full border border-mist bg-white/95 px-2 py-2 text-navy lg:flex"
-          aria-label="On this page"
+          className={`fixed bottom-5 left-1/2 z-40 max-w-[calc(100vw-1.5rem)] -translate-x-1/2 items-center gap-1 overflow-x-auto rounded-full border border-mist bg-white/95 px-2 py-2 text-navy ${
+            dockVisible ? "flex" : "hidden"
+          }`}
+          aria-label="Primary"
         >
-          <a href="#home" className="rounded-full px-4 py-2 text-sm hover:bg-paper">
-            Home
-          </a>
-          <a href="#services" className="rounded-full px-4 py-2 text-sm hover:bg-paper">
-            Services
-          </a>
-          <a href="#work" className="rounded-full px-4 py-2 text-sm hover:bg-paper">
-            Work
-          </a>
-          <a href="#approach" className="rounded-full px-4 py-2 text-sm hover:bg-paper">
-            Approach
-          </a>
-          <Link to="/contact" className="rounded-full px-4 py-2 text-sm hover:bg-paper">
-            Contact
+          {navLinks.map((link) => (
+            <Link key={link.to} to={link.to} className="whitespace-nowrap rounded-full px-3 py-2 text-sm hover:bg-paper">
+              {link.label}
+            </Link>
+          ))}
+          <Link
+            to="/contact"
+            className="whitespace-nowrap rounded-full bg-navy px-3 py-2 text-sm text-white hover:bg-deep"
+            onClick={() => track("start_project_click", { location: "home-dock" })}
+          >
+            {home.hero.primary}
           </Link>
         </nav>
       </div>

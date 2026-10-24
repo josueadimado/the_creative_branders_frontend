@@ -9,7 +9,8 @@ export const home = {
     path: "/",
   },
   hero: {
-    image: "/images/hero-studio.jpg",
+    /** Not used on any other page. Swap this file when the studio photos arrive. */
+    image: "/images/work-mentorship.jpg",
     kicker: "Digital intelligence studio",
     title: "Designed for intelligent growth.",
     lede: "We design and build websites, web apps and mobile apps, then connect them to the payments, messages and numbers your business runs on.",
@@ -36,6 +37,15 @@ export const home = {
     ],
     line: "Some of the organisations we've built with.",
   },
+  /** The numbers block. Its heading is not the hero line. */
+  built: {
+    title: "Built around how your business runs.",
+    lede: "We've shipped booking systems, learning platforms, a creator marketplace and multilingual sites for clients in the US, Ghana and Nigeria.",
+    /** This photo is only used here. */
+    image: "/images/pillar-systems.jpg",
+  },
+  /** Outlined words that scroll across the page. Sectors, not the service list. */
+  sectors: "Clinics · Schools · Ministries · Marketplaces · Counseling · Startups ·",
   work: {
     title: "Recent work",
     lede: "Clinics, learning platforms, a creator marketplace and a ministry. Each one is live and used every day.",
@@ -53,8 +63,10 @@ export const home = {
   },
   offer: {
     title: "What we build",
-    lede: "Most clients come to us for a website or an app. The other services usually follow once that's live.",
+    lede: "Most projects start with a website or an app. The automation and reporting usually follow once it's live.",
   },
+  /** Photo beside the steps. Not the About page photo. */
+  approachImage: "/images/work-counseling.jpg",
   different: {
     title: "Why clients stay with us",
     /** Shown inside the browser frame until a real client-portal screenshot exists. */
