@@ -88,7 +88,7 @@ export const about = {
   },
   believe: {
     title: "What we believe",
-    body: "Creativity, technology and finance work best together. A business needs to look credible, run smoothly and know its numbers. The blue dot in our logo is where those three meet.",
+    body: "A business needs to look credible, run smoothly and know its numbers. Creativity, technology and finance work best together, and the blue dot in our logo is where they meet.",
   },
   values: {
     title: "These values shape every project we take on",

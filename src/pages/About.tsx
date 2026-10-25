@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { CreditCard, Eye, ShieldCheck, UserRound, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import CBMark from "../components/CBMark";
 import { BrowserFrame, BrowserPlaceholder, PhonePlaceholder } from "../components/DeviceFrame";
 import IconTile from "../components/IconTile";
 import Seo from "../components/Seo";
@@ -84,6 +85,17 @@ export default function About() {
             </ul>
           </div>
           <BrowserPlaceholder label="Client portal" />
+        </div>
+      </section>
+
+      {/* The monogram sits beside the sentence about the blue dot. */}
+      <section className="border-t border-mist bg-paper">
+        <div className="mx-auto flex max-w-6xl flex-col items-start gap-8 px-6 py-20 sm:flex-row sm:items-center lg:py-28">
+          <CBMark variant="light" size={88} />
+          <div>
+            <h2 className="type-display text-navy">{about.believe.title}</h2>
+            <p className="type-body mt-4 text-slate">{about.believe.body}</p>
+          </div>
         </div>
       </section>
 
