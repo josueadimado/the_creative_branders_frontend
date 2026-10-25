@@ -1,31 +1,8 @@
-import { CreditCard, Eye, ShieldCheck, UserRound, Users } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
-import CBMark from "../components/CBMark";
-import ClosingBlock from "../components/ClosingBlock";
-import { BrowserFrame, BrowserPlaceholder, PhonePlaceholder } from "../components/DeviceFrame";
-import IconTile from "../components/IconTile";
-import LogoRow from "../components/LogoRow";
+import { Link } from "react-router-dom";
 import Seo from "../components/Seo";
 import { about } from "../content/about";
-import { home } from "../content/home";
-
-/** Real screens. COME|CLARITY has no screenshot yet, so that slot stays a navy panel. */
-const workIcons: LucideIcon[] = [UserRound, Users, CreditCard, Eye, ShieldCheck];
-
-const shots = {
-  relief: {
-    src: "/images/work/relief-chiropractic/staff-sign-in.jpg",
-    alt: "Staff sign-in for the chiropractic clinic system.",
-  },
-  pushIt: {
-    src: "/images/work/push-it/brands-home.jpg",
-    alt: "Push-it homepage for launching campaigns.",
-  },
-  up2date: {
-    src: "/images/work/up2date-connect/homepage.jpg",
-    alt: "Up2Date Connect homepage.",
-  },
-};
+import { cta } from "../content/cta";
+import { track } from "../lib/analytics";
 
 /**
  * Same arrangement as before. Fonts and colours match the homepage:
@@ -38,85 +15,87 @@ export default function About() {
     <div className="bg-paper font-sans text-navy">
       <Seo {...about.seo} />
 
-      {/* Opening: the words on the left, project screens on the right. */}
-      <section className="bg-paper">
-        <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 py-16 lg:grid-cols-[0.9fr_1.1fr] lg:py-24">
+      {/* Opening: everything in this block is centered. */}
+      <section className="px-7 pb-8 pt-20 sm:pt-24">
+        <p className="type-kicker text-center text-deep">{about.hero.kicker}</p>
+        <h1 className="mx-auto mt-4 max-w-[858px] text-center font-display text-[2.5rem] font-semibold leading-[1.15] sm:text-6xl lg:text-[80px] lg:leading-[104px]">
+          {about.hero.headline}
+        </h1>
+        <p className="type-body mx-auto mt-8 max-w-[480px] text-center text-slate">{about.hero.lede}</p>
+      </section>
+
+      {/* The wide photo, then the two desk photos beside each other. Nothing covers them. */}
+      <section className="mx-auto max-w-[1224px] px-7 pb-8">
+        <img
+          src={about.pictures.banner.src}
+          alt={about.pictures.banner.alt}
+          className="h-auto w-full rounded-[20px]"
+        />
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          {about.pictures.desks.map((picture) => (
+            <img key={picture.src} src={picture.src} alt={picture.alt} className="h-auto w-full rounded-[20px]" />
+          ))}
+        </div>
+      </section>
+
+      {/* Heading on the left. The two paragraphs sit on the right. */}
+      <section className="mx-auto max-w-[1224px] px-7 pb-8 pt-16 lg:px-0 lg:pt-24">
+        <div className="grid gap-10 lg:grid-cols-[454px_606px] lg:justify-between">
+          <h2 className="font-display text-4xl font-semibold leading-[1.15] text-navy sm:text-[48px] sm:leading-[62px]">
+            {about.work.title}
+          </h2>
           <div>
-            <p className="type-kicker text-deep">{about.hero.kicker}</p>
-            <h1 className="type-h1 mt-4 text-navy">{about.hero.headline}</h1>
-            <p className="type-body mt-6 text-slate">{about.hero.lede}</p>
+            <p className="type-body text-slate">{about.started.body}</p>
+            <p className="type-body mt-5 text-slate">{about.work.paragraphs[0]}</p>
+            <p className="type-body mt-5 text-slate">{about.work.paragraphs[1]}</p>
           </div>
-          <div className="grid items-center gap-4 sm:grid-cols-[1fr_14rem]">
-            <div className="grid gap-4">
-              <BrowserFrame src={shots.relief.src} alt={shots.relief.alt} loading="eager" />
-              <div className="grid gap-4 sm:grid-cols-2">
-                <BrowserFrame src={shots.pushIt.src} alt={shots.pushIt.alt} />
-                <BrowserFrame src={shots.up2date.src} alt={shots.up2date.alt} />
+        </div>
+
+        {/* The short note stays on the left. The four numbers sit in a row beside it. */}
+        <div className="mt-16 grid gap-10 lg:mt-20 lg:grid-cols-[224px_1fr] lg:items-center">
+          <p className="type-body max-w-[224px] text-slate">{about.facts.note}</p>
+          <dl className="grid grid-cols-2 gap-8 sm:grid-cols-4">
+            {about.facts.stats.map((stat) => (
+              <div key={stat.label}>
+                <dt className="font-sans text-5xl font-semibold leading-none text-deep sm:text-[56px]">{stat.value}</dt>
+                <dd className="type-body mt-2 text-slate">{stat.label}</dd>
               </div>
-            </div>
-            <PhonePlaceholder label="COME|CLARITY" />
-          </div>
-        </div>
-      </section>
-
-      {/* Heading on the left. The story sits on the right. */}
-      <section className="border-t border-mist bg-paper">
-        <div className="mx-auto grid max-w-6xl gap-10 px-6 py-20 lg:grid-cols-[0.8fr_1.2fr] lg:py-28">
-          <h2 className="type-display text-navy">{about.started.title}</h2>
-          <p className="type-body text-slate">{about.started.body}</p>
-        </div>
-      </section>
-
-      {/* Five points on the left. The portal screen waits on the right. */}
-      <section className="border-t border-mist bg-white">
-        <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 py-20 lg:grid-cols-2 lg:py-28">
-          <div>
-            <h2 className="type-display text-navy">{about.work.title}</h2>
-            <ul className="mt-10 space-y-8">
-              {about.work.points.map((point, index) => (
-                <li key={point.title} className="flex gap-4">
-                  <IconTile icon={workIcons[index]} />
-                  <div>
-                    <p className="font-semibold text-navy">{point.title}</p>
-                    <p className="type-body text-slate">{point.body}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <BrowserPlaceholder label="Client portal" />
-        </div>
-      </section>
-
-      {/* The monogram sits beside the sentence about the blue dot. */}
-      <section className="border-t border-mist bg-paper">
-        <div className="mx-auto flex max-w-6xl flex-col items-start gap-8 px-6 py-20 sm:flex-row sm:items-center lg:py-28">
-          <CBMark variant="light" size={88} />
-          <div>
-            <h2 className="type-display text-navy">{about.believe.title}</h2>
-            <p className="type-body mt-4 text-slate">{about.believe.body}</p>
-          </div>
-        </div>
-      </section>
-
-      {/* White cards. The sentence sits directly under the title. */}
-      <section className="border-t border-mist bg-paper">
-        <div className="mx-auto max-w-6xl px-6 py-20 lg:py-28">
-          <h2 className="type-display text-navy">{about.values.title}</h2>
-          <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {about.values.items.map((item) => (
-              <li key={item.title} className="rounded-2xl border border-mist bg-white p-6">
-                <h3 className="type-title text-navy">{item.title}</h3>
-                <p className="type-body mt-3 text-slate">{item.body}</p>
-              </li>
             ))}
-          </ul>
+          </dl>
         </div>
       </section>
 
-      <LogoRow logos={home.proof.logos} label={about.organisations.title} />
+      {/* The heading is centered. Each card uses the homepage blue, with the name at the top. */}
+      <section className="mx-auto max-w-[1224px] px-7 pb-20 pt-16 lg:px-0 lg:pb-28 lg:pt-24">
+        <h2 className="mx-auto max-w-[640px] text-center font-display text-4xl font-semibold leading-[1.15] text-navy sm:text-[48px] sm:leading-[62px]">
+          {about.values.title}
+        </h2>
+        <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
+          {about.values.items.map((item) => (
+            <li key={item.title} className="flex min-h-[280px] flex-col rounded-2xl bg-signal p-6 text-navy">
+              <h3 className="font-display text-2xl font-semibold">{item.title}</h3>
+              <p className="mt-auto pt-8 font-sans text-[15px] leading-6">{item.body}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
 
-      <ClosingBlock />
+      {/* Close: the words and the single button are centered on the navy. */}
+      <section className="bg-navy">
+        <div className="mx-auto flex max-w-[720px] flex-col items-center px-7 py-24 text-center sm:py-32">
+          <h2 className="font-display text-4xl font-semibold leading-[1.15] text-white sm:text-[56px] sm:leading-[1.15]">
+            {cta.title}
+          </h2>
+          <p className="type-body mt-6 max-w-[520px] text-white/85">{cta.body}</p>
+          <Link
+            to="/contact"
+            onClick={() => track("start_project_click", { location: "about-close" })}
+            className="btn btn-primary mt-8 min-w-[194px]"
+          >
+            {cta.primary}
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }
