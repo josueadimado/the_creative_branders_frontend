@@ -1,15 +1,13 @@
-import { Link } from "react-router-dom";
 import { CreditCard, Eye, ShieldCheck, UserRound, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import CBMark from "../components/CBMark";
+import ClosingBlock from "../components/ClosingBlock";
 import { BrowserFrame, BrowserPlaceholder, PhonePlaceholder } from "../components/DeviceFrame";
 import IconTile from "../components/IconTile";
 import LogoRow from "../components/LogoRow";
 import Seo from "../components/Seo";
 import { about } from "../content/about";
 import { home } from "../content/home";
-import { cta } from "../content/cta";
-import { track } from "../lib/analytics";
 
 /** Real screens. COME|CLARITY has no screenshot yet, so that slot stays a navy panel. */
 const workIcons: LucideIcon[] = [UserRound, Users, CreditCard, Eye, ShieldCheck];
@@ -107,7 +105,7 @@ export default function About() {
           <h2 className="type-display text-navy">{about.values.title}</h2>
           <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {about.values.items.map((item) => (
-              <li key={item.title} className="rounded-card border border-mist bg-white p-6">
+              <li key={item.title} className="rounded-2xl border border-mist bg-white p-6">
                 <h3 className="type-title text-navy">{item.title}</h3>
                 <p className="type-body mt-3 text-slate">{item.body}</p>
               </li>
@@ -118,22 +116,7 @@ export default function About() {
 
       <LogoRow logos={home.proof.logos} label={about.organisations.title} />
 
-      {/* Close: the words and the single button are centered on the navy. */}
-      <section className="bg-navy">
-        <div className="mx-auto flex max-w-[720px] flex-col items-center px-7 py-24 text-center sm:py-32">
-          <h2 className="font-display text-4xl font-semibold leading-[1.15] text-white sm:text-[56px] sm:leading-[1.15]">
-            {cta.title}
-          </h2>
-          <p className="type-body mt-6 max-w-[520px] text-white/85">{cta.body}</p>
-          <Link
-            to="/contact"
-            onClick={() => track("start_project_click", { location: "about-close" })}
-            className="btn btn-primary mt-8 min-w-[194px]"
-          >
-            {cta.primary}
-          </Link>
-        </div>
-      </section>
+      <ClosingBlock />
     </div>
   );
 }
