@@ -1,11 +1,16 @@
 import { Link } from "react-router-dom";
-import { BrowserFrame, PhonePlaceholder } from "../components/DeviceFrame";
+import { CreditCard, Eye, ShieldCheck, UserRound, Users } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import { BrowserFrame, BrowserPlaceholder, PhonePlaceholder } from "../components/DeviceFrame";
+import IconTile from "../components/IconTile";
 import Seo from "../components/Seo";
 import { about } from "../content/about";
 import { cta } from "../content/cta";
 import { track } from "../lib/analytics";
 
 /** Real screens. COME|CLARITY has no screenshot yet, so that slot stays a navy panel. */
+const workIcons: LucideIcon[] = [UserRound, Users, CreditCard, Eye, ShieldCheck];
+
 const shots = {
   relief: {
     src: "/images/work/relief-chiropractic/staff-sign-in.jpg",
@@ -59,7 +64,30 @@ export default function About() {
           <h2 className="type-display text-navy">{about.started.title}</h2>
           <p className="type-body text-slate">{about.started.body}</p>
         </div>
+      </section>
 
+      {/* Five points on the left. The portal screen waits on the right. */}
+      <section className="border-t border-mist bg-white">
+        <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 py-20 lg:grid-cols-2 lg:py-28">
+          <div>
+            <h2 className="type-display text-navy">{about.work.title}</h2>
+            <ul className="mt-10 space-y-8">
+              {about.work.points.map((point, index) => (
+                <li key={point.title} className="flex gap-4">
+                  <IconTile icon={workIcons[index]} />
+                  <div>
+                    <p className="font-semibold text-navy">{point.title}</p>
+                    <p className="type-body text-slate">{point.body}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <BrowserPlaceholder label="Client portal" />
+        </div>
+      </section>
+
+      <section className="border-t border-mist bg-paper">
         {/* The short note stays on the left. The four numbers sit in a row beside it. */}
         <div className="mx-auto mt-4 grid max-w-6xl gap-10 px-6 pb-20 lg:grid-cols-[224px_1fr] lg:items-center">
           <p className="type-body max-w-[224px] text-slate">{about.facts.note}</p>

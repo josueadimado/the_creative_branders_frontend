@@ -62,10 +62,28 @@ export const about = {
     body: "Too many good businesses were stuck between a cheap website that didn't do much and an agency they couldn't afford. We started the studio to give growing businesses the kind of software and design larger companies get, at a size and price that makes sense for them.",
   },
   work: {
-    title: "How we help your business run",
-    paragraphs: [
-      "Every project has one lead who stays with it from the first call to launch and beyond. When a project needs more, such as a mobile developer, a payments specialist or a data analyst, we bring in people we've worked with before.",
-      "You follow the work in our client portal. You can see what's been done, how long it took and what's coming next, at any time.",
+    title: "How we work with you",
+    points: [
+      {
+        title: "You work with the person doing the work.",
+        body: "One lead takes your project from the first call to launch.",
+      },
+      {
+        title: "Specialists join when you need them.",
+        body: "Mobile, payments or data experts we've worked with before. You don't pay for a large team you don't need.",
+      },
+      {
+        title: "Built for how your customers pay and talk.",
+        body: "Mobile money and Paystack, Square and insurance claims, WhatsApp and SMS.",
+      },
+      {
+        title: "You can see what you're paying for.",
+        body: "Our client portal shows every change, how long it took and what's next.",
+      },
+      {
+        title: "It keeps working after launch.",
+        body: "We host, monitor and update what we build.",
+      },
     ],
   },
   believe: {
