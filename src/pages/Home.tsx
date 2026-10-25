@@ -41,8 +41,8 @@ import { about } from "../content/about";
 import { cta } from "../content/cta";
 import { home } from "../content/home";
 import { howWeWork } from "../content/services/howWeWork";
+import brandWebsites from "../content/services/brandWebsites";
 import webApplications from "../content/services/webApplications";
-import websites from "../content/services/websites";
 import { workPage } from "../content/work";
 import { track } from "../lib/analytics";
 import {
@@ -96,7 +96,7 @@ const tools: { name: string; icon: LucideIcon | "badge" }[] = [
 ];
 
 /** Questions already published on the service pages. */
-const questions = [...websites.faqs, webApplications.faqs[3]];
+const questions = [...brandWebsites.faqs, webApplications.faqs[3]];
 
 /**
  * Homepage rows for the four service families.

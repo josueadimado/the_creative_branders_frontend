@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import CookieConsent from "./components/CookieConsent";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
@@ -17,6 +17,7 @@ import ResponsibleAI from "./pages/ResponsibleAI";
 import NotFound from "./pages/NotFound";
 import Privacy from "./pages/Privacy";
 import { cookies } from "./content/cookies";
+import { serviceRedirects } from "./content/services";
 import { terms } from "./content/terms";
 import ServiceFamily from "./pages/ServiceFamily";
 import Services from "./pages/Services";
@@ -51,6 +52,10 @@ export default function App() {
               <Routes location={location}>
                 <Route path="/" element={<Home />} />
                 <Route path="/services" element={<Services />} />
+                {/* Old family addresses. Nginx also sends a permanent redirect for these. */}
+                {Object.entries(serviceRedirects).map(([from, to]) => (
+                  <Route key={from} path={`/services/${from}`} element={<Navigate to={`/services/${to}`} replace />} />
+                ))}
                 <Route path="/services/:slug" element={<ServiceFamily />} />
                 <Route path="/work" element={<Work />} />
                 <Route path="/work/:slug" element={<WorkStudy />} />

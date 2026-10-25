@@ -2,7 +2,7 @@ import type { ServiceFamily } from "./types";
 
 const webApplications: ServiceFamily = {
   slug: "web-applications",
-  name: "Web Applications",
+  name: "Web applications",
   promise: "Web apps built around your process",
   description: "Custom web apps, portals, booking systems and dashboards built around how your business works.",
   image: "/images/work-ops.jpg",
@@ -34,7 +34,14 @@ const webApplications: ServiceFamily = {
       body: "Square, Paystack, Stripe and mobile money, connected properly and tested.",
     },
   ],
-  relatedSlugs: ["relief-chiropractic", "up2date-connect", "come-clarity", "push-it"],
+  relatedSlugs: [
+    "relief-chiropractic",
+    "up2date-connect",
+    "come-clarity",
+    "push-it",
+    "elevate-tribe-learning",
+    "uplift-your-morning",
+  ],
   faqs: [
     {
       question: "How long does a web app take?",

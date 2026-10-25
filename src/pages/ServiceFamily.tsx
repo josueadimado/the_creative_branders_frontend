@@ -11,8 +11,9 @@ import { getPublishedStudy, type PortfolioItem } from "../data/portfolio";
 import NotFound from "./NotFound";
 
 /**
- * One template for all six service pages.
+ * One template for every service page.
  * The slug in the URL picks the family from src/content/services.
+ * Old slugs redirect before this page renders.
  */
 export default function ServiceFamily() {
   const { slug } = useParams();

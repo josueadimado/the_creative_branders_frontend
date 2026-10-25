@@ -1,33 +1,37 @@
-import automationAi from "./automationAi";
-import brandDesign from "./brandDesign";
-import dataGrowth from "./dataGrowth";
+import automationReporting from "./automationReporting";
+import brandWebsites from "./brandWebsites";
 import mobileApps from "./mobileApps";
 import type { ServiceFamily } from "./types";
 import webApplications from "./webApplications";
-import websites from "./websites";
 
-/** Words for /services. The six cards below come from the family files. */
+/** Words for /services. The four cards below come from the family files. */
 export const servicesPage = {
   seo: {
     title: "What we build",
     description:
-      "Websites, web apps, mobile apps, brand, automation and data reporting for growing businesses.",
+      "Brand and websites, web applications, mobile apps, and automation and reporting for growing businesses.",
     path: "/services",
   },
   image: "/images/hero-studio.jpg",
   kicker: "Services",
   title: "What we build",
-  lede: "Our work falls into six areas. Most projects start in one and pick up a second along the way. A booking site needs reminders. A marketplace needs reporting. We handle both, so you're not coordinating three suppliers.",
+  lede: "Our work falls into four areas. Most projects start with a website or an app. Automation and reporting usually follow once it's live.",
 } as const;
 
 export const serviceFamilies: ServiceFamily[] = [
-  websites,
+  brandWebsites,
   webApplications,
   mobileApps,
-  brandDesign,
-  automationAi,
-  dataGrowth,
+  automationReporting,
 ];
+
+/** Old addresses that now live on a merged page. */
+export const serviceRedirects: Record<string, string> = {
+  websites: "brand-websites",
+  "brand-design": "brand-websites",
+  "automation-ai": "automation-reporting",
+  "data-growth": "automation-reporting",
+};
 
 export function getServiceFamily(slug: string | undefined): ServiceFamily | undefined {
   return serviceFamilies.find((family) => family.slug === slug);

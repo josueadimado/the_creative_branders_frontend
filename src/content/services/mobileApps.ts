@@ -2,7 +2,7 @@ import type { ServiceFamily } from "./types";
 
 const mobileApps: ServiceFamily = {
   slug: "mobile-apps",
-  name: "Mobile Apps",
+  name: "Mobile apps",
   promise: "Mobile apps people keep using",
   description: "iOS and Android apps, designed and built for your customers, from first version to app store launch.",
   image: "/images/work-edtech.jpg",
