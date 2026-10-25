@@ -76,18 +76,27 @@ try {
   for (const route of routes) {
     if (typeof route !== "string" || !route.startsWith("/")) fail(`bad route ${route}`);
     const url = `http://127.0.0.1:${port}${route}`;
+    const isHome = route === "/";
     await page.goto(url, { waitUntil: "load", timeout: 30000 });
-    await page.waitForFunction(
-      (genericTitle) =>
-        window.prerenderReady === true &&
-        document.title.length > 0 &&
-        document.title !== genericTitle,
-      shellTitle,
-      { timeout: 20000 },
-    );
+    try {
+      await page.waitForFunction(
+        ({ genericTitle, home }) => {
+          if (window.prerenderReady !== true || document.title.length === 0) return false;
+          // The homepage title is already in index.html, so it does not change.
+          // Every other page must replace that title before we save it.
+          if (!home && document.title === genericTitle) return false;
+          return true;
+        },
+        { genericTitle: shellTitle, home: isHome },
+        { timeout: 20000 },
+      );
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      fail(`${route} did not become ready. ${message}`);
+    }
     const html = await page.content();
     const savedTitle = html.match(/<title>([^<]*)<\/title>/)?.[1] ?? "";
-    if (!savedTitle || savedTitle === shellTitle) {
+    if (!savedTitle || (!isHome && savedTitle === shellTitle)) {
       fail(`${route} kept the generic title.`);
     }
     const outFile = route === "/" ? join(dist, "index.html") : join(dist, route, "index.html");
