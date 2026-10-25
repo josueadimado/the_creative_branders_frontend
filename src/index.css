@@ -453,21 +453,40 @@ h4 {
   animation: home-marquee 32s linear infinite;
 }
 
-/* The tools row moves right to left. Two copies sit side by side, so -50% loops without a jump. */
-.tools-marquee {
-  animation: home-marquee 48s linear infinite;
+/* The moving rows. Two copies sit side by side, so sliding halfway loops without a jump.
+   translate3d keeps the motion on the graphics chip, which stays smooth on a phone. */
+.tools-marquee,
+.logo-marquee {
+  animation-name: home-marquee;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  backface-visibility: hidden;
+  will-change: transform;
 }
 
-/* Organisation logos. Same loop as the tools row, a little slower so the marks stay readable. */
+.tools-marquee {
+  animation-duration: 36s;
+}
+
 .logo-marquee {
-  animation: home-marquee 40s linear infinite;
+  animation-duration: 28s;
+}
+
+@media (min-width: 640px) {
+  .tools-marquee {
+    animation-duration: 48s;
+  }
+
+  .logo-marquee {
+    animation-duration: 40s;
+  }
 }
 
 @keyframes home-marquee {
   from {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
   to {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
   }
 }

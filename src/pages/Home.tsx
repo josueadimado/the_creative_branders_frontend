@@ -458,17 +458,17 @@ export default function Home() {
           </section>
 
           <section className="overflow-hidden border-b border-mist bg-white" aria-label="Tools we ship with">
-            <div className="mx-auto flex max-w-[1180px] items-center gap-8 px-5 py-6">
+            {/* On a phone the label sits above the row, so the names have the full width. */}
+            <div className="mx-auto flex max-w-[1180px] flex-col gap-4 px-5 py-5 sm:flex-row sm:items-center sm:gap-8 sm:py-6">
               <p className="shrink-0 text-[11px] font-semibold uppercase leading-snug tracking-[0.16em] text-navy">
                 Tools we
-                <br />
-                ship with.
+                <br className="hidden sm:block" /> ship with.
               </p>
               {/* Two copies of the same list. The row slides left until the second copy takes the first copy's place. */}
-              <div className="min-w-0 flex-1 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_16px,black_calc(100%-16px),transparent)]">
-                <div className="tools-marquee flex w-max">
+              <div className="min-w-0 w-full flex-1 touch-pan-y overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_12px,black_calc(100%-12px),transparent)]">
+                <div className="tools-marquee flex w-max select-none">
                   {[0, 1].map((copy) => (
-                    <ul key={copy} className="flex items-center gap-10 pr-10" aria-hidden={copy === 1}>
+                    <ul key={copy} className="flex items-center gap-8 pr-8 sm:gap-10 sm:pr-10" aria-hidden={copy === 1}>
                       {tools.map((tool) => (
                         <li key={`${copy}-${tool.name}`} className="inline-flex items-center gap-2.5 whitespace-nowrap text-sm font-semibold text-navy">
                           <ToolIcon tool={tool} />
@@ -602,14 +602,20 @@ export default function Home() {
             <p className="px-5 text-center text-[11px] font-semibold uppercase tracking-[0.16em] text-slate">
               {homeLive.proof.line}
             </p>
-            {/* Two copies sit side by side so the row can slide without a gap. */}
-            <div className="mt-10 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_24px,black_calc(100%-24px),transparent)]">
-              <div className="logo-marquee flex w-max">
+            {/* Each mark sits in the same size box, so a wide logo does not open a big empty gap.
+                Two copies sit side by side so the row can slide without a jump. */}
+            <div className="mt-8 touch-pan-y overflow-hidden sm:mt-10 [mask-image:linear-gradient(to_right,transparent,black_16px,black_calc(100%-16px),transparent)]">
+              <div className="logo-marquee flex w-max select-none">
                 {[0, 1].map((copy) => (
-                  <ul key={copy} className="flex items-center gap-20 pr-20" aria-hidden={copy === 1}>
+                  <ul key={copy} className="flex items-center" aria-hidden={copy === 1}>
                     {homeLive.proof.logos.map((item) => (
-                      <li key={`${copy}-${item.name}`} className="flex h-16 items-center">
-                        <img src={item.logo} alt={copy === 0 ? item.name : ""} className="h-14 w-auto max-w-none object-contain" />
+                      <li key={`${copy}-${item.name}`} className="flex h-14 w-[7.25rem] shrink-0 items-center justify-center px-2 sm:h-16 sm:w-44 sm:px-4">
+                        <img
+                          src={item.logo}
+                          alt={copy === 0 ? item.name : ""}
+                          draggable={false}
+                          className="max-h-9 w-auto max-w-full object-contain sm:max-h-12"
+                        />
                       </li>
                     ))}
                   </ul>
