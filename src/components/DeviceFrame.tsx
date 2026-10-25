@@ -106,8 +106,8 @@ export function BrowserFrame({ src, alt, className = "", loading = "lazy", embed
 export function PhonePlaceholder({ label, className = "" }: { label: string; className?: string }) {
   return (
     <div className={`mx-auto w-full max-w-[17.5rem] rounded-[2rem] border border-mist bg-white p-2 ${className}`}>
-      <div className="dot-grid flex aspect-[9/16] items-center justify-center overflow-hidden rounded-[1.35rem] border border-mist bg-navy px-4">
-        <p className="type-title text-center text-white">{label}</p>
+      <div className="dot-grid flex aspect-[9/16] items-center justify-center overflow-hidden rounded-[1.35rem] border border-mist bg-navy px-3">
+        <p className="text-center font-display text-sm font-semibold leading-tight text-white">{label}</p>
       </div>
     </div>
   );

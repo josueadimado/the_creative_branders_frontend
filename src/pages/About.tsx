@@ -46,7 +46,7 @@ export default function About() {
             <h1 className="type-h1 mt-4 text-navy">{about.hero.headline}</h1>
             <p className="type-body mt-6 text-slate">{about.hero.lede}</p>
           </div>
-          <div className="grid items-center gap-4 sm:grid-cols-[1fr_11rem]">
+          <div className="grid items-center gap-4 sm:grid-cols-[1fr_14rem]">
             <div className="grid gap-4">
               <BrowserFrame src={shots.relief.src} alt={shots.relief.alt} loading="eager" />
               <div className="grid gap-4 sm:grid-cols-2">
