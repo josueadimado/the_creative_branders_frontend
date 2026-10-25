@@ -59,7 +59,7 @@ export const about = {
   },
   started: {
     title: "Why we started",
-    body: "We started the studio to give growing businesses software and design of the same quality larger companies get, at a size and price that makes sense for them.",
+    body: "Too many good businesses were stuck between a cheap website that didn't do much and an agency they couldn't afford. We started the studio to give growing businesses the kind of software and design larger companies get, at a size and price that makes sense for them.",
   },
   work: {
     title: "How we help your business run",

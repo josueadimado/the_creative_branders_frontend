@@ -53,21 +53,15 @@ export default function About() {
         </div>
       </section>
 
-      {/* Heading on the left. The two paragraphs sit on the right. */}
-      <section className="mx-auto max-w-[1224px] px-7 pb-8 pt-16 lg:px-0 lg:pt-24">
-        <div className="grid gap-10 lg:grid-cols-[454px_606px] lg:justify-between">
-          <h2 className="font-display text-4xl font-semibold leading-[1.15] text-navy sm:text-[48px] sm:leading-[62px]">
-            {about.work.title}
-          </h2>
-          <div>
-            <p className="type-body text-slate">{about.started.body}</p>
-            <p className="type-body mt-5 text-slate">{about.work.paragraphs[0]}</p>
-            <p className="type-body mt-5 text-slate">{about.work.paragraphs[1]}</p>
-          </div>
+      {/* Heading on the left. The story sits on the right. */}
+      <section className="border-t border-mist bg-paper">
+        <div className="mx-auto grid max-w-6xl gap-10 px-6 py-20 lg:grid-cols-[0.8fr_1.2fr] lg:py-28">
+          <h2 className="type-display text-navy">{about.started.title}</h2>
+          <p className="type-body text-slate">{about.started.body}</p>
         </div>
 
         {/* The short note stays on the left. The four numbers sit in a row beside it. */}
-        <div className="mt-16 grid gap-10 lg:mt-20 lg:grid-cols-[224px_1fr] lg:items-center">
+        <div className="mx-auto mt-4 grid max-w-6xl gap-10 px-6 pb-20 lg:grid-cols-[224px_1fr] lg:items-center">
           <p className="type-body max-w-[224px] text-slate">{about.facts.note}</p>
           <dl className="grid grid-cols-2 gap-8 sm:grid-cols-4">
             {about.facts.stats.map((stat) => (
