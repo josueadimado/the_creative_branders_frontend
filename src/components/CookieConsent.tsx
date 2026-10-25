@@ -1,46 +1,59 @@
 import { useEffect, useState } from "react";
-import { hasAnalyticsId, loadAnalytics, readConsent, saveConsent, track } from "../lib/analytics";
+import { Link } from "react-router-dom";
+import { hasAnalyticsId, loadAnalytics, readConsent, saveConsent, track, type Consent } from "../lib/analytics";
+
+/** Other parts of the site dispatch this to open the banner again. */
+export const OPEN_COOKIE_SETTINGS = "tcb-open-cookie-settings";
+
+export function openCookieSettings() {
+  window.dispatchEvent(new Event(OPEN_COOKIE_SETTINGS));
+}
 
 /**
- * Asks before any analytics cookie is set.
- * Essential-only is the default: closing the choice without "Allow" loads nothing.
- * If there is no measurement ID, the banner stays hidden and nothing is loaded.
+ * Bottom bar for the cookie choice.
+ * It shows on a first visit, and again when someone uses Cookie settings.
  */
 export default function CookieConsent() {
-  const [choice, setChoice] = useState(readConsent);
+  const [open, setOpen] = useState(() => readConsent() === null);
 
   useEffect(() => {
-    if (choice === "analytics") loadAnalytics();
-  }, [choice]);
+    const show = () => setOpen(true);
+    window.addEventListener(OPEN_COOKIE_SETTINGS, show);
+    return () => window.removeEventListener(OPEN_COOKIE_SETTINGS, show);
+  }, []);
 
-  if (!hasAnalyticsId() || choice) return null;
+  if (!open) return null;
 
-  function choose(next: "essential" | "analytics") {
-    saveConsent(next);
-    setChoice(next);
-    if (next === "analytics") {
+  const choose = (value: Consent) => {
+    saveConsent(value);
+    setOpen(false);
+    if (value === "analytics" && hasAnalyticsId()) {
       loadAnalytics();
       track("page_view", { page_path: window.location.pathname });
     }
-  }
+  };
 
   return (
-    <div className="fixed inset-x-4 bottom-4 z-30 max-w-xl rounded-card border border-mist bg-white p-5 shadow-lg sm:inset-x-auto sm:right-6 sm:bottom-6">
-      <p className="type-title text-navy">Cookies</p>
-      <p className="type-caption mt-2 text-slate">
-        Essential cookies keep the site working. Analytics stays off unless you allow it.
-      </p>
-      <div className="mt-4 flex flex-wrap gap-3">
-        <button type="button" className="btn btn-inverse !px-4 !py-2" onClick={() => choose("essential")}>
-          Essential only
-        </button>
-        <button
-          type="button"
-          className="btn border border-mist !px-4 !py-2 text-navy hover:border-deep"
-          onClick={() => choose("analytics")}
-        >
-          Allow analytics
-        </button>
+    <div
+      role="dialog"
+      aria-label="Cookie settings"
+      className="fixed inset-x-0 bottom-0 z-[60] border-t border-mist bg-white"
+    >
+      <div className="mx-auto flex max-w-6xl flex-col items-start gap-4 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
+        <p className="max-w-2xl font-sans text-sm leading-6 text-slate">
+          We use a cookie to remember this choice. Analytics stays off unless you accept.{" "}
+          <Link to="/cookies" className="text-deep underline">
+            Read about cookies
+          </Link>
+        </p>
+        <div className="flex shrink-0 gap-3">
+          <button type="button" className="btn btn-secondary" onClick={() => choose("essential")}>
+            Essential only
+          </button>
+          <button type="button" className="btn btn-inverse" onClick={() => choose("analytics")}>
+            Accept
+          </button>
+        </div>
       </div>
     </div>
   );

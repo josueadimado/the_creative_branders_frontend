@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import BackToTop from "./components/BackToTop";
 import CookieConsent from "./components/CookieConsent";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
@@ -17,10 +18,7 @@ import ResponsibleAI from "./pages/ResponsibleAI";
 import NotFound from "./pages/NotFound";
 import Privacy from "./pages/Privacy";
 import { cookies } from "./content/cookies";
-import { serviceRedirects } from "./content/services";
 import { terms } from "./content/terms";
-import ServiceFamily from "./pages/ServiceFamily";
-import Services from "./pages/Services";
 import SmartCRM from "./pages/SmartCRM";
 import StyleGuide from "./pages/StyleGuide";
 import Work from "./pages/Work";
@@ -45,18 +43,16 @@ export default function App() {
       <PageViews />
       <Navbar />
       <WhatsAppButton />
+      <BackToTop />
       <PageTransition>
         {(location) => (
           <>
             <main className="flex-1">
               <Routes location={location}>
                 <Route path="/" element={<Home />} />
-                <Route path="/services" element={<Services />} />
-                {/* Old family addresses. Nginx also sends a permanent redirect for these. */}
-                {Object.entries(serviceRedirects).map(([from, to]) => (
-                  <Route key={from} path={`/services/${from}`} element={<Navigate to={`/services/${to}`} replace />} />
-                ))}
-                <Route path="/services/:slug" element={<ServiceFamily />} />
+                {/* Services are listed on the homepage. Old addresses land there. */}
+                <Route path="/services" element={<Navigate to="/#services" replace />} />
+                <Route path="/services/:slug" element={<Navigate to="/#services" replace />} />
                 <Route path="/work" element={<Work />} />
                 <Route path="/work/:slug" element={<WorkStudy />} />
                 <Route path="/about" element={<About />} />

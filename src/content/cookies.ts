@@ -1,9 +1,9 @@
-/** Short cookies page, matching the consent banner. The owner reviews this before launch. */
+/** Short cookies page. The owner reviews this before launch. */
 
 export const cookies = {
   seo: {
     title: "Cookies",
-    description: "How this website uses essential cookies and optional analytics.",
+    description: "How this website uses cookies.",
     path: "/cookies",
   },
   kicker: "Legal",
@@ -11,15 +11,15 @@ export const cookies = {
   lede: "Essential cookies keep the site working. Analytics stays off unless you allow it.",
   sections: [
     {
-      title: "Essential",
+      title: "What we store",
       paragraphs: [
-        "We store your cookie choice on this device so we don't ask again on every page. That cookie is needed for the site to remember what you picked. The project form, the waitlist and the Academy form don't use a tracking cookie to save what you send.",
+        "We store your cookie choice on this device so we don't ask on every page. The project form, the waitlist and the Academy form don't use a tracking cookie to save what you send.",
       ],
     },
     {
       title: "Analytics",
       paragraphs: [
-        "If you choose Allow analytics, we load Google Analytics to see which pages are visited. If you choose Essential only, or if you ignore the banner, analytics does not load. You can change your mind by clearing this site's data in your browser and choosing again.",
+        "If you choose Accept, and analytics is switched on for this site, we load it to see which pages are visited. Essential only leaves analytics off. Cookie settings in the footer opens the choice again.",
       ],
     },
     {

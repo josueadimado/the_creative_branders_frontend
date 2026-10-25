@@ -1,34 +1,24 @@
 import type { ReactNode } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { serviceFamilies } from "../content/services";
+import { Link } from "react-router-dom";
 import { site } from "../content/site";
 import { track } from "../lib/analytics";
 import { studioEmail, whatsappHref } from "../data/socials";
+import { openCookieSettings } from "./CookieConsent";
 import Logo from "./Logo";
 import SocialLinks from "./SocialLinks";
 
-const serviceLinks = serviceFamilies.map((family) => ({
-  to: `/services/${family.slug}`,
-  label: family.name,
-}));
-
-const studio = [
-  { to: "/work", label: "Work" },
+const studioLinks = [
+  { to: "/#services", label: "Services" },
   { to: "/about", label: "About" },
+  { to: "/work", label: "Work" },
   { to: "/insights", label: "Insights" },
-  { to: "/contact", label: "Start a project" },
 ];
 
-const products = [
-  { to: "/smartcrm", label: "SmartCRM" },
-  { to: "/academy", label: "Academy" },
-];
+const products = ["SmartCRM", "Academy"];
 
 const legal = [
-  { to: "/privacy", label: "Privacy" },
-  { to: "/terms", label: "Terms" },
-  { to: "/cookies", label: "Cookies" },
-  { to: "/responsible-ai", label: "Responsible AI" },
+  { to: "/privacy", label: "Privacy policy" },
+  { to: "/terms", label: "Terms and conditions" },
 ];
 
 function Column({ title, children }: { title: string; children: ReactNode }) {
@@ -46,9 +36,6 @@ function Item({ to, label }: { to: string; label: string }) {
       <Link
         to={to}
         className="transition-colors hover:text-white"
-        onClick={() => {
-          if (to === "/contact") track("start_project_click", { location: "footer" });
-        }}
       >
         {label}
       </Link>
@@ -56,20 +43,42 @@ function Item({ to, label }: { to: string; label: string }) {
   );
 }
 
-export default function Footer() {
-  const { pathname } = useLocation();
-  // The homepage hero already says this line. Don't repeat it under the logo.
-  const showTagline = pathname !== "/";
+function ProductItem({ label }: { label: string }) {
+  return (
+    <li>
+      {/* # keeps the name in the footer without opening a page. */}
+      <a href="#" className="transition-colors hover:text-white" onClick={(event) => event.preventDefault()}>
+        {label}
+      </a>
+    </li>
+  );
+}
 
+export default function Footer() {
   return (
     <footer className="dot-grid border-t border-white/[0.06] bg-navy">
-      <div className="mx-auto grid max-w-6xl gap-14 px-6 py-20 sm:grid-cols-2 lg:grid-cols-[16rem_repeat(4,minmax(0,1fr))]">
+      <div className="mx-auto grid max-w-6xl gap-14 px-6 py-20 sm:grid-cols-2 lg:grid-cols-[16rem_repeat(3,minmax(0,1fr))]">
         <div className="w-full sm:col-span-2 lg:col-span-1 lg:w-64">
-          <Link to="/" className="inline-flex">
-            <Logo variant="dark" />
-          </Link>
-          {showTagline ? <p className="type-caption mt-5 max-w-xs text-white/70">{site.footerTagline}</p> : null}
-          <ul className="mt-8 space-y-3 type-caption text-white/70">
+          <div className="flex w-max max-w-full flex-col items-center">
+            <Link to="/" className="inline-flex">
+              <Logo variant="dark" size="large" />
+            </Link>
+            <p className="mt-3 text-center text-xs leading-snug text-white/60">{site.footerTagline}</p>
+          </div>
+        </div>
+
+        <Column title="Our studio">
+          {studioLinks.map((item) => (
+            <Item key={item.label} {...item} />
+          ))}
+        </Column>
+        <Column title="Products">
+          {products.map((label) => (
+            <ProductItem key={label} label={label} />
+          ))}
+        </Column>
+        <div>
+          <ul className="space-y-3 type-caption text-white/70">
             <li>
               <a href={`mailto:${studioEmail}`} className="break-words transition-colors hover:text-white">
                 {studioEmail.slice(0, studioEmail.indexOf("@") + 1)}
@@ -93,30 +102,29 @@ export default function Footer() {
           </ul>
           <SocialLinks flush />
         </div>
-
-        <Column title="Services">
-          {serviceLinks.map((item) => (
-            <Item key={item.to} {...item} />
-          ))}
-        </Column>
-        <Column title="Studio">
-          {studio.map((item) => (
-            <Item key={item.to} {...item} />
-          ))}
-        </Column>
-        <Column title="Products">
-          {products.map((item) => (
-            <Item key={item.to} {...item} />
-          ))}
-        </Column>
-        <Column title="Legal">
-          {legal.map((item) => (
-            <Item key={item.to} {...item} />
-          ))}
-        </Column>
       </div>
-      <div className="border-t border-white/[0.06] px-6 py-6 text-center type-caption text-white/55">
-        <p>© {new Date().getFullYear()} The Creative Branders.</p>
+      <div className="border-t border-white/[0.06] px-6 py-6">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-5 gap-y-2 text-sm text-white/55">
+          <p>© {new Date().getFullYear()} The Creative Branders.</p>
+          <ul className="ml-auto flex flex-wrap items-center justify-end gap-x-4 gap-y-1">
+            {legal.map((item) => (
+              <li key={item.to}>
+                <Link to={item.to} className="transition-colors hover:text-white">
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+            <li>
+              <button
+                type="button"
+                onClick={openCookieSettings}
+                className="transition-colors hover:text-white"
+              >
+                Cookie settings
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
     </footer>
   );
