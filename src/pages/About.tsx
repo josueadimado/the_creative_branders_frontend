@@ -4,8 +4,10 @@ import type { LucideIcon } from "lucide-react";
 import CBMark from "../components/CBMark";
 import { BrowserFrame, BrowserPlaceholder, PhonePlaceholder } from "../components/DeviceFrame";
 import IconTile from "../components/IconTile";
+import LogoRow from "../components/LogoRow";
 import Seo from "../components/Seo";
 import { about } from "../content/about";
+import { home } from "../content/home";
 import { cta } from "../content/cta";
 import { track } from "../lib/analytics";
 
@@ -128,6 +130,8 @@ export default function About() {
           </ul>
         </div>
       </section>
+
+      <LogoRow logos={home.proof.logos} label={about.organisations.title} />
 
       {/* Close: the words and the single button are centered on the navy. */}
       <section className="bg-navy">
