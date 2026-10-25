@@ -101,21 +101,6 @@ export default function About() {
         </div>
       </section>
 
-      <section className="border-t border-mist bg-paper">
-        {/* The short note stays on the left. The four numbers sit in a row beside it. */}
-        <div className="mx-auto mt-4 grid max-w-6xl gap-10 px-6 pb-20 lg:grid-cols-[224px_1fr] lg:items-center">
-          <p className="type-body max-w-[224px] text-slate">{about.facts.note}</p>
-          <dl className="grid grid-cols-2 gap-8 sm:grid-cols-4">
-            {about.facts.stats.map((stat) => (
-              <div key={stat.label}>
-                <dt className="font-sans text-5xl font-semibold leading-none text-deep sm:text-[56px]">{stat.value}</dt>
-                <dd className="type-body mt-2 text-slate">{stat.label}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-      </section>
-
       {/* White cards. The sentence sits directly under the title. */}
       <section className="border-t border-mist bg-paper">
         <div className="mx-auto max-w-6xl px-6 py-20 lg:py-28">

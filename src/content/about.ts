@@ -47,16 +47,6 @@ export const about = {
       alt: "Three pillars joined by one blue dot.",
     },
   },
-  facts: {
-    /** Sits to the left of the four numbers. */
-    note: "From the work we've published.",
-    stats: [
-      { value: "10", label: "projects shipped" },
-      { value: "3", label: "countries: United States, Ghana and Nigeria" },
-      { value: "4", label: "languages: English, French, Spanish and Portuguese" },
-      { value: "5", label: "currencies: NGN, GHS, KES, ZAR and USD" },
-    ],
-  },
   started: {
     title: "Why we started",
     body: "Too many good businesses were stuck between a cheap website that didn't do much and an agency they couldn't afford. We started the studio to give growing businesses the kind of software and design larger companies get, at a size and price that makes sense for them.",
