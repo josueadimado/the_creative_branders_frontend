@@ -113,9 +113,10 @@ export default function Footer() {
         </div>
       </div>
       <div className="border-t border-white/[0.06] px-6 py-6">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-5 gap-y-2 text-sm text-white/55">
+        {/* On a phone the copyright and the legal links sit in the middle. On a wider screen they sit at each end. */}
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 text-center text-sm text-white/55 sm:flex-row sm:justify-between sm:text-left">
           <p>© {new Date().getFullYear()} The Creative Branders.</p>
-          <ul className="ml-auto flex flex-wrap items-center justify-end gap-x-4 gap-y-1">
+          <ul className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
             {legal.map((item) => (
               <li key={item.to}>
                 <Link to={item.to} className="transition-colors hover:text-white">
