@@ -35,7 +35,7 @@ function PageViews() {
 }
 
 // App.tsx is the map of the website: which URL shows which page.
-// Navbar stays put. Page + footer fade together so the swap feels smooth.
+// Navbar stays put. The next page shows as soon as the address changes.
 export default function App() {
   return (
     <ContentDeskProvider>
