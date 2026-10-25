@@ -57,7 +57,7 @@ function readingMinutes(body: string): number {
 
 function toArticle(slug: string, raw: string): InsightArticle {
   const { meta, body } = readFrontmatter(raw);
-  const family = (meta.family || "websites") as FamilySlug;
+  const family = (meta.family || "brand-websites") as FamilySlug;
   return {
     slug,
     title: meta.title || slug,

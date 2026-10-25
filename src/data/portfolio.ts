@@ -8,12 +8,10 @@
  */
 
 export const FAMILIES = [
-  { slug: "websites", label: "Websites" },
-  { slug: "web-applications", label: "Web Applications" },
-  { slug: "mobile-apps", label: "Mobile Apps" },
-  { slug: "brand-design", label: "Brand & Design" },
-  { slug: "automation-ai", label: "Automation & AI" },
-  { slug: "data-growth", label: "Data & Growth" },
+  { slug: "brand-websites", label: "Brand and websites", chip: "Brand and websites" },
+  { slug: "web-applications", label: "Web applications", chip: "Web apps" },
+  { slug: "mobile-apps", label: "Mobile apps", chip: "Mobile apps" },
+  { slug: "automation-reporting", label: "Automation and reporting", chip: "Automation" },
 ] as const;
 
 export type FamilySlug = (typeof FAMILIES)[number]["slug"];
@@ -133,7 +131,7 @@ const studies: StudyInput[] = [
     liveUrl: "https://www.reliefchiropractic.net",
     linkApproved: true,
     family: "web-applications",
-    secondaryFamilies: ["automation-ai"],
+    secondaryFamilies: ["automation-reporting"],
     sector: "Healthcare",
     country: "United States",
     featured: true,
@@ -156,7 +154,13 @@ const studies: StudyInput[] = [
     ],
     stack: ["Next.js", "Django", "PostgreSQL", "Celery", "Square", "Twilio (SMS and voice)", "OpenAI", "Google Calendar"],
     results: [],
-    images: [],
+    // First image is the public homepage. The rest show on the case-study page.
+    images: [
+      "/images/work/relief-chiropractic/homepage.jpg",
+      "/images/work/relief-chiropractic/staff-sign-in.jpg",
+      "/images/work/relief-chiropractic/admin-dashboard.png",
+      "/images/work/relief-chiropractic/analytics.png",
+    ],
   },
   {
     slug: "push-it",
@@ -191,7 +195,8 @@ const studies: StudyInput[] = [
     ],
     stack: ["React", "TypeScript", "Django", "PostgreSQL", "Celery", "Paystack"],
     results: [],
-    images: [],
+    // Live homepage from pushit.now.
+    images: ["/images/work/push-it/homepage.jpg"],
   },
   {
     slug: "come-clarity",
@@ -201,7 +206,7 @@ const studies: StudyInput[] = [
     liveUrl: "https://comeclarity.org",
     linkApproved: true,
     family: "web-applications",
-    secondaryFamilies: ["websites"],
+    secondaryFamilies: ["brand-websites"],
     sector: "Education",
     country: "Ghana",
     featured: true,
@@ -232,7 +237,7 @@ const studies: StudyInput[] = [
     liveUrl: "https://up2dateconnect.com",
     linkApproved: true,
     family: "web-applications",
-    secondaryFamilies: ["websites"],
+    secondaryFamilies: ["brand-websites"],
     sector: "Behavioral health",
     country: "United States",
     featured: true,
@@ -256,7 +261,8 @@ const studies: StudyInput[] = [
     ],
     stack: ["React", "TypeScript", "Django", "PostgreSQL", "Celery", "Square", "Twilio", "Zoom"],
     results: [],
-    images: [],
+    // Live homepage from up2dateconnect.com. Not the Secure Counseling clinic screens.
+    images: ["/images/work/up2date-connect/homepage.jpg"],
   },
   {
     slug: "set-free-in-christ",
@@ -265,7 +271,7 @@ const studies: StudyInput[] = [
     nameApproved: true,
     liveUrl: "https://www.setfreeinchrist.org",
     linkApproved: true,
-    family: "websites",
+    family: "brand-websites",
     secondaryFamilies: ["web-applications"],
     sector: "Nonprofit / faith",
     country: "United States",
@@ -295,7 +301,7 @@ const studies: StudyInput[] = [
     publicName: "COME",
     anonymousName: "A leadership organisation",
     nameApproved: true,
-    family: "websites",
+    family: "brand-websites",
     sector: "Nonprofit",
     summary: "A leadership website and content platform for programmes, stories and a clear way to take part.",
     challenge:
@@ -309,7 +315,7 @@ const studies: StudyInput[] = [
     published: true,
   },
   {
-    // Kept unpublished. Up2Date Connect grew out of this clinic system, and that study is the public one.
+    // Its own clinic platform. Not the same product as Up2Date Connect.
     slug: "secure-counseling",
     publicName: "Secure Counseling & Psychological Centers",
     anonymousName: "A counseling clinic in the United States",
@@ -318,8 +324,8 @@ const studies: StudyInput[] = [
     family: "web-applications",
     sector: "Behavioral health",
     country: "United States",
-    featured: false,
-    published: false,
+    featured: true,
+    published: true,
     summary:
       "A private platform where a counseling clinic, its clients and referral partners manage programmes, sessions, payments and progress reports.",
     challenge:
@@ -339,7 +345,11 @@ const studies: StudyInput[] = [
     ],
     stack: ["Next.js", "Django", "PostgreSQL", "Celery", "Square", "Twilio"],
     results: [],
-    images: [],
+    images: [
+      "/images/work/secure-counseling/dashboard.png",
+      "/images/work/secure-counseling/sign-in.jpg",
+      "/images/work/secure-counseling/sessions.jpg",
+    ],
   },
   {
     slug: "elevate-tribe-learning",
@@ -364,7 +374,7 @@ const studies: StudyInput[] = [
     publicName: "Elevate Tribe Analytics",
     anonymousName: "A data and training studio",
     nameApproved: true,
-    family: "websites",
+    family: "brand-websites",
     sector: "Data / training",
     summary: "A data and training services site that explains the offer in plain language.",
     challenge:
@@ -400,7 +410,7 @@ const studies: StudyInput[] = [
     publicName: "Twi Learning Center Ghana",
     anonymousName: "A language school in Ghana",
     nameApproved: true,
-    family: "websites",
+    family: "brand-websites",
     sector: "Education",
     country: "Ghana",
     summary: "A course and enrollment site for Twi and Fante, in person and online, with a path that is easy to start.",
@@ -419,7 +429,7 @@ const studies: StudyInput[] = [
 export const portfolio: PortfolioItem[] = studies.map(settle);
 
 /** Homepage order. Studies not in this list still appear on /work, after the featured ones. */
-const FEATURED_ORDER = ["relief-chiropractic", "push-it", "come-clarity", "up2date-connect"];
+const FEATURED_ORDER = ["relief-chiropractic", "push-it", "come-clarity", "up2date-connect", "secure-counseling"];
 
 export function familyLabel(slug: FamilySlug): string {
   return FAMILIES.find((family) => family.slug === slug)?.label ?? slug;

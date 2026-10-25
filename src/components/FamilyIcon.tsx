@@ -1,14 +1,12 @@
-import { AppWindow, Bot, Globe, LineChart, Palette, Smartphone } from "lucide-react";
+import { AppWindow, Globe, Smartphone, Workflow } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { FamilySlug } from "../data/portfolio";
 
 const icons: Record<FamilySlug, LucideIcon> = {
-  websites: Globe,
+  "brand-websites": Globe,
   "web-applications": AppWindow,
   "mobile-apps": Smartphone,
-  "brand-design": Palette,
-  "automation-ai": Bot,
-  "data-growth": LineChart,
+  "automation-reporting": Workflow,
 };
 
 /** A thin line icon for one service family. The stroke matches the drawings. */
