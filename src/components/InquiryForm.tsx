@@ -93,6 +93,8 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
   }
 
   const split = layout === "split";
+  // The country behind the calling code, such as Ghana for GH. Empty until one is chosen.
+  const calling = dialCode ? countryByCode(dialCode) : undefined;
   const controlClass = split
     ? "w-full border border-mist bg-white px-3 py-3 text-[15px] text-navy outline-none transition-colors focus:border-deep"
     : "w-full border border-mist bg-paper px-4 py-3.5 text-[17px] text-navy outline-none transition-colors focus:border-deep";
@@ -108,7 +110,11 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
   }
 
   return (
-    <form onSubmit={handleSubmit} className="inquiry-form relative space-y-5" autoComplete="off">
+    <form
+      onSubmit={handleSubmit}
+      className={`inquiry-form relative space-y-5 ${split ? "is-split" : ""}`}
+      autoComplete="off"
+    >
       {bot.field}
       {split ? <p className="type-body text-slate">{contact.seo.description}</p> : null}
 
@@ -173,25 +179,27 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
               split ? "rounded-md bg-white" : "bg-paper"
             }`}
           >
-            <span className="relative flex w-14 shrink-0 self-stretch border-r border-mist">
+            <span className="relative flex shrink-0 self-stretch border-r border-mist">
               <span
-                className={`pointer-events-none flex w-full items-center justify-center gap-1 px-1.5 ${
+                className={`pointer-events-none flex items-center gap-1.5 px-3 ${
                   split ? "py-3" : "py-3.5"
                 }`}
               >
-                {dialCode ? (
-                  <Flag code={dialCode} />
+                {calling ? (
+                  <>
+                    {/* A letter flag, drawn by the browser. An outside picture was blocked and showed as a broken icon. */}
+                    <span className="text-base leading-none" aria-hidden="true">
+                      {flagEmoji(calling.code)}
+                    </span>
+                    <span className="text-sm tabular-nums text-navy">+{calling.dial}</span>
+                  </>
                 ) : (
                   <Globe className="size-4 text-slate" aria-hidden="true" />
                 )}
                 <ChevronDown className="size-3.5 shrink-0 text-slate" aria-hidden="true" />
               </span>
               <select
-                aria-label={
-                  dialCode
-                    ? `${countryByCode(dialCode)?.name} +${countryByCode(dialCode)?.dial}`
-                    : "Country calling code"
-                }
+                aria-label={calling ? `${calling.name} +${calling.dial}` : "Country calling code"}
                 name="inquiry-calling-code"
                 {...noSuggest}
                 value={dialCode}
@@ -305,17 +313,6 @@ function flagEmoji(code: string): string {
   return code
     .toUpperCase()
     .replace(/./g, (letter) => String.fromCodePoint(127397 + letter.charCodeAt(0)));
-}
-
-/** A small flag picture. The closed box uses this so the number keeps the width. */
-function Flag({ code }: { code: string }) {
-  return (
-    <img
-      src={`https://flagcdn.com/w40/${code.toLowerCase()}.png`}
-      alt=""
-      className="h-3.5 w-5 rounded-[2px] object-cover"
-    />
-  );
 }
 
 /** Joins the calling code and the number. An empty number is left off the message. */

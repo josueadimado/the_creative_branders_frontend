@@ -123,6 +123,20 @@ h4 {
   outline: none;
 }
 
+/* Chrome paints a saved number blue. Keep the field the same colour as the rest of the form. */
+.inquiry-form input:-webkit-autofill,
+.inquiry-form input:-webkit-autofill:hover,
+.inquiry-form input:-webkit-autofill:focus {
+  -webkit-text-fill-color: rgb(var(--tcb-navy));
+  caret-color: rgb(var(--tcb-navy));
+  box-shadow: 0 0 0 1000px rgb(var(--tcb-paper)) inset;
+}
+.inquiry-form.is-split input:-webkit-autofill,
+.inquiry-form.is-split input:-webkit-autofill:hover,
+.inquiry-form.is-split input:-webkit-autofill:focus {
+  box-shadow: 0 0 0 1000px #fff inset;
+}
+
 @layer components {
   .type-kicker {
     font-family: "Inter Variable", Inter, -apple-system, "Segoe UI", Arial, sans-serif;
