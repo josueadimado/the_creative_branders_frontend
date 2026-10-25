@@ -91,7 +91,7 @@ export const about = {
     body: "A business needs to look credible, run smoothly and know its numbers. Creativity, technology and finance work best together, and the blue dot in our logo is where they meet.",
   },
   values: {
-    title: "These values shape every project we take on",
+    title: "What we hold ourselves to",
     items: [
       {
         title: "Clarity",

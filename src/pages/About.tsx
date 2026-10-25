@@ -114,19 +114,19 @@ export default function About() {
         </div>
       </section>
 
-      {/* The heading is centered. Each card uses the homepage blue, with the name at the top. */}
-      <section className="mx-auto max-w-[1224px] px-7 pb-20 pt-16 lg:px-0 lg:pb-28 lg:pt-24">
-        <h2 className="mx-auto max-w-[640px] text-center font-display text-4xl font-semibold leading-[1.15] text-navy sm:text-[48px] sm:leading-[62px]">
-          {about.values.title}
-        </h2>
-        <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
-          {about.values.items.map((item) => (
-            <li key={item.title} className="flex min-h-[280px] flex-col rounded-2xl bg-signal p-6 text-navy">
-              <h3 className="font-display text-2xl font-semibold">{item.title}</h3>
-              <p className="mt-auto pt-8 font-sans text-[15px] leading-6">{item.body}</p>
-            </li>
-          ))}
-        </ul>
+      {/* White cards. The sentence sits directly under the title. */}
+      <section className="border-t border-mist bg-paper">
+        <div className="mx-auto max-w-6xl px-6 py-20 lg:py-28">
+          <h2 className="type-display text-navy">{about.values.title}</h2>
+          <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {about.values.items.map((item) => (
+              <li key={item.title} className="rounded-card border border-mist bg-white p-6">
+                <h3 className="type-title text-navy">{item.title}</h3>
+                <p className="type-body mt-3 text-slate">{item.body}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
 
       {/* Close: the words and the single button are centered on the navy. */}
