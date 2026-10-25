@@ -2,12 +2,13 @@ import { Link, useParams } from "react-router-dom";
 import ArticleBody from "../components/ArticleBody";
 import CtaBand from "../components/CtaBand";
 import Seo from "../components/Seo";
-import { formatInsightDate, getArticle } from "../content/insights";
+import { useNote } from "../content/contentDesk";
+import { formatInsightDate } from "../content/insights";
 import NotFound from "./NotFound";
 
 export default function InsightArticle() {
   const { slug } = useParams();
-  const article = getArticle(slug);
+  const article = useNote(slug);
   if (!article) return <NotFound />;
 
   return (
@@ -16,6 +17,7 @@ export default function InsightArticle() {
         title={article.title}
         description={article.description}
         path={`/insights/${article.slug}`}
+        index={false}
       />
       <article>
         <header className="text-hero bg-navy">

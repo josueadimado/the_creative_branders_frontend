@@ -1,5 +1,7 @@
 @import "@fontsource-variable/montserrat";
 @import "@fontsource-variable/inter";
+/* Tall narrow type, used only on the homepage headline. */
+@import "@fontsource/barlow-condensed/latin-800.css";
 
 :root {
   /* Space-separated channels so Tailwind can add opacity, e.g. bg-navy/80. */
@@ -102,7 +104,9 @@ html.is-paging {
   .photo,
   .hero-nodes path,
   .hero-nodes circle,
-  .home-marquee {
+  .home-marquee,
+  .tools-marquee,
+  .logo-marquee {
     transition: none;
     animation: none;
   }
@@ -170,6 +174,16 @@ h4 {
 :focus-visible {
   outline: 2px solid rgb(var(--tcb-signal) / 1);
   outline-offset: 2px;
+}
+
+/* The project form shows focus with its border. This stops a second ring around one half of a field. */
+.inquiry-form input:focus,
+.inquiry-form input:focus-visible,
+.inquiry-form select:focus,
+.inquiry-form select:focus-visible,
+.inquiry-form textarea:focus,
+.inquiry-form textarea:focus-visible {
+  outline: none;
 }
 
 @layer components {
@@ -483,8 +497,33 @@ h4 {
   }
 }
 
+/* Graph-paper lines stay on the right of the opening. The headline side stays solid. */
+.hero-grid {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 58%;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.07) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(to right, transparent, #000 32%);
+}
+
 .home-marquee {
   animation: home-marquee 32s linear infinite;
+}
+
+/* The tools row moves right to left. Two copies sit side by side, so -50% loops without a jump. */
+.tools-marquee {
+  animation: home-marquee 48s linear infinite;
+}
+
+/* Organisation logos. Same loop as the tools row, a little slower so the marks stay readable. */
+.logo-marquee {
+  animation: home-marquee 40s linear infinite;
 }
 
 @keyframes home-marquee {

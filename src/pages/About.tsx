@@ -1,8 +1,18 @@
+import { BadgeCheck, FileText, HeartHandshake, ShieldCheck } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import Seo from "../components/Seo";
-import { about } from "../content/about";
+import { useAboutCopy } from "../content/contentDesk";
 import { cta } from "../content/cta";
 import { track } from "../lib/analytics";
+
+/** One icon per value, so each card is easy to tell apart. */
+const valueIcons: Record<string, LucideIcon> = {
+  Clarity: FileText,
+  Care: HeartHandshake,
+  Ownership: BadgeCheck,
+  Responsibility: ShieldCheck,
+};
 
 /**
  * Same arrangement as before. Fonts and colours match the homepage:
@@ -11,6 +21,8 @@ import { track } from "../lib/analytics";
  * with navy text on it, the same way the homepage buttons work.
  */
 export default function About() {
+  const about = useAboutCopy();
+
   return (
     <div className="bg-paper font-sans text-navy">
       <Seo {...about.seo} />
@@ -24,14 +36,9 @@ export default function About() {
         <p className="type-body mx-auto mt-8 max-w-[480px] text-center text-slate">{about.hero.lede}</p>
       </section>
 
-      {/* The wide photo, then the two desk photos beside each other. Nothing covers them. */}
+      {/* The two desk photos sit side by side. Nothing covers them. */}
       <section className="mx-auto max-w-[1224px] px-7 pb-8">
-        <img
-          src={about.pictures.banner.src}
-          alt={about.pictures.banner.alt}
-          className="h-auto w-full rounded-[20px]"
-        />
-        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-4 sm:grid-cols-2">
           {about.pictures.desks.map((picture) => (
             <img key={picture.src} src={picture.src} alt={picture.alt} className="h-auto w-full rounded-[20px]" />
           ))}
@@ -44,7 +51,8 @@ export default function About() {
           <h2 className="font-display text-4xl font-semibold leading-[1.15] text-navy sm:text-[48px] sm:leading-[62px]">
             {about.work.title}
           </h2>
-          <div>
+          {/* Both edges line up. Extra space is shared through the line, without splitting words. */}
+          <div className="text-justify [text-justify:inter-character]">
             <p className="type-body text-slate">{about.started.body}</p>
             <p className="type-body mt-5 text-slate">{about.work.paragraphs[0]}</p>
             <p className="type-body mt-5 text-slate">{about.work.paragraphs[1]}</p>
@@ -71,12 +79,19 @@ export default function About() {
           {about.values.title}
         </h2>
         <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
-          {about.values.items.map((item) => (
-            <li key={item.title} className="flex min-h-[280px] flex-col rounded-2xl bg-signal p-6 text-navy">
-              <h3 className="font-display text-2xl font-semibold">{item.title}</h3>
-              <p className="mt-auto pt-8 font-sans text-[15px] leading-6">{item.body}</p>
-            </li>
-          ))}
+          {about.values.items.map((item) => {
+            const Icon = valueIcons[item.title];
+            return (
+              <li key={item.title} className="flex min-h-[280px] flex-col rounded-2xl bg-signal p-6 text-[#0E1E2B]">
+                {/* White tile so the navy icon stays clear on the blue card. */}
+                <span className="flex size-12 items-center justify-center rounded-xl bg-white text-[#0E1E2B]">
+                  <Icon size={22} strokeWidth={1.5} aria-hidden="true" />
+                </span>
+                <h3 className="mt-5 font-display text-2xl font-semibold text-[#0E1E2B]">{item.title}</h3>
+                <p className="type-body mt-auto pt-6 text-[#0E1E2B]">{item.body}</p>
+              </li>
+            );
+          })}
         </ul>
       </section>
 

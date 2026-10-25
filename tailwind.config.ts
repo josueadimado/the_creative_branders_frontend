@@ -17,13 +17,17 @@ const config: Config = {
         paper: "rgb(var(--tcb-paper) / <alpha-value>)",
         slate: { DEFAULT: "rgb(var(--tcb-slate) / <alpha-value>)" },
         mist: "rgb(var(--tcb-mist) / <alpha-value>)",
-        gold: "rgb(var(--tcb-gold) / <alpha-value>)",
+        // "bg-gold-tint" is read as the tint shade of gold, so the pale gold lives here.
+        gold: {
+          DEFAULT: "rgb(var(--tcb-gold) / <alpha-value>)",
+          tint: "rgb(var(--tcb-gold-tint) / <alpha-value>)",
+        },
         tint: "rgb(var(--tcb-tint) / <alpha-value>)",
-        goldTint: "rgb(var(--tcb-gold-tint) / <alpha-value>)",
       },
       fontFamily: {
         sans: ["Inter Variable", "Inter", "-apple-system", "Segoe UI", "Helvetica Neue", "Arial", "sans-serif"],
         display: ["Montserrat Variable", "Montserrat", "Inter Variable", "Arial", "sans-serif"],
+        hero: ["Barlow Condensed", "Arial Narrow", "sans-serif"],
       },
       maxWidth: { content: "72rem" },
       borderRadius: { card: "1rem" },

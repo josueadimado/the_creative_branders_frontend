@@ -5,7 +5,7 @@ import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 // Public URLs, including each published case study.
 // /dev/styleguide stays off this list, so it is left out of the sitemap and prerender.
-import { publicRoutes } from "./src/siteRoutes";
+import { indexableRoutes, publicRoutes } from "./src/siteRoutes";
 
 function siteOrigin() {
   return (process.env.VITE_SITE_URL || "").replace(/\/$/, "");
@@ -13,7 +13,7 @@ function siteOrigin() {
 
 function sitemapXml() {
   const origin = siteOrigin();
-  const urls = publicRoutes
+  const urls = indexableRoutes
     .map((path) => {
       const loc = origin ? `${origin}${path === "/" ? "/" : path}` : path;
       return `  <url><loc>${loc}</loc></url>`;

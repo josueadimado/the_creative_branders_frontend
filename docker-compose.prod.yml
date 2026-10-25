@@ -11,11 +11,17 @@ services:
       args:
         VITE_API_URL: ${VITE_API_URL:?VITE_API_URL is required}
         VITE_WHATSAPP_NUMBER: ${VITE_WHATSAPP_NUMBER:-}
-        VITE_SITE_URL: ${VITE_SITE_URL:-}
+        VITE_SITE_URL: ${VITE_SITE_URL:?VITE_SITE_URL is required}
         VITE_GA_ID: ${VITE_GA_ID:-}
     restart: unless-stopped
     expose:
       - "80"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
     networks:
       - default
       - web

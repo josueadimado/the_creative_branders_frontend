@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import BackToTop from "./components/BackToTop";
-import CookieConsent from "./components/CookieConsent";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import WhatsAppButton from "./components/WhatsAppButton";
+import { ContentDeskProvider } from "./content/contentDesk";
 import { track } from "./lib/analytics";
 import PageTransition from "./components/PageTransition";
 import About from "./pages/About";
@@ -38,8 +38,8 @@ function PageViews() {
 // Navbar stays put. Page + footer fade together so the swap feels smooth.
 export default function App() {
   return (
+    <ContentDeskProvider>
     <div className="flex min-h-screen flex-col">
-      <CookieConsent />
       <PageViews />
       <Navbar />
       <WhatsAppButton />
@@ -74,5 +74,6 @@ export default function App() {
         )}
       </PageTransition>
     </div>
+    </ContentDeskProvider>
   );
 }

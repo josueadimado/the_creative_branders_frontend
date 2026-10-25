@@ -5,6 +5,6 @@ export const site = {
   /** Browser tabs read as "Page | The Creative Branders". */
   titleJoin: " | ",
   description:
-    "We design and build websites, web apps and mobile apps for growing businesses, along with the brand, automation and reporting around them.",
+    "We're the strategy and technology partner behind growing businesses. We take the pressure off your day, so you can focus on your customers and your next move.",
   footerTagline: "Designed for intelligent growth.",
 } as const;

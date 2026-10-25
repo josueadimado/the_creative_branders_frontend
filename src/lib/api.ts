@@ -1,5 +1,13 @@
+import { apiRoot } from "./apiBase";
+
 // The backend address. Vite only exposes env vars that start with VITE_.
-const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:8000/api";
+const API_URL = apiRoot();
+
+/** Sent with every form so the server can tell a person from an automatic program. */
+export type BotPayload = {
+  website: string;
+  form_started: number;
+};
 
 export type InquiryPayload = {
   name: string;
@@ -70,17 +78,32 @@ async function postJson(path: string, body: unknown): Promise<ApiErrorBody | voi
   }
 }
 
-export function postInquiry(payload: InquiryPayload) {
+export function postInquiry(payload: InquiryPayload & BotPayload) {
   return postJson("/inquiries/", payload).then(() => undefined);
 }
 
-export async function postWaitlist(payload: WaitlistPayload): Promise<WaitlistResult> {
+export type NewsletterPayload = {
+  email: string;
+} & BotPayload;
+
+export type NewsletterResult = {
+  alreadySubscribed: boolean;
+};
+
+export async function postNewsletter(payload: NewsletterPayload): Promise<NewsletterResult> {
+  const data = await postJson("/newsletter/", payload);
+  return {
+    alreadySubscribed: Boolean(data && data.already_subscribed),
+  };
+}
+
+export async function postWaitlist(payload: WaitlistPayload & BotPayload): Promise<WaitlistResult> {
   const data = await postJson("/waitlist/", payload);
   return {
     alreadyOnList: Boolean(data && data.already_on_list),
   };
 }
 
-export function postAcademyInterest(payload: AcademyPayload) {
+export function postAcademyInterest(payload: AcademyPayload & BotPayload) {
   return postJson("/academy-interest/", payload).then(() => undefined);
 }

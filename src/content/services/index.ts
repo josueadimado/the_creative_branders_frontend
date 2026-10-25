@@ -15,7 +15,7 @@ export const servicesPage = {
   image: "/images/hero-studio.jpg",
   kicker: "Services",
   title: "What we build",
-  lede: "Our work falls into four areas. Most projects start with a website or an app. Automation and reporting usually follow once it's live.",
+  lede: "The brand and the website, the software your team runs, apps for iPhone and Android, and the reminders and reports that update on their own.",
 } as const;
 
 export const serviceFamilies: ServiceFamily[] = [

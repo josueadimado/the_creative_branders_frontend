@@ -5,6 +5,7 @@ import Seo from "../components/Seo";
 import TextHero from "../components/TextHero";
 import { academy } from "../content/academy";
 import { track } from "../lib/analytics";
+import { useBotGuard } from "../components/BotGuard";
 import { postAcademyInterest } from "../lib/api";
 
 const fieldClass =
@@ -53,13 +54,14 @@ function AcademyForm() {
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [error, setError] = useState("");
+  const bot = useBotGuard();
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setStatus("sending");
     setError("");
     try {
-      await postAcademyInterest({ name, email, message: message || undefined });
+      await postAcademyInterest({ name, email, message: message || undefined, ...bot.payload });
       setStatus("success");
       setName("");
       setEmail("");
@@ -80,7 +82,8 @@ function AcademyForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="h-fit rounded-card border border-mist bg-white p-10 sm:p-12">
+    <form onSubmit={handleSubmit} className="relative h-fit rounded-card border border-mist bg-white p-10 sm:p-12">
+      {bot.field}
       <h3 className="type-title text-navy">{academy.form.title}</h3>
       <label className="type-caption mt-8 block font-medium text-navy" htmlFor="academy-name">
         Name

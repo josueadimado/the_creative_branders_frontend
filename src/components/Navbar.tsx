@@ -4,10 +4,12 @@ import { track } from "../lib/analytics";
 import Logo from "./Logo";
 
 const links = [
+  // Always the homepage list, even when this menu is on another page.
+  { to: "/#services", label: "Services" },
   { to: "/work", label: "Work" },
-  { to: "/services", label: "Services" },
   { to: "/about", label: "About" },
-  { to: "/insights", label: "Insights" },
+  // No articles yet, so this stays a placeholder and does not open a page.
+  { to: "#", label: "Insights" },
 ];
 
 export default function Navbar() {
@@ -38,19 +40,38 @@ export default function Navbar() {
         </Link>
 
         <nav className="hidden items-center gap-10 lg:flex" aria-label="Primary">
-          {links.map((link) => (
-            <NavLink
-              key={link.to}
-              to={link.to}
-              className={({ isActive }) =>
-                `text-[15px] font-medium tracking-normal transition-colors duration-300 ${
-                  isActive ? "text-signal" : "text-white/70 hover:text-white"
-                }`
-              }
-            >
-              {link.label}
-            </NavLink>
-          ))}
+          {links.map((link) =>
+            link.to === "#" ? (
+              <a
+                key={link.label}
+                href="#"
+                className="text-[15px] font-medium tracking-normal text-white/70 transition-colors duration-300 hover:text-white"
+                onClick={(event) => event.preventDefault()}
+              >
+                {link.label}
+              </a>
+            ) : link.to.includes("#") ? (
+              <Link
+                key={link.to}
+                to={link.to}
+                className="text-[15px] font-medium tracking-normal text-white/70 transition-colors duration-300 hover:text-white"
+              >
+                {link.label}
+              </Link>
+            ) : (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                className={({ isActive }) =>
+                  `text-[15px] font-medium tracking-normal transition-colors duration-300 ${
+                    isActive ? "text-signal" : "text-white/70 hover:text-white"
+                  }`
+                }
+              >
+                {link.label}
+              </NavLink>
+            ),
+          )}
           <Link
             to="/contact"
             className="btn btn-primary !px-5 !py-2"
@@ -79,18 +100,41 @@ export default function Navbar() {
           aria-label="Mobile"
         >
           <div className="flex flex-1 flex-col gap-8">
-            {links.map((link) => (
-              <NavLink
-                key={link.to}
-                to={link.to}
-                onClick={() => setOpen(false)}
-                className={({ isActive }) =>
-                  `type-display ${isActive ? "text-signal" : "text-white"}`
-                }
-              >
-                {link.label}
-              </NavLink>
-            ))}
+            {links.map((link) =>
+              link.to === "#" ? (
+                <a
+                  key={link.label}
+                  href="#"
+                  className="type-display text-white"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    setOpen(false);
+                  }}
+                >
+                  {link.label}
+                </a>
+              ) : link.to.includes("#") ? (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  onClick={() => setOpen(false)}
+                  className="type-display text-white"
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <NavLink
+                  key={link.to}
+                  to={link.to}
+                  onClick={() => setOpen(false)}
+                  className={({ isActive }) =>
+                    `type-display ${isActive ? "text-signal" : "text-white"}`
+                  }
+                >
+                  {link.label}
+                </NavLink>
+              ),
+            )}
           </div>
           <Link
             to="/contact"

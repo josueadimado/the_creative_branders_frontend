@@ -5,6 +5,7 @@ import Seo from "../components/Seo";
 import TextHero from "../components/TextHero";
 import { smartcrm } from "../content/smartcrm";
 import { track } from "../lib/analytics";
+import { useBotGuard } from "../components/BotGuard";
 import { postWaitlist } from "../lib/api";
 
 const fieldClass =
@@ -78,13 +79,14 @@ function WaitlistForm() {
     "idle"
   );
   const [error, setError] = useState("");
+  const bot = useBotGuard();
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setStatus("sending");
     setError("");
     try {
-      const result = await postWaitlist({ email, name: name || undefined });
+      const result = await postWaitlist({ email, name: name || undefined, ...bot.payload });
       setStatus(result.alreadyOnList ? "already" : "success");
       setEmail("");
       setName("");
@@ -106,7 +108,8 @@ function WaitlistForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-card border border-mist bg-white p-10 sm:p-12">
+    <form onSubmit={handleSubmit} className="relative rounded-card border border-mist bg-white p-10 sm:p-12">
+      {bot.field}
       <h3 className="type-title text-navy">Join the waitlist</h3>
       <label className="type-caption mt-8 block font-medium text-navy" htmlFor="waitlist-name">
         Name <span className="text-slate">(optional)</span>

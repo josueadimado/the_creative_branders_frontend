@@ -1,4 +1,4 @@
-/** The same four steps on the homepage and on every service page. */
+/** The same four steps on the About page and on every service page. */
 
 export const howWeWork = {
   title: "How we work",

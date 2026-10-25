@@ -4,7 +4,7 @@ export const workPage = {
   seo: {
     title: "Our work",
     description:
-      "Websites, web apps and platforms we've built for clinics, schools, nonprofits and startups in the US, Ghana and Nigeria.",
+      "Websites, web apps and platforms we've built for clinics, schools, nonprofits and startups in the US, Ghana, Nigeria and Togo.",
     path: "/work",
   },
   kicker: "Work",
@@ -17,6 +17,15 @@ export const workPage = {
   },
   empty: "Nothing in this set yet.",
   read: "Read the case study",
+  back: "Back to our work",
+  problem: "The problem",
+  solution: "The solution",
+  delivery: "The delivery",
+  more: "More work",
+  benefits: "The benefit",
+  closeKicker: "Your project could be next",
+  closeTitle: "Let's build your",
+  closeTitleRest: "next chapter.",
   labels: {
     challenge: "The challenge",
     approach: "How we approached it",
@@ -25,7 +34,7 @@ export const workPage = {
     results: "Results",
     gallery: "Gallery",
     visit: "Visit site",
-    similar: "Start a similar project",
+    similar: "Discuss a similar project",
     company: "Company",
     sector: "Sector",
     country: "Country",

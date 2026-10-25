@@ -4,18 +4,18 @@ import { site } from "./site";
 
 export const home = {
   seo: {
-    title: "Designed for intelligent growth",
+    title: "Big ideas. Real products.",
     description: site.description,
     path: "/",
   },
   hero: {
     /** Not used on any other page. Swap this file when the studio photos arrive. */
     image: "/images/work-mentorship.jpg",
-    kicker: "Digital intelligence studio",
-    title: "Designed for intelligent growth.",
-    lede: "We design and build websites, web apps and mobile apps, then connect them to the payments, messages and numbers your business runs on.",
+    kicker: "Your business, running smarter",
+    title: "Big ideas. Real products.",
+    lede: "We're the strategy and technology partner behind growing businesses. We take the pressure off your day, so you can focus on your customers and your next move.",
     primary: "Start a project",
-    secondary: "See the work",
+    secondary: "See our works",
   },
   proof: {
     stats: [
@@ -28,12 +28,13 @@ export const home = {
     logos: [
       { name: "Relief Chiropractic", logo: "/images/logos/relief-chiropractic.png" },
       { name: "Push-it", logo: "/images/logos/push-it.png" },
-      { name: "COME|CLARITY", logo: "/images/logos/come-clarity.png" },
       { name: "Up2Date Connect", logo: "/images/logos/up2date-connect.png" },
       { name: "Set Free in Christ Mission", logo: "/images/logos/set-free.png" },
       { name: "COME", logo: "/images/logos/come.png" },
       { name: "Elevate Tribe", logo: "/images/logos/elevate-tribe.png" },
       { name: "Twi Learning Center", logo: "/images/logos/twi-learning-center.png" },
+      { name: "Ikedoo Engineering", logo: "/images/logos/ikedoo.png" },
+      { name: "Apex Home Care", logo: "/images/logos/apex-homecare.jpg" },
     ],
     line: "Some of the organisations we've built with.",
   },
@@ -44,12 +45,11 @@ export const home = {
     /** This photo is only used here. */
     image: "/images/pillar-systems.jpg",
   },
-  /** Outlined words that scroll across the page. Sectors, not the service list. */
-  sectors: "Clinics · Schools · Ministries · Marketplaces · Counseling · Startups ·",
+  /** One line at the bottom of the first screen. */
+  sectors: "Trusted by clinics, schools, ministries and startups.",
   work: {
-    title: "Recent work",
-    lede: "Clinics, learning platforms, a creator marketplace and a ministry. Each one is live and used every day.",
-    link: "See all work",
+    title: "Some of the projects we built to make a difference.",
+    link: "See more",
     /** One line under the name on the homepage card. The case study keeps its own summary. */
     lines: {
       "relief-chiropractic":
@@ -59,11 +59,9 @@ export const home = {
         "Leaders apply, pay and learn in live cohorts, with facilitators running each class from the same platform.",
       "up2date-connect":
         "Counseling organisations run their programmes, clients and referral partners under their own brand.",
+      "secure-counseling":
+        "One counseling clinic runs its programmes, sessions, payments and progress reports in a private platform.",
     } as Record<string, string>,
-  },
-  offer: {
-    title: "What we build",
-    lede: "Most projects start with a website or an app. The automation and reporting usually follow once it's live.",
   },
   /** Photo beside the steps. Not the About page photo. */
   approachImage: "/images/work-counseling.jpg",

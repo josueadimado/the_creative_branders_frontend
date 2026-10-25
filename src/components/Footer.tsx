@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { site } from "../content/site";
 import { track } from "../lib/analytics";
 import { studioEmail, whatsappHref } from "../data/socials";
-import { openCookieSettings } from "./CookieConsent";
 import Logo from "./Logo";
 import SocialLinks from "./SocialLinks";
 
@@ -11,7 +10,8 @@ const studioLinks = [
   { to: "/#services", label: "Services" },
   { to: "/about", label: "About" },
   { to: "/work", label: "Work" },
-  { to: "/insights", label: "Insights" },
+  // No articles yet, so this stays a placeholder and does not open a page.
+  { to: "#", label: "Insights" },
 ];
 
 const products = ["SmartCRM", "Academy"];
@@ -31,6 +31,15 @@ function Column({ title, children }: { title: string; children: ReactNode }) {
 }
 
 function Item({ to, label }: { to: string; label: string }) {
+  if (to === "#") {
+    return (
+      <li>
+        <a href="#" className="transition-colors hover:text-white" onClick={(event) => event.preventDefault()}>
+          {label}
+        </a>
+      </li>
+    );
+  }
   return (
     <li>
       <Link
@@ -114,15 +123,6 @@ export default function Footer() {
                 </Link>
               </li>
             ))}
-            <li>
-              <button
-                type="button"
-                onClick={openCookieSettings}
-                className="transition-colors hover:text-white"
-              >
-                Cookie settings
-              </button>
-            </li>
           </ul>
         </div>
       </div>

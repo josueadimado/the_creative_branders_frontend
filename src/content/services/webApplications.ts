@@ -3,8 +3,9 @@ import type { ServiceFamily } from "./types";
 const webApplications: ServiceFamily = {
   slug: "web-applications",
   name: "Web applications",
-  promise: "Web apps built around your process",
-  description: "Custom web apps, portals, booking systems and dashboards built around how your business works.",
+  promise: "We help you build software around how your business works",
+  description:
+    "We set it up so customers can book, pay and sign in, and your team can run the day from one place.",
   image: "/images/work-ops.jpg",
   intro:
     "When the spreadsheet, the paper form and the group chat can't keep up, it's usually time for a proper system. We start by learning how the work actually moves through your business, then build software that follows it.",
@@ -40,7 +41,6 @@ const webApplications: ServiceFamily = {
     "come-clarity",
     "push-it",
     "elevate-tribe-learning",
-    "uplift-your-morning",
   ],
   faqs: [
     {

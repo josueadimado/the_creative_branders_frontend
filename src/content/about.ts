@@ -11,8 +11,8 @@ export const about = {
     kicker: "About the studio",
     title: "About the studio",
     /** Centered in the opening, above the studio photo. */
-    headline: "We design and build websites, apps and the systems behind them.",
-    lede: "We work with growing businesses that need a website, an app, or the system their team runs every day.",
+    headline: "We're the strategy and technology partner behind your business.",
+    lede: "From the first idea to the systems you rely on every day, we stay with you as your business grows.",
   },
   services: {
     title: "What we build for growing businesses",
@@ -20,11 +20,7 @@ export const about = {
   },
   /** Line drawings made for this page. The banner photo is used only here. */
   pictures: {
-    banner: {
-      src: "/images/about/studio-banner.jpg?v=2",
-      alt: "People working together at a studio desk.",
-    },
-    /** Two work photos under the wide banner. No names. */
+    /** Two work photos. No names. */
     desks: [
       {
         src: "/images/about/desk-evening.jpg",
@@ -50,23 +46,23 @@ export const about = {
   },
   facts: {
     /** Sits to the left of the four numbers. */
-    note: "From the work we've published.",
+    note: "Numbers matter – but the stories behind them matter even more:",
     stats: [
-      { value: "10", label: "projects shipped" },
-      { value: "3", label: "countries: United States, Ghana and Nigeria" },
-      { value: "4", label: "languages: English, French, Spanish and Portuguese" },
-      { value: "5", label: "currencies: NGN, GHS, KES, ZAR and USD" },
+      { value: "6+", label: "Years in technology" },
+      { value: "10+", label: "Delivered projects" },
+      { value: "15", label: "Specialists on our team" },
+      { value: "95%", label: "Client retention" },
     ],
   },
   started: {
     title: "Why we started",
-    body: "We started the studio to give growing businesses software and design of the same quality larger companies get, at a size and price that makes sense for them.",
+    body: "A lot of growing businesses run on the same setup. A website someone built a few years ago. Bookings in a spreadsheet or a notebook. Customers in WhatsApp. Payments in a separate app. It works until the business grows, and then the owner spends their evenings holding it all together.",
   },
   work: {
-    title: "How we help your business run",
+    title: "Why we exist",
     paragraphs: [
-      "Every project has one lead who stays with it from the first call to launch and beyond. When a project needs more, such as a mobile developer, a payments specialist or a data analyst, we bring in people we've worked with before.",
-      "You follow the work in our client portal. You can see what's been done, how long it took and what's coming next, at any time.",
+      "Fixing that properly used to mean hiring an agency built for much larger companies. We started The Creative Branders so growing businesses could get the same standard of work at a size and price that fits them: the website, the apps and the systems behind them, planned together.",
+      "One person leads your project from the first call to launch. If it needs a mobile developer, a payments specialist or a data analyst, we bring in people we've worked with before. Everything we do shows up in our client portal, so you always know what's been done and what's next.",
     ],
   },
   believe: {
@@ -74,23 +70,23 @@ export const about = {
     body: "Creativity, technology and finance work best together. A business needs to look credible, run smoothly and know its numbers. The blue dot in our logo is where those three meet.",
   },
   values: {
-    title: "These values shape every project we take on",
+    title: "What we hold ourselves to",
     items: [
       {
         title: "Clarity",
-        body: "We explain things plainly, in writing, and we put scope and cost in the proposal before work starts.",
+        body: "We explain things plainly and agree scope and cost in writing before work starts.",
       },
       {
         title: "Care",
-        body: "We build as if we'll have to maintain it for years, because usually we do.",
+        body: "We build every project as if we'll maintain it for years, because we usually do.",
       },
       {
         title: "Ownership",
-        body: "When something goes wrong, we fix it and tell you what happened.",
+        body: "If something goes wrong, we fix it and tell you exactly what happened.",
       },
       {
         title: "Responsibility",
-        body: "We handle your customers' data carefully and only use tools we'd trust with our own.",
+        body: "We protect your customers' data and only use tools we'd trust with our own.",
       },
     ],
   },

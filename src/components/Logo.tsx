@@ -5,11 +5,19 @@ const RATIO = 591 / 150;
 
 type LogoVariant = "dark" | "light" | "white" | "black";
 
-export default function Logo({ variant = "dark" }: { variant?: LogoVariant }) {
-  // 40px tall on desktop, 34px on smaller screens. Width follows the file
-  // so the mark is never stretched. Both stay wider than the 120px minimum.
-  const desktopWidth = Math.round(40 * RATIO);
-  const mobileWidth = Math.round(34 * RATIO);
+export default function Logo({
+  variant = "dark",
+  size = "default",
+}: {
+  variant?: LogoVariant;
+  /** The footer uses a taller mark. Everywhere else stays the header size. */
+  size?: "default" | "large";
+}) {
+  // Width follows the file so the mark is never stretched.
+  const desktopHeight = size === "large" ? 56 : 40;
+  const mobileHeight = size === "large" ? 48 : 34;
+  const desktopWidth = Math.round(desktopHeight * RATIO);
+  const mobileWidth = Math.round(mobileHeight * RATIO);
 
   return (
     <span className="inline-flex items-center">
@@ -17,8 +25,12 @@ export default function Logo({ variant = "dark" }: { variant?: LogoVariant }) {
         src={`/brand/tcb-horizontal-${variant}.svg`}
         alt="The Creative Branders"
         width={desktopWidth}
-        height={40}
-        className="hidden h-[34px] w-auto min-[360px]:block sm:h-10"
+        height={desktopHeight}
+        className={
+          size === "large"
+            ? "hidden h-12 w-auto min-[360px]:block sm:h-14"
+            : "hidden h-[34px] w-auto min-[360px]:block sm:h-10"
+        }
         style={{ minWidth: mobileWidth }}
       />
       <img

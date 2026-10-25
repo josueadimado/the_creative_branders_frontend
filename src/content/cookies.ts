@@ -3,24 +3,22 @@
 export const cookies = {
   seo: {
     title: "Cookies",
-    description: "How this website uses cookies.",
+    description: "This site does not ask you to accept cookies, and it does not load analytics.",
     path: "/cookies",
   },
   kicker: "Legal",
   title: "Cookies",
-  lede: "Essential cookies keep the site working. Analytics stays off unless you allow it.",
+  lede: "This site does not ask you to accept cookies, and it does not load analytics.",
   sections: [
     {
       title: "What we store",
       paragraphs: [
-        "We store your cookie choice on this device so we don't ask on every page. The project form, the waitlist and the Academy form don't use a tracking cookie to save what you send.",
+        "The project form, the waitlist and the Academy form don't use a tracking cookie to save what you send.",
       ],
     },
     {
       title: "Analytics",
-      paragraphs: [
-        "If you choose Accept, and analytics is switched on for this site, we load it to see which pages are visited. Essential only leaves analytics off. Cookie settings in the footer opens the choice again.",
-      ],
+      paragraphs: ["We do not load Google Analytics, so page visits are not counted with a cookie."],
     },
     {
       title: "Questions",

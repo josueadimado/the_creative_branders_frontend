@@ -31,29 +31,16 @@ export const contact = {
     path: "/contact",
   },
   hero: {
-    kicker: "Start a project",
     title: "Start a project",
-    lede: "Tell us what you're building, what's not working today, or what you'd like to try. A few sentences is enough to start.",
-  },
-  aside:
-    "We reply within one business day. If it's easier to talk, message us on WhatsApp or email hello@thecreativebranders.com.",
-  next: {
-    title: "What happens next",
-    steps: [
-      "We read your brief.",
-      "We reply within one business day with questions or a time to talk.",
-      "You get a written proposal and quote.",
-    ],
-    whatsapp: "Chat on WhatsApp",
   },
   fields: {
-    name: "Your name",
+    name: "Your full name",
     email: "Email",
     company: "Company or organisation (optional)",
     country: "Country (optional)",
     phone: "WhatsApp or phone (optional)",
     needs: "What do you need?",
-    timeline: "When would you like to start? (optional)",
+    timeline: "When to start (optional)",
     budget: "Budget range (optional)",
     message: "Tell us about the project",
     link: "Link to your current site or a brief (optional)",

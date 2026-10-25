@@ -7,7 +7,7 @@ export default function NotFound() {
 
   return (
     <section className="flex min-h-[70svh] items-center bg-navy py-32 sm:py-44">
-      <Seo title={notFound.seo.title} description={notFound.seo.description} path={pathname} />
+      <Seo title={notFound.seo.title} description={notFound.seo.description} path={pathname} index={false} />
       <div className="mx-auto max-w-6xl px-6">
         <p className="type-kicker text-signal">{notFound.kicker}</p>
         <h1 className="type-h1 mt-5 text-white">{notFound.title}</h1>

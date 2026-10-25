@@ -3,57 +3,52 @@ import { Navigate, useLocation, useSearchParams } from "react-router-dom";
 import CtaBand from "../components/CtaBand";
 import PortfolioCard from "../components/PortfolioCard";
 import Seo from "../components/Seo";
-import { workPage } from "../content/work";
-import {
-  FAMILIES,
-  getPublishedStudy,
-  publishedWork,
-  sectorsInUse,
-  studyMatchesFamily,
-  visibleText,
-} from "../data/portfolio";
+import { useProjects, useWorkCopy } from "../content/contentDesk";
+import { familiesInUse, studyMatchesFamily } from "../data/portfolio";
 import { trackWorkFilter } from "../lib/analytics";
 
 function FilterGroup({
   label,
+  allLabel,
   value,
   options,
   onChange,
 }: {
   label: string;
+  allLabel: string;
   value: string | null;
   options: { id: string; label: string }[];
   onChange: (next: string | null) => void;
 }) {
+  // The heading stays for screen readers. On screen the chips are the whole control.
+  const chip = (active: boolean) =>
+    `cursor-pointer rounded-full border px-4 py-2 font-sans text-sm font-medium ${
+      active ? "border-navy bg-navy text-white" : "border-mist bg-white text-navy"
+    }`;
+
   return (
-    <div>
-      <p className="type-kicker text-deep">{label}</p>
-      <div className="mt-3 flex flex-wrap gap-2" role="group" aria-label={label}>
+    <div className="flex flex-wrap gap-2" role="group" aria-label={label}>
+      <button type="button" aria-pressed={value === null} className={chip(value === null)} onClick={() => onChange(null)}>
+        {allLabel}
+      </button>
+      {options.map((option) => (
         <button
+          key={option.id}
           type="button"
-          aria-pressed={value === null}
-          className={`tag cursor-pointer border ${value === null ? "border-navy bg-navy text-white" : "border-transparent"}`}
-          onClick={() => onChange(null)}
+          aria-pressed={value === option.id}
+          className={chip(value === option.id)}
+          onClick={() => onChange(value === option.id ? null : option.id)}
         >
-          {workPage.filters.all}
+          {option.label}
         </button>
-        {options.map((option) => (
-          <button
-            key={option.id}
-            type="button"
-            aria-pressed={value === option.id}
-            className={`tag cursor-pointer border ${value === option.id ? "border-navy bg-navy text-white" : "border-transparent"}`}
-            onClick={() => onChange(value === option.id ? null : option.id)}
-          >
-            {option.label}
-          </button>
-        ))}
-      </div>
+      ))}
     </div>
   );
 }
 
 export default function Work() {
+  const workPage = useWorkCopy();
+  const catalog = useProjects();
   const { hash } = useLocation();
   const [params, setParams] = useSearchParams();
   // Auto-animate skips the motion when the visitor has asked for reduced motion.
@@ -62,28 +57,22 @@ export default function Work() {
   // Old links looked like /work#relief-chiropractic. Send them to the real page.
   const legacySlug = decodeURIComponent(hash.replace(/^#/, ""));
   if (legacySlug) {
-    const study = getPublishedStudy(legacySlug);
+    const study = catalog.find((item) => item.slug === legacySlug);
     return <Navigate to={study ? `/work/${study.slug}` : "/work"} replace />;
   }
 
-  // All four families, with the shorter names used on these chips.
-  const familyOptions = FAMILIES.map((family) => ({ slug: family.slug, label: family.chip }));
-  const sectorOptions = sectorsInUse();
-  const familyParam = params.get("family");
-  const sectorParam = params.get("sector");
-  const family = familyOptions.some((option) => option.slug === familyParam) ? familyParam : null;
-  const sector = sectorParam && sectorOptions.includes(sectorParam) ? sectorParam : null;
+  // Only services that already have a published project. Mobile apps stays off this row until one is listed.
+  const serviceOptions = familiesInUse(catalog);
+  const serviceParam = params.get("family");
+  const service = serviceParam && serviceOptions.some((option) => option.slug === serviceParam) ? serviceParam : null;
 
-  const studies = publishedWork().filter((item) => {
-    if (!studyMatchesFamily(item, family)) return false;
-    if (sector && visibleText(item.sector) !== sector) return false;
-    return true;
-  });
+  const studies = catalog.filter((item) => studyMatchesFamily(item, service));
 
-  function choose(key: "family" | "sector", next: string | null) {
+  function chooseService(next: string | null) {
     const updated = new URLSearchParams(params);
-    if (next) updated.set(key, next);
-    else updated.delete(key);
+    updated.delete("sector");
+    if (next) updated.set("family", next);
+    else updated.delete("family");
     setParams(updated, { replace: true });
     trackWorkFilter(next ?? "all");
   }
@@ -101,24 +90,23 @@ export default function Work() {
 
       <section className="bg-paper py-20 sm:py-28">
         <div className="mx-auto max-w-6xl px-6">
-          <div className="grid gap-8 md:grid-cols-2">
+          <div className="flex flex-col gap-3">
             <FilterGroup
+              allLabel={workPage.filters.all}
               label={workPage.filters.family}
-              value={family}
-              options={familyOptions.map((option) => ({ id: option.slug, label: option.label }))}
-              onChange={(next) => choose("family", next)}
-            />
-            <FilterGroup
-              label={workPage.filters.sector}
-              value={sector}
-              options={sectorOptions.map((option) => ({ id: option, label: option }))}
-              onChange={(next) => choose("sector", next)}
+              value={service}
+              options={serviceOptions.map((option) => ({ id: option.slug, label: option.label }))}
+              onChange={chooseService}
             />
           </div>
 
           <div
             ref={grid}
-            className={studies.length > 0 ? "mt-16 grid gap-x-10 gap-y-16 md:grid-cols-2" : undefined}
+            className={
+              studies.length > 0
+                ? "mt-16 grid grid-cols-1 items-stretch gap-8 md:grid-cols-2 md:gap-x-8 md:gap-y-0"
+                : undefined
+            }
           >
             {studies.map((item) => (
               <PortfolioCard key={item.slug} item={item} />

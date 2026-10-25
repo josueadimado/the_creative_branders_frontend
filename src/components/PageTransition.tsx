@@ -17,6 +17,14 @@ function prefersReducedMotion() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
+// After a page change, open the section named in the address (for example #services).
+function scrollToHash(hash: string) {
+  const id = hash.replace(/^#/, "");
+  const target = id ? document.getElementById(id) : null;
+  if (target) target.scrollIntoView();
+  else window.scrollTo(0, 0);
+}
+
 /**
  * Smooth page changes with a short loading beat.
  *
@@ -42,7 +50,10 @@ export default function PageTransition({ children }: PageTransitionProps) {
     const samePage = location.pathname === current.pathname;
 
     if (samePage) {
-      if (location.search !== current.search || location.hash !== current.hash) setShown(location);
+      if (location.search !== current.search || location.hash !== current.hash) {
+        setShown(location);
+        if (location.hash) window.setTimeout(() => scrollToHash(location.hash), 0);
+      }
       return;
     }
 
@@ -50,7 +61,7 @@ export default function PageTransition({ children }: PageTransitionProps) {
 
     if (prefersReducedMotion()) {
       setShown(location);
-      window.scrollTo(0, 0);
+      window.setTimeout(() => scrollToHash(location.hash), 0);
       setPhase("idle");
       return;
     }
@@ -70,6 +81,7 @@ export default function PageTransition({ children }: PageTransitionProps) {
       if (runId.current !== thisRun) return;
 
       setShown(location);
+      window.setTimeout(() => scrollToHash(location.hash), 0);
       setPhase("in");
       document.body.style.cursor = "";
       await wait(280);

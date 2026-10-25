@@ -7,7 +7,7 @@ import type { ServiceFamily } from "./types";
 const brandWebsites: ServiceFamily = {
   slug: "brand-websites",
   name: "Brand and websites",
-  promise: "Look established from the first click",
+  promise: "We help you establish your look from the first click",
   description:
     "We shape your brand and build the website that turns visitors into enquiries.",
   image: "/images/work-nonprofit.jpg",

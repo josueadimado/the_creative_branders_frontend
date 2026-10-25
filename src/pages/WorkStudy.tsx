@@ -1,30 +1,45 @@
-import { useEffect } from "react";
+import { ArrowLeft, ArrowUpRight } from "lucide-react";
+import { useEffect, type ReactNode } from "react";
 import { Link, useParams } from "react-router-dom";
-import CtaBand from "../components/CtaBand";
 import WorkFrame, { BrowserPlaceholder } from "../components/DeviceFrame";
 import Seo from "../components/Seo";
+import StackLogo from "../components/StackLogo";
+import { useProject, useProjects } from "../content/contentDesk";
 import { workPage } from "../content/work";
 import {
-  displayCountry,
   displayLiveUrl,
   displayLogo,
   displayName,
   familyLabel,
-  getPublishedStudy,
-  studyFamilies,
+  studyScreenshots,
   visibleBuilt,
-  visibleQuote,
   visibleResults,
   visibleStack,
-  studyScreenshots,
   visibleText,
+  type PortfolioItem,
+  type WorkResult,
 } from "../data/portfolio";
 import { track } from "../lib/analytics";
 import NotFound from "./NotFound";
 
+/** The two projects that follow this one. The list wraps back to the start. */
+function followingStudies(slug: string, studies: PortfolioItem[]): PortfolioItem[] {
+  const index = studies.findIndex((item) => item.slug === slug);
+  if (index === -1 || studies.length < 2) return [];
+  return [1, 2]
+    .map((step) => studies[(index + step) % studies.length])
+    .filter((item) => item.slug !== slug);
+}
+
+/**
+ * One project page.
+ * The order matches a case-study page: the name, the screens, then the problem,
+ * the solution, the stack, and what was delivered.
+ */
 export default function WorkStudy() {
   const { slug } = useParams();
-  const item = getPublishedStudy(slug);
+  const item = useProject(slug);
+  const catalog = useProjects();
 
   useEffect(() => {
     if (!item) return;
@@ -42,160 +57,238 @@ export default function WorkStudy() {
   const built = visibleBuilt(item);
   const stack = visibleStack(item);
   const results = visibleResults(item);
-  const quote = visibleQuote(item);
-  const images = studyScreenshots(item);
-  const hero = images[0];
-  const company = visibleText(item.company);
+  // The clinic booking page shows a phone number, so that shot stays off this page.
+  const images = studyScreenshots(item).filter((src) => src !== "/images/work/relief-chiropractic/homepage.jpg");
   const sector = visibleText(item.sector);
-  const country = displayCountry(item);
-  const families = studyFamilies(item).map((family) => familyLabel(family)).join(", ");
-  const facts = [
-    company ? { label: workPage.labels.company, value: company } : null,
-    sector ? { label: workPage.labels.sector, value: sector } : null,
-    country ? { label: workPage.labels.country, value: country } : null,
-    { label: workPage.labels.family, value: families },
-  ].flatMap((fact) => (fact ? [fact] : []));
+  const kicker = [sector, familyLabel(item.family)].filter(Boolean).join(" · ");
   const description = summary ?? workPage.lede;
+  const next = followingStudies(item.slug, catalog);
+  const origin = (import.meta.env.VITE_SITE_URL || "").replace(/\/$/, "");
+  const pagePath = `/work/${item.slug}`;
 
   return (
     <>
-      <Seo title={name} description={description} path={`/work/${item.slug}`} image={hero} />
+      <Seo
+        title={name}
+        description={description}
+        path={pagePath}
+        image={images[0]}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "CreativeWork",
+          name,
+          description,
+          ...(origin ? { url: `${origin}${pagePath}` } : {}),
+          ...(origin && images[0] ? { image: `${origin}${images[0]}` } : {}),
+          creator: { "@type": "Organization", name: "The Creative Branders" },
+        }}
+      />
 
-      <article className="bg-paper">
-        <header className="border-b border-mist py-16 sm:py-24">
-          <div className="mx-auto max-w-6xl px-6">
-            <div className="max-w-3xl">
-              {logo ? <img src={logo} alt="" className="mb-6 h-10 w-auto" /> : null}
-              <h1 className="type-h1 text-navy">{name}</h1>
-              {item.relationship === "venture" ? (
-                <p className="type-caption mt-4 text-slate">Studio venture</p>
-              ) : null}
-              <dl className="mt-10 border-t border-mist">
-                {facts.map((fact) => (
-                  <div key={fact.label} className="grid grid-cols-[7.5rem_1fr] gap-4 border-b border-mist py-4 sm:grid-cols-[9rem_1fr]">
-                    <dt className="type-caption text-slate">{fact.label}</dt>
-                    <dd className="type-body text-navy">{fact.value}</dd>
-                  </div>
-                ))}
-              </dl>
-              {liveUrl ? (
-                <p className="mt-6">
-                  <a
-                    href={liveUrl}
-                    className="type-body text-deep hover:text-deep-hover"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {workPage.labels.visit}
-                  </a>
-                </p>
-              ) : null}
-              {summary ? <p className="type-lede mt-8 text-slate">{summary}</p> : null}
-            </div>
+      <article className="bg-white">
+        <header className="mx-auto max-w-6xl px-6 pb-14 pt-10 sm:pb-16 sm:pt-14">
+          <Link to="/work" className="inline-flex items-center gap-2 text-sm font-medium text-slate hover:text-navy">
+            <ArrowLeft className="size-4" aria-hidden="true" />
+            {workPage.back}
+          </Link>
+
+          <div className="mt-12 max-w-3xl">
+            {logo ? <img src={logo} alt="" className="mb-5 h-12 w-auto" /> : null}
+            {kicker ? (
+              <p className="inline-flex rounded-full border border-mist bg-paper px-3.5 py-1.5 font-sans text-sm font-medium text-navy">
+                {kicker}
+              </p>
+            ) : null}
+            <h1 className="mt-5 text-balance font-display text-4xl font-semibold leading-[1.05] text-navy sm:text-5xl lg:text-7xl">{name}</h1>
+            {item.relationship === "venture" ? (
+              <p className="type-caption mt-4 text-slate">Studio venture</p>
+            ) : null}
+            {summary ? <p className="type-lede mt-6 max-w-xl text-slate">{summary}</p> : null}
+            {liveUrl ? (
+              <a
+                href={liveUrl}
+                className="btn btn-inverse mt-8 gap-2"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {workPage.labels.visit}
+                <ArrowUpRight className="size-4" aria-hidden="true" />
+              </a>
+            ) : null}
           </div>
         </header>
 
-        <div className="bg-paper py-16 sm:py-24">
-          <div className="mx-auto flex max-w-6xl flex-col gap-12 px-6">
-            {images.length > 0 ? (
-              images.map((src, index) => (
-                <WorkFrame
-                  key={`${src}-${index}`}
-                  src={src}
-                  alt={name}
-                  device={item.device}
-                  feature
-                  loading={index === 0 ? "eager" : "lazy"}
-                />
-              ))
-            ) : (
-              <BrowserPlaceholder label={name} />
-            )}
+        <div className="bg-tint py-8 sm:py-10">
+          <div className="mx-auto max-w-3xl px-6">
+            <ScreenSet images={images} name={name} device={item.device} />
+            {stack.length > 0 ? (
+              <div className="mt-8">
+                <p className="type-kicker text-slate">{workPage.labels.stack}</p>
+                <ul className="mt-4 flex flex-wrap gap-2">
+                  {stack.map((tool) => (
+                    <li
+                      key={tool}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-mist bg-white px-3 py-1.5 font-sans text-sm font-medium text-navy"
+                    >
+                      <StackLogo name={tool} />
+                      {tool}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
           </div>
         </div>
 
-        <div className="mx-auto max-w-6xl px-6 pb-16 sm:pb-24">
+        {challenge ? (
+          <StudyBlock index="01" title={workPage.problem}>
+            <p className="type-body text-slate">{challenge}</p>
+          </StudyBlock>
+        ) : null}
 
-          {challenge ? (
-            <section className="mt-16 max-w-3xl">
-              <h2 className="type-kicker text-deep">{workPage.labels.challenge}</h2>
-              <p className="type-body mt-3 text-slate">{challenge}</p>
-            </section>
-          ) : null}
+        {approach ? (
+          <StudyBlock index="02" title={workPage.solution}>
+            <p className="type-body text-slate">{approach}</p>
+          </StudyBlock>
+        ) : null}
 
-          {approach ? (
-            <section className="mt-12 max-w-3xl">
-              <h2 className="type-kicker text-deep">{workPage.labels.approach}</h2>
-              <p className="type-body mt-3 text-slate">{approach}</p>
-            </section>
-          ) : null}
+        {built.length > 0 ? (
+          <StudyBlock index="03" title={workPage.delivery}>
+            <div className="space-y-5">
+              {built.map((line) => (
+                <p key={line} className="type-body text-slate">
+                  {line}
+                </p>
+              ))}
+            </div>
+          </StudyBlock>
+        ) : null}
 
-          {built.length > 0 ? (
-            <section className="mt-12 max-w-3xl">
-              <h2 className="type-kicker text-deep">{workPage.labels.built}</h2>
-              <ul className="mt-4 list-disc space-y-3 pl-5">
-                {built.map((line) => (
-                  <li key={line} className="type-body text-slate">
-                    {line}
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ) : null}
-
-          {stack.length > 0 ? (
-            <section className="mt-12 max-w-3xl">
-              <h2 className="type-kicker text-deep">{workPage.labels.stack}</h2>
-              <ul className="mt-4 flex flex-wrap gap-2">
-                {stack.map((tool) => (
-                  <li key={tool} className="tag">
-                    {tool}
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ) : null}
-
-          {results.length > 0 ? (
-            <section className="mt-16">
-              <h2 className="type-kicker text-deep">{workPage.labels.results}</h2>
-              <div className="mt-6 grid gap-10 sm:grid-cols-3">
-                {results.map((result) => (
-                  <div key={`${result.value}-${result.label}`}>
-                    <p className="type-stat text-navy">{result.value}</p>
-                    <p className="type-body mt-2 text-slate">{result.label}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
-          ) : null}
-
-          {quote ? (
-            <blockquote className="mt-16 max-w-3xl border-l border-deep pl-6">
-              <p className="type-lede text-navy">{visibleText(quote.text)}</p>
-              {visibleText(quote.name) ? (
-                <footer className="type-body mt-4 text-slate">
-                  {visibleText(quote.name)}
-                  {visibleText(quote.title) ? `, ${visibleText(quote.title)}` : ""}
-                  {visibleText(quote.company) ? `, ${visibleText(quote.company)}` : ""}
-                </footer>
-              ) : null}
-            </blockquote>
-          ) : null}
-
-          <p className="mt-16">
-            <Link
-              to="/contact"
-              className="btn btn-inverse"
-              onClick={() => track("start_project_click", { location: "case_study" })}
-            >
-              {workPage.labels.similar}
-            </Link>
-          </p>
-        </div>
+        {results.length > 0 ? <OutcomeBand results={results} /> : null}
       </article>
 
-      <CtaBand />
+      <ProjectClose />
+
+      {next.length > 0 ? (
+        <section className="border-t border-mist bg-white" aria-label={workPage.more}>
+          <div className="mx-auto grid max-w-6xl sm:grid-cols-2">
+            {next.map((study) => {
+              const studyName = displayName(study);
+              const studyKicker = [visibleText(study.sector), familyLabel(study.family)].filter(Boolean).join(" · ");
+              return (
+                <Link
+                  key={study.slug}
+                  to={`/work/${study.slug}`}
+                  className="group flex min-w-0 items-center justify-between gap-4 border-b border-mist px-6 py-8 hover:bg-paper sm:border-b-0 sm:gap-6 sm:py-10 sm:odd:border-r"
+                >
+                  <span className="min-w-0">
+                    {studyKicker ? (
+                      <span className="inline-flex rounded-full border border-mist bg-paper px-3 py-1 font-sans text-sm font-medium text-navy">
+                        {studyKicker}
+                      </span>
+                    ) : null}
+                    <span className="mt-2 block text-balance font-display text-2xl font-semibold text-navy group-hover:text-deep sm:text-3xl">
+                      {studyName}
+                    </span>
+                  </span>
+                  <ArrowUpRight className="size-5 shrink-0 text-navy" aria-hidden="true" />
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+      ) : null}
     </>
+  );
+}
+
+/**
+ * The screens for one project.
+ * One screen sits centered. Two or more put the main screen on the left
+ * and the rest in a column on the right, so they read as one set.
+ */
+function ScreenSet({
+  images,
+  name,
+  device,
+}: {
+  images: string[];
+  name: string;
+  device: PortfolioItem["device"];
+}) {
+  if (images.length === 0) return <BrowserPlaceholder label={name} />;
+  if (images.length === 1) {
+    return <WorkFrame src={images[0]} alt={name} device={device} loading="eager" />;
+  }
+  const [lead, ...rest] = images;
+  return (
+    <div className="grid items-center gap-4 md:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] md:gap-5">
+      <WorkFrame src={lead} alt={name} device={device} loading="eager" />
+      <div className="grid gap-5">
+        {rest.map((src) => (
+          <WorkFrame key={src} src={src} alt="" device={device} loading="lazy" />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * What the project changed for the client.
+ * The short line is the benefit. The sentence under it says how.
+ */
+function OutcomeBand({ results }: { results: WorkResult[] }) {
+  return (
+    <section className="bg-navy" aria-label={workPage.benefits}>
+      <div className="mx-auto max-w-6xl px-6 py-16 sm:py-24">
+        <p className="font-sans text-xs font-medium uppercase tracking-[0.16em] text-white/50">{workPage.benefits}</p>
+        <div className="mt-10 grid gap-12 sm:grid-cols-2 sm:gap-10">
+          {results.map((result) => (
+            <div key={`${result.value}-${result.label}`}>
+              <p className="font-display text-4xl font-semibold leading-tight text-signal sm:text-5xl">{result.value}</p>
+              <p className="mt-4 max-w-md font-sans text-base leading-relaxed text-white/75">{result.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/** The last invitation on a project page. White page, navy button. */
+function ProjectClose() {
+  return (
+    <section className="bg-white">
+      <div className="mx-auto max-w-6xl px-6 py-24 sm:py-32">
+        <p className="font-sans text-xs font-medium uppercase tracking-[0.16em] text-slate">{workPage.closeKicker}</p>
+        <h2 className="mt-6 max-w-3xl font-display text-5xl font-semibold leading-[0.95] text-navy sm:text-6xl lg:text-7xl">
+          {workPage.closeTitle}
+          <br />
+          <span className="text-slate">{workPage.closeTitleRest}</span>
+        </h2>
+        <Link
+          to="/contact"
+          className="mt-10 inline-flex items-center gap-2 rounded-md bg-navy px-5 py-3 text-[15px] font-medium text-white hover:bg-deep"
+          onClick={() => track("start_project_click", { location: "case-study" })}
+        >
+          {workPage.labels.similar}
+          <ArrowUpRight className="size-4" aria-hidden="true" />
+        </Link>
+      </div>
+    </section>
+  );
+}
+
+/** A numbered block: the label on the left, the writing on the right. */
+function StudyBlock({ index, title, children }: { index: string; title: string; children: ReactNode }) {
+  return (
+    <section className="border-t border-mist">
+      <div className="mx-auto grid max-w-6xl gap-8 px-6 py-16 sm:py-24 lg:grid-cols-2 lg:gap-20">
+        <div>
+          <p className="type-kicker text-slate">{index}</p>
+          <h2 className="mt-4 font-display text-4xl font-semibold leading-tight text-navy sm:text-5xl">{title}</h2>
+        </div>
+        <div className="lg:pt-10">{children}</div>
+      </div>
+    </section>
   );
 }

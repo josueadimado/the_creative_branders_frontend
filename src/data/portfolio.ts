@@ -125,7 +125,8 @@ function settle(item: StudyInput): PortfolioItem {
 const studies: StudyInput[] = [
   {
     slug: "relief-chiropractic",
-    publicName: "Relief Chiropractic & Wellness Center",
+    publicName: "Chiropractic & Wellness Center",
+    logo: "/images/logos/relief-chiropractic.png",
     anonymousName: "A chiropractic clinic in Michigan",
     nameApproved: true,
     liveUrl: "https://www.reliefchiropractic.net",
@@ -143,21 +144,17 @@ const studies: StudyInput[] = [
     approach:
       "We mapped the clinic's day from the first booking to the paid invoice and built one system around it. Patients use their phones. Doctors see their day on one screen. Reminders and phone bookings run without the front desk.",
     built: [
-      "Online booking, rescheduling and cancellation, with intake forms completed before the visit",
-      "A lobby check-in screen that tells the front desk a patient has arrived",
-      "Doctor day view with charts, visit history and billing in one place",
-      "Admin tools for schedule, services, providers, invoices, patient credit and US insurance claims (CMS-1500)",
-      "Card payments online, by link, on a card reader or with a saved card",
-      "Automatic text and email confirmations and reminders",
-      "An AI phone assistant that books callers into real open slots",
-      "Two-way sync with each doctor's Google Calendar",
+      "Patients book, reschedule and cancel online, and complete intake forms before the visit. A lobby screen tells the front desk when someone has arrived. Doctors see their day, the chart, the visit history and the bill in one place. Admins run the schedule, services, providers, invoices, patient credit and US insurance claims (CMS-1500). Cards can be taken online, by link, on a reader or from a saved card. Confirmations and reminders go out by text and email on their own. An AI phone assistant books callers into real open slots, and each doctor's Google Calendar stays in sync both ways.",
     ],
     stack: ["Next.js", "Django", "PostgreSQL", "Celery", "Square", "Twilio (SMS and voice)", "OpenAI", "Google Calendar"],
-    results: [],
-    // First image is the public homepage. The rest show on the case-study page.
+    results: [
+      { value: "One system", label: "Booking, check-in, charts and payments sit in the same place." },
+      { value: "Less retyping", label: "A patient is entered once. Reminders and phone bookings run without the front desk." },
+    ],
+    // First image is the card on the homepage. The rest show on the case-study page.
     images: [
-      "/images/work/relief-chiropractic/homepage.jpg",
       "/images/work/relief-chiropractic/staff-sign-in.jpg",
+      "/images/work/relief-chiropractic/homepage.jpg",
       "/images/work/relief-chiropractic/admin-dashboard.png",
       "/images/work/relief-chiropractic/analytics.png",
     ],
@@ -165,6 +162,7 @@ const studies: StudyInput[] = [
   {
     slug: "push-it",
     publicName: "Push-it",
+    logo: "/images/logos/push-it.png",
     company: "Push It Global Technologies",
     anonymousName: "A creator marketplace in Nigeria",
     nameApproved: true,
@@ -183,24 +181,24 @@ const studies: StudyInput[] = [
     approach:
       "Brand funds go into a wallet. Each video is checked before the creator is paid, and creators withdraw to a bank account or mobile money. Every movement of money is recorded, so balances can always be checked.",
     built: [
-      "Brand onboarding with business verification and wallet top-ups by card or bank",
-      "Campaign builder with live pricing before launch",
-      "Campaign tracking with every creator's submission and status",
-      "Creator onboarding with verified TikTok, Instagram, YouTube and Facebook accounts",
-      "A job feed, video submission and in-app earnings",
-      "Payouts to bank accounts or MTN, Vodafone and AirtelTigo mobile money",
-      "Multi-currency support (NGN, GHS, KES, ZAR, USD) with live exchange rates",
-      "An operations dashboard for verifications, video approval, payouts and reports",
-      "Team roles for brands, two-factor login for everyone",
+      "A brand signs up, verifies the business, and tops up a wallet by card or bank. They build a campaign and see the price before it launches, then follow every creator's submission and status. Creators join with verified TikTok, Instagram, YouTube and Facebook accounts, take work from a job feed, submit the video and see their earnings in the app. Payouts go to a bank account or to MTN, Vodafone and AirtelTigo mobile money. The platform handles NGN, GHS, KES, ZAR and USD with live exchange rates. An operations dashboard covers verifications, video approval, payouts and reports, and brands can give team roles, with two-factor login for everyone.",
     ],
     stack: ["React", "TypeScript", "Django", "PostgreSQL", "Celery", "Paystack"],
-    results: [],
-    // Live homepage from pushit.now.
-    images: ["/images/work/push-it/homepage.jpg"],
+    results: [
+      { value: "Checked, then paid", label: "Each video is reviewed before the creator is paid." },
+      { value: "Paid locally", label: "Creators withdraw to a bank or to mobile money, in NGN, GHS, KES, ZAR and USD." },
+    ],
+    // The brands homepage is the card. The login page stays for the case study.
+    images: [
+      "/images/work/push-it/brands-home.jpg",
+      "/images/work/push-it/homepage.jpg",
+      "/images/work/push-it/login.jpg",
+    ],
   },
   {
     slug: "come-clarity",
     publicName: "COME|CLARITY",
+    logo: "/images/logos/come-clarity.png",
     anonymousName: "A leadership learning platform in Ghana",
     nameApproved: true,
     liveUrl: "https://comeclarity.org",
@@ -216,26 +214,30 @@ const studies: StudyInput[] = [
     approach:
       "We built the whole path in one product: programme page, application, payment, cohort and certificate. Facilitators run their classes from the same system.",
     built: [
-      "Public site with programme pages and an online application",
-      "Checkout through Paystack, priced in cedis for Ghana and US dollars elsewhere, plus payment plans reviewed by staff",
-      "Week-by-week learner pathway: live classes, recordings, assignments, quizzes and reading",
-      "Leadership self-assessment with a personal profile",
-      "Facilitator tools for attendance, grading, announcements and unlocking weeks",
-      "Admin area for applications, cohorts, programmes and offline payments",
-      "PDF certificates and an alumni area",
+      "The public site has programme pages and an online application. Checkout runs through Paystack, priced in cedis for Ghana and US dollars elsewhere, with payment plans that staff review. Learners move week by week through live classes, recordings, assignments, quizzes and reading, and a leadership self-assessment builds a personal profile. Facilitators take attendance, grade work, post announcements and open each week of the course. Admins handle applications, cohorts, programmes and offline payments. Certificates are PDFs, and there is an alumni area.",
     ],
     stack: ["Next.js", "Django", "PostgreSQL", "Celery", "Paystack", "Cloudflare R2"],
-    results: [],
-    images: [],
+    results: [
+      { value: "One path", label: "Apply, pay, join the cohort and finish with a certificate in the same product." },
+      { value: "Week by week", label: "A learner sees the class, the assignment and what is due, without chasing files." },
+    ],
+    // Homepage, the learner dashboard, then the pathways page.
+    images: [
+      "/images/work/come-clarity/homepage.jpg",
+      "/images/work/come-clarity/dashboard.jpg",
+      "/images/work/come-clarity/pathways.jpg",
+    ],
   },
   {
     slug: "up2date-connect",
     publicName: "Up2Date Connect",
+    logo: "/images/logos/up2date-connect.png",
     anonymousName: "A counseling platform in the United States",
     nameApproved: true,
     liveUrl: "https://up2dateconnect.com",
     linkApproved: true,
     family: "web-applications",
+    secondaryFamilies: ["automation-reporting"],
     sector: "Behavioral health",
     country: "United States",
     featured: true,
@@ -247,24 +249,24 @@ const studies: StudyInput[] = [
     approach:
       "It began as the system we built for a single counseling clinic. We turned it into a platform any counseling organisation can sign up for, each with its own branded portal and web address.",
     built: [
-      "Self-serve signup for counseling organisations, each with its own branding, letterhead and web address",
-      "Staff workspace: a \"Today\" dashboard, client directory, sessions, groups, attendance and calendar",
-      "Client portal for intake, sessions, documents and payments",
-      "Referral partner portal to submit referrals and receive progress updates",
-      "Payments by card (Square), plus optional Cash App and Venmo, with reminders",
-      "Monthly progress reports and completion certificates as PDFs",
-      "Email and text reminders, Zoom sessions and Google Calendar sync",
-      "Operator tools for organisations, plans and billing, plus a content editor for the public site",
-      "English, Spanish and French interface; authenticator-app sign-in; encrypted secrets; nightly encrypted backups",
+      "A counseling organisation signs up on its own, with its branding, letterhead and web address. Staff get a Today dashboard, a client directory, sessions, groups, attendance and a calendar. Clients use a portal for intake, sessions, documents and payments, and referral partners submit referrals and receive progress updates. Payments can be taken by card through Square, with optional Cash App and Venmo, plus reminders. Monthly progress reports and completion certificates are PDFs. Email and text reminders, Zoom sessions and Google Calendar sync sit in the same system. Operators manage organisations, plans and billing, and edit the public site. The interface is in English, Spanish and French, with authenticator-app sign-in, encrypted secrets and nightly encrypted backups.",
     ],
     stack: ["React", "TypeScript", "Django", "PostgreSQL", "Celery", "Square", "Twilio", "Zoom"],
-    results: [],
-    // Live homepage from up2dateconnect.com. Not the Secure Counseling clinic screens.
-    images: ["/images/work/up2date-connect/homepage.jpg"],
+    results: [
+      { value: "One record", label: "Staff, clients and referral partners share the current picture of a case." },
+      { value: "Their own brand", label: "Each organisation signs up with its own name, letterhead and web address." },
+    ],
+    // Public site first. The sessions screen is the staff view, with sample clients.
+    images: [
+      "/images/work/up2date-connect/homepage.jpg",
+      "/images/work/up2date-connect/about.jpg",
+      "/images/work/up2date-connect/sessions.jpg",
+    ],
   },
   {
     slug: "set-free-in-christ",
     publicName: "Set Free in Christ Mission",
+    logo: "/images/logos/set-free.png",
     anonymousName: "A multilingual ministry in the United States",
     nameApproved: true,
     liveUrl: "https://www.setfreeinchrist.org",
@@ -281,34 +283,48 @@ const studies: StudyInput[] = [
     approach:
       "We gave the staff a private desk where they can change every page, notice and story themselves. Help requests and gifts arrive there too, away from the public site.",
     built: [
-      "Public site in English, French, Spanish and Portuguese",
-      "Find Help requests for prayer and pastoral support",
-      "Teaching library, videos, trainings and trip sign-ups",
-      "One-time and monthly giving by card, with a way to finish an incomplete gift",
-      "Newsletter sign-up and sending",
-      "\"Mission Desk\", a staff workspace for content, messages, help requests, gifts and the newsletter",
-      "Search, share previews and sitemap for discoverability",
+      "The public site is in English, French, Spanish and Portuguese. People can request prayer and pastoral support, browse a teaching library with videos and trainings, and sign up for trips. Giving is one-time or monthly by card, and an incomplete gift can be finished later. There is a newsletter people can join, and the team can send it. Mission Desk is the staff workspace for content, messages, help requests, gifts and the newsletter. Search, share previews and a sitemap help the site get found.",
     ],
     stack: ["React", "TypeScript", "Django", "Stripe"],
-    results: [],
-    images: [],
+    results: [
+      { value: "Four languages", label: "The public site reads in English, French, Spanish and Portuguese." },
+      { value: "Staff can edit", label: "The team changes pages, notices and stories without calling a developer." },
+    ],
+    images: [
+      "/images/work/set-free-in-christ/homepage.jpg",
+      "/images/work/set-free-in-christ/give.jpg",
+      "/images/work/set-free-in-christ/about.jpg",
+    ],
   },
   {
     slug: "come",
     publicName: "COME",
+    logo: "/images/logos/come.png",
     anonymousName: "A leadership organisation",
     nameApproved: true,
     family: "brand-websites",
     sector: "Nonprofit",
-    summary: "A leadership website and content platform for programmes, stories and a clear way to take part.",
+    summary:
+      "A leadership website for programmes, projects and stories, with a way to take part and a way to give.",
     challenge:
-      "Programmes, stories and calls to action sat in documents and social posts. Visitors could not see a clear path from interest to a next step.",
+      "Programmes, stories and invitations to take part sat in documents and social posts. A visitor opening the old site had to piece together what COME does, and what to do next.",
     approach:
-      "We built a content system the team can update as cohorts, events and teaching material change. Programme pages, stories and a way to take part live in one place. The voice stayed the organisation's own.",
+      "We built pages the team can update as cohorts, events and teaching change. Programmes, projects, stories and giving sit on one site, in the organisation's own voice.",
     built: [
-      "A leadership website and content platform with programme pages, a publishing structure for teaching and stories, and a clear way to take part. It sits alongside the Academy work we still hold with COME.",
+      "The home page introduces COME. Programme pages explain the pathways. Projects and insights hold the work and the stories, and Our story has its own page. A visitor can give from the menu on any page. The Academy work we still hold with COME sits alongside this site.",
     ],
-    images: [],
+    // Read from the live site: Next.js, React, Tailwind, Framer Motion and Turbopack.
+    stack: ["Next.js", "React", "Tailwind CSS", "Framer Motion", "Turbopack"],
+    results: [
+      { value: "One site", label: "Programmes, projects, stories and giving sit together." },
+      { value: "A clear next step", label: "A visitor can see what COME does, take part, or give from the menu." },
+    ],
+    // Public pages from comecenters.com.
+    images: [
+      "/images/work/come/homepage.jpg",
+      "/images/work/come/programs.jpg",
+      "/images/work/come/story.jpg",
+    ],
     published: true,
   },
   {
@@ -319,6 +335,7 @@ const studies: StudyInput[] = [
     nameApproved: true,
     linkApproved: false,
     family: "web-applications",
+    secondaryFamilies: ["automation-reporting"],
     sector: "Behavioral health",
     country: "United States",
     featured: true,
@@ -330,95 +347,237 @@ const studies: StudyInput[] = [
     approach:
       "We designed for privacy and calm. Three separate signed-in areas (staff, clients, partners) each see only what they should. The interface stays quiet enough for a clinician between sessions.",
     built: [
-      "Staff dashboard for clients, referrals, groups, programmes, assessments and calendar",
-      "Attendance tracking with follow-up for people who stop attending",
-      "Client portal for intake paperwork with signature, sessions, assessment booking and online payment",
-      "Referral partner portal to refer clients, follow cases and download reports",
-      "PDF progress reports and programme completion certificates",
-      "Email and text reminders for sessions, payments and case updates",
-      "In-person, phone and video sessions",
-      "English, Spanish and French interface",
-      "Privacy controls: role-based access, an audit log and texting held back until a privacy agreement is in place",
+      "Staff see clients, referrals, groups, programmes, assessments and the calendar on one dashboard, and attendance tracking follows up with people who stop coming. Clients complete intake paperwork with a signature, see sessions, book assessments and pay online. Referral partners refer clients, follow cases and download reports. Progress reports and programme completion certificates are PDFs. Reminders for sessions, payments and case updates go by email and text. Sessions can be in person, by phone or by video. The interface is in English, Spanish and French. Access is by role, with an audit log, and texting stays off until a privacy agreement is in place.",
     ],
     stack: ["Next.js", "Django", "PostgreSQL", "Celery", "Square", "Twilio"],
-    results: [],
+    results: [
+      { value: "Three signed-in areas", label: "Staff, clients and partners each see only what they should." },
+      { value: "Reports from the case", label: "Attendance, payments and progress reports come from the same record." },
+    ],
+    // Sign-in first. The dashboard has client names covered. The third shot is another sign-in panel, with no client names.
     images: [
-      "/images/work/secure-counseling/dashboard.png",
       "/images/work/secure-counseling/sign-in.jpg",
-      "/images/work/secure-counseling/sessions.jpg",
+      "/images/work/secure-counseling/dashboard.jpg",
+      "/images/work/secure-counseling/team-home.jpg",
     ],
   },
   {
     slug: "elevate-tribe-learning",
     publicName: "Elevate Tribe Learning",
+    logo: "/images/logos/elevate-tribe.png",
     anonymousName: "A mentorship programme",
     nameApproved: true,
     family: "web-applications",
     sector: "EdTech",
-    summary: "A mentorship platform where matching, sessions and progress sit in one product.",
+    summary:
+      "The learning space for the Elevate Tribe Mentorship Program. A learner signs in, opens their courses and sees what is due.",
     challenge:
-      "Mentorship was happening in chats and calendars that did not talk to each other. Mentors could not see who they were working with, and learners could not see the path ahead.",
+      "The programme had courses to teach and work for learners to hand in. That needed one signed-in place, so a learner could see their classes, the next assignment and the calendar without asking someone to send a link.",
     approach:
-      "Profiles, matching, a session rhythm and a simple progress view sit in one product. The brand and the screens match the rest of the programme.",
+      "We set the programme up in Moodle, under the Elevate Tribe name. A learner signs in with their ID and lands on a dashboard. The courses open from there.",
     built: [
-      "A mentorship platform with mentor and learner profiles, matching, session booking and a shared view of the work. The site and the product share one identity.",
+      "The sign-in asks for the learner's ID. The dashboard shows the coming week, including assignments for Academic Excellence and Spiritual Excellence, and a calendar for new events. My courses lists the two tracks in the Elevate Tribe Mentorship Program: Academic Excellence, on mastery, discipline and learning, and Spiritual Excellence, on character and faith. The same sign-in is where the programme is taught.",
     ],
-    images: [],
+    // Moodle runs on PHP, with MySQL keeping the courses and accounts.
+    stack: ["Moodle", "PHP", "MySQL", "Apache"],
+    results: [
+      { value: "One sign-in", label: "A learner opens their courses, the next assignment and the calendar from the dashboard." },
+      { value: "Two tracks", label: "Academic Excellence and Spiritual Excellence are listed in My courses." },
+    ],
+    // Sign-in first. The dashboard and course list are the signed-in Moodle screens.
+    images: [
+      "/images/work/elevate-tribe-learning/homepage.jpg",
+      "/images/work/elevate-tribe-learning/dashboard.jpg",
+      "/images/work/elevate-tribe-learning/courses.jpg",
+    ],
     published: true,
   },
   {
     slug: "elevate-tribe-analytics",
     publicName: "Elevate Tribe Analytics",
+    logo: "/images/logos/elevate-tribe.png",
     anonymousName: "A data and training studio",
     nameApproved: true,
     family: "brand-websites",
     sector: "Data / training",
-    summary: "A data and training services site that explains the offer in plain language.",
+    summary:
+      "A services site for data and training work with businesses, nonprofits and faith organisations.",
     challenge:
-      "Prospects had to guess what the team could do from a thin page. Training offers and analytics services were hard to tell apart.",
+      "The team could do the work. The site did not say what that work was. A visitor had to guess whether they needed training, data analysis, or both, and how to ask.",
     approach:
-      "The site says what you hire them for, how an engagement runs and what a training track looks like. The visuals stay spare, and the numbers on the site are ones they are ready to stand behind.",
+      "We split that into pages a visitor can read in order: who the team is, what they do, and how to start. Each service is written out on its own.",
     built: [
-      "A data and training services site with clear service lines, a path into an engagement, and a visual system for the analytics and training work.",
+      "The home page states the work. About introduces the team. Services is written for businesses, nonprofits and faith organisations, and includes faith-based data analysis, using records a ministry already keeps, such as attendance and giving. FAQs and a contact page cover the usual questions. Get started is the way to ask for a conversation.",
     ],
-    images: [],
-    published: true,
-  },
-  {
-    slug: "uplift-your-morning",
-    publicName: "Uplift Your Morning",
-    anonymousName: "A daily devotion community",
-    nameApproved: true,
-    family: "web-applications",
-    sector: "Faith / community",
-    summary: "A devotion and community platform built around a daily rhythm.",
-    challenge:
-      "Devotionals, discussion and belonging lived across several apps. A daily practice needed a quieter place than a busy feed.",
-    approach:
-      "The product is a short ritual: something to read, a way to sit with it, and a way to stay in community. The tone stays warm, and the product stays small.",
-    built: [
-      "A devotion and community platform with daily content, a simple community layer and a public presence that matches the practice. It is meant to be opened in the morning.",
+    stack: ["WordPress", "Elementor", "PHP", "MySQL"],
+    results: [
+      { value: "The work is named", label: "A visitor can read the services for businesses, nonprofits and faith organisations." },
+      { value: "A way to start", label: "Get started is the page where someone asks for a conversation." },
     ],
-    images: [],
+    images: [
+      "/images/work/elevate-tribe-analytics/homepage.jpg",
+      "/images/work/elevate-tribe-analytics/services.jpg",
+      "/images/work/elevate-tribe-analytics/about.jpg",
+    ],
     published: true,
   },
   {
     slug: "twi-learning-center",
     publicName: "Twi Learning Center Ghana",
+    logo: "/images/logos/twi-learning-center.png",
     anonymousName: "A language school in Ghana",
     nameApproved: true,
     family: "brand-websites",
     sector: "Education",
     country: "Ghana",
-    summary: "A course and enrollment site for Twi and Fante, in person and online, with a path that is easy to start.",
+    summary:
+      "A course site for Twi and Fante, in person and online, with a straight way to register.",
     challenge:
-      "People in Ghana and in the diaspora wanted structured Twi and Fante. Courses existed, but packages, age groups and in-person or virtual options were explained in too many places.",
+      "People in Ghana and in the diaspora wanted structured Twi and Fante. The courses existed. Packages, age groups, and the choice between in person and online were explained in too many places, so signing up took longer than it should.",
     approach:
-      "We organised the catalogue the way a new student thinks: language, level, format, then enroll. Tutors and testimonials support the decision. The site works for a traveller on a phone and a parent booking a child.",
+      "We organised the site the way a new student thinks: language, level, format, then register. The same pages work for a traveller on a phone and a parent booking a child.",
     built: [
-      "A course and enrollment site for Twi and Fante, with group and one-to-one options, in person and online, and a clear checkout into the next class.",
+      "The home page announces the next group start and a way to register. Courses cover Twi and Fante, from beginner to advanced, in a group or one to one, in person or online. About TLC, cultural immersion and the TLC Foundation each have their own page. Sign up sits in the menu on every page.",
     ],
-    images: [],
+    stack: ["WordPress", "Elementor", "PHP", "MySQL"],
+    results: [
+      { value: "Straight to register", label: "Language, level and format lead to sign up, in person or online." },
+      { value: "Twi and Fante", label: "Beginner to advanced, in a group or one to one." },
+    ],
+    images: [
+      "/images/work/twi-learning-center/homepage.jpg",
+      "/images/work/twi-learning-center/about.jpg",
+      "/images/work/twi-learning-center/courses.jpg",
+    ],
+    published: true,
+  },
+  {
+    // Our own client portal, not a client we were hired by.
+    slug: "scopewise",
+    publicName: "Scopewise",
+    anonymousName: "A client portal",
+    nameApproved: true,
+    liveUrl: "https://portal.thecreativebranders.com",
+    relationship: "venture",
+    family: "web-applications",
+    secondaryFamilies: ["automation-reporting"],
+    sector: "Studio",
+    summary:
+      "The portal where a client sees each piece of work, the hours it took, and the amount, before they approve it.",
+    challenge:
+      "Updates and bills were easy to lose across messages. A client had no single place to see what had shipped and what it cost.",
+    approach:
+      "Scopewise is the portal we use with our own clients. We log the work as it happens. The client opens the same record, sees the hours and the amount, and approves from there.",
+    built: [
+      "A client signs in to see the work before they approve it. The work log shows the date, the work, the kind of change, the hours and the amount. The same portal holds the review queue, requests, clients and systems, billing, an activity log, AI spending and settings. A public link opens the record a client is reviewing.",
+    ],
+    // The sign-in page is a React app. Server tools stay off the card.
+    stack: ["React"],
+    results: [
+      { value: "One record", label: "The client sees the work, the hours and the amount before they approve it." },
+      { value: "Bills in one place", label: "Updates and amounts stay in the portal, instead of across messages." },
+    ],
+    images: [
+      "/images/work/scopewise/sign-in.jpg",
+      "/images/work/scopewise/work-log.jpg",
+      "/images/work/scopewise/reset.jpg",
+    ],
+    published: true,
+  },
+  {
+    slug: "ikedoo-engineering",
+    publicName: "Ikedoo Engineering",
+    company: "Ikedoo Engineering Services Ltd",
+    anonymousName: "An engineering company in Ghana",
+    nameApproved: true,
+    logo: "/images/logos/ikedoo.png",
+    liveUrl: "https://ikedooengineering.com",
+    linkApproved: true,
+    family: "brand-websites",
+    sector: "Engineering",
+    country: "Ghana",
+    summary:
+      "A company site for HVAC, industrial refrigeration, ventilation and MEP work in Ghana, with a clear way to ask for a quote.",
+    challenge:
+      "Ikedoo works across several trades, from refrigeration to full building services. A visitor needed one place to see which trade they needed, and a direct way to ask for a quote.",
+    approach:
+      "The home page leads with the company name and the trades. Services, the company story and the quote request each have their own page, so a visitor can read first and write in when they are ready.",
+    built: [
+      "The home page names HVAC, industrial refrigeration, ventilation and MEP, and offers a quote. Services describes the work for commercial, industrial and institutional buildings, from assessment and design through installation, commissioning and maintenance. About introduces the company. Contact is where a visitor writes in.",
+    ],
+    stack: ["WordPress", "Elementor", "PHP", "MySQL"],
+    results: [
+      { value: "Trades in one place", label: "HVAC, refrigeration, ventilation and MEP are named on the home page." },
+      { value: "A direct quote", label: "A visitor can read the work, then ask for a quote." },
+    ],
+    images: [
+      "/images/work/ikedoo-engineering/homepage.jpg",
+      "/images/work/ikedoo-engineering/services.jpg",
+      "/images/work/ikedoo-engineering/about.jpg",
+    ],
+    published: true,
+  },
+  {
+    slug: "autysme-aecho",
+    publicName: "Autysme Æcho",
+    anonymousName: "A French podcast and resource site",
+    nameApproved: true,
+    liveUrl: "https://autysmeaecho.com",
+    linkApproved: true,
+    family: "brand-websites",
+    sector: "Health",
+    country: "United States",
+    summary:
+      "A French site for a podcast, free resources and training on autism, written for families, professionals and institutions.",
+    challenge:
+      "Families and professionals needed one place, in French, to listen, read and find support. The podcast, the guides and the training were easy to miss when they lived in separate posts.",
+    approach:
+      "We gave the podcast, the resources and the services each their own page. A visitor can listen, download a guide, or write in from the same site.",
+    built: [
+      "The site is in French. The home page introduces the podcast and a way to write in. The podcast page explains the show, on autism through science, lived experience and culture, and links out to where the episodes play. Resources holds free guides, videos and tools for families and professionals. Services covers support, training and awareness for parents, professionals and institutions, including applied behaviour analysis, with African and diasporic life kept in view.",
+    ],
+    stack: ["WordPress", "Elementor", "PHP", "MySQL"],
+    results: [
+      { value: "One French site", label: "The podcast, the free guides and the training sit together." },
+      { value: "Listen or write in", label: "A visitor can play an episode, open a guide, or ask for support from the same site." },
+    ],
+    images: [
+      "/images/work/autysme-aecho/homepage.jpg",
+      "/images/work/autysme-aecho/services.jpg",
+      "/images/work/autysme-aecho/resources.jpg",
+    ],
+    published: true,
+  },
+  {
+    slug: "ecadif",
+    publicName: "ECADIF",
+    company: "ETS ECADIF",
+    anonymousName: "A parts and motorcycle company in Togo",
+    nameApproved: true,
+    liveUrl: "https://www.ecadifecages.com/",
+    linkApproved: true,
+    family: "web-applications",
+    sector: "Retail",
+    country: "Togo",
+    summary:
+      "A point of sale for a parts and motorcycle company in Togo. The counter, the warehouse and the stock reports all use the same system.",
+    challenge:
+      "Selling a part, sending stock to an agency and knowing what the warehouse holds were all part of one working day. The people at the counter and the people in the office needed the same products and the same prices.",
+    approach:
+      "ECADIF is that system, in French. A person signs in with their role. From there they can sell parts or motos, follow stock as it moves, and open a report for the period they choose.",
+    built: [
+      "A person signs in with their role: sales, cashier, warehouse, director, accountant or stock manager. There is a sales screen for parts and one for motos. The product list shows the buy price, the wholesale price and the retail price in CFA francs. Stock by agency, replenishment history, transfers and orders sit with a client list. The stock control screen shows the value of the stock, the units, and what came in and went out.",
+    ],
+    results: [
+      { value: "One stock list", label: "The counter, the warehouse and the office use the same products and prices." },
+      { value: "A report for the period", label: "Stock value, units, and what came in and went out are on one screen." },
+    ],
+    // The public page is a staff sign-in. Server tools stay off the card.
+    images: [
+      "/images/work/ecadif/sales.jpg",
+      "/images/work/ecadif/stock.jpg",
+      "/images/work/ecadif/sign-in.jpg",
+    ],
     published: true,
   },
 ];
@@ -492,7 +651,10 @@ export function studyScreenshots(item: PortfolioItem): string[] {
   const prefix = `/images/work/${item.slug}/`;
   return item.images.flatMap((src) => {
     const text = visibleText(src);
-    return text && text.startsWith(prefix) ? [text] : [];
+    if (!text) return [];
+    // Pictures that already live with the site, plus pictures uploaded in the content desk.
+    if (text.startsWith(prefix) || text.startsWith("/media/") || /^https?:\/\//i.test(text)) return [text];
+    return [];
   });
 }
 
@@ -546,9 +708,9 @@ export function publicWorkPaths(): string[] {
   return portfolio.filter((item) => item.published).map((item) => `/work/${item.slug}`);
 }
 
-export function familiesInUse(): { slug: FamilySlug; label: string }[] {
+export function familiesInUse(items: PortfolioItem[] = publishedWork()): { slug: FamilySlug; label: string }[] {
   const used = new Set<FamilySlug>();
-  publishedWork().forEach((item) => {
+  items.forEach((item) => {
     studyFamilies(item).forEach((slug) => used.add(slug));
   });
   return FAMILIES.filter((family) => used.has(family.slug));

@@ -5,8 +5,9 @@
 
 const GA_ID = import.meta.env.VITE_GA_ID || "";
 const CONSENT_KEY = "tcb-consent";
+const ONE_YEAR = 60 * 60 * 24 * 365;
 
-type Consent = "essential" | "analytics";
+export type Consent = "essential" | "analytics";
 
 declare global {
   interface Window {
@@ -19,20 +20,33 @@ export function hasAnalyticsId() {
   return GA_ID.length > 0;
 }
 
+function asConsent(value: string | null | undefined): Consent | null {
+  return value === "essential" || value === "analytics" ? value : null;
+}
+
+function readCookie(): Consent | null {
+  if (typeof document === "undefined") return null;
+  const row = document.cookie.split("; ").find((item) => item.startsWith(`${CONSENT_KEY}=`));
+  return asConsent(row?.slice(CONSENT_KEY.length + 1));
+}
+
 export function readConsent(): Consent | null {
+  const saved = readCookie();
+  if (saved) return saved;
   try {
-    const value = localStorage.getItem(CONSENT_KEY);
-    return value === "essential" || value === "analytics" ? value : null;
+    return asConsent(localStorage.getItem(CONSENT_KEY));
   } catch {
     return null;
   }
 }
 
 export function saveConsent(value: Consent) {
+  const secure = window.location.protocol === "https:" ? "; Secure" : "";
+  document.cookie = `${CONSENT_KEY}=${value}; Max-Age=${ONE_YEAR}; Path=/; SameSite=Lax${secure}`;
   try {
     localStorage.setItem(CONSENT_KEY, value);
   } catch {
-    // Private browsing can block storage. The choice still applies for this visit.
+    // Private browsing can block storage. The cookie above still remembers the choice.
   }
 }
 

@@ -7,9 +7,9 @@ import type { ServiceFamily } from "./types";
 const automationReporting: ServiceFamily = {
   slug: "automation-reporting",
   name: "Automation and reporting",
-  promise: "The routine work runs on its own",
+  promise: "We help you automate the routine work",
   description:
-    "Replies, reminders and follow-ups go out on time, and your key numbers update every day.",
+    "We set up the replies, reminders and follow-ups so they go out on time, and we keep your key numbers updating every day.",
   image: "/images/work-clinic.jpg",
   intro:
     "Confirmations, reminders and follow-ups take hours each week and are easy to forget. We automate the routine parts, then put sales, cash and enquiries on one screen so you can see what changed.",
