@@ -5,7 +5,7 @@ import TextHero from "../components/TextHero";
 import { serviceFamilies, servicesPage } from "../content/services";
 
 /**
- * /services lists the six families. Each card links to its own page.
+ * /services lists the four families. Each card links to its own page.
  * The words live in src/content/services so a copy change does not touch this layout.
  */
 export default function Services() {

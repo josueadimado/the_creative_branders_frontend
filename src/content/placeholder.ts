@@ -1,12 +1,10 @@
 /** Short stand-in pages for links that do not have full copy yet. */
 
 export const serviceFamilies: Record<string, string> = {
-  websites: "Websites",
-  "web-applications": "Web Applications",
-  "mobile-apps": "Mobile Apps",
-  "brand-design": "Brand & Design",
-  "automation-ai": "Automation & AI",
-  "data-growth": "Data & Growth",
+  "brand-websites": "Brand and websites",
+  "web-applications": "Web applications",
+  "mobile-apps": "Mobile apps",
+  "automation-reporting": "Automation and reporting",
 };
 
 export const placeholder = {

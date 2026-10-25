@@ -1,12 +1,10 @@
 /** Words for the project form. The form component reads these labels. */
 
 export const needOptions = [
-  "Website",
-  "Web app",
-  "Mobile app",
-  "Brand and design",
-  "Automation and AI",
-  "Data and reporting",
+  "Brand and websites",
+  "Web applications",
+  "Mobile apps",
+  "Automation and reporting",
   "Not sure yet",
 ] as const;
 

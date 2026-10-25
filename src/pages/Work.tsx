@@ -5,7 +5,7 @@ import PortfolioCard from "../components/PortfolioCard";
 import Seo from "../components/Seo";
 import { workPage } from "../content/work";
 import {
-  familiesInUse,
+  FAMILIES,
   getPublishedStudy,
   publishedWork,
   sectorsInUse,
@@ -66,7 +66,8 @@ export default function Work() {
     return <Navigate to={study ? `/work/${study.slug}` : "/work"} replace />;
   }
 
-  const familyOptions = familiesInUse();
+  // All four families, with the shorter names used on these chips.
+  const familyOptions = FAMILIES.map((family) => ({ slug: family.slug, label: family.chip }));
   const sectorOptions = sectorsInUse();
   const familyParam = params.get("family");
   const sectorParam = params.get("sector");
