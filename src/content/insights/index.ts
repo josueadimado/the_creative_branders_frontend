@@ -76,6 +76,14 @@ export const articles: InsightArticle[] = sources
   .map((source) => toArticle(source.slug, source.raw))
   .sort((a, b) => (a.date < b.date ? 1 : -1));
 
+/** The menu and footer show Insights once this many notes are published. */
+export const insightsMenuMinimum = 3;
+
+/** True when there are enough published notes to open the Insights links. */
+export function insightsMenuOpen(publishedCount: number): boolean {
+  return publishedCount >= insightsMenuMinimum;
+}
+
 export function getArticle(slug: string | undefined): InsightArticle | undefined {
   return articles.find((article) => article.slug === slug);
 }

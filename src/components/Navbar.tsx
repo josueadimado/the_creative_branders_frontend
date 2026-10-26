@@ -1,22 +1,23 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { track } from "../lib/analytics";
+import { useInsightsMenu } from "../content/contentDesk";
 import AuditLink from "./AuditLink";
 import Logo from "./Logo";
 import { cta } from "../content/cta";
 
-const links = [
+const baseLinks = [
   // Always the homepage list, even when this menu is on another page.
   { to: "/#services", label: "Services" },
   { to: "/work", label: "Work" },
   { to: "/about", label: "About" },
-  // No articles yet, so this stays a placeholder and does not open a page.
-  { to: "#", label: "Insights" },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
+  const showInsights = useInsightsMenu();
+  const links = showInsights ? [...baseLinks, { to: "/insights", label: "Insights" }] : baseLinks;
 
   // Close the phone menu as soon as we leave for another page.
   useEffect(() => {

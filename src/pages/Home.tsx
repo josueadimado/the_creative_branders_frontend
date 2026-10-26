@@ -34,7 +34,7 @@ import InquiryForm from "../components/InquiryForm";
 import Logo from "../components/Logo";
 import NetworkGlobe from "../components/NetworkGlobe";
 import Seo from "../components/Seo";
-import { useHomeCopy, useProjects } from "../content/contentDesk";
+import { useHomeCopy, useInsightsMenu, useProjects } from "../content/contentDesk";
 import { home } from "../content/home";
 import { site } from "../content/site";
 import { serviceWhatsAppMessage, whatsappLink } from "../data/socials";
@@ -141,13 +141,11 @@ const buildGroups: {
   },
 ];
 
-const pageLinks = [
+const basePageLinks = [
   // Services stays on this page. The link only scrolls to that section.
   { href: "#services", label: "Services" },
   { href: "/work", label: "Work" },
   { href: "/about", label: "About" },
-  // No articles yet, so this stays a placeholder and does not open a page.
-  { href: "#", label: "Insights" },
 ];
 
 /** A link on this page stays an anchor. A link to another page uses the app router. */
@@ -270,6 +268,8 @@ function ToolIcon({ tool }: { tool: (typeof tools)[number] }) {
 export default function Home() {
   const homeLive = useHomeCopy();
   const leadStudies = useProjects().filter((item) => item.featured).slice(0, 2);
+  const showInsights = useInsightsMenu();
+  const pageLinks = showInsights ? [...basePageLinks, { href: "/insights", label: "Insights" }] : basePageLinks;
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {

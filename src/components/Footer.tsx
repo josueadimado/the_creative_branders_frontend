@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { site } from "../content/site";
+import { useInsightsMenu } from "../content/contentDesk";
 import { OPEN_COOKIE_SETTINGS } from "./CookieNotice";
 import { hasAnalyticsId } from "../lib/analytics";
 import Logo from "./Logo";
@@ -10,8 +11,6 @@ const studioLinks = [
   { to: "/#services", label: "Services" },
   { to: "/about", label: "About" },
   { to: "/work", label: "Work" },
-  // No articles yet, so this stays a placeholder and does not open a page.
-  { to: "#", label: "Insights" },
 ];
 
 const products = ["SmartCRM", "Academy"];
@@ -66,6 +65,8 @@ function ProductItem({ label }: { label: string }) {
 }
 
 export default function Footer() {
+  const showInsights = useInsightsMenu();
+  const links = showInsights ? [...studioLinks, { to: "/insights", label: "Insights" }] : studioLinks;
   return (
     <footer className="dot-grid border-t border-white/[0.06] bg-navy">
       <div className="mx-auto grid max-w-6xl gap-14 px-6 py-20 sm:grid-cols-2 lg:grid-cols-[16rem_repeat(3,minmax(0,1fr))]">
@@ -79,7 +80,7 @@ export default function Footer() {
         </div>
 
         <Column title="Our studio">
-          {studioLinks.map((item) => (
+          {links.map((item) => (
             <Item key={item.label} {...item} />
           ))}
         </Column>

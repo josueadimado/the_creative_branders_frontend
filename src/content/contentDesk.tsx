@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from "
 import { about } from "./about";
 import { contact } from "./contact";
 import { home } from "./home";
-import { articles, type InsightArticle } from "./insights";
+import { articles, insightsMenuOpen, type InsightArticle } from "./insights";
 import { workPage } from "./work";
 import { familyLabel, publishedWork, type FamilySlug, type PortfolioItem } from "../data/portfolio";
 import { apiRoot } from "../lib/apiBase";
@@ -228,4 +228,9 @@ export function useNotes(): InsightArticle[] {
 
 export function useNote(slug: string | undefined): InsightArticle | undefined {
   return useNotes().find((note) => note.slug === slug);
+}
+
+/** Insights links stay off the menu until enough notes are published. */
+export function useInsightsMenu(): boolean {
+  return insightsMenuOpen(useNotes().length);
 }
