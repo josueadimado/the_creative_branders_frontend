@@ -1,7 +1,8 @@
 /**
- * Countries for the project form.
+ * Countries for the project form and the phone-code list.
  * `dial` is the phone code without the plus sign, such as 233 for Ghana.
- * The three countries we work in stay at the top. The rest are A to Z.
+ * Ghana, Nigeria, the United States and the United Kingdom stay at the top.
+ * The rest are A to Z.
  */
 
 export type CountryOption = {
@@ -178,12 +179,19 @@ const rest: CountryOption[] = [
 ];
 
 const featured: CountryOption[] = [
-  { code: "US", name: "United States", dial: "1" },
   { code: "GH", name: "Ghana", dial: "233" },
   { code: "NG", name: "Nigeria", dial: "234" },
+  { code: "US", name: "United States", dial: "1" },
+  { code: "GB", name: "United Kingdom", dial: "44" },
 ];
 
-export const countries: CountryOption[] = [...featured, ...rest];
+const featuredCodes = new Set(featured.map((country) => country.code));
+
+/** The same order is used for the country menu and the phone-code menu. */
+export const countries: CountryOption[] = [
+  ...featured,
+  ...rest.filter((country) => !featuredCodes.has(country.code)),
+];
 
 export function countryByCode(code: string): CountryOption | undefined {
   return countries.find((country) => country.code === code);
