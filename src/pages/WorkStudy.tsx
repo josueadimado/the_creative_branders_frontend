@@ -95,7 +95,7 @@ export default function WorkStudy() {
           </Link>
 
           <div className="mt-12 max-w-3xl">
-            {logo ? <img src={logo} alt="" className="mb-5 h-12 w-auto" /> : null}
+            {logo ? <img src={logo} alt={name} className="mb-5 h-12 w-auto" /> : null}
             {kicker ? (
               <p className="inline-flex rounded-full border border-mist bg-paper px-3.5 py-1.5 font-sans text-sm font-medium text-navy">
                 {kicker}
@@ -227,8 +227,8 @@ function ScreenSet({
     <div className="grid items-center gap-4 md:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] md:gap-5">
       <WorkFrame src={lead} alt={name} device={device} loading="eager" />
       <div className="grid gap-5">
-        {rest.map((src) => (
-          <WorkFrame key={src} src={src} alt="" device={device} loading="lazy" />
+        {rest.map((src, index) => (
+          <WorkFrame key={src} src={src} alt={`${name}, screen ${index + 2}`} device={device} loading="lazy" />
         ))}
       </div>
     </div>

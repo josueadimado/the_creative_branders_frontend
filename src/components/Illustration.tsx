@@ -40,7 +40,7 @@ function Accent({ cx, cy }: { cx: number; cy: number }) {
  */
 export default function Illustration({ name, className = "" }: IllustrationProps) {
   return (
-    <svg viewBox="0 0 160 120" className={className} role="img" aria-hidden="true">
+    <svg viewBox="0 0 160 120" className={className} aria-hidden="true">
       <rect width="160" height="120" fill="none" />
       {name === "pillars" ? <Pillars /> : null}
       {name === "discover" ? <Discover /> : null}

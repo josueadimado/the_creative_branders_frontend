@@ -579,7 +579,7 @@ export default function Home() {
                         {shot ? (
                           <BrowserFrame
                             src={shot}
-                            alt=""
+                            alt={`${name} on screen`}
                             embedded
                             loading="lazy"
                             className={`overflow-hidden rounded-xl border border-mist ${shotMotion}`}

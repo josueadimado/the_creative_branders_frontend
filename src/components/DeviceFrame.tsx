@@ -69,7 +69,7 @@ export function LaptopMockup({
 }) {
   return (
     <div className={`relative overflow-hidden rounded-2xl ${className}`}>
-      <img src="/images/mockups/laptop.jpg" alt="" className="block w-full" />
+      <img src="/images/mockups/laptop.jpg" alt="" aria-hidden="true" className="block w-full" />
       {src ? (
         <img
           src={src}

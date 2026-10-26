@@ -66,7 +66,7 @@ function ScreenshotStage({ item, name }: { item: PortfolioItem; name: string }) 
       </div>
       <div className="absolute bottom-3 right-3 w-[48%] sm:bottom-5 sm:right-5 sm:w-[44%]">
         <div className={shotMotion}>
-          <BrowserFrame src={shots[1]} alt="" loading="lazy" />
+          <BrowserFrame src={shots[1]} alt={`${name}, another screen`} loading="lazy" />
         </div>
       </div>
     </div>
