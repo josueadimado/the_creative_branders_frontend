@@ -44,6 +44,9 @@ import {
   coverImage,
   displayName,
   familyLabel,
+  joinCountries,
+  projectCountries,
+  publishedWork,
   type FamilySlug,
 } from "../data/portfolio";
 import { socials } from "../data/socials";
@@ -267,7 +270,12 @@ function ToolIcon({ tool }: { tool: (typeof tools)[number] }) {
 
 export default function Home() {
   const homeLive = useHomeCopy();
-  const leadStudies = useProjects().filter((item) => item.featured).slice(0, 2);
+  const listed = useProjects();
+  // An empty desk still falls back to the published studies in the data file.
+  const shipped = listed.length > 0 ? listed : publishedWork();
+  const where = projectCountries(shipped);
+  const countryLine = joinCountries(where);
+  const leadStudies = listed.filter((item) => item.featured).slice(0, 2);
   const showInsights = useInsightsMenu();
   const pageLinks = showInsights ? [...basePageLinks, { href: "/insights", label: "Insights" }] : basePageLinks;
   const [menuOpen, setMenuOpen] = useState(false);
@@ -412,8 +420,14 @@ export default function Home() {
                       [
                         "05",
                         <>
-                          {"  "}where: [<span className="text-white">{"'United States'"}</span>, <span className="text-white">{"'Ghana'"}</span>,{" "}
-                          <span className="text-white">{"'Nigeria'"}</span>],
+                          {"  "}where: [
+                          {where.map((name, index) => (
+                            <span key={name}>
+                              {index > 0 ? ", " : null}
+                              <span className="text-white">{`'${name}'`}</span>
+                            </span>
+                          ))}
+                          ],
                         </>,
                       ],
                       ["06", <>{"  "}quality: <span className="text-signal">true</span></>],
@@ -437,8 +451,10 @@ export default function Home() {
                     <Braces className="size-5" aria-hidden="true" />
                   </span>
                   <span className="min-w-0">
-                    <strong className="block text-sm">10+ projects shipped</strong>
-                    <span className="block text-xs text-slate">United States, Ghana and Nigeria</span>
+                    <strong className="block text-sm">
+                      {shipped.length} {shipped.length === 1 ? "project" : "projects"} shipped
+                    </strong>
+                    {countryLine ? <span className="block text-xs text-slate">{countryLine}</span> : null}
                   </span>
                   <ArrowUpRight className="ml-auto size-4 shrink-0" aria-hidden="true" />
                 </div>

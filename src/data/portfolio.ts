@@ -632,6 +632,29 @@ export function displayCountry(item: PortfolioItem): string | undefined {
   return visibleText(item.country);
 }
 
+/** Ghana first, then the other countries we already lead with, then the rest A–Z. */
+const COUNTRY_LEAD = ["Ghana", "Nigeria", "United States", "United Kingdom"];
+
+/** Countries that appear on the published projects, with Ghana first. */
+export function projectCountries(items: PortfolioItem[]): string[] {
+  const found = new Set<string>();
+  items.forEach((item) => {
+    const country = displayCountry(item);
+    if (country) found.add(country);
+  });
+  const lead = COUNTRY_LEAD.filter((name) => found.has(name));
+  const rest = [...found].filter((name) => !COUNTRY_LEAD.includes(name)).sort((a, b) => a.localeCompare(b));
+  return [...lead, ...rest];
+}
+
+/** "Ghana, Nigeria and Togo" — the last country is joined with "and". */
+export function joinCountries(countries: string[]): string {
+  if (countries.length === 0) return "";
+  if (countries.length === 1) return countries[0];
+  if (countries.length === 2) return `${countries[0]} and ${countries[1]}`;
+  return `${countries.slice(0, -1).join(", ")} and ${countries[countries.length - 1]}`;
+}
+
 /** Family, sector, and country. Empty country is left out. A venture also gets "Studio venture". */
 export function studyTags(item: PortfolioItem): string[] {
   const tags = studyFamilies(item).map((slug) => familyLabel(slug));
