@@ -106,7 +106,8 @@ try {
     if (!savedTitle || (!isHome && savedTitle === shellTitle)) {
       fail(`${route} kept the generic title.`);
     }
-    const outFile = route === "/" ? join(dist, "index.html") : join(dist, route, "index.html");
+    const outFile =
+      route === "/" ? join(dist, "index.html") : route === "/404" ? join(dist, "404.html") : join(dist, route, "index.html");
     mkdirSync(dirname(outFile), { recursive: true });
     writeFileSync(outFile, html);
     console.log(`prerendered ${route} — ${savedTitle}`);

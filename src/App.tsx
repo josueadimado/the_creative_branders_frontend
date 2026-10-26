@@ -81,6 +81,7 @@ export default function App() {
                 <Route path="/terms" element={<LegalPage {...terms} />} />
                 <Route path="/cookies" element={<LegalPage {...cookies} />} />
                 <Route path="/responsible-ai" element={<ResponsibleAI />} />
+                <Route path="/404" element={<NotFound />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
               </Suspense>

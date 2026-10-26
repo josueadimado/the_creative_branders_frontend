@@ -40,7 +40,7 @@ async function routesForBuild() {
     console.log(`[projects] Sitemap and prerender are using ${workPaths.length} published projects from the API.`);
     return {
       indexable: indexableRoutesFor(workPaths),
-      publicRoutes: publicRoutesFor(workPaths),
+      publicRoutes: [...publicRoutesFor(workPaths), "/404"],
     };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
@@ -48,7 +48,7 @@ async function routesForBuild() {
       `[projects] Could not reach ${PROJECTS_API}. Sitemap and prerender are using the starter list in frontend/src/data/portfolio.ts.`,
     );
     console.warn(`[projects] ${message}`);
-    return { indexable: indexableRoutes, publicRoutes };
+    return { indexable: indexableRoutes, publicRoutes: [...publicRoutes, "/404"] };
   }
 }
 function rejectMissingCatalog(req: { url?: string }, res: { statusCode: number; setHeader: (name: string, value: string) => void; end: (body: string) => void }, next: () => void) {
