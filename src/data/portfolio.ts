@@ -1,4 +1,6 @@
 /**
+ * Starter data only. Edit projects in the admin desk, not here.
+ *
  * Case studies.
  *
  * A client's real name and logo stay hidden until nameApproved is true.
