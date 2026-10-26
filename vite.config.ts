@@ -73,10 +73,32 @@ function siteFiles(): Plugin {
   };
 }
 
+/**
+ * Puts Google's tag on the page when a measurement id was provided at build time.
+ * The id is public. Cookies stay off until the visitor clicks Accept.
+ */
+function googleTag(): Plugin {
+  return {
+    name: "tcb-google-tag",
+    transformIndexHtml(html) {
+      const id = process.env.VITE_GA_ID || "";
+      if (!/^G-[A-Z0-9]+$/.test(id)) return html;
+      const tags = [
+        `<script async src="https://www.googletagmanager.com/gtag/js?id=${id}" data-tcb-gtag></script>`,
+        `<script src="/gtag-boot.js" defer></script>`,
+      ].join("\n    ");
+      return html.replace(
+        '<script src="/consent-defaults.js"></script>',
+        `<script src="/consent-defaults.js"></script>\n    ${tags}`,
+      );
+    },
+  };
+}
+
 // Vite is the build tool. In Docker we listen on 0.0.0.0 so the
 // published port 3000 is reachable from your browser.
 export default defineConfig({
-  plugins: [react(), siteFiles()],
+  plugins: [react(), siteFiles(), googleTag()],
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),

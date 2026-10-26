@@ -7,9 +7,8 @@
     <link rel="preload" href="/fonts/barlow-condensed-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin />
     <!-- The opening paragraph uses Inter, and that paragraph is the largest text on a phone. -->
     <link rel="preload" href="/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
-    <!-- Denied storage choices, before any Google script. This does not load gtag.js. -->
-    <!-- defer lets the first paint happen first. The app script still runs after this one. -->
-    <script src="/consent-defaults.js" defer></script>
+    <!-- Denied storage choices, before any Google script. The build adds the tag after this when an id is set. -->
+    <script src="/consent-defaults.js"></script>
     <meta name="theme-color" content="#0E1E2B" />
     <title>Big ideas. Real products. | The Creative Branders</title>
     <!-- The production build waits for this to become true before saving the page. -->

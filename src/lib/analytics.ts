@@ -128,7 +128,8 @@ function denyStorageByDefault() {
 }
 
 /**
- * Adds the Google script once, after the visitor clicks Accept.
+ * Allows analytics cookies after the visitor clicks Accept.
+ * The Google file is already on the page when the build included a measurement id.
  * Safe to call more than once. Does nothing until there is a measurement id.
  */
 export function loadAnalytics() {

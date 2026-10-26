@@ -51,7 +51,7 @@ jobs:
             VITE_API_URL=https://api.thecreativebranders.com
             VITE_SITE_URL=https://thecreativebranders.com
             VITE_WHATSAPP_NUMBER=${{ vars.VITE_WHATSAPP_NUMBER }}
-            VITE_GA_ID=${{ vars.VITE_GA_ID }}
+            VITE_GA_ID=${{ vars.VITE_GA_ID || 'G-NEL0QVQ3YW' }}
           labels: |
             org.opencontainers.image.source=https://github.com/josueadimado/the_creative_branders_frontend
           cache-from: type=gha
