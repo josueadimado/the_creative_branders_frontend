@@ -466,7 +466,7 @@ export default function Home() {
             </div>
             <div className="border-t border-white/10">
               <div className="mx-auto flex max-w-[1180px] flex-wrap items-center justify-between gap-4 px-5 py-4 text-[11px] uppercase tracking-[0.18em] text-white/75">
-                <span className="normal-case tracking-normal">{homeLive.sectors}</span>
+                <span className="text-[15px] font-normal normal-case leading-snug tracking-normal text-white/80">{homeLive.sectors}</span>
                 <a href="#services" className="inline-flex min-h-11 shrink-0 items-center gap-2 hover:text-white">
                   Scroll to explore
                   <ArrowDown className="size-3.5" aria-hidden="true" />
