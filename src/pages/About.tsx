@@ -71,7 +71,8 @@ export default function About() {
         {about.facts.stats.length > 0 ? (
           <div className="mt-16 grid gap-10 lg:mt-20 lg:grid-cols-[224px_1fr] lg:items-center">
             <p className="type-body max-w-[224px] text-slate">{about.facts.note}</p>
-            <dl className="grid grid-cols-2 gap-8 sm:grid-cols-4">
+            {/* Two by two on a phone. One row once the screen is wide enough for a desktop. */}
+            <dl className="grid grid-cols-2 gap-x-8 gap-y-10 lg:grid-cols-4">
               {about.facts.stats.map((stat) => (
                 <div key={stat.label}>
                   <dt className="font-sans text-5xl font-semibold leading-none text-deep sm:text-[56px]">{stat.value}</dt>

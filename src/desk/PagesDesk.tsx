@@ -50,6 +50,21 @@ function pageName(slug: string) {
   return PAGE_NAMES[slug] || slug;
 }
 
+/** The project count and the country count are worked out on the website, so those boxes stay empty. */
+function tidyAboutStats(page: PageCopy): PageCopy {
+  const next = { ...page, stat_2_value: "", stat_4_value: "" };
+  if (next.stat_2_label.trim().toLowerCase() === "delivered projects") next.stat_2_label = "Projects delivered";
+  if (next.stat_3_label.trim().toLowerCase() === "specialists on our team") next.stat_3_label = "Specialists in our network";
+  if (next.stat_4_label.trim().toLowerCase().includes("retention")) next.stat_4_label = "Countries served";
+  if (!next.stat_1_value.trim()) next.stat_1_value = "6+";
+  if (!next.stat_1_label.trim()) next.stat_1_label = "Years in technology";
+  if (!next.stat_2_label.trim()) next.stat_2_label = "Projects delivered";
+  if (!next.stat_3_value.trim()) next.stat_3_value = "15";
+  if (!next.stat_3_label.trim()) next.stat_3_label = "Specialists in our network";
+  if (!next.stat_4_label.trim()) next.stat_4_label = "Countries served";
+  return next;
+}
+
 export default function PagesDesk() {
   const { slug } = useParams();
   if (!slug) return <PageList />;
@@ -97,7 +112,7 @@ function PageEdit({ slug }: { slug: string }) {
 
   useEffect(() => {
     deskJson<PageCopy>(`/pages/${slug}/`)
-      .then(setPage)
+      .then((loaded) => setPage(slug === "about" ? tidyAboutStats(loaded) : loaded))
       .catch((err: unknown) => setError(err instanceof Error ? err.message : "Could not open that page."));
   }, [slug]);
 
@@ -111,12 +126,13 @@ function PageEdit({ slug }: { slug: string }) {
     setError("");
     setStatus("");
     try {
-      const { slug: _slug, ...body } = page;
+      const ready = slug === "about" ? tidyAboutStats(page) : page;
+      const { slug: _slug, ...body } = ready;
       const saved = await deskJson<PageCopy>(`/pages/${slug}/`, {
         method: "PATCH",
         body: JSON.stringify(body),
       });
-      setPage(saved);
+      setPage(slug === "about" ? tidyAboutStats(saved) : saved);
       setStatus("Saved. Refresh the website to see it.");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not save.");
@@ -172,16 +188,27 @@ function PageEdit({ slug }: { slug: string }) {
               <Area value={page.paragraph_3} onChange={(event) => set("paragraph_3", event.target.value)} />
             </Field>
             <div className="grid gap-3 sm:grid-cols-2">
-              {stats.map(([valueKey, labelKey], index) => (
-                <div key={valueKey} className="grid gap-3 rounded-xl bg-paper p-4">
-                  <Field label={`Number ${index + 1}`}>
-                    <TextInput value={page[valueKey]} onChange={(event) => set(valueKey, event.target.value)} />
-                  </Field>
-                  <Field label="What the number means">
-                    <TextInput value={page[labelKey]} onChange={(event) => set(labelKey, event.target.value)} />
-                  </Field>
-                </div>
-              ))}
+              {stats.map(([valueKey, labelKey], index) => {
+                // Numbers 2 and 4 are counted from the published projects.
+                const counted = index === 1 || index === 3;
+                return (
+                  <div key={valueKey} className="grid gap-3 rounded-xl bg-paper p-4">
+                    <Field
+                      label={`Number ${index + 1}`}
+                      hint={counted ? "The website counts this from the published projects." : undefined}
+                    >
+                      <TextInput
+                        value={counted ? "" : page[valueKey]}
+                        readOnly={counted}
+                        onChange={(event) => set(valueKey, event.target.value)}
+                      />
+                    </Field>
+                    <Field label="What the number means">
+                      <TextInput value={page[labelKey]} onChange={(event) => set(labelKey, event.target.value)} />
+                    </Field>
+                  </div>
+                );
+              })}
             </div>
           </Panel>
         ) : null}

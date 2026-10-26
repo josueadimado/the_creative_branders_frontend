@@ -4,7 +4,7 @@ import { contact } from "./contact";
 import { home } from "./home";
 import { articles, insightsMenuOpen, type InsightArticle } from "./insights";
 import { workPage } from "./work";
-import { familyLabel, publishedWork, type FamilySlug, type PortfolioItem } from "../data/portfolio";
+import { familyLabel, projectCountries, publishedWork, type FamilySlug, type PortfolioItem } from "../data/portfolio";
 import { apiRoot } from "../lib/apiBase";
 
 const API_URL = apiRoot();
@@ -117,6 +117,45 @@ function prefer(next: string | undefined, current: string) {
   return value ? value : current;
 }
 
+/** The old project and retention figures are no longer shown. */
+function retiredFigure(stat: { value: string; label: string } | undefined) {
+  if (!stat) return false;
+  const label = stat.label.trim().toLowerCase();
+  const value = stat.value.trim().toLowerCase();
+  if (label.includes("retention") || value === "95%") return true;
+  if (value === "10+" || label === "delivered projects") return true;
+  return false;
+}
+
+/**
+ * Four figures for the About page.
+ * Years and specialists come from the desk.
+ * The project count and the country count are worked out from the published projects.
+ */
+function aboutFigures(stored: { value: string; label: string }[] | undefined, projects: PortfolioItem[]) {
+  const rows = stored ?? [];
+  // A short list means the counted numbers were left blank, so match by the words instead of the place.
+  const at = (index: number, words: string) => {
+    const byPlace = rows.length >= 4 ? rows[index] : rows.find((stat) => stat.label.toLowerCase().includes(words));
+    if (!byPlace || retiredFigure(byPlace)) return undefined;
+    return byPlace;
+  };
+  const years = at(0, "year");
+  const projectLabel = at(1, "project");
+  const specialists = at(2, "specialist");
+  const countryLabel = at(3, "countr");
+  const specialistWords =
+    specialists?.label.trim().toLowerCase() === "specialists on our team"
+      ? "Specialists in our network"
+      : prefer(specialists?.label, "Specialists in our network");
+  return [
+    { value: prefer(years?.value, "6+"), label: prefer(years?.label, "Years in technology") },
+    { value: String(projects.length), label: prefer(projectLabel?.label, "Projects delivered") },
+    { value: prefer(specialists?.value, "15"), label: specialistWords },
+    { value: String(projectCountries(projects).length), label: prefer(countryLabel?.label, "Countries served") },
+  ];
+}
+
 /** Published projects from the API. The starter file is used only when the API cannot be reached. */
 export function useProjects(): PortfolioItem[] {
   const desk = useDesk();
@@ -180,9 +219,7 @@ export function useAboutCopy() {
     },
     facts: {
       ...about.facts,
-      // The other figures stay off this page until they are confirmed.
-      // This one is the number of published projects.
-      stats: [{ value: String(projects.length), label: "projects delivered" }],
+      stats: aboutFigures(page?.stats, projects),
     },
   };
 }

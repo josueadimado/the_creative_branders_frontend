@@ -50,9 +50,14 @@ export const about = {
     },
   },
   facts: {
-    /** Sits beside the project count. The page fills that count from the published studies. */
+    /** Sits beside the four figures. Two of those figures are counted from the published projects. */
     note: "Numbers matter – but the stories behind them matter even more:",
-    stats: [] as { value: string; label: string }[],
+    stats: [
+      { value: "6+", label: "Years in technology" },
+      { value: "", label: "Projects delivered" },
+      { value: "15", label: "Specialists in our network" },
+      { value: "", label: "Countries served" },
+    ],
   },
   started: {
     title: "Why we started",
