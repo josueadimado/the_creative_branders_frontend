@@ -3,12 +3,12 @@
 export const cookies = {
   seo: {
     title: "Cookies",
-    description: "This site does not ask you to accept cookies, and it does not load analytics.",
+    description: "How this site asks before using an analytics cookie.",
     path: "/cookies",
   },
   kicker: "Legal",
   title: "Cookies",
-  lede: "This site does not ask you to accept cookies, and it does not load analytics.",
+  lede: "We ask before using an analytics cookie. That choice is remembered for six months.",
   sections: [
     {
       title: "What we store",
@@ -18,7 +18,9 @@ export const cookies = {
     },
     {
       title: "Analytics",
-      paragraphs: ["We do not load Google Analytics, so page visits are not counted with a cookie."],
+      paragraphs: [
+        "If you choose Accept, we load Google Analytics to see which pages are visited. If you choose Decline, that script stays off and any analytics cookies are removed. You can change this from Cookie settings in the footer.",
+      ],
     },
     {
       title: "Questions",

@@ -25,7 +25,7 @@ function sitemapXml() {
 function robotsTxt() {
   const origin = siteOrigin();
   const sitemap = origin ? `\nSitemap: ${origin}/sitemap.xml\n` : "\n";
-  return `User-agent: *\nAllow: /\nDisallow: /dev/\n${sitemap.startsWith("\n") ? sitemap.slice(1) : sitemap}`;
+  return `User-agent: *\nAllow: /\nDisallow: /dev/\nDisallow: /desk\n${sitemap.startsWith("\n") ? sitemap.slice(1) : sitemap}`;
 }
 
 /** Writes sitemap.xml and robots.txt when the production site is built. */

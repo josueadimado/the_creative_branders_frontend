@@ -1,7 +1,8 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { site } from "../content/site";
-import { track } from "../lib/analytics";
+import { OPEN_COOKIE_SETTINGS } from "./CookieNotice";
+import { hasAnalyticsId, track } from "../lib/analytics";
 import { studioEmail, whatsappHref } from "../data/socials";
 import Logo from "./Logo";
 import SocialLinks from "./SocialLinks";
@@ -124,6 +125,17 @@ export default function Footer() {
                 </Link>
               </li>
             ))}
+            {hasAnalyticsId() ? (
+              <li>
+                <button
+                  type="button"
+                  className="transition-colors hover:text-white"
+                  onClick={() => window.dispatchEvent(new Event(OPEN_COOKIE_SETTINGS))}
+                >
+                  Cookie settings
+                </button>
+              </li>
+            ) : null}
           </ul>
         </div>
       </div>

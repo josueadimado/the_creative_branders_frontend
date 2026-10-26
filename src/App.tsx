@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import DeskApp from "./desk/DeskApp";
 import BackToTop from "./components/BackToTop";
+import CookieNotice from "./components/CookieNotice";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import WhatsAppButton from "./components/WhatsAppButton";
@@ -37,6 +39,12 @@ function PageViews() {
 // App.tsx is the map of the website: which URL shows which page.
 // Navbar stays put. The next page shows as soon as the address changes.
 export default function App() {
+  const location = useLocation();
+  // The studio desk is a private set of screens. It does not use the public header or footer.
+  if (location.pathname === "/desk" || location.pathname.startsWith("/desk/")) {
+    return <DeskApp />;
+  }
+
   return (
     <ContentDeskProvider>
     <div className="flex min-h-screen flex-col">
@@ -73,6 +81,7 @@ export default function App() {
           </>
         )}
       </PageTransition>
+      <CookieNotice />
     </div>
     </ContentDeskProvider>
   );
