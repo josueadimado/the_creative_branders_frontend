@@ -12,24 +12,24 @@ import { track } from "./lib/analytics";
 import { captureVisit } from "./lib/visit";
 import PageTransition from "./components/PageTransition";
 import Home from "./pages/Home";
+import About from "./pages/About";
+import Academy from "./pages/Academy";
+import Contact from "./pages/Contact";
+import InsightArticle from "./pages/InsightArticle";
+import Insights from "./pages/Insights";
+import LegalPage from "./pages/LegalPage";
+import NotFound from "./pages/NotFound";
+import Privacy from "./pages/Privacy";
+import ResponsibleAI from "./pages/ResponsibleAI";
+import SmartCRM from "./pages/SmartCRM";
+import Work from "./pages/Work";
+import WorkStudy from "./pages/WorkStudy";
 import { cookies } from "./content/cookies";
 import { terms } from "./content/terms";
-// The desk and the other pages load when someone opens them, so the
-// homepage does not have to run their code before the first words appear.
+// The desk and the style guide are private screens. They load when opened.
+// Public pages stay in the first file so a saved page does not disappear while its code arrives.
 const DeskApp = lazy(() => import("./desk/DeskApp"));
-const About = lazy(() => import("./pages/About"));
-const Academy = lazy(() => import("./pages/Academy"));
-const Contact = lazy(() => import("./pages/Contact"));
-const LegalPage = lazy(() => import("./pages/LegalPage"));
-const InsightArticle = lazy(() => import("./pages/InsightArticle"));
-const Insights = lazy(() => import("./pages/Insights"));
-const ResponsibleAI = lazy(() => import("./pages/ResponsibleAI"));
-const NotFound = lazy(() => import("./pages/NotFound"));
-const Privacy = lazy(() => import("./pages/Privacy"));
-const SmartCRM = lazy(() => import("./pages/SmartCRM"));
 const StyleGuide = lazy(() => import("./pages/StyleGuide"));
-const Work = lazy(() => import("./pages/Work"));
-const WorkStudy = lazy(() => import("./pages/WorkStudy"));
 
 function PageViews() {
   const { pathname } = useLocation();

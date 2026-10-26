@@ -2,6 +2,7 @@ import { BadgeCheck, FileText, HeartHandshake, ShieldCheck } from "lucide-react"
 import type { LucideIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import AuditLink from "../components/AuditLink";
+import OptimizedImage from "../components/OptimizedImage";
 import Seo from "../components/Seo";
 import { useAboutCopy } from "../content/contentDesk";
 import { cta } from "../content/cta";
@@ -41,7 +42,15 @@ export default function About() {
       <section className="mx-auto max-w-[1224px] px-7 pb-8">
         <div className="grid gap-4 sm:grid-cols-2">
           {about.pictures.desks.map((picture) => (
-            <img key={picture.src} src={picture.src} alt={picture.alt} className="h-auto w-full rounded-[20px]" />
+            <OptimizedImage
+              key={picture.src}
+              src={picture.src}
+              alt={picture.alt}
+              width={picture.width}
+              height={picture.height}
+              loading="lazy"
+              className="h-auto w-full rounded-[20px]"
+            />
           ))}
         </div>
       </section>

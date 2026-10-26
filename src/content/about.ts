@@ -26,10 +26,14 @@ export const about = {
       {
         src: "/images/about/desk-evening.jpg",
         alt: "A person working at a desk with code on the screen.",
+        width: 1024,
+        height: 682,
       },
       {
         src: "/images/about/desk-close.jpg",
         alt: "Hands typing at a keyboard beside a screen of code.",
+        width: 1024,
+        height: 683,
       },
     ],
     started: {

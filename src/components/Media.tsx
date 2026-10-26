@@ -1,6 +1,10 @@
+import OptimizedImage from "./OptimizedImage";
+
 type MediaProps = {
   src: string;
   alt?: string;
+  width?: number;
+  height?: number;
   className?: string;
   loading?: "lazy" | "eager";
 };
@@ -10,10 +14,10 @@ type MediaProps = {
  * The picture sits still, then eases a little larger on hover —
  * a quiet, expensive-feeling motion, not a bounce.
  */
-export default function Media({ src, alt = "", className = "", loading = "lazy" }: MediaProps) {
+export default function Media({ src, alt = "", width, height, className = "", loading = "lazy" }: MediaProps) {
   return (
     <div className={`media w-full ${className}`}>
-      <img src={src} alt={alt} loading={loading} />
+      <OptimizedImage src={src} alt={alt} width={width} height={height} loading={loading} className="h-auto w-full" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+
 type OptimizedImageProps = {
   src: string;
   alt: string;
@@ -7,11 +9,20 @@ type OptimizedImageProps = {
   loading?: "lazy" | "eager";
   className?: string;
   draggable?: boolean;
+  /** Used when a photo is placed over another picture, such as a laptop screen. */
+  style?: CSSProperties;
+  /** True for a photo that is only decoration. The name then stays empty. */
+  decorative?: boolean;
 };
 
+/** Swap the file ending, so a photo can offer a smaller copy beside the original. */
+function withEnding(src: string, ending: string) {
+  return src.replace(/\.(png|jpe?g|webp)$/i, ending);
+}
+
 /**
- * Shows a smaller WebP copy when the browser understands it.
- * The original photo stays in place as the backup.
+ * Offers the smallest copy the browser understands: AVIF, then WebP, then the original.
+ * Width and height are the real pixel size, so the page does not jump when the photo arrives.
  */
 export default function OptimizedImage({
   src,
@@ -21,8 +32,14 @@ export default function OptimizedImage({
   loading = "lazy",
   className,
   draggable,
+  style,
+  decorative = false,
 }: OptimizedImageProps) {
-  const webp = src.replace(/\.(png|jpe?g)$/i, ".webp");
+  const avif = withEnding(src, ".avif");
+  const webp = withEnding(src, ".webp");
+  // A phone does not need the full-size photo. The smaller copy is used when the slot is wide in the file.
+  const wide = (width ?? 0) > 700;
+  const smallAvif = avif.replace(/\.avif$/, "-640.avif");
   const image = (
     <img
       src={src}
@@ -30,18 +47,29 @@ export default function OptimizedImage({
       width={width}
       height={height}
       loading={loading}
+      decoding={loading === "lazy" ? "async" : "auto"}
       // The first picture is part of the opening view, so the browser fetches it first.
-      fetchPriority={loading === "eager" ? "high" : "auto"}
+      fetchPriority={loading === "eager" ? "high" : "low"}
       className={className}
       draggable={draggable}
+      style={style}
+      aria-hidden={decorative ? true : undefined}
     />
   );
 
-  if (webp === src) return image;
+  // Drawings and logos that are already SVG stay as they are.
+  if (avif === src) return image;
 
   return (
     <picture>
-      <source srcSet={webp} type="image/webp" />
+      {avif !== src ? (
+        <source
+          srcSet={wide ? `${smallAvif} 640w, ${avif} 1280w` : avif}
+          sizes={wide ? "(max-width: 768px) 100vw, 720px" : undefined}
+          type="image/avif"
+        />
+      ) : null}
+      {webp !== src ? <source srcSet={webp} type="image/webp" /> : null}
       {image}
     </picture>
   );

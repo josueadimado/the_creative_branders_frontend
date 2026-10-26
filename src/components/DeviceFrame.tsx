@@ -69,11 +69,22 @@ export function LaptopMockup({
 }) {
   return (
     <div className={`relative overflow-hidden rounded-2xl ${className}`}>
-      <img src="/images/mockups/laptop.jpg" alt="" aria-hidden="true" className="block w-full" />
+      <OptimizedImage
+        src="/images/mockups/laptop.jpg"
+        alt=""
+        width={1024}
+        height={716}
+        loading="lazy"
+        decorative
+        className="block w-full"
+      />
       {src ? (
-        <img
+        <OptimizedImage
           src={src}
           alt={alt}
+          width={1600}
+          height={1000}
+          loading="lazy"
           className="absolute object-cover object-top"
           style={{ ...LAPTOP_SCREEN, borderRadius: "4.1% / 6.2%" }}
         />

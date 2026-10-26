@@ -3,6 +3,7 @@ import { useEffect, type ReactNode } from "react";
 import { Link, useParams } from "react-router-dom";
 import AuditLink from "../components/AuditLink";
 import WorkFrame, { BrowserPlaceholder } from "../components/DeviceFrame";
+import OptimizedImage from "../components/OptimizedImage";
 import Seo from "../components/Seo";
 import { cta } from "../content/cta";
 import { site } from "../content/site";
@@ -95,7 +96,12 @@ export default function WorkStudy() {
           </Link>
 
           <div className="mt-12 max-w-3xl">
-            {logo ? <img src={logo} alt={name} className="mb-5 h-12 w-auto" /> : null}
+            {logo ? (
+              // The box is a fixed height so the rest of the page does not jump when the logo arrives.
+              <span className="mb-5 block h-12">
+                <OptimizedImage src={logo} alt={name} width={400} height={77} loading="eager" className="h-12 w-auto" />
+              </span>
+            ) : null}
             {kicker ? (
               <p className="inline-flex rounded-full border border-mist bg-paper px-3.5 py-1.5 font-sans text-sm font-medium text-navy">
                 {kicker}
