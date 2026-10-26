@@ -22,6 +22,12 @@ type Row = {
   brief_link?: string;
   consent_at?: string;
   created_at: string;
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  utm_content?: string;
+  landing_page?: string;
+  referrer?: string;
 };
 
 const copy: Record<Kind, { title: string; lede: string; path: string; empty: string; emptyDetail?: string; icon: LucideIcon }> = {
@@ -114,6 +120,7 @@ function MessageList({ kind }: { kind: Kind }) {
                   {row.message ? (
                     <span className="mt-1 block truncate text-sm text-slate">{row.message}</span>
                   ) : null}
+                  {arrival(row) ? <span className="mt-1 block truncate text-sm text-slate">{arrival(row)}</span> : null}
                 </span>
                 <span className="shrink-0 text-sm text-slate">{when(row.created_at)}</span>
               </span>
@@ -134,6 +141,11 @@ function MessageList({ kind }: { kind: Kind }) {
       ) : null}
     </section>
   );
+}
+
+function arrival(row: Row): string {
+  const bits = [row.utm_source, row.utm_medium, row.utm_campaign, row.landing_page].filter(Boolean);
+  return bits.join(" · ");
 }
 
 function receivedLine(value: string): string {
@@ -253,6 +265,12 @@ function Brief({ id }: { id: string }) {
           {detailLine("Wants to start", row.timeline)}
           {detailLine("Budget", budgetText(row))}
           {detailLine("Link", row.brief_link)}
+          {detailLine("Source", row.utm_source)}
+          {detailLine("Medium", row.utm_medium)}
+          {detailLine("Campaign", row.utm_campaign)}
+          {detailLine("Content", row.utm_content)}
+          {detailLine("Landing page", row.landing_page)}
+          {detailLine("Referrer", row.referrer)}
           {detailLine("Agreed to privacy", row.consent_at ? when(row.consent_at) : undefined)}
         </dl>
       </div>

@@ -9,6 +9,7 @@ import WhatsAppButton from "./components/WhatsAppButton";
 import { ContentDeskProvider } from "./content/contentDesk";
 import { organizationSchema, professionalServiceSchema } from "./content/schema";
 import { track } from "./lib/analytics";
+import { captureVisit } from "./lib/visit";
 import PageTransition from "./components/PageTransition";
 import Home from "./pages/Home";
 import { cookies } from "./content/cookies";
@@ -34,6 +35,7 @@ function PageViews() {
   const { pathname } = useLocation();
 
   useEffect(() => {
+    captureVisit();
     track("page_view", { page_path: pathname });
   }, [pathname]);
 

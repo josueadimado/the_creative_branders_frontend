@@ -1,5 +1,6 @@
 import { apiRoot } from "./apiBase";
 import { trackWaitlistSignup } from "./analytics";
+import { readVisit } from "./visit";
 
 // The backend address. Vite only exposes env vars that start with VITE_.
 const API_URL = apiRoot();
@@ -86,7 +87,7 @@ async function postJson(path: string, body: unknown): Promise<ApiErrorBody | voi
 }
 
 export function postInquiry(payload: InquiryPayload & BotPayload) {
-  return postJson("/inquiries/", payload).then(() => undefined);
+  return postJson("/inquiries/", withVisit(payload)).then(() => undefined);
 }
 
 export type NewsletterPayload = {
@@ -99,7 +100,7 @@ export type NewsletterResult = {
 };
 
 export async function postNewsletter(payload: NewsletterPayload): Promise<NewsletterResult> {
-  const data = await postJson("/newsletter/", payload);
+  const data = await postJson("/newsletter/", withVisit(payload));
   trackWaitlistSignup("newsletter");
   return {
     alreadySubscribed: Boolean(data && data.already_subscribed),
@@ -107,12 +108,17 @@ export async function postNewsletter(payload: NewsletterPayload): Promise<Newsle
 }
 
 export async function postWaitlist(payload: WaitlistPayload & BotPayload): Promise<WaitlistResult> {
-  const data = await postJson("/waitlist/", payload);
+  const data = await postJson("/waitlist/", withVisit(payload));
   return {
     alreadyOnList: Boolean(data && data.already_on_list),
   };
 }
 
 export function postAcademyInterest(payload: AcademyPayload & BotPayload) {
-  return postJson("/academy-interest/", payload).then(() => undefined);
+  return postJson("/academy-interest/", withVisit(payload)).then(() => undefined);
+}
+
+/** Attach the first page of this visit to a form, without overwriting fields the form set itself. */
+function withVisit<T extends object>(payload: T) {
+  return { ...readVisit(), ...payload };
 }
