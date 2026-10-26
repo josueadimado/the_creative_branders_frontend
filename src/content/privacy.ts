@@ -78,14 +78,14 @@ export const privacy = {
     {
       title: "How long we keep it",
       paragraphs: [
-        "Enquiries that do not become projects are deleted after [24] months.",
-        "Client project records are kept for [6] years for tax and legal reasons.",
+        "Enquiries that do not become projects are deleted after 24 months.",
+        "Client project records are kept for 6 years for tax and legal reasons.",
       ],
     },
     {
       title: "Your rights",
       paragraphs: [
-        `You can ask for a copy of your data, ask us to correct it, ask us to delete it, object to processing, object to direct marketing, and withdraw consent. Email ${site.email}. We reply within [30] days.`,
+        `You can ask for a copy of your data, ask us to correct it, ask us to delete it, object to processing, object to direct marketing, and withdraw consent. Email ${site.email}. We reply within 30 days.`,
       ],
     },
     {
