@@ -2,12 +2,13 @@ import { Link, useSearchParams } from "react-router-dom";
 import CtaBand from "../components/CtaBand";
 import FamilyIcon from "../components/FamilyIcon";
 import Seo from "../components/Seo";
-import { useNotes } from "../content/contentDesk";
+import { useInsightsMenu, useNotes } from "../content/contentDesk";
 import { formatInsightDate, insightsPage } from "../content/insights";
 
 export default function Insights() {
   const [params, setParams] = useSearchParams();
   const articles = useNotes();
+  const listed = useInsightsMenu();
   const requested = params.get("family");
   const families = Array.from(new Map(articles.map((article) => [article.family, article.familyLabel])).entries());
   const family = families.some(([slug]) => slug === requested) ? requested : null;
@@ -15,7 +16,7 @@ export default function Insights() {
 
   return (
     <>
-      <Seo {...insightsPage.seo} index={false} />
+      <Seo {...insightsPage.seo} index={listed} />
       <section className="dot-grid text-hero bg-navy">
         <div className="mx-auto max-w-6xl px-6">
           <p className="type-kicker text-signal">{insightsPage.kicker}</p>

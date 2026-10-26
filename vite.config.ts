@@ -8,8 +8,9 @@ import react from "@vitejs/plugin-react";
 import { cookies } from "./src/content/cookies";
 import { privacy } from "./src/content/privacy";
 import { terms } from "./src/content/terms";
+import { notePathsFor } from "./src/content/insights/slugs";
 import { indexableRoutes, indexableRoutesFor, publicRoutes, publicRoutesFor, workPathsFor } from "./src/siteRoutes";
-import { PROJECTS_API, fetchPublishedProjects } from "./scripts/loadPublishedProjects.mjs";
+import { NOTES_API, PROJECTS_API, fetchPublishedNotes, fetchPublishedProjects } from "./scripts/loadPublishedProjects.mjs";
 
 function siteOrigin() {
   return (process.env.VITE_SITE_URL || "").replace(/\/$/, "");
@@ -48,15 +49,36 @@ function robotsTxt() {
   return `User-agent: *\nAllow: /\nDisallow: /dev/\nDisallow: /desk\n${sitemap.startsWith("\n") ? sitemap.slice(1) : sitemap}`;
 }
 
+/** Published note addresses. Fewer than three means Insights stays off both lists. */
+async function publishedNotePaths() {
+  try {
+    const notes = await fetchPublishedNotes();
+    const slugs = notes.map((item: { slug: string }) => item.slug);
+    const paths = notePathsFor(slugs);
+    console.log(
+      paths.length === 0
+        ? `[notes] ${slugs.length} published notes. Insights stays off the sitemap until there are 3.`
+        : `[notes] Sitemap and prerender are using ${slugs.length} published notes.`,
+    );
+    return paths;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.warn(`[notes] Could not reach ${NOTES_API}. Insights stays off the sitemap.`);
+    console.warn(`[notes] ${message}`);
+    return notePathsFor([]);
+  }
+}
+
 /** The live project list. The starter file is used only when that request fails. */
 async function routesForBuild() {
+  const notePaths = await publishedNotePaths();
   try {
     const projects = await fetchPublishedProjects();
     const workPaths = workPathsFor(projects.map((item: { slug: string }) => item.slug));
     console.log(`[projects] Sitemap and prerender are using ${workPaths.length} published projects from the API.`);
     return {
-      indexable: indexableRoutesFor(workPaths),
-      publicRoutes: [...publicRoutesFor(workPaths), "/404"],
+      indexable: indexableRoutesFor(workPaths, notePaths),
+      publicRoutes: [...publicRoutesFor(workPaths, notePaths), "/404"],
       projects,
     };
   } catch (error) {
@@ -65,7 +87,11 @@ async function routesForBuild() {
       `[projects] Could not reach ${PROJECTS_API}. Sitemap and prerender are using the starter list in frontend/src/data/portfolio.ts.`,
     );
     console.warn(`[projects] ${message}`);
-    return { indexable: indexableRoutes, publicRoutes: [...publicRoutes, "/404"], projects: [] as PublishedProject[] };
+    return {
+      indexable: [...indexableRoutes, ...notePaths],
+      publicRoutes: [...publicRoutes, ...notePaths, "/404"],
+      projects: [] as PublishedProject[],
+    };
   }
 }
 function rejectMissingCatalog(req: { url?: string }, res: { statusCode: number; setHeader: (name: string, value: string) => void; end: (body: string) => void }, next: () => void) {

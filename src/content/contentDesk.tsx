@@ -257,30 +257,37 @@ export function useContactCopy() {
   };
 }
 
-/** Published notes from the desk. The built-in notes stay until one is published in the desk. */
+function toDeskNote(note: RemoteNote): InsightArticle {
+  const words = note.body.split(/\s+/).filter(Boolean).length;
+  return {
+    slug: note.slug,
+    title: note.title,
+    description: note.description,
+    date: note.publishedOn || "",
+    family: note.family,
+    familyLabel: familyLabel(note.family),
+    cover: "/brand/png/og-default-1200.png",
+    body: note.body,
+    minutes: Math.max(2, Math.ceil(words / 200)),
+    published: true,
+  };
+}
+
+/** Published notes only. Drafts stay off the list, so the menu can close. */
 export function useNotes(): InsightArticle[] {
   const desk = useDesk();
-  if (desk.status !== "ready" || desk.notes.length === 0) return articles;
-  return desk.notes
-    .map((note) => {
-      const words = note.body.split(/\s+/).filter(Boolean).length;
-      return {
-        slug: note.slug,
-        title: note.title,
-        description: note.description,
-        date: note.publishedOn || "",
-        family: note.family,
-        familyLabel: familyLabel(note.family),
-        cover: "/brand/png/og-default-1200.png",
-        body: note.body,
-        minutes: Math.max(2, Math.ceil(words / 200)),
-      };
-    })
-    .sort((a, b) => (a.date < b.date ? 1 : -1));
+  // The desk answered. An empty list means nothing is published.
+  if (desk.status === "ready") {
+    return desk.notes.map(toDeskNote).sort((a, b) => (a.date < b.date ? 1 : -1));
+  }
+  // Still loading, or the desk could not be reached. Only starter notes marked published are used.
+  return articles.filter((article) => article.published);
 }
 
 export function useNote(slug: string | undefined): InsightArticle | undefined {
-  return useNotes().find((note) => note.slug === slug);
+  if (!slug) return undefined;
+  // A draft can still open at its address. It stays out of the public list.
+  return useNotes().find((note) => note.slug === slug) ?? articles.find((article) => article.slug === slug);
 }
 
 /** Insights links stay off the menu until enough notes are published. */

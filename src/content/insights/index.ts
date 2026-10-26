@@ -2,7 +2,9 @@ import weeklyNumbers from "./weekly-numbers.md?raw";
 import websiteSigns from "./website-signs.md?raw";
 import whatsappBookings from "./whatsapp-bookings.md?raw";
 import { familyLabel, type FamilySlug } from "../../data/portfolio";
-import { insightSlugs } from "./slugs";
+import { insightSlugs, insightsMenuMinimum } from "./slugs";
+
+export { insightsMenuMinimum };
 
 export const insightsPage = {
   seo: {
@@ -27,6 +29,8 @@ export type InsightArticle = {
   cover: string;
   body: string;
   minutes: number;
+  /** A draft stays off the menu and off the public list. */
+  published: boolean;
 };
 
 const rawBySlug = {
@@ -68,6 +72,7 @@ function toArticle(slug: string, raw: string): InsightArticle {
     cover: meta.cover || "/brand/png/og-default-1200.png",
     body,
     minutes: readingMinutes(body),
+    published: meta.published === "true",
   };
 }
 
@@ -75,9 +80,6 @@ function toArticle(slug: string, raw: string): InsightArticle {
 export const articles: InsightArticle[] = sources
   .map((source) => toArticle(source.slug, source.raw))
   .sort((a, b) => (a.date < b.date ? 1 : -1));
-
-/** The menu and footer show Insights once this many notes are published. */
-export const insightsMenuMinimum = 3;
 
 /** True when there are enough published notes to open the Insights links. */
 export function insightsMenuOpen(publishedCount: number): boolean {

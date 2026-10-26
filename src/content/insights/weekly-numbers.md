@@ -2,6 +2,7 @@
 title: Six numbers every business owner should see each week
 description: The handful of figures that tell you how your business is really doing, and how to see them without a spreadsheet.
 date: 2026-10-21
+published: false
 family: automation-reporting
 cover: /images/work-analytics.jpg
 ---

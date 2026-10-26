@@ -1,4 +1,4 @@
-import { insightPaths } from "./content/insights/slugs";
+import { notePathsFor } from "./content/insights/slugs";
 import { site } from "./content/site";
 import { publicWorkPaths } from "./data/portfolio";
 
@@ -18,17 +18,17 @@ export function workPathsFor(slugs: string[]): string[] {
   return slugs.filter((slug) => slug.trim().length > 0).map((slug) => `/work/${slug}`);
 }
 
-/** Pages a search engine should list. */
-export function indexableRoutesFor(workPaths: string[]): string[] {
-  return ["/", "/work", ...workPaths, ...afterWork];
+/** Pages a search engine should list. Notes join only after three are published. */
+export function indexableRoutesFor(workPaths: string[], notePaths: string[] = notePathsFor([])): string[] {
+  return ["/", "/work", ...workPaths, ...afterWork, ...notePaths];
 }
 
 /**
  * Every public URL the prerender step saves.
- * The notes stay on this list. The sitemap uses indexableRoutesFor.
+ * Draft notes stay off this list. The sitemap uses indexableRoutesFor.
  */
-export function publicRoutesFor(workPaths: string[]): string[] {
-  return ["/", "/work", ...workPaths, "/about", "/insights", ...insightPaths(), ...afterWork.slice(1)];
+export function publicRoutesFor(workPaths: string[], notePaths: string[] = notePathsFor([])): string[] {
+  return ["/", "/work", ...workPaths, "/about", ...notePaths, ...afterWork.slice(1)];
 }
 
 /** Starter list, used only when the project API cannot be reached at build time. */

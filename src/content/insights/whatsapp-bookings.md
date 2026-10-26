@@ -2,6 +2,7 @@
 title: How a WhatsApp assistant can take bookings while you sleep
 description: What a WhatsApp booking assistant does, what it costs you in setup, and when it's worth it.
 date: 2026-10-23
+published: false
 family: automation-reporting
 cover: /images/work-clinic.jpg
 ---
