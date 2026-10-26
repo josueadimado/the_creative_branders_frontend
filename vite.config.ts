@@ -15,12 +15,28 @@ function siteOrigin() {
   return (process.env.VITE_SITE_URL || "").replace(/\/$/, "");
 }
 
-function sitemapXml(routes: string[]) {
+type PublishedProject = { slug?: string; updated?: string };
+
+function projectLastmod(value: unknown): string | undefined {
+  if (typeof value !== "string") return undefined;
+  const match = value.match(/^(\d{4}-\d{2}-\d{2})/);
+  return match?.[1];
+}
+
+function sitemapXml(routes: string[], projects: PublishedProject[]) {
   const origin = siteOrigin();
+  const dates = new Map<string, string>();
+  for (const project of projects) {
+    if (!project.slug) continue;
+    const lastmod = projectLastmod(project.updated);
+    if (lastmod) dates.set(`/work/${project.slug}`, lastmod);
+  }
   const urls = routes
     .map((path) => {
       const loc = origin ? `${origin}${path === "/" ? "/" : path}` : path;
-      return `  <url><loc>${loc}</loc></url>`;
+      const lastmod = dates.get(path);
+      const lastmodLine = lastmod ? `\n    <lastmod>${lastmod}</lastmod>` : "";
+      return `  <url>\n    <loc>${loc}</loc>${lastmodLine}\n  </url>`;
     })
     .join("\n");
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
@@ -41,6 +57,7 @@ async function routesForBuild() {
     return {
       indexable: indexableRoutesFor(workPaths),
       publicRoutes: [...publicRoutesFor(workPaths), "/404"],
+      projects,
     };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
@@ -48,7 +65,7 @@ async function routesForBuild() {
       `[projects] Could not reach ${PROJECTS_API}. Sitemap and prerender are using the starter list in frontend/src/data/portfolio.ts.`,
     );
     console.warn(`[projects] ${message}`);
-    return { indexable: indexableRoutes, publicRoutes: [...publicRoutes, "/404"] };
+    return { indexable: indexableRoutes, publicRoutes: [...publicRoutes, "/404"], projects: [] as PublishedProject[] };
   }
 }
 function rejectMissingCatalog(req: { url?: string }, res: { statusCode: number; setHeader: (name: string, value: string) => void; end: (body: string) => void }, next: () => void) {
@@ -123,7 +140,7 @@ function siteFiles(): Plugin {
           .then((routes) => {
             if (path === "/sitemap.xml") {
               res.setHeader("Content-Type", "application/xml");
-              res.end(sitemapXml(routes.indexable));
+              res.end(sitemapXml(routes.indexable, routes.projects));
               return;
             }
             res.setHeader("Content-Type", "text/plain");
@@ -140,7 +157,10 @@ function siteFiles(): Plugin {
     async closeBundle() {
       const outDir = resolve(fileURLToPath(new URL(".", import.meta.url)), "dist");
       const routes = await routesForBuild();
-      writeFileSync(resolve(outDir, "sitemap.xml"), sitemapXml(routes.indexable));
+      if (!siteOrigin()) {
+        console.warn("[projects] VITE_SITE_URL is not set, so robots.txt will not include the sitemap line.");
+      }
+      writeFileSync(resolve(outDir, "sitemap.xml"), sitemapXml(routes.indexable, routes.projects));
       writeFileSync(resolve(outDir, "robots.txt"), robotsTxt());
       // Same list the sitemap uses, plus the notes. The prerender script reads it, then deletes it.
       writeFileSync(resolve(outDir, ".prerender-routes.json"), JSON.stringify(routes.publicRoutes));
