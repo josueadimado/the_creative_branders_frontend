@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { site } from "../content/site";
+import { breadcrumbSchema } from "../content/schema";
 
 const SITE_NAME = site.name;
 const DEFAULT_IMAGE = "/brand/png/og-default-1200.png";
@@ -33,7 +34,8 @@ export default function Seo({ title, description, path, image = DEFAULT_IMAGE, i
   const fullTitle = `${title}${site.titleJoin}${SITE_NAME}`;
   const pageUrl = origin ? `${origin}${path}` : undefined;
   const imageUrl = image.startsWith("http") ? image : origin ? `${origin}${image}` : image;
-  const blocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+  const blocks = [...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])];
+  if (index && path !== "/" && origin) blocks.push(breadcrumbSchema(path, title));
 
   return (
     <Helmet
@@ -58,8 +60,8 @@ export default function Seo({ title, description, path, image = DEFAULT_IMAGE, i
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={imageUrl} />
-      {blocks.map((block) => (
-        <script key={String(block["@type"])} type="application/ld+json">
+      {blocks.map((block, index) => (
+        <script key={`${String(block["@type"])}-${String(block.name ?? index)}`} type="application/ld+json">
           {JSON.stringify(block)}
         </script>
       ))}

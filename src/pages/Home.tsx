@@ -49,21 +49,9 @@ import {
   type FamilySlug,
 } from "../data/portfolio";
 import { approvedTestimonials, type Testimonial } from "../data/testimonials";
-import { socials } from "../data/socials";
+import { serviceSchemas } from "../content/schema";
 
 const siteOrigin = (import.meta.env.VITE_SITE_URL || "").replace(/\/$/, "");
-
-const organization = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: site.name,
-  description: home.seo.description,
-  email: site.email,
-  ...(siteOrigin
-    ? { url: siteOrigin, logo: `${siteOrigin}/brand/png/tcb-monogram-dark-512.png` }
-    : {}),
-  sameAs: socials.map((item) => item.href),
-};
 
 const website = {
   "@context": "https://schema.org",
@@ -313,8 +301,8 @@ export default function Home() {
       <Seo
         {...homeLive.seo}
         jsonLd={[
-          { ...organization, description: homeLive.seo.description },
           { ...website, description: homeLive.seo.description },
+          ...serviceSchemas(),
         ]}
       />
 

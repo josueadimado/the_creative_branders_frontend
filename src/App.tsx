@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import BackToTop from "./components/BackToTop";
 import CookieNotice from "./components/CookieNotice";
@@ -6,6 +7,7 @@ import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import WhatsAppButton from "./components/WhatsAppButton";
 import { ContentDeskProvider } from "./content/contentDesk";
+import { organizationSchema, professionalServiceSchema } from "./content/schema";
 import { track } from "./lib/analytics";
 import PageTransition from "./components/PageTransition";
 import Home from "./pages/Home";
@@ -55,6 +57,10 @@ export default function App() {
     <ContentDeskProvider>
     <div className="flex min-h-screen flex-col">
       <PageViews />
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(organizationSchema())}</script>
+        <script type="application/ld+json">{JSON.stringify(professionalServiceSchema())}</script>
+      </Helmet>
       <Navbar />
       <WhatsAppButton />
       <BackToTop />

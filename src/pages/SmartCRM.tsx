@@ -4,6 +4,7 @@ import Illustration from "../components/Illustration";
 import Seo from "../components/Seo";
 import TextHero from "../components/TextHero";
 import { smartcrm } from "../content/smartcrm";
+import { faqSchema } from "../content/schema";
 import { track } from "../lib/analytics";
 import { useBotGuard } from "../components/BotGuard";
 import ConsentCheckbox from "../components/ConsentCheckbox";
@@ -15,7 +16,7 @@ const fieldClass =
 export default function SmartCRM() {
   return (
     <>
-      <Seo {...smartcrm.seo} />
+      <Seo {...smartcrm.seo} jsonLd={faqSchema(smartcrm.faqs)} />
       <TextHero kicker={smartcrm.hero.kicker} title={smartcrm.hero.title} lede={smartcrm.hero.lede} />
 
       <section className="bg-paper py-28 sm:py-36">
