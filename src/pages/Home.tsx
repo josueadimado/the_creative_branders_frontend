@@ -649,11 +649,11 @@ export default function Home() {
 
           <section id="estimate" className="scroll-mt-24 bg-paper px-5 py-20 sm:py-28">
             <div className="mx-auto grid max-w-[1180px] gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-16">
-              <div className="lg:sticky lg:top-28">
+              <div className="min-w-0 lg:sticky lg:top-28">
                 <Eyebrow>Start a project</Eyebrow>
                 <SplitTitle first="Tell us what" second="you're building." accent />
               </div>
-              <div className="rounded-2xl border border-mist bg-white p-6 shadow-sm sm:p-10">
+              <div className="min-w-0 rounded-2xl border border-mist bg-white p-6 shadow-sm sm:p-10">
                 <InquiryForm layout="split" />
               </div>
             </div>

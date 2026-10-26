@@ -23,14 +23,14 @@ export default function Contact() {
       </section>
 
       <section className="bg-paper py-16 sm:py-24">
-        <div className="mx-auto grid max-w-6xl gap-12 px-6 lg:grid-cols-[16rem_minmax(0,1fr)] lg:items-start">
-          <address className="not-italic text-navy">
+        <div className="mx-auto grid max-w-6xl gap-12 px-6 lg:grid-cols-[minmax(0,16rem)_minmax(0,1fr)] lg:items-start">
+          <address className="min-w-0 not-italic text-navy">
             <p className="type-caption font-medium uppercase tracking-[0.14em] text-slate">Studio</p>
             <ul className="mt-4 space-y-3 text-[17px]">
               <li>
                 <a
                   href={`mailto:${site.email}`}
-                  className="underline decoration-mist underline-offset-4 hover:text-deep"
+                  className="break-words underline decoration-mist underline-offset-4 hover:text-deep"
                   onClick={() => track("email_click", { location: "contact" })}
                 >
                   {site.email}
@@ -59,7 +59,7 @@ export default function Contact() {
               <li>Accra, Ghana</li>
             </ul>
           </address>
-          <div className="rounded-card border border-mist bg-white p-8 sm:p-12">
+          <div className="min-w-0 rounded-card border border-mist bg-white p-8 sm:p-12">
             <InquiryForm />
           </div>
         </div>
