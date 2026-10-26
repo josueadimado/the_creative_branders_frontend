@@ -1,8 +1,4 @@
-import { joinCountries, projectCountries, publishedWork } from "../data/portfolio";
 import { site } from "./site";
-
-/** Countries on the published studies. Ghana is listed first. */
-const shippedCountries = projectCountries(publishedWork());
 
 /** Words for the homepage. The page file only handles layout. */
 
@@ -45,7 +41,7 @@ export const home = {
   /** The numbers block. Its heading is not the hero line. */
   built: {
     title: "Built around how your business runs.",
-    lede: `We've shipped booking systems, learning platforms, a creator marketplace and multilingual sites for clients in ${joinCountries(shippedCountries)}.`,
+    lede: "We've shipped booking systems, learning platforms, a creator marketplace and multilingual sites.",
     /** This photo is only used here. */
     image: "/images/pillar-systems.jpg",
   },

@@ -105,20 +105,13 @@ function prefer(next: string | undefined, current: string) {
   return value ? value : current;
 }
 
-/** Published projects from the desk, or the built-in list when the desk is offline. */
+/** Published projects from the API. The starter file is used only when the API cannot be reached. */
 export function useProjects(): PortfolioItem[] {
   const desk = useDesk();
+  // The API answered. An empty list means nothing is published.
   if (desk.status === "ready") return desk.projects;
+  // Still loading, or the API could not be reached. The starter file keeps the page from going blank.
   return publishedWork();
-}
-
-/**
- * The list used for the project count.
- * The desk list when it has projects. The built-in studies when that list is empty.
- */
-export function useShippedProjects(): PortfolioItem[] {
-  const listed = useProjects();
-  return listed.length > 0 ? listed : publishedWork();
 }
 
 export function useProject(slug: string | undefined): PortfolioItem | undefined {
@@ -147,7 +140,7 @@ export function useHomeCopy() {
 export function useAboutCopy() {
   const desk = useDesk();
   const page = desk.status === "ready" ? desk.pages.about : undefined;
-  const shipped = useShippedProjects();
+  const projects = useProjects();
   return {
     ...about,
     seo: {
@@ -177,7 +170,7 @@ export function useAboutCopy() {
       ...about.facts,
       // The other figures stay off this page until they are confirmed.
       // This one is the number of published projects.
-      stats: [{ value: `${shipped.length}+`, label: "projects delivered" }],
+      stats: [{ value: `${projects.length}+`, label: "projects delivered" }],
     },
   };
 }

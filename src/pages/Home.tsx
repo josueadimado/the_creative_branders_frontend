@@ -34,7 +34,7 @@ import InquiryForm from "../components/InquiryForm";
 import Logo from "../components/Logo";
 import NetworkGlobe from "../components/NetworkGlobe";
 import Seo from "../components/Seo";
-import { useHomeCopy, useInsightsMenu, useShippedProjects, useProjects } from "../content/contentDesk";
+import { useHomeCopy, useInsightsMenu, useProjects } from "../content/contentDesk";
 import { home } from "../content/home";
 import { site } from "../content/site";
 import { serviceWhatsAppMessage, whatsappLink } from "../data/socials";
@@ -293,11 +293,10 @@ function ClientQuotes({ items }: { items: Testimonial[] }) {
 
 export default function Home() {
   const homeLive = useHomeCopy();
-  const listed = useProjects();
-  const shipped = useShippedProjects();
-  const where = projectCountries(shipped);
+  const projects = useProjects();
+  const where = projectCountries(projects);
   const countryLine = joinCountries(where);
-  const leadStudies = listed.filter((item) => item.featured).slice(0, 2);
+  const leadStudies = projects.filter((item) => item.featured).slice(0, 2);
   const showInsights = useInsightsMenu();
   const pageLinks = showInsights ? [...basePageLinks, { href: "/insights", label: "Insights" }] : basePageLinks;
   const [menuOpen, setMenuOpen] = useState(false);
@@ -474,7 +473,7 @@ export default function Home() {
                   </span>
                   <span className="min-w-0">
                     <strong className="block text-sm">
-                      {shipped.length} {shipped.length === 1 ? "project" : "projects"} shipped
+                      {projects.length} {projects.length === 1 ? "project" : "projects"} shipped
                     </strong>
                     {countryLine ? <span className="block text-xs text-slate">{countryLine}</span> : null}
                   </span>
