@@ -16,11 +16,3 @@
   font-weight: 100 900;
   src: url("/fonts/montserrat-latin-wght-normal.woff2") format("woff2");
 }
-
-@font-face {
-  font-family: "Barlow Condensed";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 800;
-  src: url("/fonts/barlow-condensed-latin-800-normal.woff2") format("woff2");
-}
