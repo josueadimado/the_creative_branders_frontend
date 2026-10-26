@@ -45,18 +45,18 @@ export default function Contact() {
                   className="underline decoration-mist underline-offset-4 hover:text-deep"
                   onClick={() => track("phone_click", { location: "contact" })}
                 >
-                  {site.phoneDisplay}
+                  Call: {site.phoneDisplay}
                 </a>
               </li>
               <li>
                 <a
                   href={whatsappHref}
-                  className="btn btn-inverse mt-1"
+                  className="underline decoration-mist underline-offset-4 hover:text-deep"
                   target="_blank"
                   rel="noreferrer"
                   onClick={() => trackWhatsApp("contact")}
                 >
-                  WhatsApp
+                  WhatsApp: {site.whatsapp.display}
                 </a>
               </li>
               <li>Accra, Ghana</li>

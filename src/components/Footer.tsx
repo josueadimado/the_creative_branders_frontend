@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import { site } from "../content/site";
 import { useInsightsMenu } from "../content/contentDesk";
 import { OPEN_COOKIE_SETTINGS } from "./CookieNotice";
-import { bannerCanAppear, track } from "../lib/analytics";
+import { bannerCanAppear, track, trackWhatsApp } from "../lib/analytics";
+import { whatsappHref } from "../data/socials";
 import Logo from "./Logo";
 import SocialLinks from "./SocialLinks";
 
@@ -107,7 +108,18 @@ export default function Footer() {
                 className="inline-flex min-h-11 items-center transition-colors hover:text-white"
                 onClick={() => track("phone_click", { location: "footer" })}
               >
-                {site.phoneDisplay}
+                Call: {site.phoneDisplay}
+              </a>
+            </li>
+            <li>
+              <a
+                href={whatsappHref}
+                className="inline-flex min-h-11 items-center transition-colors hover:text-white"
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => trackWhatsApp("footer")}
+              >
+                WhatsApp: {site.whatsapp.display}
               </a>
             </li>
           </ul>

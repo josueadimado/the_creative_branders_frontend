@@ -26,13 +26,15 @@ export const site = {
     countryCode: "GH",
   },
   email: "hello@thecreativebranders.com",
-  /** Digits with a leading plus, for a tel: link. */
-  phoneE164: "+233206783693",
-  /** The same number, with spaces, for people to read. */
-  phoneDisplay: "+233 20 678 3693",
+  /** Digits with a leading plus. This number can receive calls. Use it only on tel: links. */
+  phoneE164: "+233598158589",
+  /** The call number, with spaces, for people to read. Always show it as "Call: …". */
+  phoneDisplay: "+233 59 815 8589",
   whatsapp: {
-    /** Country code plus the number, digits only. */
+    /** Country code plus the number, digits only. Use it only on wa.me links. This line cannot receive calls. */
     number: "233206783693",
+    /** The WhatsApp number, with spaces. Always show it as "WhatsApp: …". */
+    display: "+233 20 678 3693",
     defaultMessage: "Hello The Creative Branders, I'd like to talk about a project.",
   },
   url: "https://thecreativebranders.com",
@@ -71,5 +73,7 @@ export function legalPlaceLines(): string[] {
   }
   lines.push(`${site.address.city}, ${site.address.country}`);
   lines.push(`Email: ${site.email}.`);
+  lines.push(`Call: ${site.phoneDisplay}.`);
+  lines.push(`WhatsApp: ${site.whatsapp.display}.`);
   return lines;
 }
