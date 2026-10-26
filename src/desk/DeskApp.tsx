@@ -77,7 +77,15 @@ const groups: { label: string; links: { to: string; label: string; icon: LucideI
   },
 ];
 
-function NavItems({ collapsed, onNavigate }: { collapsed?: boolean; onNavigate?: () => void }) {
+function NavItems({
+  collapsed,
+  onNavigate,
+  unread,
+}: {
+  collapsed?: boolean;
+  onNavigate?: () => void;
+  unread: number;
+}) {
   return (
     <nav className="flex flex-1 flex-col gap-6 px-3">
       {groups.map((group) => (
@@ -88,6 +96,7 @@ function NavItems({ collapsed, onNavigate }: { collapsed?: boolean; onNavigate?:
           <div className="flex flex-col gap-0.5">
             {group.links.map((link) => {
               const Icon = link.icon;
+              const showCount = link.to === "/desk/briefs" && unread > 0;
               return (
                 <NavLink
                   key={link.to}
@@ -96,13 +105,22 @@ function NavItems({ collapsed, onNavigate }: { collapsed?: boolean; onNavigate?:
                   title={link.label}
                   onClick={onNavigate}
                   className={({ isActive }) =>
-                    `flex items-center gap-3 rounded-xl px-3 py-2 text-sm ${
+                    `relative flex items-center gap-3 rounded-xl px-3 py-2 text-sm ${
                       collapsed ? "justify-center" : ""
                     } ${isActive ? "bg-white/10 font-medium text-white" : "text-white/75 hover:bg-white/5 hover:text-white"}`
                   }
                 >
                   <Icon size={18} aria-hidden="true" />
-                  <span className={collapsed ? "sr-only" : ""}>{link.label}</span>
+                  <span className={collapsed ? "sr-only" : "min-w-0 flex-1"}>{link.label}</span>
+                  {showCount ? (
+                    <span
+                      className={`grid h-5 min-w-5 place-items-center rounded-full bg-signal px-1 text-[11px] font-semibold text-navy ${
+                        collapsed ? "absolute right-1.5 top-1 h-2 w-2 min-w-0 p-0" : ""
+                      }`}
+                    >
+                      <span className={collapsed ? "sr-only" : ""}>{unread}</span>
+                    </span>
+                  ) : null}
                 </NavLink>
               );
             })}
@@ -152,46 +170,52 @@ function Login() {
         <title>Sign in | Studio desk</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
-      <form onSubmit={onSubmit} className="w-full max-w-sm">
-        <div className="mb-10 flex justify-center">
+      <div className="w-full max-w-sm">
+        <div className="mb-6 flex justify-center">
           <Logo variant="light" />
         </div>
-        <label className="block text-sm font-medium">
-          Username
-          <input
-            className="mt-1.5 w-full rounded-xl border border-mist bg-white px-3.5 py-2.5 text-base text-navy outline-none focus:border-deep"
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
-            autoComplete="username"
-            required
-          />
-        </label>
-        <label className="mt-4 block text-sm font-medium">
-          Password
-          <span className="relative mt-1.5 block">
+        <form onSubmit={onSubmit} className="rounded-2xl border border-mist bg-white p-6 shadow-sm">
+          <h1 className="text-xl font-semibold tracking-tight">Sign in to the studio desk</h1>
+          <label className="mt-5 block text-sm font-medium">
+            Username
             <input
-              type={showPassword ? "text" : "password"}
-              className="w-full rounded-xl border border-mist bg-white py-2.5 pl-3.5 pr-11 text-base text-navy outline-none focus:border-deep"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              autoComplete="current-password"
+              className="mt-1.5 w-full rounded-xl border border-mist bg-white px-3.5 py-2.5 text-base text-navy outline-none focus:border-deep"
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
+              autoComplete="username"
               required
             />
-            <button
-              type="button"
-              className="absolute inset-y-0 right-0 flex w-11 items-center justify-center text-slate"
-              aria-label={showPassword ? "Hide password" : "Show password"}
-              onClick={() => setShowPassword((visible) => !visible)}
-            >
-              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-            </button>
-          </span>
-        </label>
-        {error ? <p className="mt-4 text-sm text-red-800">{error}</p> : null}
-        <button type="submit" className="btn btn-inverse mt-6 w-full" disabled={busy}>
-          {busy ? "Signing in…" : "Sign in"}
-        </button>
-      </form>
+          </label>
+          <label className="mt-4 block text-sm font-medium">
+            Password
+            <span className="relative mt-1.5 block">
+              <input
+                type={showPassword ? "text" : "password"}
+                className="w-full rounded-xl border border-mist bg-white py-2.5 pl-3.5 pr-11 text-base text-navy outline-none focus:border-deep"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                autoComplete="current-password"
+                required
+              />
+              <button
+                type="button"
+                className="absolute inset-y-0 right-0 flex w-11 items-center justify-center text-slate"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+                onClick={() => setShowPassword((visible) => !visible)}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </span>
+          </label>
+          {error ? <p className="mt-4 text-sm text-red-800">{error}</p> : null}
+          <button type="submit" className="btn btn-inverse mt-6 w-full rounded-full" disabled={busy}>
+            {busy ? "Signing in…" : "Sign in"}
+          </button>
+        </form>
+        <p className="mt-4 text-center text-xs text-slate">
+          Closing this tab signs you out. After too many tries, wait 15 minutes.
+        </p>
+      </div>
     </main>
   );
 }
@@ -223,7 +247,14 @@ function Shell() {
   // Narrow screens: the menu covers the page until it is closed.
   const [menuOpen, setMenuOpen] = useState(false);
   const [wide, setWide] = useState(() => window.matchMedia("(min-width: 1024px)").matches);
+  const [unread, setUnread] = useState(0);
   useDeskTitle("Studio desk");
+
+  useEffect(() => {
+    deskJson<{ unread_inquiries?: number }>("/overview/")
+      .then((data) => setUnread(data.unread_inquiries || 0))
+      .catch(() => setUnread(0));
+  }, [location.pathname]);
 
   useEffect(() => {
     const media = window.matchMedia("(min-width: 1024px)");
@@ -281,7 +312,7 @@ function Shell() {
             </div>
           )}
         </div>
-        <NavItems collapsed={collapsed} />
+          <NavItems collapsed={collapsed} unread={unread} />
         <SideFoot collapsed={collapsed} onSignOut={signOut} />
       </aside>
 
@@ -305,7 +336,7 @@ function Shell() {
                 <X size={20} />
               </button>
             </div>
-            <NavItems onNavigate={() => setMenuOpen(false)} />
+            <NavItems unread={unread} onNavigate={() => setMenuOpen(false)} />
             <SideFoot onSignOut={signOut} />
           </div>
         ) : null}

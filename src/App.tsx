@@ -1,6 +1,5 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import DeskApp from "./desk/DeskApp";
 import BackToTop from "./components/BackToTop";
 import CookieNotice from "./components/CookieNotice";
 import Footer from "./components/Footer";
@@ -9,22 +8,25 @@ import WhatsAppButton from "./components/WhatsAppButton";
 import { ContentDeskProvider } from "./content/contentDesk";
 import { track } from "./lib/analytics";
 import PageTransition from "./components/PageTransition";
-import About from "./pages/About";
-import Academy from "./pages/Academy";
-import Contact from "./pages/Contact";
 import Home from "./pages/Home";
-import LegalPage from "./pages/LegalPage";
-import InsightArticle from "./pages/InsightArticle";
-import Insights from "./pages/Insights";
-import ResponsibleAI from "./pages/ResponsibleAI";
-import NotFound from "./pages/NotFound";
-import Privacy from "./pages/Privacy";
 import { cookies } from "./content/cookies";
 import { terms } from "./content/terms";
-import SmartCRM from "./pages/SmartCRM";
-import StyleGuide from "./pages/StyleGuide";
-import Work from "./pages/Work";
-import WorkStudy from "./pages/WorkStudy";
+// The desk and the other pages load when someone opens them, so the
+// homepage does not have to run their code before the first words appear.
+const DeskApp = lazy(() => import("./desk/DeskApp"));
+const About = lazy(() => import("./pages/About"));
+const Academy = lazy(() => import("./pages/Academy"));
+const Contact = lazy(() => import("./pages/Contact"));
+const LegalPage = lazy(() => import("./pages/LegalPage"));
+const InsightArticle = lazy(() => import("./pages/InsightArticle"));
+const Insights = lazy(() => import("./pages/Insights"));
+const ResponsibleAI = lazy(() => import("./pages/ResponsibleAI"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const Privacy = lazy(() => import("./pages/Privacy"));
+const SmartCRM = lazy(() => import("./pages/SmartCRM"));
+const StyleGuide = lazy(() => import("./pages/StyleGuide"));
+const Work = lazy(() => import("./pages/Work"));
+const WorkStudy = lazy(() => import("./pages/WorkStudy"));
 
 function PageViews() {
   const { pathname } = useLocation();
@@ -42,7 +44,11 @@ export default function App() {
   const location = useLocation();
   // The studio desk is a private set of screens. It does not use the public header or footer.
   if (location.pathname === "/desk" || location.pathname.startsWith("/desk/")) {
-    return <DeskApp />;
+    return (
+      <Suspense fallback={null}>
+        <DeskApp />
+      </Suspense>
+    );
   }
 
   return (
@@ -56,6 +62,7 @@ export default function App() {
         {(location) => (
           <>
             <main className="flex-1">
+              <Suspense fallback={null}>
               <Routes location={location}>
                 <Route path="/" element={<Home />} />
                 {/* Services are listed on the homepage. Old addresses land there. */}
@@ -76,6 +83,7 @@ export default function App() {
                 <Route path="/responsible-ai" element={<ResponsibleAI />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
+              </Suspense>
             </main>
             <Footer />
           </>

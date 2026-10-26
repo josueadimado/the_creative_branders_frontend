@@ -69,7 +69,13 @@ const server = createServer((req, res) => {
 
 await new Promise((resolveListen) => server.listen(0, "127.0.0.1", resolveListen));
 const { port } = server.address();
-const browser = await chromium.launch();
+// Use the browser Playwright downloaded. If that copy is missing, use the Chrome app on this Mac.
+let browser;
+try {
+  browser = await chromium.launch();
+} catch {
+  browser = await chromium.launch({ channel: "chrome" });
+}
 const page = await browser.newPage();
 
 try {

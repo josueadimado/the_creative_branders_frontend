@@ -28,11 +28,24 @@ function robotsTxt() {
   return `User-agent: *\nAllow: /\nDisallow: /dev/\nDisallow: /desk\n${sitemap.startsWith("\n") ? sitemap.slice(1) : sitemap}`;
 }
 
+/** These are not pages. Sending the homepage here makes an agent check fail. */
+function rejectMissingCatalog(req: { url?: string }, res: { statusCode: number; setHeader: (name: string, value: string) => void; end: (body: string) => void }, next: () => void) {
+  const path = req.url?.split("?")[0];
+  if (path === "/.well-known/ai-catalog.json" || path === "/ai-catalog.json") {
+    res.statusCode = 404;
+    res.setHeader("Content-Type", "text/plain");
+    res.end("Not found");
+    return;
+  }
+  next();
+}
+
 /** Writes sitemap.xml and robots.txt when the production site is built. */
 function siteFiles(): Plugin {
   return {
     name: "tcb-site-files",
     configureServer(server) {
+      server.middlewares.use(rejectMissingCatalog);
       server.middlewares.use((req, res, next) => {
         if (req.url === "/sitemap.xml") {
           res.setHeader("Content-Type", "application/xml");
@@ -46,6 +59,9 @@ function siteFiles(): Plugin {
         }
         next();
       });
+    },
+    configurePreviewServer(server) {
+      server.middlewares.use(rejectMissingCatalog);
     },
     closeBundle() {
       const outDir = resolve(fileURLToPath(new URL(".", import.meta.url)), "dist");

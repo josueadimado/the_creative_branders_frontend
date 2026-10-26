@@ -35,7 +35,7 @@ function Item({ to, label }: { to: string; label: string }) {
   if (to === "#") {
     return (
       <li>
-        <a href="#" className="transition-colors hover:text-white" onClick={(event) => event.preventDefault()}>
+        <a href="#" className="inline-flex min-h-11 items-center transition-colors hover:text-white" onClick={(event) => event.preventDefault()}>
           {label}
         </a>
       </li>
@@ -45,7 +45,7 @@ function Item({ to, label }: { to: string; label: string }) {
     <li>
       <Link
         to={to}
-        className="transition-colors hover:text-white"
+        className="inline-flex min-h-11 items-center transition-colors hover:text-white"
       >
         {label}
       </Link>
@@ -57,7 +57,7 @@ function ProductItem({ label }: { label: string }) {
   return (
     <li>
       {/* # keeps the name in the footer without opening a page. */}
-      <a href="#" className="transition-colors hover:text-white" onClick={(event) => event.preventDefault()}>
+      <a href="#" className="inline-flex min-h-11 items-center transition-colors hover:text-white" onClick={(event) => event.preventDefault()}>
         {label}
       </a>
     </li>
@@ -90,7 +90,7 @@ export default function Footer() {
         <div>
           <ul className="space-y-3 type-caption text-white/70">
             <li>
-              <a href={`mailto:${studioEmail}`} className="break-words transition-colors hover:text-white">
+              <a href={`mailto:${studioEmail}`} className="inline-flex min-h-11 items-center break-words transition-colors hover:text-white">
                 {studioEmail.slice(0, studioEmail.indexOf("@") + 1)}
                 <wbr />
                 {studioEmail.slice(studioEmail.indexOf("@") + 1)}
@@ -100,7 +100,7 @@ export default function Footer() {
               <li>
                 <a
                   href={whatsappHref}
-                  className="transition-colors hover:text-white"
+                  className="inline-flex min-h-11 items-center transition-colors hover:text-white"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => track("whatsapp_click", { location: "footer" })}
@@ -115,12 +115,12 @@ export default function Footer() {
       </div>
       <div className="border-t border-white/[0.06] px-6 py-6">
         {/* On a phone the copyright and the legal links sit in the middle. On a wider screen they sit at each end. */}
-        <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 text-center text-sm text-white/55 sm:flex-row sm:justify-between sm:text-left">
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 text-center text-sm text-white/80 sm:flex-row sm:justify-between sm:text-left">
           <p>© {new Date().getFullYear()} The Creative Branders.</p>
           <ul className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
             {legal.map((item) => (
               <li key={item.to}>
-                <Link to={item.to} className="transition-colors hover:text-white">
+                <Link to={item.to} className="inline-flex min-h-11 items-center transition-colors hover:text-white">
                   {item.label}
                 </Link>
               </li>
@@ -129,7 +129,7 @@ export default function Footer() {
               <li>
                 <button
                   type="button"
-                  className="transition-colors hover:text-white"
+                  className="inline-flex min-h-11 items-center transition-colors hover:text-white"
                   onClick={() => window.dispatchEvent(new Event(OPEN_COOKIE_SETTINGS))}
                 >
                   Cookie settings

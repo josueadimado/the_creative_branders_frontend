@@ -1,4 +1,5 @@
 import type { PortfolioItem } from "../data/portfolio";
+import OptimizedImage from "./OptimizedImage";
 
 type FrameProps = {
   src: string;
@@ -90,7 +91,7 @@ export function BrowserFrame({ src, alt, className = "", loading = "lazy", embed
         <MacWindowButtons />
       </div>
       {/* object-top keeps the top of a tall screen visible inside the short frame. */}
-      <img src={src} alt={alt} loading={loading} className="block aspect-[16/10] w-full object-cover object-top" />
+      <OptimizedImage src={src} alt={alt} width={1600} height={1000} loading={loading} className="block aspect-[16/10] w-full object-cover object-top" />
     </div>
   );
 }
@@ -118,7 +119,7 @@ export function PhoneFrame({ src, alt, className = "", loading = "lazy", feature
   return (
     <div className={`mx-auto w-full ${width} rounded-[2rem] border border-mist bg-white p-2 ${className}`}>
       <div className="overflow-hidden rounded-[1.35rem] border border-mist">
-        <img src={src} alt={alt} loading={loading} className="block aspect-[9/16] w-full object-cover object-top" />
+        <OptimizedImage src={src} alt={alt} width={900} height={1600} loading={loading} className="block aspect-[9/16] w-full object-cover object-top" />
       </div>
     </div>
   );

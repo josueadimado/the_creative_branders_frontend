@@ -49,7 +49,7 @@ export const home = {
   sectors: "Trusted by clinics, schools, ministries and startups.",
   work: {
     title: "Some of the projects we built to make a difference.",
-    link: "See more",
+    link: "See all our work",
     /** One line under the name on the homepage card. The case study keeps its own summary. */
     lines: {
       "relief-chiropractic":

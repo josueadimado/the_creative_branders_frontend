@@ -1,7 +1,5 @@
-@import "@fontsource-variable/montserrat";
-@import "@fontsource-variable/inter";
-/* Tall narrow type, used only on the homepage headline. */
-@import "@fontsource/barlow-condensed/latin-800.css";
+/* Latin letters only. The full font packages also ship Greek and Cyrillic, which this site does not use. */
+@import "./fonts.css";
 
 :root {
   /* Space-separated channels so Tailwind can add opacity, e.g. bg-navy/80. */
@@ -135,6 +133,13 @@ h4 {
 .inquiry-form.is-split input:-webkit-autofill:hover,
 .inquiry-form.is-split input:-webkit-autofill:focus {
   box-shadow: 0 0 0 1000px #fff inset;
+}
+
+/* The browser's own grey hint is too faint on white. Use the same grey as body text. */
+.inquiry-form input::placeholder,
+.inquiry-form textarea::placeholder {
+  color: rgb(var(--tcb-slate));
+  opacity: 1;
 }
 
 @layer components {

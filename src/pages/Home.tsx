@@ -27,6 +27,7 @@ import {
 import type { LucideIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { BrowserFrame } from "../components/DeviceFrame";
+import OptimizedImage from "../components/OptimizedImage";
 import FamilyIcon from "../components/FamilyIcon";
 import InquiryForm from "../components/InquiryForm";
 import Logo from "../components/Logo";
@@ -221,7 +222,8 @@ function SplitTitle({
   /** Keep the second line on one line, for a long sentence. */
   nowrap?: boolean;
 }) {
-  const secondColour = accent ? "text-signal" : light ? "text-white" : "text-slate";
+  // The bright blue is too light on a white section, so that line uses the darker blue.
+  const secondColour = accent ? "text-deep" : light ? "text-white" : "text-slate";
   return (
     <h2
       id={id}
@@ -371,7 +373,7 @@ export default function Home() {
                     {homeLive.hero.primary}
                     <ArrowUpRight className="size-4" aria-hidden="true" />
                   </a>
-                  <a href="#work" className="inline-flex items-center gap-2 text-sm text-white/80 hover:text-white">
+                  <a href="#work" className="inline-flex min-h-11 items-center gap-2 text-sm text-white/80 hover:text-white">
                     {homeLive.hero.secondary}
                     <ArrowDown className="size-4" aria-hidden="true" />
                   </a>
@@ -381,7 +383,7 @@ export default function Home() {
               {/* The window and the white card stay stuck together. To move them, change the top space on this box. */}
               <div className="relative mx-auto mt-10 w-full min-w-0 max-w-[640px] pb-8 lg:mt-20 lg:max-w-none lg:pb-4">
                 <div className="relative z-10 origin-center rounded-xl border border-white/10 bg-[#101820] shadow-[0_30px_70px_rgb(0_0_0/0.4)] lg:rotate-[4deg]">
-                  <div className="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-2.5 text-[11px] text-white/50">
+                  <div className="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-2.5 text-[11px] text-white/75">
                     <span className="flex gap-1.5" aria-hidden="true">
                       <i className="size-2 rounded-full bg-white/25" />
                       <i className="size-2 rounded-full bg-white/40" />
@@ -395,7 +397,7 @@ export default function Home() {
                   </div>
                   <div className="overflow-x-auto px-4 py-4 font-mono text-[13px] leading-6 text-white/85 sm:px-5 sm:py-5 sm:text-sm sm:leading-7">
                     {[
-                      ["01", <span className="text-white/40">{"// From the brief to something people use."}</span>],
+                      ["01", <span className="text-white/75">{"// From the brief to something people use."}</span>],
                       [
                         "02",
                         <>
@@ -422,14 +424,14 @@ export default function Home() {
                       ["07", "});"],
                     ].map(([n, line]) => (
                       <div key={String(n)} className="grid grid-cols-[1.75rem_minmax(0,1fr)] gap-3 whitespace-pre-wrap">
-                        <span className="text-right text-white/30" aria-hidden="true">
+                        <span className="text-right text-white/75" aria-hidden="true">
                           {n}
                         </span>
                         <span>{line}</span>
                       </div>
                     ))}
                   </div>
-                  <div className="flex items-center gap-1.5 border-t border-white/10 px-4 py-2.5 text-[11px] text-white/45">
+                  <div className="flex items-center gap-1.5 border-t border-white/10 px-4 py-2.5 text-[11px] text-white/75">
                     <GitBranch className="size-3" aria-hidden="true" />
                     main
                   </div>
@@ -447,9 +449,9 @@ export default function Home() {
               </div>
             </div>
             <div className="border-t border-white/10">
-              <div className="mx-auto flex max-w-[1180px] flex-wrap items-center justify-between gap-4 px-5 py-4 text-[11px] uppercase tracking-[0.18em] text-white/45">
+              <div className="mx-auto flex max-w-[1180px] flex-wrap items-center justify-between gap-4 px-5 py-4 text-[11px] uppercase tracking-[0.18em] text-white/75">
                 <span className="normal-case tracking-normal">{homeLive.sectors}</span>
-                <a href="#services" className="inline-flex shrink-0 items-center gap-2 hover:text-white">
+                <a href="#services" className="inline-flex min-h-11 shrink-0 items-center gap-2 hover:text-white">
                   Scroll to explore
                   <ArrowDown className="size-3.5" aria-hidden="true" />
                 </a>
@@ -549,6 +551,7 @@ export default function Home() {
                             src={shot}
                             alt=""
                             embedded
+                            loading="lazy"
                             className={`overflow-hidden rounded-xl border border-mist ${shotMotion}`}
                           />
                         ) : (
@@ -560,7 +563,7 @@ export default function Home() {
                         <span className="absolute right-4 top-4 flex size-10 items-center justify-center rounded-full border border-mist bg-white text-navy opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100">
                           <ArrowUpRight className="size-4" aria-hidden="true" />
                         </span>
-                        <span className="mt-5 block text-[11px] font-semibold uppercase tracking-[0.16em] text-slate">
+                        <span className="mt-5 block text-[11px] font-semibold uppercase tracking-[0.16em] text-navy">
                           {item.sector} · {familyLabel(item.family)}
                         </span>
                       </Link>
@@ -576,7 +579,7 @@ export default function Home() {
                       </h3>
                       <Link
                         to={studyPath}
-                        className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-navy hover:text-deep"
+                        className="mt-4 inline-flex min-h-11 items-center gap-2 text-sm font-medium text-navy hover:text-deep"
                         onClick={() => track("case_study_view", { case_study: item.slug })}
                       >
                         {workPage.read}
@@ -610,9 +613,11 @@ export default function Home() {
                   <ul key={copy} className="flex items-center" aria-hidden={copy === 1}>
                     {homeLive.proof.logos.map((item) => (
                       <li key={`${copy}-${item.name}`} className="flex h-14 w-[7.25rem] shrink-0 items-center justify-center px-2 sm:h-16 sm:w-44 sm:px-4">
-                        <img
+                        <OptimizedImage
                           src={item.logo}
                           alt={copy === 0 ? item.name : ""}
+                          width={240}
+                          height={80}
                           draggable={false}
                           className="max-h-9 w-auto max-w-full object-contain sm:max-h-12"
                         />
