@@ -46,7 +46,7 @@ export const about = {
     },
   },
   facts: {
-    /** Sits beside the numbers when there are confirmed figures to show. */
+    /** Sits beside the project count. The page fills that count from the published studies. */
     note: "Numbers matter – but the stories behind them matter even more:",
     stats: [] as { value: string; label: string }[],
   },

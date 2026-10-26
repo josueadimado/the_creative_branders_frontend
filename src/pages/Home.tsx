@@ -34,7 +34,7 @@ import InquiryForm from "../components/InquiryForm";
 import Logo from "../components/Logo";
 import NetworkGlobe from "../components/NetworkGlobe";
 import Seo from "../components/Seo";
-import { useHomeCopy, useInsightsMenu, useProjects } from "../content/contentDesk";
+import { useHomeCopy, useInsightsMenu, useShippedProjects, useProjects } from "../content/contentDesk";
 import { home } from "../content/home";
 import { site } from "../content/site";
 import { serviceWhatsAppMessage, whatsappLink } from "../data/socials";
@@ -46,7 +46,6 @@ import {
   familyLabel,
   joinCountries,
   projectCountries,
-  publishedWork,
   type FamilySlug,
 } from "../data/portfolio";
 import { approvedTestimonials, type Testimonial } from "../data/testimonials";
@@ -295,8 +294,7 @@ function ClientQuotes({ items }: { items: Testimonial[] }) {
 export default function Home() {
   const homeLive = useHomeCopy();
   const listed = useProjects();
-  // An empty desk still falls back to the published studies in the data file.
-  const shipped = listed.length > 0 ? listed : publishedWork();
+  const shipped = useShippedProjects();
   const where = projectCountries(shipped);
   const countryLine = joinCountries(where);
   const leadStudies = listed.filter((item) => item.featured).slice(0, 2);

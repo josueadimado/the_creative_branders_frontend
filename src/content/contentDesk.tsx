@@ -112,6 +112,15 @@ export function useProjects(): PortfolioItem[] {
   return publishedWork();
 }
 
+/**
+ * The list used for the project count.
+ * The desk list when it has projects. The built-in studies when that list is empty.
+ */
+export function useShippedProjects(): PortfolioItem[] {
+  const listed = useProjects();
+  return listed.length > 0 ? listed : publishedWork();
+}
+
 export function useProject(slug: string | undefined): PortfolioItem | undefined {
   return useProjects().find((item) => item.slug === slug);
 }
@@ -138,7 +147,7 @@ export function useHomeCopy() {
 export function useAboutCopy() {
   const desk = useDesk();
   const page = desk.status === "ready" ? desk.pages.about : undefined;
-  const stats = page?.stats?.length ? page.stats : about.facts.stats;
+  const shipped = useShippedProjects();
   return {
     ...about,
     seo: {
@@ -166,7 +175,9 @@ export function useAboutCopy() {
     },
     facts: {
       ...about.facts,
-      stats,
+      // The other figures stay off this page until they are confirmed.
+      // This one is the number of published projects.
+      stats: [{ value: `${shipped.length}+`, label: "projects delivered" }],
     },
   };
 }
