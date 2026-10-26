@@ -30,10 +30,13 @@ export default function Contact() {
               <li>
                 <a
                   href={`mailto:${site.email}`}
-                  className="break-words underline decoration-mist underline-offset-4 hover:text-deep"
+                  className="underline decoration-mist underline-offset-4 hover:text-deep"
                   onClick={() => track("email_click", { location: "contact" })}
                 >
-                  {site.email}
+                  {/* Break after the @ only, so the last letter does not sit on its own line. */}
+                  {site.email.slice(0, site.email.indexOf("@") + 1)}
+                  <wbr />
+                  {site.email.slice(site.email.indexOf("@") + 1)}
                 </a>
               </li>
               <li>
