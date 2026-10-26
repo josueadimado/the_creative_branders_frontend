@@ -92,6 +92,18 @@ export function ContentDeskProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
+  // The prerender step waits until this is true, so a saved page is not the starter list.
+  useEffect(() => {
+    const settled = desk.status !== "loading";
+    window.contentDeskReady = settled;
+    if (!settled) {
+      window.prerenderReady = false;
+      return;
+    }
+    // The title may already be in the document. Seo also sets this when the title changes.
+    if (document.title.length > 0) window.prerenderReady = true;
+  }, [desk.status]);
+
   return <ContentDesk.Provider value={desk}>{children}</ContentDesk.Provider>;
 }
 

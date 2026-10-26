@@ -38,8 +38,8 @@ export default function Seo({ title, description, path, image = DEFAULT_IMAGE, i
   return (
     <Helmet
       onChangeClientState={(newState) => {
-        // Set only after the title is actually in the document, not merely queued.
-        window.prerenderReady = newState.title === fullTitle;
+        // Set only after the title is in the document and the project API has answered.
+        window.prerenderReady = newState.title === fullTitle && window.contentDeskReady === true;
       }}
     >
       <title>{fullTitle}</title>

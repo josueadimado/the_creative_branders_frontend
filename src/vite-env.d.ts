@@ -17,6 +17,8 @@ declare module "*.md?raw" {
 }
 
 interface Window {
-  /** False until this page's own title is in the document. The prerender step waits for true. */
+  /** False until this page's own title is in the document and the content API has answered. */
   prerenderReady?: boolean;
+  /** True once the content API has answered, or the starter file has been chosen because it could not. */
+  contentDeskReady?: boolean;
 }

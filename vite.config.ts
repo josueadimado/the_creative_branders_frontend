@@ -8,15 +8,16 @@ import react from "@vitejs/plugin-react";
 import { cookies } from "./src/content/cookies";
 import { privacy } from "./src/content/privacy";
 import { terms } from "./src/content/terms";
-import { indexableRoutes, publicRoutes } from "./src/siteRoutes";
+import { indexableRoutes, indexableRoutesFor, publicRoutes, publicRoutesFor, workPathsFor } from "./src/siteRoutes";
+import { PROJECTS_API, fetchPublishedProjects } from "./scripts/loadPublishedProjects.mjs";
 
 function siteOrigin() {
   return (process.env.VITE_SITE_URL || "").replace(/\/$/, "");
 }
 
-function sitemapXml() {
+function sitemapXml(routes: string[]) {
   const origin = siteOrigin();
-  const urls = indexableRoutes
+  const urls = routes
     .map((path) => {
       const loc = origin ? `${origin}${path === "/" ? "/" : path}` : path;
       return `  <url><loc>${loc}</loc></url>`;
@@ -31,7 +32,25 @@ function robotsTxt() {
   return `User-agent: *\nAllow: /\nDisallow: /dev/\nDisallow: /desk\n${sitemap.startsWith("\n") ? sitemap.slice(1) : sitemap}`;
 }
 
-/** These are not pages. Sending the homepage here makes an agent check fail. */
+/** The live project list. The starter file is used only when that request fails. */
+async function routesForBuild() {
+  try {
+    const projects = await fetchPublishedProjects();
+    const workPaths = workPathsFor(projects.map((item: { slug: string }) => item.slug));
+    console.log(`[projects] Sitemap and prerender are using ${workPaths.length} published projects from the API.`);
+    return {
+      indexable: indexableRoutesFor(workPaths),
+      publicRoutes: publicRoutesFor(workPaths),
+    };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.warn(
+      `[projects] Could not reach ${PROJECTS_API}. Sitemap and prerender are using the starter list in frontend/src/data/portfolio.ts.`,
+    );
+    console.warn(`[projects] ${message}`);
+    return { indexable: indexableRoutes, publicRoutes };
+  }
+}
 function rejectMissingCatalog(req: { url?: string }, res: { statusCode: number; setHeader: (name: string, value: string) => void; end: (body: string) => void }, next: () => void) {
   const path = req.url?.split("?")[0];
   if (path === "/.well-known/ai-catalog.json" || path === "/ai-catalog.json") {
@@ -91,30 +110,40 @@ function siteFiles(): Plugin {
   return {
     name: "tcb-site-files",
     configureServer(server) {
+      let cached: ReturnType<typeof routesForBuild> | null = null;
       server.middlewares.use(rejectMissingCatalog);
       server.middlewares.use((req, res, next) => {
-        if (req.url === "/sitemap.xml") {
-          res.setHeader("Content-Type", "application/xml");
-          res.end(sitemapXml());
+        const path = req.url?.split("?")[0];
+        if (path !== "/sitemap.xml" && path !== "/robots.txt") {
+          next();
           return;
         }
-        if (req.url === "/robots.txt") {
-          res.setHeader("Content-Type", "text/plain");
-          res.end(robotsTxt());
-          return;
-        }
-        next();
+        cached ??= routesForBuild();
+        cached
+          .then((routes) => {
+            if (path === "/sitemap.xml") {
+              res.setHeader("Content-Type", "application/xml");
+              res.end(sitemapXml(routes.indexable));
+              return;
+            }
+            res.setHeader("Content-Type", "text/plain");
+            res.end(robotsTxt());
+          })
+          .catch((error) => {
+            next(error);
+          });
       });
     },
     configurePreviewServer(server) {
       server.middlewares.use(rejectMissingCatalog);
     },
-    closeBundle() {
+    async closeBundle() {
       const outDir = resolve(fileURLToPath(new URL(".", import.meta.url)), "dist");
-      writeFileSync(resolve(outDir, "sitemap.xml"), sitemapXml());
+      const routes = await routesForBuild();
+      writeFileSync(resolve(outDir, "sitemap.xml"), sitemapXml(routes.indexable));
       writeFileSync(resolve(outDir, "robots.txt"), robotsTxt());
-      // Same list the sitemap uses. The prerender script reads it, then deletes it.
-      writeFileSync(resolve(outDir, ".prerender-routes.json"), JSON.stringify(publicRoutes));
+      // Same list the sitemap uses, plus the notes. The prerender script reads it, then deletes it.
+      writeFileSync(resolve(outDir, ".prerender-routes.json"), JSON.stringify(routes.publicRoutes));
     },
   };
 }

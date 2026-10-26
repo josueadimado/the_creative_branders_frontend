@@ -5,8 +5,9 @@
  * dist/.prerender-routes.json and deleted here so it is not published.
  *
  * Each page starts with window.prerenderReady = false. Seo sets it to true
- * only after that page's own title is in the document. We refuse the
- * generic shell title, and we fail the build if any page does not become ready.
+ * only after that page's own title is in the document and the project list
+ * has finished loading. We refuse the generic shell title, and we fail the
+ * build if any page does not become ready.
  */
 import { createServer } from "node:http";
 import { existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
