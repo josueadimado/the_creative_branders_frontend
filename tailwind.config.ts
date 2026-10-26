@@ -27,6 +27,7 @@ const config: Config = {
       fontFamily: {
         sans: ["Inter Variable", "Inter", "-apple-system", "Segoe UI", "Helvetica Neue", "Arial", "sans-serif"],
         display: ["Montserrat Variable", "Montserrat", "Inter Variable", "Arial", "sans-serif"],
+        hero: ["Barlow Condensed", "Arial Narrow", "sans-serif"],
       },
       maxWidth: { content: "72rem" },
       borderRadius: { card: "1rem" },

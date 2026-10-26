@@ -369,10 +369,9 @@ export default function Home() {
                   <span className="size-1.5 rounded-full bg-signal" aria-hidden="true" />
                   {homeLive.hero.kicker}
                 </p>
-                {/* Montserrat, same semibold weight as the other titles. The size grows with the screen so both lines stay inside the column. */}
                 <h1
                   id="hero-title"
-                  className="mt-8 font-display text-[clamp(2.5rem,5vw,4.5rem)] font-semibold leading-[0.95] tracking-tight lg:mt-10"
+                  className="mt-8 font-hero text-[3.4rem] font-extrabold leading-[0.82] tracking-tight sm:text-7xl lg:mt-10 lg:text-[7.25rem]"
                 >
                   <HeroTitle title={homeLive.hero.title} />
                 </h1>
