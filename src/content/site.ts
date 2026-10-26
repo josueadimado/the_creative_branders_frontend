@@ -2,6 +2,7 @@
  * Company details used across the site.
  * Pages should read from here instead of typing the email, phone, or legal name themselves.
  * Text in [square brackets] is still waiting for the owner. Do not invent those values.
+ * The server keeps a copy of these details in backend/apps/core/site_settings.py.
  */
 
 /** The name visitors see. `site.name` below is this same name, for older files. */
