@@ -10,7 +10,6 @@ export const socials = [
   { label: "LinkedIn", href: site.social.linkedin },
   { label: "Instagram", href: site.social.instagram },
   { label: "Facebook", href: site.social.facebook },
-  { label: "X", href: "https://x.com/theCBranders" },
 ] as const;
 
 /** The inbox visitors write to. Same address as site.email. */
