@@ -50,4 +50,5 @@ export const contact = {
   sending: "Sending…",
   success: "Thanks, we've got your brief. We'll reply within one business day.",
   needsError: "Choose what you need.",
+  consentError: "Please agree so we can reply to you.",
 } as const;

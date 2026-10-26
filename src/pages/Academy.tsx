@@ -6,6 +6,7 @@ import TextHero from "../components/TextHero";
 import { academy } from "../content/academy";
 import { track } from "../lib/analytics";
 import { useBotGuard } from "../components/BotGuard";
+import ConsentCheckbox from "../components/ConsentCheckbox";
 import { postAcademyInterest } from "../lib/api";
 
 const fieldClass =
@@ -52,6 +53,7 @@ function AcademyForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [consent, setConsent] = useState(false);
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [error, setError] = useState("");
   const bot = useBotGuard();
@@ -60,12 +62,18 @@ function AcademyForm() {
     event.preventDefault();
     setStatus("sending");
     setError("");
+    if (!consent) {
+      setStatus("error");
+      setError("Please agree so we can reply to you.");
+      return;
+    }
     try {
-      await postAcademyInterest({ name, email, message: message || undefined, ...bot.payload });
+      await postAcademyInterest({ name, email, message: message || undefined, consent: true, ...bot.payload });
       setStatus("success");
       setName("");
       setEmail("");
       setMessage("");
+      setConsent(false);
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "We could not send that. Please try again.");
@@ -116,6 +124,9 @@ function AcademyForm() {
           className={`${fieldClass} resize-y`}
         />
       </label>
+      <div className="mt-5">
+        <ConsentCheckbox id="academy-consent" checked={consent} onChange={setConsent} />
+      </div>
       {status === "error" ? (
         <p className="type-caption mt-3 text-red-700" role="alert">
           {error}

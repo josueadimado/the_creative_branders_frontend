@@ -20,11 +20,14 @@ export type InquiryPayload = {
   budget_range?: string;
   brief_link?: string;
   message: string;
+  /** Must be true. The server stores the time the visitor agreed. */
+  consent: boolean;
 };
 
 export type WaitlistPayload = {
   email: string;
   name?: string;
+  consent: boolean;
 };
 
 export type WaitlistResult = {
@@ -35,6 +38,7 @@ export type AcademyPayload = {
   name: string;
   email: string;
   message?: string;
+  consent: boolean;
 };
 
 type ApiErrorBody = {
@@ -84,6 +88,7 @@ export function postInquiry(payload: InquiryPayload & BotPayload) {
 
 export type NewsletterPayload = {
   email: string;
+  consent: boolean;
 } & BotPayload;
 
 export type NewsletterResult = {

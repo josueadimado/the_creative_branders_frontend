@@ -1,6 +1,7 @@
 import { FormEvent, ReactNode, useState } from "react";
 import { ArrowUpRight, ChevronDown, Globe } from "lucide-react";
 import { useBotGuard } from "./BotGuard";
+import ConsentCheckbox from "./ConsentCheckbox";
 import { budgetOptions, contact, needOptions, timelineOptions } from "../content/contact";
 import { countries, countryByCode } from "../data/countries";
 import { postInquiry } from "../lib/api";
@@ -31,6 +32,7 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
   const [budget, setBudget] = useState("");
   const [message, setMessage] = useState("");
   const [link, setLink] = useState("");
+  const [consent, setConsent] = useState(false);
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [error, setError] = useState("");
   const bot = useBotGuard();
@@ -56,6 +58,11 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
       setError(contact.needsError);
       return;
     }
+    if (!consent) {
+      setStatus("error");
+      setError(contact.consentError);
+      return;
+    }
     setStatus("sending");
     setError("");
     try {
@@ -70,6 +77,7 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
         budget_range: budget || undefined,
         brief_link: link || undefined,
         message,
+        consent: true,
         ...bot.payload,
       });
       setStatus("success");
@@ -85,6 +93,7 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
       setBudget("");
       setMessage("");
       setLink("");
+      setConsent(false);
       track("inquiry_submit");
     } catch (err) {
       setStatus("error");
@@ -289,6 +298,8 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
       <Field label={contact.fields.link} htmlFor="link">
         <input id="link" name="inquiry-link" {...noSuggest} value={link} onChange={(event) => setLink(event.target.value)} className={fieldClass} />
       </Field>
+
+      <ConsentCheckbox id="inquiry-consent" checked={consent} onChange={setConsent} />
 
       {status === "error" ? (
         <p className="type-caption text-red-700" role="alert">

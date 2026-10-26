@@ -19,6 +19,7 @@ type Row = {
   timeline?: string;
   budget_range?: string;
   brief_link?: string;
+  consent_at?: string;
   created_at: string;
 };
 
@@ -244,6 +245,7 @@ function Brief({ id }: { id: string }) {
           {detailLine("Wants to start", row.timeline)}
           {detailLine("Budget", row.budget_range)}
           {detailLine("Link", row.brief_link)}
+          {detailLine("Agreed to privacy", row.consent_at ? when(row.consent_at) : undefined)}
         </dl>
       </div>
       <div className="mt-6 flex justify-end">

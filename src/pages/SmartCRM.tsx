@@ -6,6 +6,7 @@ import TextHero from "../components/TextHero";
 import { smartcrm } from "../content/smartcrm";
 import { track } from "../lib/analytics";
 import { useBotGuard } from "../components/BotGuard";
+import ConsentCheckbox from "../components/ConsentCheckbox";
 import { postWaitlist } from "../lib/api";
 
 const fieldClass =
@@ -75,6 +76,7 @@ export default function SmartCRM() {
 function WaitlistForm() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
+  const [consent, setConsent] = useState(false);
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "already" | "error">(
     "idle"
   );
@@ -85,11 +87,17 @@ function WaitlistForm() {
     event.preventDefault();
     setStatus("sending");
     setError("");
+    if (!consent) {
+      setStatus("error");
+      setError("Please agree so we can reply to you.");
+      return;
+    }
     try {
-      const result = await postWaitlist({ email, name: name || undefined, ...bot.payload });
+      const result = await postWaitlist({ email, name: name || undefined, consent: true, ...bot.payload });
       setStatus(result.alreadyOnList ? "already" : "success");
       setEmail("");
       setName("");
+      setConsent(false);
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "We could not add you. Please try again.");
@@ -131,6 +139,9 @@ function WaitlistForm() {
           className={fieldClass}
         />
       </label>
+      <div className="mt-5">
+        <ConsentCheckbox id="waitlist-consent" checked={consent} onChange={setConsent} />
+      </div>
       {status === "error" ? (
         <p className="type-caption mt-3 text-red-700" role="alert">
           {error}
