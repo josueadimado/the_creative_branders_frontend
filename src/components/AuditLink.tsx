@@ -3,7 +3,7 @@ import { auditHref } from "../data/socials";
 import { track } from "../lib/analytics";
 
 /**
- * The main button on the site.
+ * The homepage audit button.
  * It opens WhatsApp with a message asking for the free 20-minute systems audit.
  */
 export default function AuditLink({

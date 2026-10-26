@@ -1,7 +1,6 @@
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { useEffect, type ReactNode } from "react";
 import { Link, useParams } from "react-router-dom";
-import AuditLink from "../components/AuditLink";
 import WorkFrame, { BrowserPlaceholder } from "../components/DeviceFrame";
 import OptimizedImage from "../components/OptimizedImage";
 import Seo from "../components/Seo";
@@ -274,17 +273,14 @@ function ProjectClose() {
           <br />
           <span className="text-slate">{workPage.closeTitleRest}</span>
         </h2>
-        <div className="mt-10 flex flex-col items-start gap-3 sm:flex-row">
-          <AuditLink className="btn btn-inverse" location="case-study" />
-          <Link
-            to="/contact"
-            className="inline-flex items-center gap-2 rounded-md border border-navy px-5 py-3 text-[15px] font-medium text-navy hover:bg-paper"
-            onClick={() => track("start_project_click", { location: "case-study" })}
-          >
-            {cta.project}
-            <ArrowUpRight className="size-4" aria-hidden="true" />
-          </Link>
-        </div>
+        <Link
+          to="/contact"
+          className="btn btn-inverse mt-10"
+          onClick={() => track("start_project_click", { location: "case-study" })}
+        >
+          {cta.project}
+          <ArrowUpRight className="ml-2 size-4" aria-hidden="true" />
+        </Link>
       </div>
     </section>
   );

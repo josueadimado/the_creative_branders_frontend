@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { track } from "../lib/analytics";
 import { useInsightsMenu } from "../content/contentDesk";
-import AuditLink from "./AuditLink";
 import Logo from "./Logo";
 import { cta } from "../content/cta";
 
@@ -73,7 +72,6 @@ export default function Navbar() {
           >
             {cta.project}
           </Link>
-          <AuditLink className="btn btn-primary !px-5 !py-2" location="navbar" />
         </nav>
 
         <button
@@ -119,19 +117,16 @@ export default function Navbar() {
               ),
             )}
           </div>
-          <div className="flex flex-col items-start gap-3">
-            <AuditLink className="btn btn-primary" location="navbar" />
-            <Link
-              to="/contact"
-              onClick={() => {
-                setOpen(false);
-                track("start_project_click", { location: "navbar" });
-              }}
-              className="btn btn-secondary"
-            >
-              {cta.project}
-            </Link>
-          </div>
+          <Link
+            to="/contact"
+            onClick={() => {
+              setOpen(false);
+              track("start_project_click", { location: "navbar" });
+            }}
+            className="btn btn-primary"
+          >
+            {cta.project}
+          </Link>
         </nav>
       ) : null}
     </header>

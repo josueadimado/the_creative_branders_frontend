@@ -14,7 +14,7 @@ export const home = {
     kicker: "Your business, running smarter",
     title: "Big ideas. Real products.",
     lede: "We're the strategy and technology partner behind growing businesses. We take the pressure off your day, so you can focus on your customers and your next move.",
-    primary: "Book a free 20-minute systems audit",
+    primary: "Get a free systems audit",
     secondary: "Start a project",
   },
   proof: {

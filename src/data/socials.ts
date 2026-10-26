@@ -40,11 +40,6 @@ export function auditHref(): string {
   return whatsappLink(auditMessage);
 }
 
-/** First message when someone taps WhatsApp from a service. */
-export function serviceWhatsAppMessage(service: string): string {
-  return `Hello, I'm interested in ${service}.`;
-}
-
 /** First message when someone taps WhatsApp from a case study. */
 export function caseStudyWhatsAppMessage(project: string): string {
   return `Hello, I saw the ${project} case study and want something similar.`;

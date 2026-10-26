@@ -27,6 +27,7 @@ import {
 import type { LucideIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import AuditLink from "../components/AuditLink";
+import CtaBand from "../components/CtaBand";
 import { BrowserFrame } from "../components/DeviceFrame";
 import OptimizedImage from "../components/OptimizedImage";
 import FamilyIcon from "../components/FamilyIcon";
@@ -37,9 +38,8 @@ import Seo from "../components/Seo";
 import { useHomeCopy, useInsightsMenu, useProjects } from "../content/contentDesk";
 import { home } from "../content/home";
 import { site } from "../content/site";
-import { serviceWhatsAppMessage, whatsappLink } from "../data/socials";
 import { workPage } from "../content/work";
-import { track, trackWhatsApp } from "../lib/analytics";
+import { track } from "../lib/analytics";
 import {
   coverImage,
   displayName,
@@ -312,10 +312,13 @@ export default function Home() {
                 </HomeNavLink>
               ))}
             </nav>
-            <AuditLink
-              className="hidden max-w-xs items-center justify-self-end rounded-md bg-signal px-4 py-2.5 text-left text-sm font-medium leading-snug text-navy hover:bg-signal-hover lg:inline-flex"
-              location="home-header"
-            />
+            <a
+              href="#estimate"
+              className="hidden justify-self-end text-sm font-medium text-white/75 hover:text-white lg:inline"
+              onClick={() => track("start_project_click", { location: "home-header" })}
+            >
+              {homeLive.hero.secondary}
+            </a>
             <button
               type="button"
               className="inline-flex size-11 items-center justify-center lg:hidden"
@@ -338,8 +341,14 @@ export default function Home() {
                   {link.label}
                 </HomeNavLink>
               ))}
-              <AuditLink className="font-display text-2xl text-signal" location="home-header" />
-              <a href="#estimate" className="font-display text-2xl text-white" onClick={() => setMenuOpen(false)}>
+              <a
+                href="#estimate"
+                className="font-display text-2xl text-white"
+                onClick={() => {
+                  setMenuOpen(false);
+                  track("start_project_click", { location: "home-header" });
+                }}
+              >
                 {homeLive.hero.secondary}
               </a>
             </nav>
@@ -368,14 +377,14 @@ export default function Home() {
                   <HeroTitle title={homeLive.hero.title} />
                 </h1>
                 <p className="type-body mt-8 max-w-lg text-white/75 lg:mt-10">{homeLive.hero.lede}</p>
-                <div className="mt-8 flex flex-wrap items-center gap-6 lg:mt-10">
-                  <AuditLink
-                    className="inline-flex max-w-md items-center rounded-md bg-signal px-5 py-3 text-left text-[15px] font-medium leading-snug text-navy hover:bg-signal-hover"
-                    location="home-hero"
-                  />
-                  <a href="#estimate" className="inline-flex min-h-11 items-center gap-2 text-sm text-white/80 hover:text-white">
+                <div className="mt-8 flex flex-wrap items-center gap-3 lg:mt-10">
+                  <AuditLink className="btn btn-primary" location="home-hero" />
+                  <a
+                    href="#estimate"
+                    className="btn btn-secondary"
+                    onClick={() => track("start_project_click", { location: "home-hero" })}
+                  >
                     {homeLive.hero.secondary}
-                    <ArrowDown className="size-4" aria-hidden="true" />
                   </a>
                 </div>
               </div>
@@ -525,15 +534,6 @@ export default function Home() {
                           </span>
                         ))}
                       </span>
-                      <a
-                        href={whatsappLink(serviceWhatsAppMessage(group.name))}
-                        className="mt-4 inline-flex min-h-11 items-center text-sm font-medium text-deep hover:text-navy"
-                        target="_blank"
-                        rel="noreferrer"
-                        onClick={() => trackWhatsApp("service")}
-                      >
-                        Ask on WhatsApp
-                      </a>
                     </div>
                   </div>
                 ))}
@@ -661,6 +661,8 @@ export default function Home() {
           </section>
         </main>
       </div>
+      {/* The audit button leads here, and Start a project sits beside it. */}
+      <CtaBand showAudit projectTo="/#estimate" location="home-close" />
     </>
   );
 }
