@@ -1,5 +1,5 @@
 import type { IconType } from "react-icons";
-import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa6";
+import { FaFacebookF, FaInstagram, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
 import { site } from "../content/site";
 import { socials } from "../data/socials";
 
@@ -7,6 +7,7 @@ const icons: Record<(typeof socials)[number]["label"], IconType> = {
   LinkedIn: FaLinkedinIn,
   Instagram: FaInstagram,
   Facebook: FaFacebookF,
+  X: FaXTwitter,
 };
 
 type SocialLinksProps = {
@@ -17,7 +18,7 @@ type SocialLinksProps = {
 };
 
 /**
- * The three studio social accounts as icons.
+ * The studio social accounts as icons. X sits after Facebook.
  * Each hit area is 44px so a thumb can land on it.
  */
 export default function SocialLinks({ tone = "navy", flush = false }: SocialLinksProps) {

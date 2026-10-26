@@ -6,7 +6,7 @@ import { site } from "./site";
 
 const origin = site.url.replace(/\/$/, "");
 
-/** Profile pages. X stays in this list even though the footer does not show the icon. */
+/** Profile pages, in the same order as the footer. */
 export const sameAs = [site.social.linkedin, site.social.instagram, site.social.facebook, site.social.x];
 
 /** The company, on every page. */

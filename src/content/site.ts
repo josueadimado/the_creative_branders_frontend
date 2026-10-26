@@ -40,8 +40,7 @@ export const site = {
     linkedin: "https://www.linkedin.com/company/thecreativebranders",
     instagram: "https://www.instagram.com/thecreativebranders",
     facebook: "https://www.facebook.com/thecreativebranders",
-    /** Search engines can still list this profile. The footer does not show an X icon. */
-    x: "https://x.com/creativebranders",
+    x: "https://x.com/TheCBranders",
   },
   /** Browser tabs read as "Page — The Creative Branders". */
   titleJoin: " — ",
