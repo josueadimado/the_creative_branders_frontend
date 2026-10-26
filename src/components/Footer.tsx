@@ -2,8 +2,7 @@ import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { site } from "../content/site";
 import { OPEN_COOKIE_SETTINGS } from "./CookieNotice";
-import { hasAnalyticsId, track } from "../lib/analytics";
-import { whatsappHref } from "../data/socials";
+import { hasAnalyticsId } from "../lib/analytics";
 import Logo from "./Logo";
 import SocialLinks from "./SocialLinks";
 
@@ -103,19 +102,6 @@ export default function Footer() {
                 {site.phoneDisplay}
               </a>
             </li>
-            {whatsappHref ? (
-              <li>
-                <a
-                  href={whatsappHref}
-                  className="inline-flex min-h-11 items-center transition-colors hover:text-white"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => track("whatsapp_click", { location: "footer" })}
-                >
-                  WhatsApp
-                </a>
-              </li>
-            ) : null}
           </ul>
           <SocialLinks flush />
         </div>
