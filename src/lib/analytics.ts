@@ -10,7 +10,13 @@ const SIX_MONTHS = 60 * 60 * 24 * 182;
 /** True only after Accept has allowed analytics on this page view. */
 let analyticsGranted = false;
 
-export type Consent = "essential" | "analytics";
+export type ConsentChoice = {
+  /** Always on. These cookies keep the site working. */
+  necessary: true;
+  analytics: boolean;
+  /** Saved for later. No marketing tracker is loaded yet. */
+  marketing: boolean;
+};
 
 declare global {
   interface Window {
@@ -25,18 +31,38 @@ export function hasAnalyticsId() {
   return GA_ID.length > 0;
 }
 
-function asConsent(value: string | null | undefined): Consent | null {
-  return value === "essential" || value === "analytics" ? value : null;
+/** True only when a marketing id has been set. No marketing script is added here. */
+export function hasMarketingTracker() {
+  const meta = (import.meta.env.VITE_META_PIXEL_ID || "").trim();
+  const linkedin = (import.meta.env.VITE_LINKEDIN_PARTNER_ID || "").trim();
+  return meta.length > 0 || linkedin.length > 0;
 }
 
-function readCookie(): Consent | null {
+/** The banner and the footer link appear when there is a tracker to ask about. */
+export function bannerCanAppear() {
+  return hasAnalyticsId() || hasMarketingTracker();
+}
+
+function parseChoice(value: string | null | undefined): ConsentChoice | null {
+  if (value === "analytics") return { necessary: true, analytics: true, marketing: false };
+  if (value === "essential") return { necessary: true, analytics: false, marketing: false };
+  const match = value?.match(/^a([01])m([01])$/);
+  if (!match) return null;
+  return { necessary: true, analytics: match[1] === "1", marketing: match[2] === "1" };
+}
+
+function choiceCode(choice: ConsentChoice) {
+  return `a${choice.analytics ? 1 : 0}m${choice.marketing ? 1 : 0}`;
+}
+
+function readCookie(): ConsentChoice | null {
   if (typeof document === "undefined") return null;
   const row = document.cookie.split("; ").find((item) => item.startsWith(`${CONSENT_KEY}=`));
-  return asConsent(row?.slice(CONSENT_KEY.length + 1));
+  return parseChoice(row?.slice(CONSENT_KEY.length + 1));
 }
 
 /** A backup of the choice, with the same six-month end date as the cookie. */
-function readStored(): Consent | null {
+function readStored(): ConsentChoice | null {
   try {
     const raw = localStorage.getItem(CONSENT_KEY);
     if (!raw) return null;
@@ -45,25 +71,26 @@ function readStored(): Consent | null {
       localStorage.removeItem(CONSENT_KEY);
       return null;
     }
-    return asConsent(typeof parsed.value === "string" ? parsed.value : null);
+    return parseChoice(typeof parsed.value === "string" ? parsed.value : null);
   } catch {
     return null;
   }
 }
 
-export function readConsent(): Consent | null {
+export function readConsent(): ConsentChoice | null {
   const saved = readCookie();
   if (saved) return saved;
   return readStored();
 }
 
-export function saveConsent(value: Consent) {
+export function saveConsent(value: ConsentChoice) {
   const secure = window.location.protocol === "https:" ? "; Secure" : "";
-  document.cookie = `${CONSENT_KEY}=${value}; Max-Age=${SIX_MONTHS}; Path=/; SameSite=Lax${secure}`;
+  const code = choiceCode(value);
+  document.cookie = `${CONSENT_KEY}=${code}; Max-Age=${SIX_MONTHS}; Path=/; SameSite=Lax${secure}`;
   try {
     localStorage.setItem(
       CONSENT_KEY,
-      JSON.stringify({ value, until: Date.now() + SIX_MONTHS * 1000 }),
+      JSON.stringify({ value: code, until: Date.now() + SIX_MONTHS * 1000 }),
     );
   } catch {
     // Private browsing can block storage. The cookie above still remembers the choice.
@@ -154,7 +181,7 @@ export function loadAnalytics() {
 }
 
 export function track(event: string, params?: Record<string, string>) {
-  if (!GA_ID || !analyticsGranted || readConsent() !== "analytics" || !window.gtag) return;
+  if (!GA_ID || !analyticsGranted || readConsent()?.analytics !== true || !window.gtag) return;
   window.gtag("event", event, params);
 }
 

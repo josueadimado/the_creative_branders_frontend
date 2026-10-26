@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { site } from "../content/site";
 import { useInsightsMenu } from "../content/contentDesk";
 import { OPEN_COOKIE_SETTINGS } from "./CookieNotice";
-import { hasAnalyticsId } from "../lib/analytics";
+import { bannerCanAppear } from "../lib/analytics";
 import Logo from "./Logo";
 import SocialLinks from "./SocialLinks";
 
@@ -113,7 +113,7 @@ export default function Footer() {
                 </Link>
               </li>
             ))}
-            {hasAnalyticsId() ? (
+            {bannerCanAppear() ? (
               <li>
                 <button
                   type="button"

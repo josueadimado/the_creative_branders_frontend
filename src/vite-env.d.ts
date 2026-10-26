@@ -5,6 +5,9 @@ interface ImportMetaEnv {
   readonly VITE_WHATSAPP_NUMBER?: string;
   readonly VITE_SITE_URL?: string;
   readonly VITE_GA_ID?: string;
+  /** Kept for a later marketing tracker. Nothing loads these yet. */
+  readonly VITE_META_PIXEL_ID?: string;
+  readonly VITE_LINKEDIN_PARTNER_ID?: string;
 }
 
 interface ImportMeta {
