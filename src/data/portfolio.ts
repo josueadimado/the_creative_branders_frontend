@@ -694,7 +694,13 @@ export function visibleStack(item: PortfolioItem): string[] {
 }
 
 export function visibleResults(item: PortfolioItem): WorkResult[] {
-  return item.results.filter((result) => visibleText(result.value) && visibleText(result.label));
+  return item.results.flatMap((result) => {
+    const value = visibleText(result.value);
+    const label = visibleText(result.label);
+    // A bracket is a note for us, not a result a visitor should read.
+    if (!value || !label || value.includes("[") || label.includes("[")) return [];
+    return [{ value, label }];
+  });
 }
 
 export function visibleQuote(item: PortfolioItem): WorkQuote | undefined {
