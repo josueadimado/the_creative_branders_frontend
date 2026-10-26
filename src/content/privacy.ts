@@ -1,19 +1,21 @@
+import { site } from "./site";
+
 /** Words for the privacy policy. Square brackets stay until the owner fills them in. */
 
 export const privacy = {
   seo: {
     title: "Privacy policy",
-    description: "How The Creative Branders handles information you send through this website.",
+    description: `How ${site.name} handles information you send through this website.`,
     path: "/privacy",
   },
   kicker: "Legal",
   title: "Privacy policy",
-  lede: "How The Creative Branders Ltd handles information you send through this website.",
+  lede: `How ${site.legalName} handles information you send through this website.`,
   sections: [
     {
       title: "Who we are",
       paragraphs: [
-        "This website is operated by The Creative Branders Ltd, a company registered in the United Kingdom. Contact for privacy requests: hello@thecreativebranders.com.",
+        `This website is operated by ${site.legalName}, a company registered in ${site.jurisdiction}. Contact for privacy requests: ${site.email}.`,
       ],
     },
     {
@@ -69,7 +71,7 @@ export const privacy = {
     {
       title: "Your rights",
       paragraphs: [
-        "Depending on where you live, you may ask us for a copy of your data, ask us to correct it, or ask us to delete it. To make a request, email hello@thecreativebranders.com and tell us which form you used and the email address you submitted.",
+        `Depending on where you live, you may ask us for a copy of your data, ask us to correct it, or ask us to delete it. To make a request, email ${site.email} and tell us which form you used and the email address you submitted.`,
       ],
     },
     {
