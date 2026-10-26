@@ -312,13 +312,13 @@ export default function Home() {
                 </HomeNavLink>
               ))}
             </nav>
-            <a
-              href="#estimate"
-              className="hidden justify-self-end text-sm font-medium text-white/75 hover:text-white lg:inline"
+            <Link
+              to="/contact"
+              className="btn btn-primary hidden !px-5 !py-2 justify-self-end lg:inline-flex"
               onClick={() => track("start_project_click", { location: "home-header" })}
             >
               {homeLive.hero.secondary}
-            </a>
+            </Link>
             <button
               type="button"
               className="inline-flex size-11 items-center justify-center lg:hidden"
@@ -341,16 +341,16 @@ export default function Home() {
                   {link.label}
                 </HomeNavLink>
               ))}
-              <a
-                href="#estimate"
-                className="font-display text-2xl text-white"
+              <Link
+                to="/contact"
+                className="btn btn-primary self-start"
                 onClick={() => {
                   setMenuOpen(false);
                   track("start_project_click", { location: "home-header" });
                 }}
               >
                 {homeLive.hero.secondary}
-              </a>
+              </Link>
             </nav>
           ) : null}
         </header>

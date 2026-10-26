@@ -22,12 +22,13 @@ type ClosingBlockProps = {
 export default function ClosingBlock({ primary, showAudit = false, projectTo = "/contact", location = "cta" }: ClosingBlockProps) {
   return (
     <section className="dot-grid border-t border-white/[0.08] bg-navy py-24 sm:py-28">
-      <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-10 px-6 lg:flex-row lg:items-center">
-        <div className="max-w-2xl">
+      {/* On a narrow screen the buttons sit under the sentence. On a wide screen they sit beside it, still on one line. */}
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-12 gap-y-8 px-6">
+        <div className="min-w-[min(100%,28rem)] max-w-2xl flex-1">
           <h2 className="type-display text-white">{cta.title}</h2>
           <p className="type-lede mt-4 text-white/70">{cta.body}</p>
         </div>
-        <div className="flex flex-col gap-3 sm:flex-row">
+        <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
           {showAudit ? <AuditLink className="btn btn-primary" location="home-close" /> : null}
           <Link
             to={projectTo}

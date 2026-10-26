@@ -234,6 +234,11 @@ h4 {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
+    /* The words stay on one line. The pill grows to fit them. */
+    white-space: nowrap;
+    /* A clear border keeps the filled and outlined pills the same height. */
+    border: 1px solid transparent;
     font-family: "Inter Variable", Inter, -apple-system, "Segoe UI", Arial, sans-serif;
     border-radius: 980px;
     padding: 12px 24px;

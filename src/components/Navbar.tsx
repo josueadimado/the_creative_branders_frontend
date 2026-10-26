@@ -67,7 +67,7 @@ export default function Navbar() {
           )}
           <Link
             to="/contact"
-            className="text-[15px] font-medium text-white/70 transition-colors duration-300 hover:text-white"
+            className="btn btn-primary !px-5 !py-2"
             onClick={() => track("start_project_click", { location: "navbar" })}
           >
             {cta.project}

@@ -293,8 +293,12 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
         </div>
       </fieldset>
 
+      {/* Currency sits on the budget label, so the two lists start on the same line. */}
       <div className={split ? "grid gap-4 sm:grid-cols-2" : "space-y-5"}>
-        <Field label={contact.fields.timeline} htmlFor="timeline">
+        <div>
+          <label htmlFor="timeline" className="flex min-h-7 items-center type-caption font-medium text-navy">
+            {contact.fields.timeline}
+          </label>
           <select id="timeline" name="inquiry-timeline" {...noSuggest} value={timeline} onChange={(event) => setTimeline(event.target.value)} className={fieldClass}>
             <option value="">{contact.choose}</option>
             {timelineOptions.map((option) => (
@@ -303,22 +307,27 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
               </option>
             ))}
           </select>
-        </Field>
-        <Field label={contact.fields.budget} htmlFor="budget">
-          <div className="mt-2 flex gap-2" role="group" aria-label={contact.fields.currency}>
-            {(["GHS", "USD"] as const).map((code) => (
-              <button
-                key={code}
-                type="button"
-                aria-pressed={currency === code}
-                onClick={() => chooseCurrency(code)}
-                className={`min-h-11 rounded-md px-4 text-sm font-medium ${
-                  currency === code ? "bg-navy text-white" : "border border-mist bg-white text-navy"
-                }`}
-              >
-                {code}
-              </button>
-            ))}
+        </div>
+        <div>
+          <div className="flex min-h-7 items-center justify-between gap-3">
+            <label htmlFor="budget" className="type-caption font-medium text-navy">
+              {contact.fields.budget}
+            </label>
+            <div className="flex shrink-0 rounded-md border border-mist p-0.5" role="group" aria-label={contact.fields.currency}>
+              {(["GHS", "USD"] as const).map((code) => (
+                <button
+                  key={code}
+                  type="button"
+                  aria-pressed={currency === code}
+                  onClick={() => chooseCurrency(code)}
+                  className={`h-6 rounded px-2 text-xs font-medium ${
+                    currency === code ? "bg-navy text-white" : "text-navy"
+                  }`}
+                >
+                  {code}
+                </button>
+              ))}
+            </div>
           </div>
           <select id="budget" name="inquiry-budget" {...noSuggest} value={budget} onChange={(event) => setBudget(event.target.value)} className={fieldClass}>
             <option value="">{contact.choose}</option>
@@ -328,7 +337,7 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
               </option>
             ))}
           </select>
-        </Field>
+        </div>
       </div>
       <Field label={contact.fields.message} htmlFor="message" mark>
         <textarea
