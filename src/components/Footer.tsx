@@ -35,15 +35,6 @@ function Column({ title, children }: { title: string; children: ReactNode }) {
 }
 
 function Item({ to, label }: { to: string; label: string }) {
-  if (to === "#") {
-    return (
-      <li>
-        <a href="#" className="inline-flex min-h-11 items-center transition-colors hover:text-white" onClick={(event) => event.preventDefault()}>
-          {label}
-        </a>
-      </li>
-    );
-  }
   return (
     <li>
       <Link

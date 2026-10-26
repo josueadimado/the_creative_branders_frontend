@@ -151,20 +151,6 @@ function HomeNavLink({
   children: string;
   onClick?: () => void;
 }) {
-  if (href === "#") {
-    return (
-      <a
-        href="#"
-        className={className}
-        onClick={(event) => {
-          event.preventDefault();
-          onClick?.();
-        }}
-      >
-        {children}
-      </a>
-    );
-  }
   if (href.startsWith("/")) {
     return (
       <Link to={href} className={className} onClick={onClick}>

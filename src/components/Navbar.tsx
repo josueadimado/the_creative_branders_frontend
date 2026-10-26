@@ -44,16 +44,7 @@ export default function Navbar() {
 
         <nav className="hidden items-center gap-10 lg:flex" aria-label="Primary">
           {links.map((link) =>
-            link.to === "#" ? (
-              <a
-                key={link.label}
-                href="#"
-                className="text-[15px] font-medium tracking-normal text-white/70 transition-colors duration-300 hover:text-white"
-                onClick={(event) => event.preventDefault()}
-              >
-                {link.label}
-              </a>
-            ) : link.to.includes("#") ? (
+            link.to.includes("#") ? (
               <Link
                 key={link.to}
                 to={link.to}
@@ -105,19 +96,7 @@ export default function Navbar() {
         >
           <div className="flex flex-1 flex-col gap-8">
             {links.map((link) =>
-              link.to === "#" ? (
-                <a
-                  key={link.label}
-                  href="#"
-                  className="type-display text-white"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    setOpen(false);
-                  }}
-                >
-                  {link.label}
-                </a>
-              ) : link.to.includes("#") ? (
+              link.to.includes("#") ? (
                 <Link
                   key={link.to}
                   to={link.to}
