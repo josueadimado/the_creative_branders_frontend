@@ -4,8 +4,7 @@ import { track } from "../lib/analytics";
 
 /**
  * The main button on the site.
- * It opens the booking page. Until that page is filled in, it opens WhatsApp
- * with a message asking for the free 20-minute systems audit.
+ * It opens WhatsApp with a message asking for the free 20-minute systems audit.
  */
 export default function AuditLink({
   className,

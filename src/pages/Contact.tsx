@@ -2,7 +2,7 @@ import Seo from "../components/Seo";
 import InquiryForm from "../components/InquiryForm";
 import { useContactCopy } from "../content/contentDesk";
 import { site } from "../content/site";
-import { auditHref, whatsappHref } from "../data/socials";
+import { whatsappHref } from "../data/socials";
 import { track } from "../lib/analytics";
 
 /**
@@ -48,23 +48,12 @@ export default function Contact() {
               <li>
                 <a
                   href={whatsappHref}
-                  className="underline decoration-mist underline-offset-4 hover:text-deep"
+                  className="btn btn-inverse mt-1"
                   target="_blank"
                   rel="noreferrer"
                   onClick={() => track("whatsapp_click", { location: "contact" })}
                 >
                   WhatsApp
-                </a>
-              </li>
-              <li>
-                <a
-                  href={auditHref()}
-                  className="underline decoration-mist underline-offset-4 hover:text-deep"
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => track("audit_cta_click", { location: "contact" })}
-                >
-                  Book a free 20-minute systems audit
                 </a>
               </li>
               <li>Accra, Ghana</li>

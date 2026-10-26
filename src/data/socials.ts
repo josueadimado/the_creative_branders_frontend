@@ -28,13 +28,14 @@ export function whatsappLink(message: string = site.whatsapp.defaultMessage): st
 /** Opens WhatsApp with the studio's usual greeting. */
 export const whatsappHref = whatsappLink();
 
-/** The sentence the audit button puts in WhatsApp until a booking page exists. */
-export const auditMessage = "Hello, I'd like to book a free 20-minute systems audit.";
+/**
+ * The audit button opens WhatsApp and leaves a blank for the business name.
+ * The space at the end is on purpose, so the visitor can keep typing.
+ */
+export const auditMessage = "Hello, I'd like to book a free 20-minute systems audit. My business is: ";
 
-/** The booking page, or WhatsApp with the audit sentence when that page is still blank. */
+/** WhatsApp chat for the free systems audit. */
 export function auditHref(): string {
-  const url = site.bookingUrl.trim();
-  if (url && !url.startsWith("[")) return url;
   return whatsappLink(auditMessage);
 }
 

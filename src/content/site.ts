@@ -35,8 +35,6 @@ export const site = {
     number: "233206783693",
     defaultMessage: "Hello The Creative Branders, I'd like to talk about a project.",
   },
-  /** A real booking page. Leave this blank and the audit button opens WhatsApp. */
-  bookingUrl: "",
   url: "https://thecreativebranders.com",
   social: {
     linkedin: "https://www.linkedin.com/company/thecreativebranders",
