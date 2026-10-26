@@ -6,7 +6,7 @@ import { budgetOptionsGhs, budgetOptionsUsd, contact, needOptions, timelineOptio
 import { countries, countryByCode } from "../data/countries";
 import { whatsappLink } from "../data/socials";
 import { postInquiry } from "../lib/api";
-import { track } from "../lib/analytics";
+import { track, trackWhatsApp } from "../lib/analytics";
 
 const emptyNeeds: string[] = [];
 
@@ -113,7 +113,11 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
       setMessage("");
       setLink("");
       setConsent(false);
-      track("inquiry_submit");
+      track("brief_submit", {
+        service: needs.join(", "),
+        budget_band: budget || "not set",
+        currency,
+      });
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "We could not send that. Please try again.");
@@ -138,7 +142,7 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
           className="btn btn-primary mt-8"
           target="_blank"
           rel="noreferrer"
-          onClick={() => track("whatsapp_click", { location: "brief-success" })}
+          onClick={() => trackWhatsApp("brief-success")}
         >
           {contact.successWhatsApp}
         </a>

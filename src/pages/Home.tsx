@@ -39,7 +39,7 @@ import { home } from "../content/home";
 import { site } from "../content/site";
 import { serviceWhatsAppMessage, whatsappLink } from "../data/socials";
 import { workPage } from "../content/work";
-import { track } from "../lib/analytics";
+import { track, trackWhatsApp } from "../lib/analytics";
 import {
   coverImage,
   displayName,
@@ -543,7 +543,7 @@ export default function Home() {
                         className="mt-4 inline-flex min-h-11 items-center text-sm font-medium text-deep hover:text-navy"
                         target="_blank"
                         rel="noreferrer"
-                        onClick={() => track("whatsapp_click", { location: "service", service: group.slug })}
+                        onClick={() => trackWhatsApp("service")}
                       >
                         Ask on WhatsApp
                       </a>

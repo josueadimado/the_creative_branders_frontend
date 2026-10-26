@@ -3,7 +3,7 @@ import InquiryForm from "../components/InquiryForm";
 import { useContactCopy } from "../content/contentDesk";
 import { site } from "../content/site";
 import { whatsappHref } from "../data/socials";
-import { track } from "../lib/analytics";
+import { track, trackWhatsApp } from "../lib/analytics";
 
 /**
  * The project page. Contact details sit beside the form.
@@ -51,7 +51,7 @@ export default function Contact() {
                   className="btn btn-inverse mt-1"
                   target="_blank"
                   rel="noreferrer"
-                  onClick={() => track("whatsapp_click", { location: "contact" })}
+                  onClick={() => trackWhatsApp("contact")}
                 >
                   WhatsApp
                 </a>

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { site } from "../content/site";
 import { useInsightsMenu } from "../content/contentDesk";
 import { OPEN_COOKIE_SETTINGS } from "./CookieNotice";
-import { bannerCanAppear } from "../lib/analytics";
+import { bannerCanAppear, track } from "../lib/analytics";
 import Logo from "./Logo";
 import SocialLinks from "./SocialLinks";
 
@@ -84,14 +84,22 @@ export default function Footer() {
         <div>
           <ul className="space-y-3 type-caption text-white/70">
             <li>
-              <a href={`mailto:${site.email}`} className="inline-flex min-h-11 items-center break-words transition-colors hover:text-white">
+              <a
+                href={`mailto:${site.email}`}
+                className="inline-flex min-h-11 items-center break-words transition-colors hover:text-white"
+                onClick={() => track("email_click", { location: "footer" })}
+              >
                 {site.email.slice(0, site.email.indexOf("@") + 1)}
                 <wbr />
                 {site.email.slice(site.email.indexOf("@") + 1)}
               </a>
             </li>
             <li>
-              <a href={`tel:${site.phoneE164}`} className="inline-flex min-h-11 items-center transition-colors hover:text-white">
+              <a
+                href={`tel:${site.phoneE164}`}
+                className="inline-flex min-h-11 items-center transition-colors hover:text-white"
+                onClick={() => track("phone_click", { location: "footer" })}
+              >
                 {site.phoneDisplay}
               </a>
             </li>

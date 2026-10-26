@@ -185,6 +185,16 @@ export function track(event: string, params?: Record<string, string>) {
   window.gtag("event", event, params);
 }
 
+/** Which WhatsApp button was used, and the page it was on. */
+export function trackWhatsApp(button: string) {
+  track("whatsapp_click", { page_path: window.location.pathname, button });
+}
+
+/** SmartCRM, Academy, or the newsletter. Sent only after analytics consent. */
+export function trackWaitlistSignup(which: "smartcrm" | "academy" | "newsletter") {
+  track("waitlist_signup", { which });
+}
+
 /** A work-page filter chip. `filter` is the chosen family, sector, or "all". */
 export function trackWorkFilter(filter: string) {
   track("work_filter", { filter });

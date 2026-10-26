@@ -5,7 +5,7 @@ import Seo from "../components/Seo";
 import TextHero from "../components/TextHero";
 import { smartcrm } from "../content/smartcrm";
 import { faqSchema } from "../content/schema";
-import { track } from "../lib/analytics";
+import { track, trackWaitlistSignup } from "../lib/analytics";
 import { useBotGuard } from "../components/BotGuard";
 import ConsentCheckbox from "../components/ConsentCheckbox";
 import { postWaitlist } from "../lib/api";
@@ -95,6 +95,7 @@ function WaitlistForm() {
     }
     try {
       const result = await postWaitlist({ email, name: name || undefined, consent: true, ...bot.payload });
+      trackWaitlistSignup("smartcrm");
       setStatus(result.alreadyOnList ? "already" : "success");
       setEmail("");
       setName("");

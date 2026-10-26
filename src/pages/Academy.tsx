@@ -4,7 +4,7 @@ import Illustration from "../components/Illustration";
 import Seo from "../components/Seo";
 import TextHero from "../components/TextHero";
 import { academy } from "../content/academy";
-import { track } from "../lib/analytics";
+import { track, trackWaitlistSignup } from "../lib/analytics";
 import { useBotGuard } from "../components/BotGuard";
 import ConsentCheckbox from "../components/ConsentCheckbox";
 import { postAcademyInterest } from "../lib/api";
@@ -69,6 +69,7 @@ function AcademyForm() {
     }
     try {
       await postAcademyInterest({ name, email, message: message || undefined, consent: true, ...bot.payload });
+      trackWaitlistSignup("academy");
       setStatus("success");
       setName("");
       setEmail("");

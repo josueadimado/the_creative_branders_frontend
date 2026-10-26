@@ -1,4 +1,5 @@
 import { apiRoot } from "./apiBase";
+import { trackWaitlistSignup } from "./analytics";
 
 // The backend address. Vite only exposes env vars that start with VITE_.
 const API_URL = apiRoot();
@@ -99,6 +100,7 @@ export type NewsletterResult = {
 
 export async function postNewsletter(payload: NewsletterPayload): Promise<NewsletterResult> {
   const data = await postJson("/newsletter/", payload);
+  trackWaitlistSignup("newsletter");
   return {
     alreadySubscribed: Boolean(data && data.already_subscribed),
   };

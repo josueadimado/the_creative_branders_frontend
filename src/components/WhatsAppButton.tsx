@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useProjects } from "../content/contentDesk";
 import { caseStudyWhatsAppMessage, whatsappLink } from "../data/socials";
 import { displayName } from "../data/portfolio";
-import { track } from "../lib/analytics";
+import { trackWhatsApp } from "../lib/analytics";
 
 /**
  * A round chat button fixed to the bottom-right corner on every page.
@@ -35,7 +35,7 @@ export default function WhatsAppButton() {
       target="_blank"
       rel="noreferrer"
       aria-label="Chat with us on WhatsApp"
-      onClick={() => track("whatsapp_click", { location: study ? "case-study" : "floating" })}
+      onClick={() => trackWhatsApp(study ? "case-study" : "floating")}
       className="tcb-chat fixed right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-signal text-navy shadow-lg transition-colors hover:bg-signal-hover"
     >
       <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" fill="currentColor">
