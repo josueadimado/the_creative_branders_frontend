@@ -35,6 +35,7 @@ import NetworkGlobe from "../components/NetworkGlobe";
 import Seo from "../components/Seo";
 import { useHomeCopy, useProjects } from "../content/contentDesk";
 import { home } from "../content/home";
+import { site } from "../content/site";
 import { workPage } from "../content/work";
 import { track } from "../lib/analytics";
 import {
@@ -43,16 +44,16 @@ import {
   familyLabel,
   type FamilySlug,
 } from "../data/portfolio";
-import { socials, studioEmail } from "../data/socials";
+import { socials } from "../data/socials";
 
 const siteOrigin = (import.meta.env.VITE_SITE_URL || "").replace(/\/$/, "");
 
 const organization = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "The Creative Branders",
+  name: site.name,
   description: home.seo.description,
-  email: studioEmail,
+  email: site.email,
   ...(siteOrigin
     ? { url: siteOrigin, logo: `${siteOrigin}/brand/png/tcb-monogram-dark-512.png` }
     : {}),
@@ -62,10 +63,10 @@ const organization = {
 const website = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "The Creative Branders",
+  name: site.name,
   description: home.seo.description,
   ...(siteOrigin ? { url: siteOrigin } : {}),
-  publisher: { "@type": "Organization", name: "The Creative Branders" },
+  publisher: { "@type": "Organization", name: site.name },
 };
 
 /**
@@ -296,7 +297,7 @@ export default function Home() {
       <div className="bg-white text-navy">
         <header className="sticky top-0 z-40 border-b border-white/10 bg-navy text-white">
           <div className="mx-auto flex max-w-[1180px] items-center justify-between gap-6 px-5 py-3.5 lg:grid lg:grid-cols-[1fr_auto_1fr]">
-            <Link to="/" aria-label="The Creative Branders home" onClick={() => setMenuOpen(false)}>
+            <Link to="/" aria-label={`${site.name} home`} onClick={() => setMenuOpen(false)}>
               <Logo variant="dark" />
             </Link>
             <nav className="hidden items-center gap-8 text-sm text-white/75 lg:flex" aria-label="Primary">

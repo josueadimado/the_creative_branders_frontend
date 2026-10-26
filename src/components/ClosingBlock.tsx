@@ -5,7 +5,7 @@ import { track } from "../lib/analytics";
 
 /**
  * The same closing invitation on every page.
- * The WhatsApp button only appears once a number is set.
+ * WhatsApp uses the number from the company details.
  */
 type ClosingBlockProps = {
   /** Family pages ask for a quote by name. Other pages use the shared button. */
@@ -28,17 +28,15 @@ export default function ClosingBlock({ primary }: ClosingBlockProps) {
           >
             {primary ?? cta.primary}
           </Link>
-          {whatsappHref ? (
-            <a
-              href={whatsappHref}
-              target="_blank"
-              rel="noreferrer"
-              className="btn btn-secondary"
-              onClick={() => track("whatsapp_click", { location: "cta" })}
-            >
-              {cta.whatsapp}
-            </a>
-          ) : null}
+          <a
+            href={whatsappHref}
+            target="_blank"
+            rel="noreferrer"
+            className="btn btn-secondary"
+            onClick={() => track("whatsapp_click", { location: "cta" })}
+          >
+            {cta.whatsapp}
+          </a>
         </div>
       </div>
     </section>

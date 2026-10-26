@@ -3,11 +3,9 @@ import { track } from "../lib/analytics";
 
 /**
  * A round chat button that sits in the bottom-right corner on phones.
- * If no number is configured, we render nothing so the corner stays empty.
+ * The number always comes from the company details, so this button stays visible.
  */
 export default function WhatsAppButton() {
-  if (!whatsappHref) return null;
-
   return (
     <a
       href={whatsappHref}

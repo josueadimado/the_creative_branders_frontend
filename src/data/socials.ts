@@ -1,17 +1,30 @@
-/** Shared contact details for the footer, contact page, and WhatsApp buttons. */
+/**
+ * Social links, the public email, and WhatsApp.
+ * The words and numbers come from content/site.ts so they are not typed twice.
+ * A build can set VITE_WHATSAPP_NUMBER to use a different WhatsApp number.
+ * If that variable is missing or blank, the Ghana number in site.ts is used.
+ */
+import { site } from "../content/site";
 
 export const socials = [
-  { label: "LinkedIn", href: "https://www.linkedin.com/company/thecreativebranders/" },
-  { label: "Instagram", href: "https://www.instagram.com/thecreativebranders/" },
-  { label: "Facebook", href: "https://www.facebook.com/thecreativebranders" },
+  { label: "LinkedIn", href: site.social.linkedin },
+  { label: "Instagram", href: site.social.instagram },
+  { label: "Facebook", href: site.social.facebook },
   { label: "X", href: "https://x.com/theCBranders" },
 ] as const;
 
-export const studioEmail = "hello@thecreativebranders.com";
+/** The inbox visitors write to. Same address as site.email. */
+export const studioEmail = site.email;
 
-// Digits only, including the country code. Empty means "hide every WhatsApp link".
-const rawWhatsapp = (import.meta.env.VITE_WHATSAPP_NUMBER || "").replace(/[^\d]/g, "");
+// Digits only. A blank environment variable falls back to the number in site.ts.
+const fromEnv = (import.meta.env.VITE_WHATSAPP_NUMBER || "").replace(/\D/g, "");
 
-export const whatsappNumber = rawWhatsapp;
+export const whatsappNumber = fromEnv || site.whatsapp.number;
 
-export const whatsappHref = rawWhatsapp ? `https://wa.me/${rawWhatsapp}` : "";
+/** A WhatsApp chat link. Pass a message to pre-fill the first text. */
+export function whatsappLink(message: string = site.whatsapp.defaultMessage): string {
+  return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+}
+
+/** Opens WhatsApp with the studio's usual greeting. */
+export const whatsappHref = whatsappLink();

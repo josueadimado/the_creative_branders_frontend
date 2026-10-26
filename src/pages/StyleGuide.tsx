@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import { site } from "../content/site";
 import { BookOpen, Boxes, Globe, LayoutGrid, PenLine, Search, Share2, TrendingUp } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Illustration, { illustrationNames } from "../components/Illustration";
@@ -36,7 +37,7 @@ export default function StyleGuide() {
   return (
     <div className="bg-paper">
       <Helmet>
-        <title>Style guide | The Creative Branders</title>
+        <title>{`Style guide${site.titleJoin}${site.name}`}</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 

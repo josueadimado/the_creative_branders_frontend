@@ -1,6 +1,7 @@
 // Official horizontal logo. The SVG already includes the wordmark,
 // so pages should not type "CREATIVE BRANDERS" next to it.
 // dark = for navy. light = for white or paper.
+import { site } from "../content/site";
 const RATIO = 591 / 150;
 
 type LogoVariant = "dark" | "light" | "white" | "black";
@@ -23,7 +24,7 @@ export default function Logo({
     <span className="inline-flex items-center">
       <img
         src={`/brand/tcb-horizontal-${variant}.svg`}
-        alt="The Creative Branders"
+        alt={site.name}
         width={desktopWidth}
         height={desktopHeight}
         className={
@@ -35,7 +36,7 @@ export default function Logo({
       />
       <img
         src={`/brand/tcb-monogram-${variant}.svg`}
-        alt="The Creative Branders"
+        alt={site.name}
         width={34}
         height={34}
         className="block h-[34px] w-[34px] min-[360px]:hidden"

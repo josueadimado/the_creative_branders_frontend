@@ -3,6 +3,7 @@ import { useEffect, type ReactNode } from "react";
 import { Link, useParams } from "react-router-dom";
 import WorkFrame, { BrowserPlaceholder } from "../components/DeviceFrame";
 import Seo from "../components/Seo";
+import { site } from "../content/site";
 import StackLogo from "../components/StackLogo";
 import { useProject, useProjects } from "../content/contentDesk";
 import { workPage } from "../content/work";
@@ -80,7 +81,7 @@ export default function WorkStudy() {
           description,
           ...(origin ? { url: `${origin}${pagePath}` } : {}),
           ...(origin && images[0] ? { image: `${origin}${images[0]}` } : {}),
-          creator: { "@type": "Organization", name: "The Creative Branders" },
+          creator: { "@type": "Organization", name: site.name },
         }}
       />
 

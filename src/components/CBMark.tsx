@@ -1,5 +1,6 @@
 // Bold CB monogram: C = arc, B = stem + two bowls, one accent dot at the centre.
 // The blue dot is the only accent. Do not recolour it.
+import { site } from "../content/site";
 const COLORS = {
   dark: { mark: "#F5F6F3", dot: "#4AA3C6" }, // on navy
   light: { mark: "#0E1E2B", dot: "#4AA3C6" }, // on white / paper
@@ -9,7 +10,7 @@ const COLORS = {
 export default function CBMark({
   variant = "dark",
   size = 40,
-  title = "The Creative Branders",
+  title = site.name,
 }: {
   variant?: keyof typeof COLORS;
   size?: number;

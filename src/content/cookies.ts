@@ -1,3 +1,5 @@
+import { site } from "./site";
+
 /** Short cookies page. The owner reviews this before launch. */
 
 export const cookies = {
@@ -24,7 +26,7 @@ export const cookies = {
     },
     {
       title: "Questions",
-      paragraphs: ["Email hello@thecreativebranders.com if you want to know what we store."],
+      paragraphs: [`Email ${site.email} if you want to know what we store.`],
     },
   ],
 } as const;

@@ -1,5 +1,6 @@
 import type { IconType } from "react-icons";
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
+import { site } from "../content/site";
 import { socials } from "../data/socials";
 
 const icons: Record<(typeof socials)[number]["label"], IconType> = {
@@ -34,7 +35,7 @@ export default function SocialLinks({ tone = "navy", flush = false }: SocialLink
               href={item.href}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`The Creative Branders on ${item.label}`}
+              aria-label={`${site.name} on ${item.label}`}
               className={`inline-flex h-11 w-11 items-center justify-center transition-colors ${colour}`}
             >
               <Icon size={20} aria-hidden="true" />

@@ -1,10 +1,11 @@
 /** Words for the about page. No personal names. */
+import { site } from "./site";
 
 export const about = {
   seo: {
     title: "About the studio",
     description:
-      "The Creative Branders is a design and development studio for growing businesses. We design and build websites, apps and the systems behind them.",
+      `${site.name} is a design and development studio for growing businesses. We design and build websites, apps and the systems behind them.`,
     path: "/about",
   },
   hero: {
@@ -61,7 +62,7 @@ export const about = {
   work: {
     title: "Why we exist",
     paragraphs: [
-      "Fixing that properly used to mean hiring an agency built for much larger companies. We started The Creative Branders so growing businesses could get the same standard of work at a size and price that fits them: the website, the apps and the systems behind them, planned together.",
+      `Fixing that properly used to mean hiring an agency built for much larger companies. We started ${site.name} so growing businesses could get the same standard of work at a size and price that fits them: the website, the apps and the systems behind them, planned together.`,
       "One person leads your project from the first call to launch. If it needs a mobile developer, a payments specialist or a data analyst, we bring in people we've worked with before. Everything we do shows up in our client portal, so you always know what's been done and what's next.",
     ],
   },

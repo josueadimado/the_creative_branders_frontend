@@ -1,9 +1,11 @@
+import { site } from "./site";
+
 /** Short terms. The owner reviews this before launch. */
 
 export const terms = {
   seo: {
     title: "Terms",
-    description: "The terms for using The Creative Branders website and for project work.",
+    description: `The terms for using the ${site.name} website and for project work.`,
     path: "/terms",
   },
   kicker: "Legal",
@@ -25,12 +27,12 @@ export const terms = {
     {
       title: "The site content",
       paragraphs: [
-        "The writing, design and code of this website belong to The Creative Branders. Case studies are shared with the client's permission. Please don't copy the site and present it as your own.",
+        `The writing, design and code of this website belong to ${site.name}. Case studies are shared with the client's permission. Please don't copy the site and present it as your own.`,
       ],
     },
     {
       title: "Questions",
-      paragraphs: ["Email hello@thecreativebranders.com and we'll reply within one business day."],
+      paragraphs: [`Email ${site.email} and we'll reply within one business day.`],
     },
   ],
 } as const;
