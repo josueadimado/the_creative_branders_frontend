@@ -13,7 +13,10 @@ const studioLinks = [
   { to: "/work", label: "Work" },
 ];
 
-const products = ["SmartCRM", "Academy"];
+const products = [
+  { to: "/smartcrm", label: "SmartCRM" },
+  { to: "/academy", label: "Academy" },
+];
 
 const legal = [
   { to: "/privacy", label: "Privacy" },
@@ -53,17 +56,6 @@ function Item({ to, label }: { to: string; label: string }) {
   );
 }
 
-function ProductItem({ label }: { label: string }) {
-  return (
-    <li>
-      {/* # keeps the name in the footer without opening a page. */}
-      <a href="#" className="inline-flex min-h-11 items-center transition-colors hover:text-white" onClick={(event) => event.preventDefault()}>
-        {label}
-      </a>
-    </li>
-  );
-}
-
 export default function Footer() {
   const showInsights = useInsightsMenu();
   const links = showInsights ? [...studioLinks, { to: "/insights", label: "Insights" }] : studioLinks;
@@ -85,8 +77,8 @@ export default function Footer() {
           ))}
         </Column>
         <Column title="Products">
-          {products.map((label) => (
-            <ProductItem key={label} label={label} />
+          {products.map((item) => (
+            <Item key={item.label} {...item} />
           ))}
         </Column>
         <div>
