@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Link } from "react-router-dom";
+import AuditLink from "../components/AuditLink";
 import { BrowserFrame } from "../components/DeviceFrame";
 import OptimizedImage from "../components/OptimizedImage";
 import FamilyIcon from "../components/FamilyIcon";
@@ -36,6 +37,7 @@ import Seo from "../components/Seo";
 import { useHomeCopy, useProjects } from "../content/contentDesk";
 import { home } from "../content/home";
 import { site } from "../content/site";
+import { serviceWhatsAppMessage, whatsappLink } from "../data/socials";
 import { workPage } from "../content/work";
 import { track } from "../lib/analytics";
 import {
@@ -307,14 +309,10 @@ export default function Home() {
                 </HomeNavLink>
               ))}
             </nav>
-            <a
-              href="#estimate"
-              className="hidden items-center justify-self-end gap-2 rounded-md bg-signal px-4 py-2.5 text-sm font-medium text-navy hover:bg-signal-hover lg:inline-flex"
-              onClick={() => track("start_project_click", { location: "home-header" })}
-            >
-              {homeLive.hero.primary}
-              <ArrowUpRight className="size-4" aria-hidden="true" />
-            </a>
+            <AuditLink
+              className="hidden max-w-xs items-center justify-self-end rounded-md bg-signal px-4 py-2.5 text-left text-sm font-medium leading-snug text-navy hover:bg-signal-hover lg:inline-flex"
+              location="home-header"
+            />
             <button
               type="button"
               className="inline-flex size-11 items-center justify-center lg:hidden"
@@ -337,8 +335,9 @@ export default function Home() {
                   {link.label}
                 </HomeNavLink>
               ))}
-              <a href="#estimate" className="font-display text-2xl text-signal" onClick={() => setMenuOpen(false)}>
-                {homeLive.hero.primary}
+              <AuditLink className="font-display text-2xl text-signal" location="home-header" />
+              <a href="#estimate" className="font-display text-2xl text-white" onClick={() => setMenuOpen(false)}>
+                {homeLive.hero.secondary}
               </a>
             </nav>
           ) : null}
@@ -366,15 +365,11 @@ export default function Home() {
                 </h1>
                 <p className="type-body mt-8 max-w-lg text-white/75 lg:mt-10">{homeLive.hero.lede}</p>
                 <div className="mt-8 flex flex-wrap items-center gap-6 lg:mt-10">
-                  <a
-                    href="#estimate"
-                    className="inline-flex items-center gap-2 rounded-md bg-signal px-5 py-3 text-[15px] font-medium text-navy hover:bg-signal-hover"
-                    onClick={() => track("start_project_click", { location: "home-hero" })}
-                  >
-                    {homeLive.hero.primary}
-                    <ArrowUpRight className="size-4" aria-hidden="true" />
-                  </a>
-                  <a href="#work" className="inline-flex min-h-11 items-center gap-2 text-sm text-white/80 hover:text-white">
+                  <AuditLink
+                    className="inline-flex max-w-md items-center rounded-md bg-signal px-5 py-3 text-left text-[15px] font-medium leading-snug text-navy hover:bg-signal-hover"
+                    location="home-hero"
+                  />
+                  <a href="#estimate" className="inline-flex min-h-11 items-center gap-2 text-sm text-white/80 hover:text-white">
                     {homeLive.hero.secondary}
                     <ArrowDown className="size-4" aria-hidden="true" />
                   </a>
@@ -509,7 +504,7 @@ export default function Home() {
                     <span className="font-display text-2xl font-semibold leading-tight text-navy">
                       {group.name}
                     </span>
-                    <span className="col-span-3 min-w-0 lg:col-span-1">
+                    <div className="col-span-3 min-w-0 lg:col-span-1">
                       <span className="type-body block max-w-none text-slate">{group.description}</span>
                       <span className="mt-4 flex flex-wrap gap-2">
                         {group.tags.map((tag) => (
@@ -518,7 +513,16 @@ export default function Home() {
                           </span>
                         ))}
                       </span>
-                    </span>
+                      <a
+                        href={whatsappLink(serviceWhatsAppMessage(group.name))}
+                        className="mt-4 inline-flex min-h-11 items-center text-sm font-medium text-deep hover:text-navy"
+                        target="_blank"
+                        rel="noreferrer"
+                        onClick={() => track("whatsapp_click", { location: "service", service: group.slug })}
+                      >
+                        Ask on WhatsApp
+                      </a>
+                    </div>
                   </div>
                 ))}
               </div>

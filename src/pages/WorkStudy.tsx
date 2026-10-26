@@ -1,8 +1,10 @@
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { useEffect, type ReactNode } from "react";
 import { Link, useParams } from "react-router-dom";
+import AuditLink from "../components/AuditLink";
 import WorkFrame, { BrowserPlaceholder } from "../components/DeviceFrame";
 import Seo from "../components/Seo";
+import { cta } from "../content/cta";
 import { site } from "../content/site";
 import StackLogo from "../components/StackLogo";
 import { useProject, useProjects } from "../content/contentDesk";
@@ -266,14 +268,17 @@ function ProjectClose() {
           <br />
           <span className="text-slate">{workPage.closeTitleRest}</span>
         </h2>
-        <Link
-          to="/contact"
-          className="mt-10 inline-flex items-center gap-2 rounded-md bg-navy px-5 py-3 text-[15px] font-medium text-white hover:bg-deep"
-          onClick={() => track("start_project_click", { location: "case-study" })}
-        >
-          {workPage.labels.similar}
-          <ArrowUpRight className="size-4" aria-hidden="true" />
-        </Link>
+        <div className="mt-10 flex flex-col items-start gap-3 sm:flex-row">
+          <AuditLink className="btn btn-inverse" location="case-study" />
+          <Link
+            to="/contact"
+            className="inline-flex items-center gap-2 rounded-md border border-navy px-5 py-3 text-[15px] font-medium text-navy hover:bg-paper"
+            onClick={() => track("start_project_click", { location: "case-study" })}
+          >
+            {cta.project}
+            <ArrowUpRight className="size-4" aria-hidden="true" />
+          </Link>
+        </div>
       </div>
     </section>
   );

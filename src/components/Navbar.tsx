@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { track } from "../lib/analytics";
+import AuditLink from "./AuditLink";
 import Logo from "./Logo";
+import { cta } from "../content/cta";
 
 const links = [
   // Always the homepage list, even when this menu is on another page.
@@ -74,11 +76,12 @@ export default function Navbar() {
           )}
           <Link
             to="/contact"
-            className="btn btn-primary !px-5 !py-2"
+            className="text-[15px] font-medium text-white/70 transition-colors duration-300 hover:text-white"
             onClick={() => track("start_project_click", { location: "navbar" })}
           >
-            Start a project
+            {cta.project}
           </Link>
+          <AuditLink className="btn btn-primary !px-5 !py-2" location="navbar" />
         </nav>
 
         <button
@@ -136,16 +139,19 @@ export default function Navbar() {
               ),
             )}
           </div>
-          <Link
-            to="/contact"
-            onClick={() => {
-              setOpen(false);
-              track("start_project_click", { location: "navbar" });
-            }}
-            className="btn btn-primary self-start"
-          >
-            Start a project
-          </Link>
+          <div className="flex flex-col items-start gap-3">
+            <AuditLink className="btn btn-primary" location="navbar" />
+            <Link
+              to="/contact"
+              onClick={() => {
+                setOpen(false);
+                track("start_project_click", { location: "navbar" });
+              }}
+              className="btn btn-secondary"
+            >
+              {cta.project}
+            </Link>
+          </div>
         </nav>
       ) : null}
     </header>

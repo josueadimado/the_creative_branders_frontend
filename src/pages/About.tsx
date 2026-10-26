@@ -1,6 +1,7 @@
 import { BadgeCheck, FileText, HeartHandshake, ShieldCheck } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Link } from "react-router-dom";
+import AuditLink from "../components/AuditLink";
 import Seo from "../components/Seo";
 import { useAboutCopy } from "../content/contentDesk";
 import { cta } from "../content/cta";
@@ -102,13 +103,16 @@ export default function About() {
             {cta.title}
           </h2>
           <p className="type-body mt-6 max-w-[520px] text-white/85">{cta.body}</p>
-          <Link
-            to="/contact"
-            onClick={() => track("start_project_click", { location: "about-close" })}
-            className="btn btn-primary mt-8 min-w-[194px]"
-          >
-            {cta.primary}
-          </Link>
+          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row">
+            <AuditLink className="btn btn-primary min-w-[194px]" location="about-close" />
+            <Link
+              to="/contact"
+              onClick={() => track("start_project_click", { location: "about-close" })}
+              className="btn btn-secondary min-w-[194px]"
+            >
+              {cta.project}
+            </Link>
+          </div>
         </div>
       </section>
     </div>

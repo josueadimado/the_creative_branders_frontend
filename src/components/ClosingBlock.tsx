@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
+import AuditLink from "./AuditLink";
 import { cta } from "../content/cta";
-import { whatsappHref } from "../data/socials";
 import { track } from "../lib/analytics";
 
 /**
  * The same closing invitation on every page.
- * WhatsApp uses the number from the company details.
+ * The bright button books the audit. The second button opens the project form.
  */
 type ClosingBlockProps = {
-  /** Family pages ask for a quote by name. Other pages use the shared button. */
+  /** A page can rename the form button. The audit button stays the same. */
   primary?: string;
 };
 
@@ -21,22 +21,14 @@ export default function ClosingBlock({ primary }: ClosingBlockProps) {
           <p className="type-lede mt-4 text-white/70">{cta.body}</p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row">
+          <AuditLink className="btn btn-primary" location="cta" />
           <Link
             to="/contact"
-            className="btn btn-primary"
+            className="btn btn-secondary"
             onClick={() => track("start_project_click", { location: "cta" })}
           >
-            {primary ?? cta.primary}
+            {primary ?? cta.project}
           </Link>
-          <a
-            href={whatsappHref}
-            target="_blank"
-            rel="noreferrer"
-            className="btn btn-secondary"
-            onClick={() => track("whatsapp_click", { location: "cta" })}
-          >
-            {cta.whatsapp}
-          </a>
         </div>
       </div>
     </section>

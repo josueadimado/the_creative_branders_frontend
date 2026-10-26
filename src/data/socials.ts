@@ -27,3 +27,23 @@ export function whatsappLink(message: string = site.whatsapp.defaultMessage): st
 
 /** Opens WhatsApp with the studio's usual greeting. */
 export const whatsappHref = whatsappLink();
+
+/** The sentence the audit button puts in WhatsApp until a booking page exists. */
+export const auditMessage = "Hello, I'd like to book a free 20-minute systems audit.";
+
+/** The booking page, or WhatsApp with the audit sentence when that page is still blank. */
+export function auditHref(): string {
+  const url = site.bookingUrl.trim();
+  if (url && !url.startsWith("[")) return url;
+  return whatsappLink(auditMessage);
+}
+
+/** First message when someone taps WhatsApp from a service. */
+export function serviceWhatsAppMessage(service: string): string {
+  return `Hello, I'm interested in ${service}.`;
+}
+
+/** First message when someone taps WhatsApp from a case study. */
+export function caseStudyWhatsAppMessage(project: string): string {
+  return `Hello, I saw the ${project} case study and want something similar.`;
+}
