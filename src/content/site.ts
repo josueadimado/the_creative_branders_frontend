@@ -48,6 +48,13 @@ export const site = {
   tagline: "Designed for Intelligent Growth",
   description:
     "We're the strategy and technology partner behind growing businesses. We take the pressure off your day, so you can focus on your customers and your next move.",
+  /**
+   * Set launched to true when a product should be a real link.
+   * The menu, the sitemap, and Google's list all follow this flag.
+   * The page address keeps working either way, so it can be shared directly.
+   */
+  smartcrm: { launched: false },
+  academy: { launched: false },
 } as const;
 
 /**

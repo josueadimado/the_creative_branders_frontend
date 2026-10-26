@@ -14,8 +14,8 @@ const studioLinks = [
 ];
 
 const products = [
-  { to: "/smartcrm", label: "SmartCRM" },
-  { to: "/academy", label: "Academy" },
+  { to: "/smartcrm", label: "SmartCRM", launched: site.smartcrm.launched },
+  { to: "/academy", label: "Academy", launched: site.academy.launched },
 ];
 
 const legal = [
@@ -47,6 +47,18 @@ function Item({ to, label }: { to: string; label: string }) {
   );
 }
 
+/** A product that is not open yet. Plain text, with a small badge, not a link. */
+function UpcomingProduct({ label }: { label: string }) {
+  return (
+    <li>
+      <span className="inline-flex min-h-11 cursor-default items-center gap-2 text-white/45">
+        {label}
+        <span className="rounded-full bg-signal/15 px-2 py-0.5 text-[11px] font-medium text-signal">Coming soon</span>
+      </span>
+    </li>
+  );
+}
+
 export default function Footer() {
   const showInsights = useInsightsMenu();
   const links = showInsights ? [...studioLinks, { to: "/insights", label: "Insights" }] : studioLinks;
@@ -68,9 +80,13 @@ export default function Footer() {
           ))}
         </Column>
         <Column title="Products">
-          {products.map((item) => (
-            <Item key={item.label} {...item} />
-          ))}
+          {products.map((item) =>
+            item.launched ? (
+              <Item key={item.label} to={item.to} label={item.label} />
+            ) : (
+              <UpcomingProduct key={item.label} label={item.label} />
+            ),
+          )}
         </Column>
         <div>
           <ul className="space-y-3 type-caption text-white/70">
@@ -102,7 +118,7 @@ export default function Footer() {
         {/* On a phone the copyright and the legal links sit in the middle. On a wider screen they sit at each end. */}
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 text-center text-sm text-white/80 sm:flex-row sm:justify-between sm:text-left">
           <p>
-            © {new Date().getFullYear()} {site.legalName}. Registered in {site.jurisdiction}.
+            © {new Date().getFullYear()} {site.legalName}.
           </p>
           <ul className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
             {legal.map((item) => (

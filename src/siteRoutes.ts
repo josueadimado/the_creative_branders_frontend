@@ -1,8 +1,17 @@
 import { insightPaths } from "./content/insights/slugs";
+import { site } from "./content/site";
 import { publicWorkPaths } from "./data/portfolio";
 
+/** Product pages join the public lists only after launched is set to true. */
+function launchedProductPaths(): string[] {
+  const paths: string[] = [];
+  if (site.smartcrm.launched) paths.push("/smartcrm");
+  if (site.academy.launched) paths.push("/academy");
+  return paths;
+}
+
 /** Pages around the case studies. The study addresses are filled in separately. */
-const afterWork = ["/about", "/smartcrm", "/academy", "/contact", "/privacy", "/terms", "/cookies", "/responsible-ai"];
+const afterWork = ["/about", ...launchedProductPaths(), "/contact", "/privacy", "/terms", "/cookies", "/responsible-ai"];
 
 /** A case-study address for each published slug, in the order the API sent them. */
 export function workPathsFor(slugs: string[]): string[] {

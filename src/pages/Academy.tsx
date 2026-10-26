@@ -4,6 +4,7 @@ import Illustration from "../components/Illustration";
 import Seo from "../components/Seo";
 import TextHero from "../components/TextHero";
 import { academy } from "../content/academy";
+import { site } from "../content/site";
 import { track, trackWaitlistSignup } from "../lib/analytics";
 import { useBotGuard } from "../components/BotGuard";
 import ConsentCheckbox from "../components/ConsentCheckbox";
@@ -15,7 +16,7 @@ const fieldClass =
 export default function Academy() {
   return (
     <>
-      <Seo {...academy.seo} />
+      <Seo {...academy.seo} index={site.academy.launched} />
       <TextHero kicker={academy.hero.kicker} title={academy.hero.title} lede={academy.hero.lede} />
 
       <section className="bg-paper py-28 sm:py-36">

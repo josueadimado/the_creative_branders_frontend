@@ -4,6 +4,7 @@ import Illustration from "../components/Illustration";
 import Seo from "../components/Seo";
 import TextHero from "../components/TextHero";
 import { smartcrm } from "../content/smartcrm";
+import { site } from "../content/site";
 import { faqSchema } from "../content/schema";
 import { track, trackWaitlistSignup } from "../lib/analytics";
 import { useBotGuard } from "../components/BotGuard";
@@ -16,7 +17,12 @@ const fieldClass =
 export default function SmartCRM() {
   return (
     <>
-      <Seo {...smartcrm.seo} jsonLd={faqSchema(smartcrm.faqs)} />
+      {/* The FAQ facts are for search. They stay off until the product is launched. */}
+      <Seo
+        {...smartcrm.seo}
+        index={site.smartcrm.launched}
+        jsonLd={site.smartcrm.launched ? faqSchema(smartcrm.faqs) : undefined}
+      />
       <TextHero kicker={smartcrm.hero.kicker} title={smartcrm.hero.title} lede={smartcrm.hero.lede} />
 
       <section className="bg-paper py-28 sm:py-36">
