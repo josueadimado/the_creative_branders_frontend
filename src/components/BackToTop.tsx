@@ -4,6 +4,7 @@ import { ArrowUp } from "lucide-react";
 /**
  * A button that appears after you scroll down and returns you to the top.
  * It sits just above the chat button so the two do not cover each other.
+ * On a phone it also stays above the cookie question.
  */
 export default function BackToTop() {
   const [visible, setVisible] = useState(false);
@@ -29,7 +30,7 @@ export default function BackToTop() {
       type="button"
       onClick={goTop}
       aria-label="Back to top"
-      className="fixed bottom-24 right-5 z-50 flex h-12 w-12 items-center justify-center rounded-full border-2 border-signal bg-white text-deep shadow-lg transition-colors hover:bg-tint"
+      className="tcb-top fixed right-5 z-50 flex h-12 w-12 items-center justify-center rounded-full border-2 border-signal bg-white text-deep shadow-lg transition-colors hover:bg-tint"
     >
       <ArrowUp className="size-5" aria-hidden="true" />
     </button>

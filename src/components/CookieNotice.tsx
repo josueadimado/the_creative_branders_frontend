@@ -25,6 +25,13 @@ export default function CookieNotice() {
     return () => window.removeEventListener(OPEN_COOKIE_SETTINGS, reopen);
   }, []);
 
+  useEffect(() => {
+    document.body.dataset.cookieBanner = open ? "open" : "";
+    return () => {
+      delete document.body.dataset.cookieBanner;
+    };
+  }, [open]);
+
   if (!hasAnalyticsId() || !open) return null;
 
   function accept() {

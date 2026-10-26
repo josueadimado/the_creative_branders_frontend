@@ -15,6 +15,26 @@
   /* Pale backgrounds. Blue tint and gold tint stay soft, never the bright gold. */
   --tcb-tint: 227 240 246;
   --tcb-gold-tint: 251 243 217;
+  /* How far the chat button sits from the bottom. The cookie question lifts it on a phone. */
+  --tcb-float-bottom: max(1.25rem, env(safe-area-inset-bottom));
+}
+
+@media (max-width: 639px) {
+  body[data-cookie-banner="open"] {
+    --tcb-float-bottom: calc(env(safe-area-inset-bottom) + 11.5rem);
+  }
+}
+
+.tcb-chat {
+  bottom: var(--tcb-float-bottom);
+}
+
+.tcb-top {
+  bottom: calc(var(--tcb-float-bottom) + 4.5rem);
+}
+
+body[data-chat-hidden="true"] .tcb-top {
+  bottom: var(--tcb-float-bottom);
 }
 
 @tailwind base;
