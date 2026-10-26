@@ -101,11 +101,3 @@ export const home = {
     link: "Join the waitlist",
   },
 } as const;
-
-/** Quotes stay off the homepage until a client has approved one. */
-export const testimonials: readonly {
-  quote: string;
-  name: string;
-  role: string;
-  company: string;
-}[] = [];

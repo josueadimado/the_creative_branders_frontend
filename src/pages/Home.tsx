@@ -49,6 +49,7 @@ import {
   publishedWork,
   type FamilySlug,
 } from "../data/portfolio";
+import { approvedTestimonials, type Testimonial } from "../data/testimonials";
 import { socials } from "../data/socials";
 
 const siteOrigin = (import.meta.env.VITE_SITE_URL || "").replace(/\/$/, "");
@@ -266,6 +267,29 @@ function ToolIcon({ tool }: { tool: (typeof tools)[number] }) {
   }
   const Icon = tool.icon;
   return <Icon className="size-6" strokeWidth={1.5} aria-hidden="true" />;
+}
+
+/** Shown only when two or more clients have approved a quote. */
+function ClientQuotes({ items }: { items: Testimonial[] }) {
+  if (items.length < 2) return null;
+  return (
+    <section className="border-b border-mist bg-white px-5 py-20 sm:py-28" aria-label="What clients say">
+      <div className="mx-auto max-w-[1180px]">
+        <Eyebrow>Clients</Eyebrow>
+        <ul className="mt-10 grid gap-10 md:grid-cols-2">
+          {items.map((item) => (
+            <li key={`${item.company}-${item.role}-${item.quote}`} className="border-t border-mist pt-8">
+              <blockquote className="font-display text-2xl font-semibold leading-snug text-navy">“{item.quote}”</blockquote>
+              <p className="mt-6 text-sm text-slate">
+                {item.role}, {item.company}
+                {item.project ? ` · ${item.project}` : null}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
 }
 
 export default function Home() {
@@ -649,6 +673,8 @@ export default function Home() {
               </div>
             </div>
           </section>
+
+          <ClientQuotes items={approvedTestimonials()} />
 
           <section id="estimate" className="scroll-mt-24 bg-paper px-5 py-20 sm:py-28">
             <div className="mx-auto grid max-w-[1180px] gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-16">
