@@ -46,14 +46,9 @@ export const about = {
     },
   },
   facts: {
-    /** Sits to the left of the four numbers. */
+    /** Sits beside the numbers when there are confirmed figures to show. */
     note: "Numbers matter – but the stories behind them matter even more:",
-    stats: [
-      { value: "6+", label: "Years in technology" },
-      { value: "10+", label: "Delivered projects" },
-      { value: "15", label: "Specialists on our team" },
-      { value: "95%", label: "Client retention" },
-    ],
+    stats: [] as { value: string; label: string }[],
   },
   started: {
     title: "Why we started",

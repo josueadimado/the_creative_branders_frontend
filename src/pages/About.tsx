@@ -60,18 +60,19 @@ export default function About() {
           </div>
         </div>
 
-        {/* The short note stays on the left. The four numbers sit in a row beside it. */}
-        <div className="mt-16 grid gap-10 lg:mt-20 lg:grid-cols-[224px_1fr] lg:items-center">
-          <p className="type-body max-w-[224px] text-slate">{about.facts.note}</p>
-          <dl className="grid grid-cols-2 gap-8 sm:grid-cols-4">
-            {about.facts.stats.map((stat) => (
-              <div key={stat.label}>
-                <dt className="font-sans text-5xl font-semibold leading-none text-deep sm:text-[56px]">{stat.value}</dt>
-                <dd className="type-body mt-2 text-slate">{stat.label}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
+        {about.facts.stats.length > 0 ? (
+          <div className="mt-16 grid gap-10 lg:mt-20 lg:grid-cols-[224px_1fr] lg:items-center">
+            <p className="type-body max-w-[224px] text-slate">{about.facts.note}</p>
+            <dl className="grid grid-cols-2 gap-8 sm:grid-cols-4">
+              {about.facts.stats.map((stat) => (
+                <div key={stat.label}>
+                  <dt className="font-sans text-5xl font-semibold leading-none text-deep sm:text-[56px]">{stat.value}</dt>
+                  <dd className="type-body mt-2 text-slate">{stat.label}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        ) : null}
       </section>
 
       {/* The heading is centered. Each card uses the homepage blue, with the name at the top. */}
