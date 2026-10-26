@@ -18,6 +18,8 @@ export type InquiryPayload = {
   needs: string[];
   timeline?: string;
   budget_range?: string;
+  /** GHS or USD. Saved with the brief so the range is not just a number. */
+  budget_currency?: "GHS" | "USD";
   brief_link?: string;
   message: string;
   /** Must be true. The server stores the time the visitor agreed. */

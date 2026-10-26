@@ -18,6 +18,7 @@ type Row = {
   needs?: string[];
   timeline?: string;
   budget_range?: string;
+  budget_currency?: string;
   brief_link?: string;
   consent_at?: string;
   created_at: string;
@@ -147,6 +148,13 @@ function whatsappNumber(phone?: string): string {
   return (phone || "").replace(/\D/g, "");
 }
 
+/** Cedis get a GHS prefix. Dollar ranges already include the $ sign. */
+function budgetText(row: Row): string | undefined {
+  if (!row.budget_range) return undefined;
+  if (row.budget_currency === "GHS") return `GHS ${row.budget_range}`;
+  return row.budget_range;
+}
+
 function detailLine(label: string, value?: string | string[]) {
   const text = Array.isArray(value) ? value.join(", ") : value;
   if (!text) return null;
@@ -243,7 +251,7 @@ function Brief({ id }: { id: string }) {
           {detailLine("Country", row.country)}
           {detailLine("Needs", row.needs)}
           {detailLine("Wants to start", row.timeline)}
-          {detailLine("Budget", row.budget_range)}
+          {detailLine("Budget", budgetText(row))}
           {detailLine("Link", row.brief_link)}
           {detailLine("Agreed to privacy", row.consent_at ? when(row.consent_at) : undefined)}
         </dl>

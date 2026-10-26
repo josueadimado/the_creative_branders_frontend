@@ -1,9 +1,10 @@
-import { FormEvent, ReactNode, useState } from "react";
+import { FormEvent, ReactNode, useEffect, useState } from "react";
 import { ArrowUpRight, ChevronDown, Globe } from "lucide-react";
 import { useBotGuard } from "./BotGuard";
 import ConsentCheckbox from "./ConsentCheckbox";
-import { budgetOptions, contact, needOptions, timelineOptions } from "../content/contact";
+import { budgetOptionsGhs, budgetOptionsUsd, contact, needOptions, timelineOptions, type BudgetCurrency } from "../content/contact";
 import { countries, countryByCode } from "../data/countries";
+import { whatsappLink } from "../data/socials";
 import { postInquiry } from "../lib/api";
 import { track } from "../lib/analytics";
 
@@ -21,14 +22,15 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  // Which country's calling code is selected, such as GH for +233. Empty until they choose.
-  const [dialCode, setDialCode] = useState("");
+  // Starts on Ghana (+233). Stays on Ghana until they pick another country or code.
+  const [dialCode, setDialCode] = useState("GH");
   // Stays true after they pick a calling code themselves, so changing country does not overwrite it.
   const [dialChosen, setDialChosen] = useState(false);
   const [company, setCompany] = useState("");
   const [country, setCountry] = useState("");
   const [needs, setNeeds] = useState(emptyNeeds);
   const [timeline, setTimeline] = useState("");
+  const [currency, setCurrency] = useState<BudgetCurrency>("GHS");
   const [budget, setBudget] = useState("");
   const [message, setMessage] = useState("");
   const [link, setLink] = useState("");
@@ -37,12 +39,27 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
   const [error, setError] = useState("");
   const bot = useBotGuard();
 
+  // The round chat button hides while this success message is on screen,
+  // because the message already has its own WhatsApp button.
+  useEffect(() => {
+    document.body.dataset.chatHidden = status === "success" ? "true" : "";
+    return () => {
+      delete document.body.dataset.chatHidden;
+    };
+  }, [status]);
+
   function chooseCountry(name: string) {
     setCountry(name);
-    // Leave a calling code they already picked. Otherwise match the country, so Ghana selects +233.
+    // Leave a calling code they already picked. Otherwise match the country, so Nigeria selects +234.
     if (dialChosen) return;
     const match = countries.find((item) => item.name === name);
     if (match) setDialCode(match.code);
+  }
+
+  function chooseCurrency(next: BudgetCurrency) {
+    setCurrency(next);
+    const options: readonly string[] = next === "GHS" ? budgetOptionsGhs : budgetOptionsUsd;
+    if (budget && !options.includes(budget)) setBudget("");
   }
 
   function toggleNeed(option: string) {
@@ -75,6 +92,7 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
         needs,
         timeline: timeline || undefined,
         budget_range: budget || undefined,
+        budget_currency: currency,
         brief_link: link || undefined,
         message,
         consent: true,
@@ -84,12 +102,13 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
       setName("");
       setEmail("");
       setPhone("");
-      setDialCode("");
+      setDialCode("GH");
       setDialChosen(false);
       setCompany("");
       setCountry("");
       setNeeds([]);
       setTimeline("");
+      setCurrency("GHS");
       setBudget("");
       setMessage("");
       setLink("");
@@ -102,8 +121,8 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
   }
 
   const split = layout === "split";
-  // The country behind the calling code, such as Ghana for GH. Empty until one is chosen.
-  const calling = dialCode ? countryByCode(dialCode) : undefined;
+  const calling = countryByCode(dialCode);
+  const budgetChoices = currency === "GHS" ? budgetOptionsGhs : budgetOptionsUsd;
   const controlClass = split
     ? "w-full border border-mist bg-white px-3 py-3 text-[15px] text-navy outline-none transition-colors focus:border-deep"
     : "w-full border border-mist bg-paper px-4 py-3.5 text-[17px] text-navy outline-none transition-colors focus:border-deep";
@@ -114,6 +133,15 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
     return (
       <div className="border border-white/15 bg-navy p-10 text-white sm:p-12">
         <p className="type-title">{contact.success}</p>
+        <a
+          href={whatsappLink("Hello, I just sent a brief and would like a faster answer.")}
+          className="btn btn-primary mt-8"
+          target="_blank"
+          rel="noreferrer"
+          onClick={() => track("whatsapp_click", { location: "brief-success" })}
+        >
+          {contact.successWhatsApp}
+        </a>
       </div>
     );
   }
@@ -273,9 +301,24 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
           </select>
         </Field>
         <Field label={contact.fields.budget} htmlFor="budget">
+          <div className="mt-2 flex gap-2" role="group" aria-label={contact.fields.currency}>
+            {(["GHS", "USD"] as const).map((code) => (
+              <button
+                key={code}
+                type="button"
+                aria-pressed={currency === code}
+                onClick={() => chooseCurrency(code)}
+                className={`min-h-11 rounded-md px-4 text-sm font-medium ${
+                  currency === code ? "bg-navy text-white" : "border border-mist bg-white text-navy"
+                }`}
+              >
+                {code}
+              </button>
+            ))}
+          </div>
           <select id="budget" name="inquiry-budget" {...noSuggest} value={budget} onChange={(event) => setBudget(event.target.value)} className={fieldClass}>
             <option value="">{contact.choose}</option>
-            {budgetOptions.map((option) => (
+            {budgetChoices.map((option) => (
               <option key={option} value={option}>
                 {option}
               </option>

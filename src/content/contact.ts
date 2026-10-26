@@ -15,7 +15,17 @@ export const timelineOptions = [
   "Just exploring",
 ] as const;
 
-export const budgetOptions = [
+/** Cedis. This is the list people see first. */
+export const budgetOptionsGhs = [
+  "Under 25,000",
+  "25,000–75,000",
+  "75,000–200,000",
+  "200,000–500,000",
+  "Over 500,000",
+] as const;
+
+/** Dollars. The words match the list the form used before the currency switch. */
+export const budgetOptionsUsd = [
   "Under $2,000",
   "$2,000 to $5,000",
   "$5,000 to $15,000",
@@ -23,6 +33,8 @@ export const budgetOptions = [
   "Over $40,000",
   "I'd rather discuss it",
 ] as const;
+
+export type BudgetCurrency = "GHS" | "USD";
 
 export const contact = {
   seo: {
@@ -42,13 +54,15 @@ export const contact = {
     needs: "What do you need?",
     timeline: "When to start (optional)",
     budget: "Budget range (optional)",
+    currency: "Budget currency",
     message: "Tell us about the project",
     link: "Link to your current site or a brief (optional)",
   },
   choose: "Select",
   submit: "Send my brief",
   sending: "Sending…",
-  success: "Thanks, we've got your brief. We'll reply within one business day.",
+  success: "Thanks — we've received your brief. We reply within one business day. Want a faster answer?",
+  successWhatsApp: "WhatsApp",
   needsError: "Choose what you need.",
   consentError: "Please agree so we can reply to you.",
 } as const;
