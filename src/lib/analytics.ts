@@ -185,7 +185,7 @@ export function track(event: string, params?: Record<string, string>) {
   window.gtag("event", event, params);
 }
 
-/** Which WhatsApp link was used: floating, case-study, contact, footer, or brief-success. */
+/** Which WhatsApp link was used: floating, case-study, contact, or brief-success. */
 export function trackWhatsApp(button: string) {
   track("whatsapp_click", { page_path: window.location.pathname, button });
 }

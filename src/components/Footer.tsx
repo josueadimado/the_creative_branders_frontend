@@ -1,10 +1,10 @@
 import type { ReactNode } from "react";
+import { Phone } from "lucide-react";
 import { Link } from "react-router-dom";
 import { site } from "../content/site";
 import { useInsightsMenu } from "../content/contentDesk";
 import { OPEN_COOKIE_SETTINGS } from "./CookieNotice";
-import { bannerCanAppear, track, trackWhatsApp } from "../lib/analytics";
-import { whatsappHref } from "../data/socials";
+import { bannerCanAppear, track } from "../lib/analytics";
 import Logo from "./Logo";
 import SocialLinks from "./SocialLinks";
 
@@ -105,21 +105,12 @@ export default function Footer() {
             <li>
               <a
                 href={`tel:${site.phoneE164}`}
-                className="inline-flex min-h-11 items-center transition-colors hover:text-white"
+                className="inline-flex min-h-11 items-center gap-2 transition-colors hover:text-white"
+                aria-label={`Call ${site.phoneDisplay}`}
                 onClick={() => track("phone_click", { location: "footer" })}
               >
-                Call: {site.phoneDisplay}
-              </a>
-            </li>
-            <li>
-              <a
-                href={whatsappHref}
-                className="inline-flex min-h-11 items-center transition-colors hover:text-white"
-                target="_blank"
-                rel="noreferrer"
-                onClick={() => trackWhatsApp("footer")}
-              >
-                WhatsApp: {site.whatsapp.display}
+                <Phone size={16} aria-hidden="true" />
+                {site.phoneDisplay}
               </a>
             </li>
           </ul>
