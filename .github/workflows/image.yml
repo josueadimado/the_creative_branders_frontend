@@ -4,7 +4,11 @@ name: Build website image
 on:
   push:
     branches: [main]
+  # Run it yourself from the Actions tab: Build website image → Run workflow.
   workflow_dispatch:
+  # 02:00 GMT every night, so an admin edit reaches the saved pages within a day.
+  schedule:
+    - cron: "0 2 * * *"
 
 concurrency:
   group: website-image
@@ -56,3 +60,15 @@ jobs:
             org.opencontainers.image.source=https://github.com/josueadimado/the_creative_branders_frontend
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      # The image is published above. This asks Dokploy to download it and restart the site.
+      # Add a repository secret named DOKPLOY_DEPLOY_WEBHOOK with the webhook from the frontend service.
+      - name: Deploy the new image
+        env:
+          WEBHOOK: ${{ secrets.DOKPLOY_DEPLOY_WEBHOOK }}
+        run: |
+          if [ -z "$WEBHOOK" ]; then
+            echo "::warning::No DOKPLOY_DEPLOY_WEBHOOK secret. The image was published. Deploy the frontend service in Dokploy so the live site updates."
+            exit 0
+          fi
+          curl --fail --silent --show-error --request POST "$WEBHOOK"
