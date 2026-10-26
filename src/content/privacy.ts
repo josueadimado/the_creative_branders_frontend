@@ -1,86 +1,116 @@
+// Content to be reviewed by a qualified Ghanaian lawyer before wide promotion.
 import { site } from "./site";
 
-/** Words for the privacy policy. Square brackets stay until the owner fills them in. */
+/** Shown under the title. Change this when the policy text changes. */
+const updated = "26 October 2026";
+
+const address = `${site.address.street}, ${site.address.city}, ${site.address.region}, ${site.address.country}`;
 
 export const privacy = {
   seo: {
     title: "Privacy policy",
-    description: `How ${site.name} handles information you send through this website.`,
+    description: `How ${site.legalName} handles information you send through this website.`,
     path: "/privacy",
   },
   kicker: "Legal",
   title: "Privacy policy",
-  lede: `How ${site.legalName} handles information you send through this website.`,
+  updated,
+  lede: `This page explains what ${site.legalName} collects on this website and what we do with it.`,
   sections: [
     {
       title: "Who we are",
       paragraphs: [
-        `This website is operated by ${site.legalName}, a company registered in ${site.jurisdiction}. Contact for privacy requests: ${site.email}.`,
-      ],
-    },
-    {
-      title: "What this policy covers",
-      paragraphs: [
-        "It covers the three forms on this site: the contact inquiry form, the SmartCRM waitlist, and the Academy expression of interest. It does not cover third-party websites we link to (for example social networks).",
+        `${site.legalName} runs this website. We are the data controller. That means we decide why and how this information is used. We are registered in ${site.jurisdiction} with the ${site.registrationAuthority}.`,
+        `Registration number: ${site.registrationNumber}.`,
+        `TIN: ${site.tin}.`,
+        `Data Protection Commission registration: ${site.dpcRegistration}.`,
+        `Address: ${address}.`,
+        `Email: ${site.email}.`,
       ],
     },
     {
       title: "What we collect",
-      paragraphs: [
-        "We do not ask for payment card details on this website. We do not sell your personal data.",
-      ],
+      paragraphs: ["We collect what you choose to send us, and a note of your cookie choice."],
       items: [
         {
-          label: "Contact inquiry",
-          text: "name, email, what you need, your project description, and any optional details you add: company, country, phone, timeline, budget range, and a link.",
+          label: "Project brief",
+          text: "Your name, email, WhatsApp or phone, company, country, the service you need, budget range, timeline, and your message.",
         },
         {
-          label: "SmartCRM waitlist",
-          text: "email, and name if you choose to give it.",
+          label: "Booking",
+          text: "If you book a call with us, we keep the details of that booking.",
         },
         {
-          label: "Academy interest",
-          text: "name, email, and an optional message.",
+          label: "Cookies and analytics",
+          text: "Only if you accept analytics cookies.",
+        },
+        {
+          label: "WhatsApp and email",
+          text: "Messages you send us on WhatsApp or by email.",
         },
       ],
     },
     {
-      title: "Why we collect it",
+      title: "Why we use it",
       paragraphs: [
-        "We use the information so we can reply to your inquiry, add you to a product waitlist, or note your interest in the Academy. That is a legitimate interest in running a studio and responding to people who contact us. Where you ask us to email you (for example a waitlist), we rely on your request.",
+        "We use it to reply to enquiries, prepare proposals, deliver projects, improve the site when you allow analytics, and meet legal obligations.",
       ],
     },
     {
-      title: "How we store it and for how long",
+      title: "Legal basis",
       paragraphs: [
-        "Submissions are stored in our private database and reviewed in a staff admin panel. We keep them for as long as we need them to handle your request and keep a sensible business record, then delete or anonymise them when they are no longer needed. If you ask us to delete your data sooner, we will do so unless we must keep it for a legal reason.",
+        "Depending on the situation, we rely on your consent, on steps taken before a contract, on our legitimate interest in answering people who contact the studio, or on a legal obligation.",
       ],
     },
-    {
-      title: "Email provider",
-      paragraphs: [
-        "When a form is submitted, we may send a notification email to the studio, and for contact inquiries we may send you a short confirmation email. Those messages are sent using Resend (or another email service we configure). The provider processes the address and content of the email so it can be delivered.",
-      ],
-    },
+    // When marketing cookies are added, list Meta Pixel and the LinkedIn Insight Tag in this section.
     {
       title: "Who we share it with",
       paragraphs: [
-        "We share personal data only with the tools that help us run the site (hosting, database, and email delivery). We do not share form submissions with advertisers.",
+        "Other companies process some of this information for us. We never sell your data.",
+      ],
+      items: [
+        { label: "Resend", text: "Sends our emails." },
+        { label: "[HOSTING PROVIDER]", text: "Hosts the website." },
+        { label: "Google Analytics", text: "Only if you accept analytics cookies." },
+        { label: "WhatsApp (Meta)", text: "Only when you contact us on WhatsApp." },
+      ],
+    },
+    {
+      title: "International transfers",
+      paragraphs: [
+        "Some of these companies store data outside Ghana. We use providers with appropriate safeguards. Clients in the UK and the EU are handled in line with UK and EU GDPR principles.",
+      ],
+    },
+    {
+      title: "How long we keep it",
+      paragraphs: [
+        "Enquiries that do not become projects are deleted after [24] months.",
+        "Client project records are kept for [6] years for tax and legal reasons.",
       ],
     },
     {
       title: "Your rights",
       paragraphs: [
-        `Depending on where you live, you may ask us for a copy of your data, ask us to correct it, or ask us to delete it. To make a request, email ${site.email} and tell us which form you used and the email address you submitted.`,
+        `You can ask for a copy of your data, ask us to correct it, ask us to delete it, object to processing, object to direct marketing, and withdraw consent. Email ${site.email}. We reply within [30] days.`,
       ],
     },
     {
-      title: "Changes",
+      title: "Complaints",
       paragraphs: [
-        "We may update this policy from time to time. The version on this page is the current one.",
+        "You can complain to the Data Protection Commission of Ghana. Their website is https://www.dataprotection.org.gh/.",
+      ],
+    },
+    {
+      title: "Security",
+      paragraphs: [
+        "Form submissions sit in a private database. Only people who need them for the studio's work can open them, and the emails we send travel over an encrypted connection.",
+      ],
+    },
+    {
+      title: "Changes to this policy",
+      paragraphs: [
+        "We may update this policy. The date at the top of this page shows the latest version.",
       ],
     },
   ],
-  closing: "Questions about a project rather than privacy?",
-  closingLink: "Start an inquiry",
-} as const;
+};

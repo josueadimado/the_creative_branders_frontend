@@ -5,6 +5,9 @@ import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 // Public URLs, including each published case study.
 // /dev/styleguide stays off this list, so it is left out of the sitemap and prerender.
+import { cookies } from "./src/content/cookies";
+import { privacy } from "./src/content/privacy";
+import { terms } from "./src/content/terms";
 import { indexableRoutes, publicRoutes } from "./src/siteRoutes";
 
 function siteOrigin() {
@@ -38,6 +41,49 @@ function rejectMissingCatalog(req: { url?: string }, res: { statusCode: number; 
     return;
   }
   next();
+}
+
+/**
+ * During a production build, warn if a legal page still shows [placeholder] text.
+ * The warning names each missing field so it is not shipped unnoticed.
+ */
+function legalPlaceholderWarning(): Plugin {
+  return {
+    name: "tcb-legal-placeholders",
+    apply: "build",
+    buildStart() {
+      const pages = [
+        ["Privacy", privacy],
+        ["Terms", terms],
+        ["Cookies", cookies],
+      ] as const;
+      for (const [name, page] of pages) {
+        const fields: string[] = [];
+        collectPlaceholders(page, fields);
+        if (fields.length === 0) continue;
+        const lines = fields.map((field) => `- ${field}`).join("\n");
+        console.warn(`[legal] ${name} still has placeholder text:\n${lines}`);
+      }
+    },
+  };
+}
+
+/** Walk the page content and keep each [placeholder] once, in the order it appears. */
+function collectPlaceholders(value: unknown, found: string[]) {
+  if (typeof value === "string") {
+    for (const match of value.matchAll(/\[([^\]]+)\]/g)) {
+      const label = `[${match[1]}]`;
+      if (!found.includes(label)) found.push(label);
+    }
+    return;
+  }
+  if (Array.isArray(value)) {
+    value.forEach((item) => collectPlaceholders(item, found));
+    return;
+  }
+  if (value && typeof value === "object") {
+    Object.values(value).forEach((item) => collectPlaceholders(item, found));
+  }
 }
 
 /** Writes sitemap.xml and robots.txt when the production site is built. */
@@ -98,7 +144,7 @@ function googleTag(): Plugin {
 // Vite is the build tool. In Docker we listen on 0.0.0.0 so the
 // published port 3000 is reachable from your browser.
 export default defineConfig({
-  plugins: [react(), siteFiles(), googleTag()],
+  plugins: [react(), siteFiles(), googleTag(), legalPlaceholderWarning()],
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
