@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { site } from "../content/site";
 import { OPEN_COOKIE_SETTINGS } from "./CookieNotice";
 import { hasAnalyticsId, track } from "../lib/analytics";
-import { studioEmail, whatsappHref } from "../data/socials";
+import { whatsappHref } from "../data/socials";
 import Logo from "./Logo";
 import SocialLinks from "./SocialLinks";
 
@@ -18,8 +18,10 @@ const studioLinks = [
 const products = ["SmartCRM", "Academy"];
 
 const legal = [
-  { to: "/privacy", label: "Privacy policy" },
-  { to: "/terms", label: "Terms and conditions" },
+  { to: "/privacy", label: "Privacy" },
+  { to: "/terms", label: "Terms" },
+  { to: "/cookies", label: "Cookies" },
+  { to: "/responsible-ai", label: "Responsible AI" },
 ];
 
 function Column({ title, children }: { title: string; children: ReactNode }) {
@@ -90,10 +92,15 @@ export default function Footer() {
         <div>
           <ul className="space-y-3 type-caption text-white/70">
             <li>
-              <a href={`mailto:${studioEmail}`} className="inline-flex min-h-11 items-center break-words transition-colors hover:text-white">
-                {studioEmail.slice(0, studioEmail.indexOf("@") + 1)}
+              <a href={`mailto:${site.email}`} className="inline-flex min-h-11 items-center break-words transition-colors hover:text-white">
+                {site.email.slice(0, site.email.indexOf("@") + 1)}
                 <wbr />
-                {studioEmail.slice(studioEmail.indexOf("@") + 1)}
+                {site.email.slice(site.email.indexOf("@") + 1)}
+              </a>
+            </li>
+            <li>
+              <a href={`tel:${site.phoneE164}`} className="inline-flex min-h-11 items-center transition-colors hover:text-white">
+                {site.phoneDisplay}
               </a>
             </li>
             {whatsappHref ? (
@@ -116,7 +123,9 @@ export default function Footer() {
       <div className="border-t border-white/[0.06] px-6 py-6">
         {/* On a phone the copyright and the legal links sit in the middle. On a wider screen they sit at each end. */}
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 text-center text-sm text-white/80 sm:flex-row sm:justify-between sm:text-left">
-          <p>© {new Date().getFullYear()} The Creative Branders.</p>
+          <p>
+            © {new Date().getFullYear()} {site.legalName}. Registered in {site.jurisdiction}.
+          </p>
           <ul className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
             {legal.map((item) => (
               <li key={item.to}>
