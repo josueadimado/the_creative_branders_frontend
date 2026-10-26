@@ -58,7 +58,7 @@ export default function Footer() {
             <Link to="/" className="inline-flex">
               <Logo variant="dark" size="large" />
             </Link>
-            <p className="mt-3 text-center text-xs leading-snug text-white/60">{site.footerTagline}</p>
+            <p className="mt-3 text-center text-xs leading-snug text-white/60">{site.tagline}</p>
           </div>
         </div>
 

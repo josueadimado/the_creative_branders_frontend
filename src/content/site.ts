@@ -42,11 +42,12 @@ export const site = {
     facebook: "https://www.facebook.com/thecreativebranders",
     x: "https://x.com/TheCBranders",
   },
-  /** Browser tabs read as "Page — The Creative Branders". */
+  /** Inner pages read as "Page — The Creative Branders". The homepage puts the name first. */
   titleJoin: " — ",
+  /** Used for the homepage tab, the share title, and the footer. Keep this spelling everywhere. */
+  tagline: "Designed for Intelligent Growth",
   description:
     "We're the strategy and technology partner behind growing businesses. We take the pressure off your day, so you can focus on your customers and your next move.",
-  footerTagline: "Designed for intelligent growth.",
 } as const;
 
 /**

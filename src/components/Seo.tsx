@@ -31,7 +31,9 @@ function siteOrigin() {
  */
 export default function Seo({ title, description, path, image = DEFAULT_IMAGE, index = true, jsonLd }: SeoProps) {
   const origin = siteOrigin();
-  const fullTitle = `${title}${site.titleJoin}${SITE_NAME}`;
+  // The homepage leads with the studio name. Every other page leads with its own name.
+  const fullTitle =
+    path === "/" ? `${SITE_NAME}${site.titleJoin}${site.tagline}` : `${title}${site.titleJoin}${SITE_NAME}`;
   const pageUrl = origin ? `${origin}${path}` : undefined;
   const imageUrl = image.startsWith("http") ? image : origin ? `${origin}${image}` : image;
   const blocks = [...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])];
