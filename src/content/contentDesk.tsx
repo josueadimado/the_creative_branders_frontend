@@ -182,7 +182,7 @@ export function useAboutCopy() {
       ...about.facts,
       // The other figures stay off this page until they are confirmed.
       // This one is the number of published projects.
-      stats: [{ value: `${projects.length}+`, label: "projects delivered" }],
+      stats: [{ value: String(projects.length), label: "projects delivered" }],
     },
   };
 }
