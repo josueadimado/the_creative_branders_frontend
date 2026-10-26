@@ -44,8 +44,8 @@ function rejectMissingCatalog(req: { url?: string }, res: { statusCode: number; 
 }
 
 /**
- * During a production build, warn if a legal page still shows [placeholder] text.
- * The warning names each missing field so it is not shipped unnoticed.
+ * During a production build, warn if a legal page still shows an unconfirmed
+ * retention period: [24] months or [6] years.
  */
 function legalPlaceholderWarning(): Plugin {
   return {
@@ -62,17 +62,17 @@ function legalPlaceholderWarning(): Plugin {
         collectPlaceholders(page, fields);
         if (fields.length === 0) continue;
         const lines = fields.map((field) => `- ${field}`).join("\n");
-        console.warn(`[legal] ${name} still has placeholder text:\n${lines}`);
+        console.warn(`[legal] ${name} still has unconfirmed retention periods:\n${lines}`);
       }
     },
   };
 }
 
-/** Walk the page content and keep each [placeholder] once, in the order it appears. */
+/** Keep only the retention brackets the owner still needs to confirm. */
 function collectPlaceholders(value: unknown, found: string[]) {
   if (typeof value === "string") {
-    for (const match of value.matchAll(/\[([^\]]+)\]/g)) {
-      const label = `[${match[1]}]`;
+    for (const match of value.matchAll(/\[(24|6)\]/g)) {
+      const label = match[0] === "[24]" ? "[24] months" : "[6] years";
       if (!found.includes(label)) found.push(label);
     }
     return;

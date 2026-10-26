@@ -1,10 +1,8 @@
 // Content to be reviewed by a qualified Ghanaian lawyer before wide promotion.
-import { site } from "./site";
+import { legalPlaceLines, site } from "./site";
 
 /** Shown under the title. Change this when the policy text changes. */
 const updated = "26 October 2026";
-
-const address = `${site.address.street}, ${site.address.city}, ${site.address.region}, ${site.address.country}`;
 
 export const privacy = {
   seo: {
@@ -21,11 +19,7 @@ export const privacy = {
       title: "Who we are",
       paragraphs: [
         `${site.legalName} runs this website. We are the data controller. That means we decide why and how this information is used. We are registered in ${site.jurisdiction} with the ${site.registrationAuthority}.`,
-        `Registration number: ${site.registrationNumber}.`,
-        `TIN: ${site.tin}.`,
-        `Data Protection Commission registration: ${site.dpcRegistration}.`,
-        `Address: ${address}.`,
-        `Email: ${site.email}.`,
+        ...legalPlaceLines(),
       ],
     },
     {
@@ -70,7 +64,7 @@ export const privacy = {
       ],
       items: [
         { label: "Resend", text: "Sends our emails." },
-        { label: "[HOSTING PROVIDER]", text: "Hosts the website." },
+        { label: "Our hosting provider", text: "Hosts the website." },
         { label: "Google Analytics", text: "Only if you accept analytics cookies." },
         { label: "WhatsApp (Meta)", text: "Only when you contact us on WhatsApp." },
       ],

@@ -1,10 +1,8 @@
 // Content to be reviewed by a qualified Ghanaian lawyer before wide promotion.
-import { site } from "./site";
+import { legalPlaceLines, site } from "./site";
 
 /** Shown under the title. Change this when the terms text changes. */
 const updated = "26 October 2026";
-
-const address = `${site.address.street}, ${site.address.city}, ${site.address.region}, ${site.address.country}`;
 
 export const terms = {
   seo: {
@@ -21,11 +19,7 @@ export const terms = {
       title: "Who we are",
       paragraphs: [
         `This website is run by ${site.legalName}, registered in ${site.jurisdiction} with the ${site.registrationAuthority}.`,
-        `Registration number: ${site.registrationNumber}.`,
-        `TIN: ${site.tin}.`,
-        `Data Protection Commission registration: ${site.dpcRegistration}.`,
-        `Address: ${address}.`,
-        `Email: ${site.email}.`,
+        ...legalPlaceLines(),
       ],
     },
     {

@@ -15,11 +15,11 @@ export const site = {
   legalName: "The Creative Branders LTD",
   jurisdiction: "Ghana",
   registrationAuthority: "Office of the Registrar of Companies (ORC), Ghana",
-  registrationNumber: "[ORC REGISTRATION NUMBER]",
-  tin: "[TIN]",
-  dpcRegistration: "[DATA PROTECTION COMMISSION REGISTRATION NUMBER]",
+  /** Leave blank and the legal pages skip this line. */
+  registrationNumber: "",
+  /** Street or GhanaPost address. Leave blank and the legal pages show only Accra, Ghana. */
+  streetAddress: "",
   address: {
-    street: "[STREET ADDRESS / DIGITAL ADDRESS e.g. GA-XXX-XXXX]",
     city: "Accra",
     region: "Greater Accra",
     country: "Ghana",
@@ -48,3 +48,20 @@ export const site = {
     "We're the strategy and technology partner behind growing businesses. We take the pressure off your day, so you can focus on your customers and your next move.",
   footerTagline: "Designed for intelligent growth.",
 } as const;
+
+/**
+ * The extra lines under "Who we are" on the legal pages.
+ * A blank registration number or street is left out.
+ */
+export function legalPlaceLines(): string[] {
+  const lines: string[] = [];
+  if (site.registrationNumber.trim()) {
+    lines.push(`Registration number: ${site.registrationNumber}.`);
+  }
+  if (site.streetAddress.trim()) {
+    lines.push(site.streetAddress.trim());
+  }
+  lines.push(`${site.address.city}, ${site.address.country}`);
+  lines.push(`Email: ${site.email}.`);
+  return lines;
+}
