@@ -92,7 +92,7 @@ function ProjectList() {
     <section>
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-semibold tracking-tight">Projects</h1>
+          <h1 className="font-display text-3xl font-semibold tracking-tight">Projects</h1>
           <p className="mt-1 max-w-xl text-sm text-slate">
             Case studies on the Work page. A project shows on the site once it is published.
           </p>
@@ -325,7 +325,7 @@ function ProjectEdit({ id }: { id: string }) {
             {project.public_name || "Project"}
           </p>
           <div className="mt-2 flex flex-wrap items-center gap-3">
-            <h1 className="text-3xl font-semibold tracking-tight">{project.public_name || "Project"}</h1>
+            <h1 className="font-display text-3xl font-semibold tracking-tight">{project.public_name || "Project"}</h1>
             <Badge live={project.published}>{project.published ? "On the site" : "Draft"}</Badge>
           </div>
         </div>

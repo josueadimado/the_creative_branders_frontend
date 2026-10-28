@@ -94,7 +94,7 @@ export default function Overview() {
     <section className="space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-[28px] font-semibold tracking-tight text-navy">Your studio, at a glance</h1>
+          <h1 className="font-display text-[28px] font-semibold tracking-tight text-navy">Your studio, at a glance</h1>
           <p className="mt-1 text-[13px] text-slate">
             {weekdayLine()}. A little less admin, a little more making.
           </p>

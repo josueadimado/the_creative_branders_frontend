@@ -231,7 +231,7 @@ function Brief({ id }: { id: string }) {
       <div className="mt-3 flex flex-wrap items-start justify-between gap-4">
         <div>
           <div className="flex flex-wrap items-center gap-2">
-            <h1 className="text-3xl font-semibold tracking-tight">{row.name || row.email}</h1>
+            <h1 className="font-display text-3xl font-semibold tracking-tight">{row.name || row.email}</h1>
             {!row.reviewed ? (
               <span className="rounded-full bg-navy px-2 py-0.5 text-xs font-medium text-white">New</span>
             ) : null}

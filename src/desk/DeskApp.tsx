@@ -195,7 +195,7 @@ function Login() {
           <Logo variant="light" />
         </div>
         <form onSubmit={onSubmit} className="rounded-2xl border border-mist bg-white p-6 shadow-sm">
-          <h1 className="text-xl font-semibold tracking-tight">Sign in to the studio desk</h1>
+          <h1 className="font-display text-xl font-semibold tracking-tight">Sign in to the studio desk</h1>
           <label className="mt-5 block text-sm font-medium">
             Username
             <input
