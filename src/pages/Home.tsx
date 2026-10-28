@@ -25,10 +25,12 @@ import {
   Zap,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import AuditLink from "../components/AuditLink";
 import CtaBand from "../components/CtaBand";
 import { BrowserFrame } from "../components/DeviceFrame";
+import LanguageSwitcher from "../components/LanguageSwitcher";
+import { LocaleLink } from "../components/LocaleLink";
 import OptimizedImage from "../components/OptimizedImage";
 import FamilyIcon from "../components/FamilyIcon";
 import InquiryForm from "../components/InquiryForm";
@@ -38,7 +40,6 @@ import Seo from "../components/Seo";
 import { useHomeCopy, useInsightsMenu, useProjects } from "../content/contentDesk";
 import { home } from "../content/home";
 import { site } from "../content/site";
-import { workPage } from "../content/work";
 import { track } from "../lib/analytics";
 import {
   coverImage,
@@ -91,53 +92,37 @@ const tools: { name: string; icon: LucideIcon | "badge" }[] = [
  * Homepage rows for the four service families.
  * The words here are the short version. The service pages keep the full list.
  */
-const buildGroups: {
-  slug: FamilySlug;
-  name: string;
-  description: string;
-  tags: string[];
-  icon: LucideIcon;
-}[] = [
+const buildGroupMeta: { slug: FamilySlug; icon: LucideIcon; nameKey: string; bodyKey: string; tagKeys: string[] }[] = [
   {
     slug: "brand-websites",
-    name: "Brand and websites",
-    description:
-      "We help you establish your look from the first click. We shape your brand and build the website that turns visitors into enquiries.",
-    tags: ["Brand identity", "Business websites", "Online stores"],
     icon: Globe,
+    nameKey: "groupBrand",
+    bodyKey: "groupBrandBody",
+    tagKeys: ["groupBrandTag1", "groupBrandTag2", "groupBrandTag3"],
   },
   {
     slug: "web-applications",
-    name: "Web applications",
-    description:
-      "We help you build software around how your business works. We set it up so customers can book, pay and sign in, and your team can run the day from one place.",
-    tags: ["Booking and payments", "Client portals", "Admin dashboards"],
     icon: AppWindow,
+    nameKey: "groupWeb",
+    bodyKey: "groupWebBody",
+    tagKeys: ["groupWebTag1", "groupWebTag2", "groupWebTag3"],
   },
   {
     slug: "mobile-apps",
-    name: "Mobile apps",
-    description:
-      "We help you build iOS and Android apps your customers keep using. We take the app from the first version to the app store, and we handle every update after.",
-    tags: ["iOS and Android", "App design", "App store launch"],
     icon: Smartphone,
+    nameKey: "groupMobile",
+    bodyKey: "groupMobileBody",
+    tagKeys: ["groupMobileTag1", "groupMobileTag2", "groupMobileTag3"],
   },
   {
     slug: "automation-reporting",
-    name: "Automation and reporting",
-    description:
-      "We help you automate the routine work. We set up the replies, reminders and follow-ups so they go out on time, and we keep your key numbers updating every day.",
-    tags: ["WhatsApp assistants", "Reminders and follow-ups", "Dashboards"],
     icon: Workflow,
+    nameKey: "groupAuto",
+    bodyKey: "groupAutoBody",
+    tagKeys: ["groupAutoTag1", "groupAutoTag2", "groupAutoTag3"],
   },
 ];
 
-const basePageLinks = [
-  // Services stays on this page. The link only scrolls to that section.
-  { href: "#services", label: "Services" },
-  { href: "/work", label: "Work" },
-  { href: "/about", label: "About" },
-];
 
 /** A link on this page stays an anchor. A link to another page uses the app router. */
 function HomeNavLink({
@@ -153,9 +138,9 @@ function HomeNavLink({
 }) {
   if (href.startsWith("/")) {
     return (
-      <Link to={href} className={className} onClick={onClick}>
+      <LocaleLink to={href} className={className} onClick={onClick}>
         {children}
-      </Link>
+      </LocaleLink>
     );
   }
   return (
@@ -243,12 +228,12 @@ function ToolIcon({ tool }: { tool: (typeof tools)[number] }) {
 }
 
 /** Shown only when two or more clients have approved a quote. */
-function ClientQuotes({ items }: { items: Testimonial[] }) {
+function ClientQuotes({ items, eyebrow, aria }: { items: Testimonial[]; eyebrow: string; aria: string }) {
   if (items.length < 2) return null;
   return (
-    <section className="border-b border-mist bg-white px-5 py-20 sm:py-28" aria-label="What clients say">
+    <section className="border-b border-mist bg-white px-5 py-20 sm:py-28" aria-label={aria}>
       <div className="mx-auto max-w-[1180px]">
-        <Eyebrow>Clients</Eyebrow>
+        <Eyebrow>{eyebrow}</Eyebrow>
         <ul className="mt-10 grid gap-10 md:grid-cols-2">
           {items.map((item) => (
             <li key={`${item.company}-${item.role}-${item.quote}`} className="border-t border-mist pt-8">
@@ -266,14 +251,42 @@ function ClientQuotes({ items }: { items: Testimonial[] }) {
 }
 
 export default function Home() {
+  const { t, i18n } = useTranslation(["home", "nav", "common", "cta"]);
+  const isFr = i18n.language?.startsWith("fr");
   const homeLive = useHomeCopy();
   const projects = useProjects();
   const where = projectCountries(projects);
   const countryLine = joinCountries(where);
   const leadStudies = projects.filter((item) => item.featured).slice(0, 2);
   const showInsights = useInsightsMenu();
-  const pageLinks = showInsights ? [...basePageLinks, { href: "/insights", label: "Insights" }] : basePageLinks;
+  const pageLinks = [
+    { href: "#services", label: t("nav:services") },
+    { href: "/work", label: t("nav:work") },
+    { href: "/about", label: t("nav:about") },
+    ...(showInsights ? [{ href: "/insights", label: t("nav:insights") }] : []),
+  ];
   const [menuOpen, setMenuOpen] = useState(false);
+  const hero = {
+    kicker: isFr ? t("home:heroKicker") : homeLive.hero.kicker,
+    title: isFr ? t("home:heroTitle") : homeLive.hero.title,
+    lede: isFr ? t("home:heroLede") : homeLive.hero.lede,
+    primary: isFr ? t("home:heroPrimary") : homeLive.hero.primary,
+    secondary: isFr ? t("home:heroSecondary") : homeLive.hero.secondary,
+  };
+  const seo = {
+    ...homeLive.seo,
+    title: isFr ? t("home:seoTitle") : homeLive.seo.title,
+    path: isFr ? "/fr" : "/",
+  };
+  const sectors = isFr ? t("home:sectors") : homeLive.sectors;
+  const proofLine = isFr ? t("home:proofLine") : homeLive.proof.line;
+  const workLink = isFr ? t("home:workLink") : homeLive.work.link;
+  const buildGroups = buildGroupMeta.map((group) => ({
+    ...group,
+    name: t(`home:${group.nameKey}`),
+    description: t(`home:${group.bodyKey}`),
+    tags: group.tagKeys.map((key) => t(`home:${key}`)),
+  }));
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
@@ -285,7 +298,7 @@ export default function Home() {
   return (
     <>
       <Seo
-        {...homeLive.seo}
+        {...seo}
         jsonLd={[
           { ...website, description: homeLive.seo.description },
           ...serviceSchemas(),
@@ -296,41 +309,47 @@ export default function Home() {
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-white focus:px-4 focus:py-2 focus:text-navy"
       >
-        Skip to content
+        {t("common:skipToContent")}
       </a>
 
       <div className="bg-white text-navy">
         <header className="sticky top-0 z-40 border-b border-white/10 bg-navy text-white">
           <div className="mx-auto flex max-w-[1180px] items-center justify-between gap-6 px-5 py-3.5 lg:grid lg:grid-cols-[1fr_auto_1fr]">
-            <Link to="/" aria-label={`${site.name} home`} onClick={() => setMenuOpen(false)}>
+            <LocaleLink to="/" aria-label={`${site.name} home`} onClick={() => setMenuOpen(false)}>
               <Logo variant="dark" />
-            </Link>
-            <nav className="hidden items-center gap-8 text-sm text-white/75 lg:flex" aria-label="Primary">
+            </LocaleLink>
+            <nav className="hidden items-center gap-8 text-sm text-white/75 lg:flex" aria-label={t("common:primaryNav")}>
               {pageLinks.map((link) => (
                 <HomeNavLink key={link.href} href={link.href} className="hover:text-white">
                   {link.label}
                 </HomeNavLink>
               ))}
             </nav>
-            <Link
-              to="/contact"
-              className="btn btn-primary hidden !px-5 !py-2 justify-self-end lg:inline-flex"
-              onClick={() => track("start_project_click", { location: "home-header" })}
-            >
-              {homeLive.hero.secondary}
-            </Link>
-            <button
-              type="button"
-              className="inline-flex size-11 items-center justify-center lg:hidden"
-              aria-expanded={menuOpen}
-              aria-label={menuOpen ? "Close menu" : "Open menu"}
-              onClick={() => setMenuOpen((open) => !open)}
-            >
-              {menuOpen ? <X /> : <Menu />}
-            </button>
+            <div className="hidden items-center justify-self-end gap-4 lg:flex">
+              <LanguageSwitcher tone="dark" />
+              <LocaleLink
+                to="/contact"
+                className="btn btn-primary !px-5 !py-2"
+                onClick={() => track("start_project_click", { location: "home-header" })}
+              >
+                {hero.secondary}
+              </LocaleLink>
+            </div>
+            <div className="flex items-center gap-2 justify-self-end lg:hidden">
+              <LanguageSwitcher tone="dark" />
+              <button
+                type="button"
+                className="inline-flex size-11 items-center justify-center"
+                aria-expanded={menuOpen}
+                aria-label={menuOpen ? t("common:closeMenu") : t("common:openMenu")}
+                onClick={() => setMenuOpen((open) => !open)}
+              >
+                {menuOpen ? <X /> : <Menu />}
+              </button>
+            </div>
           </div>
           {menuOpen ? (
-            <nav className="flex flex-col gap-5 border-t border-white/10 px-6 py-6 lg:hidden" aria-label="Mobile">
+            <nav className="flex flex-col gap-5 border-t border-white/10 px-6 py-6 lg:hidden" aria-label={t("common:mobileNav")}>
               {pageLinks.map((link) => (
                 <HomeNavLink
                   key={link.href}
@@ -341,7 +360,7 @@ export default function Home() {
                   {link.label}
                 </HomeNavLink>
               ))}
-              <Link
+              <LocaleLink
                 to="/contact"
                 className="btn btn-primary self-start"
                 onClick={() => {
@@ -349,8 +368,8 @@ export default function Home() {
                   track("start_project_click", { location: "home-header" });
                 }}
               >
-                {homeLive.hero.secondary}
-              </Link>
+                {hero.secondary}
+              </LocaleLink>
             </nav>
           ) : null}
         </header>
@@ -367,15 +386,15 @@ export default function Home() {
               <div className="min-w-0">
                 <p className="flex items-center gap-2 text-sm font-semibold text-signal">
                   <span className="size-1.5 rounded-full bg-signal" aria-hidden="true" />
-                  {homeLive.hero.kicker}
+                  {hero.kicker}
                 </p>
                 <h1
                   id="hero-title"
                   className="mt-8 font-hero text-[3.4rem] font-extrabold leading-[0.82] tracking-tight sm:text-7xl lg:mt-10 lg:text-[7.25rem]"
                 >
-                  <HeroTitle title={homeLive.hero.title} />
+                  <HeroTitle title={hero.title} />
                 </h1>
-                <p className="type-body mt-8 max-w-lg text-white/75 lg:mt-10">{homeLive.hero.lede}</p>
+                <p className="type-body mt-8 max-w-lg text-white/75 lg:mt-10">{hero.lede}</p>
                 <div className="mt-8 flex flex-wrap items-center gap-3 lg:mt-10">
                   <AuditLink className="btn btn-primary" location="home-hero" />
                   <a
@@ -383,7 +402,7 @@ export default function Home() {
                     className="btn btn-secondary"
                     onClick={() => track("start_project_click", { location: "home-hero" })}
                   >
-                    {homeLive.hero.secondary}
+                    {hero.secondary}
                   </a>
                 </div>
               </div>
@@ -456,7 +475,7 @@ export default function Home() {
                   </span>
                   <span className="min-w-0">
                     <strong className="block text-sm">
-                      {projects.length} {projects.length === 1 ? "project" : "projects"} shipped
+                      {projects.length} {projects.length === 1 ? t("home:statProject") : t("home:statProjects")}
                     </strong>
                     {countryLine ? <span className="block text-xs text-slate">{countryLine}</span> : null}
                   </span>
@@ -466,21 +485,20 @@ export default function Home() {
             </div>
             <div className="border-t border-white/10">
               <div className="mx-auto flex max-w-[1180px] flex-wrap items-center justify-between gap-4 px-5 py-4 text-[11px] uppercase tracking-[0.18em] text-white/75">
-                <span className="text-[15px] font-normal normal-case leading-snug tracking-normal text-white/80">{homeLive.sectors}</span>
+                <span className="text-[15px] font-normal normal-case leading-snug tracking-normal text-white/80">{sectors}</span>
                 <a href="#services" className="inline-flex min-h-11 shrink-0 items-center gap-2 hover:text-white">
-                  Scroll to explore
+                  {t("home:scrollExplore")}
                   <ArrowDown className="size-3.5" aria-hidden="true" />
                 </a>
               </div>
             </div>
           </section>
 
-          <section className="overflow-hidden border-b border-mist bg-white" aria-label="Tools we ship with">
+          <section className="overflow-hidden border-b border-mist bg-white" aria-label={t("home:toolsAria")}>
             {/* On a phone the label sits above the row, so the names have the full width. */}
             <div className="mx-auto flex max-w-[1180px] flex-col gap-4 px-5 py-5 sm:flex-row sm:items-center sm:gap-8 sm:py-6">
               <p className="shrink-0 text-[11px] font-semibold uppercase leading-snug tracking-[0.16em] text-navy">
-                Tools we
-                <br className="hidden sm:block" /> ship with.
+                {t("home:toolsLabel")}
               </p>
               {/* Two copies of the same list. The row slides left until the second copy takes the first copy's place. */}
               <div className="min-w-0 w-full flex-1 touch-pan-y overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_12px,black_calc(100%-12px),transparent)]">
@@ -504,11 +522,9 @@ export default function Home() {
             <div className="mx-auto max-w-[1180px]">
               <div>
                 <h2 className="font-display text-5xl font-bold leading-[0.95] tracking-tight text-navy sm:text-6xl">
-                  What we build
+                  {t("home:servicesTitle")}
                 </h2>
-                <p className="type-body mt-6 max-w-xl text-slate">
-                  The brand and the website, the software your team runs, apps for iPhone and Android, and the reminders and reports that update on their own.
-                </p>
+                <p className="type-body mt-6 max-w-xl text-slate">{t("home:servicesLede")}</p>
               </div>
               {/* Four rows. The detail lives here, so these do not open another page. */}
               <div className="mt-16 border-t border-mist">
@@ -543,8 +559,8 @@ export default function Home() {
           <section id="work" className="scroll-mt-24 bg-white px-5 py-20 sm:py-28">
             <div className="mx-auto max-w-[1180px]">
               <div>
-                <Eyebrow>Selected work</Eyebrow>
-                <SplitTitle first="Some of the projects" second="we built to make a difference." nowrap />
+                <Eyebrow>{t("home:workEyebrow")}</Eyebrow>
+                <SplitTitle first={t("home:workTitleFirst")} second={t("home:workTitleSecond")} nowrap />
               </div>
               {/* Two large cards. Each image, title and "Read the case study" opens that project. */}
               <div className="mt-14 grid gap-12 md:grid-cols-2 md:gap-10 lg:gap-12">
@@ -557,7 +573,7 @@ export default function Home() {
                     "origin-center transition-transform duration-500 ease-out motion-safe:group-hover:-translate-y-2 motion-safe:group-hover:-rotate-2";
                   return (
                     <article key={item.slug} className="group flex flex-col">
-                      <Link
+                      <LocaleLink
                         to={studyPath}
                         className="relative block overflow-hidden rounded-2xl bg-tint p-5 sm:p-8"
                         onClick={() => track("case_study_view", { case_study: item.slug })}
@@ -582,44 +598,44 @@ export default function Home() {
                         <span className="mt-5 block text-[11px] font-semibold uppercase tracking-[0.16em] text-navy">
                           {item.sector} · {familyLabel(item.family)}
                         </span>
-                      </Link>
+                      </LocaleLink>
                       {/* Sized to stay on one line beside the other project, including the arrow. */}
                       <h3 className="mt-6 font-display text-3xl font-semibold leading-tight lg:whitespace-nowrap lg:text-[clamp(1.65rem,2.3vw,2.05rem)]">
-                        <Link
+                        <LocaleLink
                           to={studyPath}
                           className="hover:text-deep"
                           onClick={() => track("case_study_view", { case_study: item.slug })}
                         >
                           {name} <ArrowUpRight className="inline size-6 align-middle" aria-hidden="true" />
-                        </Link>
+                        </LocaleLink>
                       </h3>
-                      <Link
+                      <LocaleLink
                         to={studyPath}
                         className="mt-4 inline-flex min-h-11 items-center gap-2 text-sm font-medium text-navy hover:text-deep"
                         onClick={() => track("case_study_view", { case_study: item.slug })}
                       >
-                        {workPage.read}
+                        {t("home:readCase")}
                         <ArrowUpRight className="size-4" aria-hidden="true" />
-                      </Link>
+                      </LocaleLink>
                     </article>
                   );
                 })}
               </div>
               <div className="mt-14 flex justify-center">
-                <Link
+                <LocaleLink
                   to="/work"
                   className="inline-flex items-center gap-2 rounded-md bg-navy px-5 py-3 text-[15px] font-medium text-white hover:bg-deep"
                 >
-                  {homeLive.work.link}
+                  {workLink}
                   <ArrowUpRight className="size-4" aria-hidden="true" />
-                </Link>
+                </LocaleLink>
               </div>
             </div>
           </section>
 
-          <section className="overflow-hidden border-y border-mist bg-white py-16" aria-label={homeLive.proof.line}>
+          <section className="overflow-hidden border-y border-mist bg-white py-16" aria-label={proofLine}>
             <p className="px-5 text-center text-[11px] font-semibold uppercase tracking-[0.16em] text-slate">
-              {homeLive.proof.line}
+              {proofLine}
             </p>
             {/* Each mark sits in the same size box, so a wide logo does not open a big empty gap.
                 Two copies sit side by side so the row can slide without a jump. */}
@@ -645,13 +661,17 @@ export default function Home() {
             </div>
           </section>
 
-          <ClientQuotes items={approvedTestimonials()} />
+          <ClientQuotes
+            items={approvedTestimonials()}
+            eyebrow={t("home:clientsEyebrow")}
+            aria={t("home:quotesAria")}
+          />
 
           <section id="estimate" className="scroll-mt-24 bg-paper px-5 py-20 sm:py-28">
             <div className="mx-auto grid max-w-[1180px] gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-16">
               <div className="min-w-0 lg:sticky lg:top-28">
-                <Eyebrow>Start a project</Eyebrow>
-                <SplitTitle first="Tell us what" second="you're building." accent />
+                <Eyebrow>{t("home:estimateEyebrow")}</Eyebrow>
+                <SplitTitle first={t("home:estimateTitleFirst")} second={t("home:estimateTitleSecond")} accent />
               </div>
               <div className="min-w-0 rounded-2xl border border-mist bg-white p-6 shadow-sm sm:p-10">
                 <InquiryForm layout="split" />

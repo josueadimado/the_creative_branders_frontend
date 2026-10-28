@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { useProjects } from "../content/contentDesk";
 import { caseStudyWhatsAppMessage, whatsappLink } from "../data/socials";
 import { displayName } from "../data/portfolio";
+import { stripLocale } from "../i18n/locale";
 import { trackWhatsApp } from "../lib/analytics";
 
-/**
- * A round chat button fixed to the bottom-right corner on every page.
- * On a case study it already mentions that project. On other pages it uses the usual greeting.
- * It hides when the brief form is showing its own WhatsApp button.
- */
 export default function WhatsAppButton() {
+  const { t } = useTranslation("common");
   const { pathname } = useLocation();
   const projects = useProjects();
   const [hidden, setHidden] = useState(false);
@@ -25,7 +23,7 @@ export default function WhatsAppButton() {
 
   if (hidden) return null;
 
-  const studySlug = pathname.match(/^\/work\/([^/]+)\/?$/)?.[1];
+  const studySlug = stripLocale(pathname).match(/^\/work\/([^/]+)\/?$/)?.[1];
   const study = projects.find((item) => item.slug === studySlug);
   const message = study ? caseStudyWhatsAppMessage(displayName(study)) : undefined;
 
@@ -34,7 +32,7 @@ export default function WhatsAppButton() {
       href={whatsappLink(message)}
       target="_blank"
       rel="noreferrer"
-      aria-label="Chat with us on WhatsApp"
+      aria-label={t("whatsappAria")}
       onClick={() => trackWhatsApp(study ? "case-study" : "floating")}
       className="tcb-chat fixed right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-signal text-navy shadow-lg transition-colors hover:bg-signal-hover"
     >

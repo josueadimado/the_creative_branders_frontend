@@ -78,6 +78,57 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Soft page / language swaps. Reduced-motion users skip the animation in JS. */
+.page-fade {
+  transition:
+    opacity 200ms ease,
+    transform 220ms ease;
+  will-change: opacity, transform;
+}
+
+.page-fade-out {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.page-fade-in {
+  opacity: 1;
+  transform: translateY(0);
+  animation: page-fade-in 220ms ease both;
+}
+
+@keyframes page-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-fade,
+  .page-fade-out,
+  .page-fade-in {
+    transition: none;
+    animation: none;
+    transform: none;
+    opacity: 1;
+  }
+
+  .inquiry-success {
+    animation: none;
+  }
+}
+
+.inquiry-success {
+  animation: page-fade-in 280ms ease both;
+}
+
+
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

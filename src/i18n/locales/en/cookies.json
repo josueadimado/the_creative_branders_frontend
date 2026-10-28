@@ -1,0 +1,19 @@
+{
+  "aria": "Cookie settings",
+  "ask": "We'd like to use analytics cookies to see how people use the site. Necessary cookies stay on either way.",
+  "details": "Cookie details",
+  "decline": "Decline",
+  "accept": "Accept",
+  "settings": "Settings",
+  "title": "Cookie settings",
+  "necessary": "Necessary",
+  "necessaryHelp": "Always on. These keep the site working.",
+  "analytics": "Analytics",
+  "analyticsHelp": "Helps us see which pages are used.",
+  "marketing": "Marketing",
+  "marketingHelp": "Used only if we add a marketing tracker later.",
+  "save": "Save",
+  "necessaryAria": "Necessary cookies, always on",
+  "analyticsAria": "Analytics cookies",
+  "marketingAria": "Marketing cookies"
+}

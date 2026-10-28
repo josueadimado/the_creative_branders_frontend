@@ -1,0 +1,19 @@
+{
+  "aria": "Paramètres des cookies",
+  "ask": "Nous aimerions utiliser des cookies d’analyse pour comprendre l’usage du site. Les cookies nécessaires restent actifs dans tous les cas.",
+  "details": "Détails des cookies",
+  "decline": "Refuser",
+  "accept": "Accepter",
+  "settings": "Paramètres",
+  "title": "Paramètres des cookies",
+  "necessary": "Nécessaires",
+  "necessaryHelp": "Toujours actifs. Ils font fonctionner le site.",
+  "analytics": "Analyse",
+  "analyticsHelp": "Ils nous montrent quelles pages sont utilisées.",
+  "marketing": "Marketing",
+  "marketingHelp": "Utilisés seulement si nous ajoutons un outil marketing.",
+  "save": "Enregistrer",
+  "necessaryAria": "Cookies nécessaires, toujours actifs",
+  "analyticsAria": "Cookies d’analyse",
+  "marketingAria": "Cookies marketing"
+}

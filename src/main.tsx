@@ -4,6 +4,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { LucideProvider } from "lucide-react";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
+import "./i18n";
 import "./index.css";
 
 createRoot(document.getElementById("root")!).render(

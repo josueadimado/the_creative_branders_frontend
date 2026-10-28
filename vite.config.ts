@@ -30,7 +30,10 @@ function sitemapXml(routes: string[], projects: PublishedProject[]) {
   for (const project of projects) {
     if (!project.slug) continue;
     const lastmod = projectLastmod(project.updated);
-    if (lastmod) dates.set(`/work/${project.slug}`, lastmod);
+    if (lastmod) {
+      dates.set(`/work/${project.slug}`, lastmod);
+      dates.set(`/fr/work/${project.slug}`, lastmod);
+    }
   }
   const urls = routes
     .map((path) => {

@@ -1,10 +1,12 @@
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { useTranslation } from "react-i18next";
 import { Navigate, useLocation, useSearchParams } from "react-router-dom";
 import CtaBand from "../components/CtaBand";
 import PortfolioCard from "../components/PortfolioCard";
 import Seo from "../components/Seo";
 import { useProjects, useWorkCopy } from "../content/contentDesk";
 import { familiesInUse, studyMatchesFamily } from "../data/portfolio";
+import { localeFromPath, localizedPath } from "../i18n/locale";
 import { trackWorkFilter } from "../lib/analytics";
 
 function FilterGroup({
@@ -47,9 +49,12 @@ function FilterGroup({
 }
 
 export default function Work() {
+  const { t, i18n } = useTranslation("work");
+  const isFr = i18n.language?.startsWith("fr");
   const workPage = useWorkCopy();
   const catalog = useProjects();
-  const { hash } = useLocation();
+  const { hash, pathname } = useLocation();
+  const locale = localeFromPath(pathname);
   const [params, setParams] = useSearchParams();
   // Auto-animate skips the motion when the visitor has asked for reduced motion.
   const [grid] = useAutoAnimate();
@@ -58,7 +63,12 @@ export default function Work() {
   const legacySlug = decodeURIComponent(hash.replace(/^#/, ""));
   if (legacySlug) {
     const study = catalog.find((item) => item.slug === legacySlug);
-    return <Navigate to={study ? `/work/${study.slug}` : "/work"} replace />;
+    return (
+      <Navigate
+        to={localizedPath(study ? `/work/${study.slug}` : "/work", locale)}
+        replace
+      />
+    );
   }
 
   // Only services that already have a published project. Mobile apps stays off this row until one is listed.
@@ -77,14 +87,21 @@ export default function Work() {
     trackWorkFilter(next ?? "all");
   }
 
+  const seo = {
+    ...workPage.seo,
+    title: isFr ? t("seoTitle") : workPage.seo.title,
+    description: isFr ? t("seoDescription") : workPage.seo.description,
+    path: isFr ? "/fr/work" : "/work",
+  };
+
   return (
     <>
-      <Seo {...workPage.seo} />
+      <Seo {...seo} />
       <section className="text-hero bg-navy">
         <div className="mx-auto max-w-6xl px-6">
-          <p className="type-kicker text-signal">{workPage.kicker}</p>
-          <h1 className="type-h1 mt-5 max-w-3xl text-white">{workPage.title}</h1>
-          <p className="type-lede mt-8 max-w-xl text-white/70">{workPage.lede}</p>
+          <p className="type-kicker text-signal">{isFr ? t("kicker") : workPage.kicker}</p>
+          <h1 className="type-h1 mt-5 max-w-3xl text-white">{isFr ? t("title") : workPage.title}</h1>
+          <p className="type-lede mt-8 max-w-xl text-white/70">{isFr ? t("lede") : workPage.lede}</p>
         </div>
       </section>
 
@@ -92,8 +109,8 @@ export default function Work() {
         <div className="mx-auto max-w-6xl px-6">
           <div className="flex flex-col gap-3">
             <FilterGroup
-              allLabel={workPage.filters.all}
-              label={workPage.filters.family}
+              allLabel={isFr ? t("all") : workPage.filters.all}
+              label={isFr ? t("family") : workPage.filters.family}
               value={service}
               options={serviceOptions.map((option) => ({ id: option.slug, label: option.label }))}
               onChange={chooseService}
@@ -112,7 +129,9 @@ export default function Work() {
               <PortfolioCard key={item.slug} item={item} />
             ))}
           </div>
-          {studies.length === 0 ? <p className="type-body mt-16 text-slate">{workPage.empty}</p> : null}
+          {studies.length === 0 ? (
+            <p className="type-body mt-16 text-slate">{isFr ? t("empty") : workPage.empty}</p>
+          ) : null}
         </div>
       </section>
 

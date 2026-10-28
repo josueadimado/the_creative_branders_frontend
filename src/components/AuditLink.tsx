@@ -1,19 +1,15 @@
-import { cta } from "../content/cta";
+import { useTranslation } from "react-i18next";
 import { auditHref } from "../data/socials";
 import { track } from "../lib/analytics";
 
-/**
- * The homepage audit button.
- * It opens WhatsApp with a message asking for the free 20-minute systems audit.
- */
 export default function AuditLink({
   className,
   location,
 }: {
   className?: string;
-  /** Where on the site the click happened, so the count can be split later. */
   location: string;
 }) {
+  const { t } = useTranslation("cta");
   return (
     <a
       href={auditHref()}
@@ -22,7 +18,7 @@ export default function AuditLink({
       rel="noreferrer"
       onClick={() => track("audit_cta_click", { location })}
     >
-      {cta.audit}
+      {t("audit")}
     </a>
   );
 }

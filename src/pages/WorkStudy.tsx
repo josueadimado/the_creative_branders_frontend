@@ -1,10 +1,11 @@
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { useEffect, type ReactNode } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 import WorkFrame, { BrowserPlaceholder } from "../components/DeviceFrame";
 import OptimizedImage from "../components/OptimizedImage";
+import { LocaleLink } from "../components/LocaleLink";
 import Seo from "../components/Seo";
-import { cta } from "../content/cta";
 import { site } from "../content/site";
 import StackLogo from "../components/StackLogo";
 import { useProject, useProjects } from "../content/contentDesk";
@@ -25,6 +26,7 @@ import {
 import { track } from "../lib/analytics";
 import NotFound from "./NotFound";
 
+
 /** The two projects that follow this one. The list wraps back to the start. */
 function followingStudies(slug: string, studies: PortfolioItem[]): PortfolioItem[] {
   const index = studies.findIndex((item) => item.slug === slug);
@@ -40,6 +42,7 @@ function followingStudies(slug: string, studies: PortfolioItem[]): PortfolioItem
  * the solution, the stack, and what was delivered.
  */
 export default function WorkStudy() {
+  const { t } = useTranslation(["work", "cta"]);
   const { slug } = useParams();
   const item = useProject(slug);
   const catalog = useProjects();
@@ -89,10 +92,10 @@ export default function WorkStudy() {
 
       <article className="bg-white">
         <header className="mx-auto max-w-6xl px-6 pb-14 pt-10 sm:pb-16 sm:pt-14">
-          <Link to="/work" className="inline-flex items-center gap-2 text-sm font-medium text-slate hover:text-navy">
+          <LocaleLink to="/work" className="inline-flex items-center gap-2 text-sm font-medium text-slate hover:text-navy">
             <ArrowLeft className="size-4" aria-hidden="true" />
-            {workPage.back}
-          </Link>
+            {t("work:back")}
+          </LocaleLink>
 
           <div className="mt-12 max-w-3xl">
             {logo ? (
@@ -118,7 +121,7 @@ export default function WorkStudy() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {workPage.labels.visit}
+                {t("work:visit")}
                 <ArrowUpRight className="size-4" aria-hidden="true" />
               </a>
             ) : null}
@@ -130,7 +133,7 @@ export default function WorkStudy() {
             <ScreenSet images={images} name={name} device={item.device} />
             {stack.length > 0 ? (
               <div className="mt-8">
-                <p className="type-kicker text-slate">{workPage.labels.stack}</p>
+                <p className="type-kicker text-slate">{t("work:stack")}</p>
                 <ul className="mt-4 flex flex-wrap gap-2">
                   {stack.map((tool) => (
                     <li
@@ -148,19 +151,19 @@ export default function WorkStudy() {
         </div>
 
         {challenge ? (
-          <StudyBlock index="01" title={workPage.problem}>
+          <StudyBlock index="01" title={t("work:problem")}>
             <p className="type-body text-slate">{challenge}</p>
           </StudyBlock>
         ) : null}
 
         {approach ? (
-          <StudyBlock index="02" title={workPage.solution}>
+          <StudyBlock index="02" title={t("work:solution")}>
             <p className="type-body text-slate">{approach}</p>
           </StudyBlock>
         ) : null}
 
         {built.length > 0 ? (
-          <StudyBlock index="03" title={workPage.delivery}>
+          <StudyBlock index="03" title={t("work:delivery")}>
             <div className="space-y-5">
               {built.map((line) => (
                 <p key={line} className="type-body text-slate">
@@ -171,19 +174,24 @@ export default function WorkStudy() {
           </StudyBlock>
         ) : null}
 
-        {results.length > 0 ? <OutcomeBand results={results} /> : null}
+        {results.length > 0 ? <OutcomeBand results={results} benefitsLabel={t("work:benefits")} /> : null}
       </article>
 
-      <ProjectClose />
+      <ProjectClose
+        closeKicker={t("work:closeKicker")}
+        closeTitle={t("work:closeTitle")}
+        closeTitleRest={t("work:closeTitleRest")}
+        projectLabel={t("cta:project")}
+      />
 
       {next.length > 0 ? (
-        <section className="border-t border-mist bg-white" aria-label={workPage.more}>
+        <section className="border-t border-mist bg-white" aria-label={t("work:more")}>
           <div className="mx-auto grid max-w-6xl sm:grid-cols-2">
             {next.map((study) => {
               const studyName = displayName(study);
               const studyKicker = [visibleText(study.sector), familyLabel(study.family)].filter(Boolean).join(" · ");
               return (
-                <Link
+                <LocaleLink
                   key={study.slug}
                   to={`/work/${study.slug}`}
                   className="group flex min-w-0 items-center justify-between gap-4 border-b border-mist px-6 py-8 hover:bg-paper sm:border-b-0 sm:gap-6 sm:py-10 sm:odd:border-r"
@@ -199,7 +207,7 @@ export default function WorkStudy() {
                     </span>
                   </span>
                   <ArrowUpRight className="size-5 shrink-0 text-navy" aria-hidden="true" />
-                </Link>
+                </LocaleLink>
               );
             })}
           </div>
@@ -244,11 +252,11 @@ function ScreenSet({
  * What the project changed for the client.
  * The short line is the benefit. The sentence under it says how.
  */
-function OutcomeBand({ results }: { results: WorkResult[] }) {
+function OutcomeBand({ results, benefitsLabel }: { results: WorkResult[]; benefitsLabel: string }) {
   return (
-    <section className="bg-navy" aria-label={workPage.benefits}>
+    <section className="bg-navy" aria-label={benefitsLabel}>
       <div className="mx-auto max-w-6xl px-6 py-16 sm:py-24">
-        <p className="font-sans text-xs font-medium uppercase tracking-[0.16em] text-white/50">{workPage.benefits}</p>
+        <p className="font-sans text-xs font-medium uppercase tracking-[0.16em] text-white/50">{benefitsLabel}</p>
         <div className="mt-10 grid gap-12 sm:grid-cols-2 sm:gap-10">
           {results.map((result) => (
             <div key={`${result.value}-${result.label}`}>
@@ -263,24 +271,34 @@ function OutcomeBand({ results }: { results: WorkResult[] }) {
 }
 
 /** The last invitation on a project page. White page, navy button. */
-function ProjectClose() {
+function ProjectClose({
+  closeKicker,
+  closeTitle,
+  closeTitleRest,
+  projectLabel,
+}: {
+  closeKicker: string;
+  closeTitle: string;
+  closeTitleRest: string;
+  projectLabel: string;
+}) {
   return (
     <section className="bg-white">
       <div className="mx-auto max-w-6xl px-6 py-24 sm:py-32">
-        <p className="font-sans text-xs font-medium uppercase tracking-[0.16em] text-slate">{workPage.closeKicker}</p>
+        <p className="font-sans text-xs font-medium uppercase tracking-[0.16em] text-slate">{closeKicker}</p>
         <h2 className="mt-6 max-w-3xl font-display text-5xl font-semibold leading-[0.95] text-navy sm:text-6xl lg:text-7xl">
-          {workPage.closeTitle}
+          {closeTitle}
           <br />
-          <span className="text-slate">{workPage.closeTitleRest}</span>
+          <span className="text-slate">{closeTitleRest}</span>
         </h2>
-        <Link
+        <LocaleLink
           to="/contact"
           className="btn btn-inverse mt-10"
           onClick={() => track("start_project_click", { location: "case-study" })}
         >
-          {cta.project}
+          {projectLabel}
           <ArrowUpRight className="ml-2 size-4" aria-hidden="true" />
-        </Link>
+        </LocaleLink>
       </div>
     </section>
   );

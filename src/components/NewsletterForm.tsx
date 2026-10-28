@@ -1,13 +1,15 @@
 import { FormEvent, useId, useState } from "react";
-import { Link } from "react-router-dom";
 import { Mail } from "iconoir-react";
+import { useTranslation } from "react-i18next";
 import { useBotGuard } from "./BotGuard";
 import ConsentCheckbox from "./ConsentCheckbox";
+import { LocaleLink } from "./LocaleLink";
 import { postNewsletter } from "../lib/api";
 import { markNewsletterSubscribed } from "../lib/newsletter";
 import { site } from "../content/site";
 
 export default function NewsletterForm({ onSubscribed }: { onSubscribed?: () => void }) {
+  const { t } = useTranslation("forms");
   const reactId = useId();
   const consentId = `newsletter-consent-${reactId}`;
   const emailId = `newsletter-email-${reactId}`;
@@ -23,7 +25,7 @@ export default function NewsletterForm({ onSubscribed }: { onSubscribed?: () => 
     setError("");
     if (!consent) {
       setStatus("error");
-      setError("Consent required.");
+      setError(t("consentRequired"));
       return;
     }
     try {
@@ -33,12 +35,12 @@ export default function NewsletterForm({ onSubscribed }: { onSubscribed?: () => 
       onSubscribed?.();
     } catch (err) {
       setStatus("error");
-      setError(err instanceof Error ? err.message : "Could not subscribe.");
+      setError(err instanceof Error ? err.message : t("couldNotSubscribe"));
     }
   }
 
   if (status === "done") {
-    return <p className="text-sm leading-6 text-navy/80">Subscribed.</p>;
+    return <p className="text-sm leading-6 text-navy/80">{t("subscribed")}</p>;
   }
 
   return (
@@ -46,7 +48,7 @@ export default function NewsletterForm({ onSubscribed }: { onSubscribed?: () => 
       {bot.field}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-stretch">
         <label className="relative min-w-0 flex-1" htmlFor={emailId}>
-          <span className="sr-only">Email address</span>
+          <span className="sr-only">{t("emailLabel")}</span>
           <Mail
             width={18}
             height={18}
@@ -59,7 +61,7 @@ export default function NewsletterForm({ onSubscribed }: { onSubscribed?: () => 
             type="email"
             required
             autoComplete="email"
-            placeholder="Your email address"
+            placeholder={t("emailPlaceholder")}
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             className="w-full rounded-md border border-mist bg-white py-3 pl-11 pr-4 text-[15px] text-navy outline-none transition-colors placeholder:text-slate/70 focus:border-deep"
@@ -70,14 +72,14 @@ export default function NewsletterForm({ onSubscribed }: { onSubscribed?: () => 
           disabled={status === "sending"}
           className="btn btn-inverse shrink-0 rounded-md px-6 disabled:opacity-60 sm:self-stretch"
         >
-          {status === "sending" ? "Subscribing…" : "Subscribe"}
+          {status === "sending" ? t("subscribing") : t("subscribe")}
         </button>
       </div>
       <ConsentCheckbox id={consentId} checked={consent} onChange={setConsent} className="text-navy/80">
-        I agree {site.name} may email me updates.{" "}
-        <Link to="/privacy" className="text-deep underline hover:text-deep-hover">
-          Privacy Policy
-        </Link>
+        {t("consentNewsletter", { name: site.name })}{" "}
+        <LocaleLink to="/privacy" className="text-deep underline hover:text-deep-hover">
+          {t("privacyPolicy")}
+        </LocaleLink>
         .
       </ConsentCheckbox>
       {status === "error" ? (

@@ -1,6 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
-import { Link } from "react-router-dom";
-import { workPage } from "../content/work";
+import { useTranslation } from "react-i18next";
 import {
   displayName,
   studyScreenshots,
@@ -10,7 +9,9 @@ import {
 } from "../data/portfolio";
 import { track } from "../lib/analytics";
 import { BrowserFrame, BrowserPlaceholder } from "./DeviceFrame";
+import { LocaleLink } from "./LocaleLink";
 import StackLogo from "./StackLogo";
+
 
 type PortfolioCardProps = {
   item: PortfolioItem;
@@ -74,6 +75,7 @@ function ScreenshotStage({ item, name }: { item: PortfolioItem; name: string }) 
 }
 
 export default function PortfolioCard({ item, summary: summaryOverride }: PortfolioCardProps) {
+  const { t } = useTranslation("work");
   const name = displayName(item);
   const summary = summaryOverride ?? visibleText(item.summary);
   const stack = visibleStack(item);
@@ -84,7 +86,7 @@ export default function PortfolioCard({ item, summary: summaryOverride }: Portfo
     // "Read the case study" line start at the same height even when one card
     // has more stack pills or a longer title. A phone keeps one card per row.
     <article className="flex h-full min-w-0 flex-col overflow-hidden rounded-card border border-mist bg-white md:row-span-3 md:mb-8 md:grid md:grid-rows-subgrid">
-      <Link
+      <LocaleLink
         to={href}
         className="group flex h-full min-w-0 flex-col md:row-span-3 md:grid md:grid-rows-subgrid"
         onClick={() => track("case_study_view", { case_study: item.slug })}
@@ -123,8 +125,8 @@ export default function PortfolioCard({ item, summary: summaryOverride }: Portfo
           {summary ? <p className="type-body mt-3 text-slate">{summary}</p> : null}
         </div>
 
-        <p className="type-body mt-auto px-5 pb-6 pt-6 text-navy sm:px-8 sm:pb-8">{workPage.read}</p>
-      </Link>
+        <p className="type-body mt-auto px-5 pb-6 pt-6 text-navy sm:px-8 sm:pb-8">{t("read")}</p>
+      </LocaleLink>
     </article>
   );
 }

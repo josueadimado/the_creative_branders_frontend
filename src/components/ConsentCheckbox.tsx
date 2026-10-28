@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
-import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { site } from "../content/site";
+import { LocaleLink } from "./LocaleLink";
 
 export default function ConsentCheckbox({
   id,
@@ -15,6 +16,8 @@ export default function ConsentCheckbox({
   children?: ReactNode;
   className?: string;
 }) {
+  const { t } = useTranslation("forms");
+
   return (
     <label htmlFor={id} className={`flex items-start gap-3 text-sm leading-6 ${className}`}>
       <input
@@ -29,10 +32,10 @@ export default function ConsentCheckbox({
       <span>
         {children ?? (
           <>
-            I agree {site.name} may use these details to reply.{" "}
-            <Link to="/privacy" className="text-deep underline hover:text-deep-hover">
-              Privacy Policy
-            </Link>
+            {t("consentEnquiry", { name: site.name })}{" "}
+            <LocaleLink to="/privacy" className="text-deep underline hover:text-deep-hover">
+              {t("privacyPolicy")}
+            </LocaleLink>
             .
           </>
         )}

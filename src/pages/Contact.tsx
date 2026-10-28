@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import Seo from "../components/Seo";
 import InquiryForm from "../components/InquiryForm";
 import { useContactCopy } from "../content/contentDesk";
@@ -10,22 +11,31 @@ import { track, trackWhatsApp } from "../lib/analytics";
  * The street address stays off this page. It is only printed on the legal pages.
  */
 export default function Contact() {
+  const { t, i18n } = useTranslation("contact");
+  const isFr = i18n.language?.startsWith("fr");
   const contact = useContactCopy();
+  const seo = {
+    ...contact.seo,
+    title: isFr ? t("seoTitle") : contact.seo.title,
+    description: isFr ? t("seoDescription") : contact.seo.description,
+    path: isFr ? "/fr/contact" : "/contact",
+  };
+  const title = isFr ? t("title") : contact.hero.title;
 
   return (
     <>
-      <Seo {...contact.seo} />
+      <Seo {...seo} />
       <section className="dot-grid text-hero bg-navy">
         <div className="mx-auto max-w-6xl px-6">
-          <h1 className="type-h1 text-white">{contact.hero.title}</h1>
-          <p className="type-lede mt-6 max-w-xl text-white/70">{contact.seo.description}</p>
+          <h1 className="type-h1 text-white">{title}</h1>
+          <p className="type-lede mt-6 max-w-xl text-white/70">{seo.description}</p>
         </div>
       </section>
 
       <section className="bg-paper py-16 sm:py-24">
         <div className="mx-auto grid max-w-6xl gap-12 px-6 lg:grid-cols-[minmax(0,16rem)_minmax(0,1fr)] lg:items-start">
           <address className="min-w-0 not-italic text-navy">
-            <p className="type-caption font-medium uppercase tracking-[0.14em] text-slate">Studio</p>
+            <p className="type-caption font-medium uppercase tracking-[0.14em] text-slate">{t("studio")}</p>
             <ul className="mt-4 space-y-3 text-[17px]">
               <li>
                 <a
@@ -45,7 +55,7 @@ export default function Contact() {
                   className="underline decoration-mist underline-offset-4 hover:text-deep"
                   onClick={() => track("phone_click", { location: "contact" })}
                 >
-                  Call: {site.phoneDisplay}
+                  {t("call")}: {site.phoneDisplay}
                 </a>
               </li>
               <li>
@@ -56,10 +66,10 @@ export default function Contact() {
                   rel="noreferrer"
                   onClick={() => trackWhatsApp("contact")}
                 >
-                  WhatsApp: {site.whatsapp.display}
+                  {t("whatsapp")}: {site.whatsapp.display}
                 </a>
               </li>
-              <li>Accra, Ghana</li>
+              <li>{t("location")}</li>
             </ul>
           </address>
           <div className="min-w-0 rounded-card border border-mist bg-white p-8 sm:p-12">

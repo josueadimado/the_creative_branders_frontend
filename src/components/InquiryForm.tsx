@@ -1,12 +1,30 @@
 import { FormEvent, ReactNode, useEffect, useState } from "react";
 import { ArrowUpRight, ChevronDown, Globe } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { useBotGuard } from "./BotGuard";
 import ConsentCheckbox from "./ConsentCheckbox";
-import { budgetOptionsGhs, budgetOptionsUsd, contact, needOptions, timelineOptions, type BudgetCurrency } from "../content/contact";
+import { budgetOptionsGhs, budgetOptionsUsd, type BudgetCurrency } from "../content/contact";
 import { countries, countryByCode } from "../data/countries";
 import { whatsappLink } from "../data/socials";
 import { postInquiry } from "../lib/api";
 import { track, trackWhatsApp } from "../lib/analytics";
+import { hasBriefSubmitted, markBriefSubmitted } from "../lib/inquiry";
+
+
+const NEED_CHOICES = [
+  { value: "Brand and websites", labelKey: "need_brand" },
+  { value: "Web applications", labelKey: "need_web" },
+  { value: "Mobile apps", labelKey: "need_mobile" },
+  { value: "Automation and reporting", labelKey: "need_automation" },
+  { value: "Not sure yet", labelKey: "need_unsure" },
+] as const;
+
+const TIMELINE_CHOICES = [
+  { value: "As soon as possible", labelKey: "timeline_asap" },
+  { value: "In the next 1 to 3 months", labelKey: "timeline_1_3" },
+  { value: "In 3 to 6 months", labelKey: "timeline_3_6" },
+  { value: "Just exploring", labelKey: "timeline_exploring" },
+] as const;
 
 const emptyNeeds: string[] = [];
 
@@ -19,6 +37,7 @@ const noSuggest = {
 } as const;
 
 export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "split" }) {
+  const { t } = useTranslation(["forms", "contact"]);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -35,7 +54,11 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
   const [message, setMessage] = useState("");
   const [link, setLink] = useState("");
   const [consent, setConsent] = useState(false);
-  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  // After a successful send we remember it, so the form stays hidden on return visits.
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">(() =>
+    hasBriefSubmitted() ? "success" : "idle",
+  );
+  const [justSent, setJustSent] = useState(false);
   const [error, setError] = useState("");
   const bot = useBotGuard();
 
@@ -47,6 +70,7 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
       delete document.body.dataset.chatHidden;
     };
   }, [status]);
+
 
   function chooseCountry(name: string) {
     setCountry(name);
@@ -72,12 +96,12 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
     event.preventDefault();
     if (needs.length === 0) {
       setStatus("error");
-      setError(contact.needsError);
+      setError(t("needsError"));
       return;
     }
     if (!consent) {
       setStatus("error");
-      setError(contact.consentError);
+      setError(t("consentError"));
       return;
     }
     setStatus("sending");
@@ -98,6 +122,8 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
         consent: true,
         ...bot.payload,
       });
+      markBriefSubmitted();
+      setJustSent(true);
       setStatus("success");
       setName("");
       setEmail("");
@@ -135,8 +161,8 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
 
   if (status === "success") {
     return (
-      <div className="border border-white/15 bg-navy p-10 text-white sm:p-12">
-        <p className="type-title">{contact.success}</p>
+      <div className="inquiry-success border border-white/15 bg-navy p-10 text-white sm:p-12">
+        <p className="type-title">{justSent ? t("forms:success") : t("forms:successDone")}</p>
         <a
           href={whatsappLink("Hello, I just sent a brief and would like a faster answer.")}
           className="btn btn-primary mt-8"
@@ -144,7 +170,7 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
           rel="noreferrer"
           onClick={() => trackWhatsApp("brief-success")}
         >
-          {contact.successWhatsApp}
+          {t("forms:successWhatsApp")}
         </a>
       </div>
     );
@@ -157,11 +183,11 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
       autoComplete="off"
     >
       {bot.field}
-      {split ? <p className="type-body text-slate">{contact.seo.description}</p> : null}
+      {split ? <p className="type-body text-slate">{t("contact:seoDescription")}</p> : null}
 
       {/* Name and email sit side by side on the homepage, stacked on the contact page. */}
       <div className={split ? "grid gap-4 sm:grid-cols-2" : "space-y-5"}>
-        <Field label={contact.fields.name} htmlFor="full-name" mark>
+        <Field label={t("forms:name")} htmlFor="full-name" mark>
           <input
             id="full-name"
             name="inquiry-full-name"
@@ -172,7 +198,7 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
             className={fieldClass}
           />
         </Field>
-        <Field label={contact.fields.email} htmlFor="inquiry-email" mark>
+        <Field label={t("forms:email")} htmlFor="inquiry-email" mark>
           <input
             id="inquiry-email"
             name="inquiry-email"
@@ -185,7 +211,7 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
           />
         </Field>
       </div>
-      <Field label={contact.fields.company} htmlFor="inquiry-company">
+      <Field label={t("forms:company")} htmlFor="inquiry-company">
         <input
           id="inquiry-company"
           name="inquiry-company"
@@ -196,7 +222,7 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
         />
       </Field>
       <div className={split ? "grid gap-4 sm:grid-cols-2" : "space-y-5"}>
-        <Field label={contact.fields.country} htmlFor="inquiry-country">
+        <Field label={t("forms:country")} htmlFor="inquiry-country">
           <select
             id="inquiry-country"
             name="inquiry-country"
@@ -205,7 +231,7 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
             onChange={(event) => chooseCountry(event.target.value)}
             className={fieldClass}
           >
-            <option value="">{contact.choose}</option>
+            <option value="">{t("forms:choose")}</option>
             {countries.map((item) => (
               <option key={item.code} value={item.name}>
                 {item.name}
@@ -213,7 +239,7 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
             ))}
           </select>
         </Field>
-        <Field label={contact.fields.phone} htmlFor="inquiry-phone">
+        <Field label={t("forms:phone")} htmlFor="inquiry-phone">
           {/* One box, so clicking the number highlights the flag and the number together. */}
           <span
             className={`mt-2 flex overflow-hidden border border-mist focus-within:border-deep ${
@@ -275,19 +301,19 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
 
       <fieldset>
         <legend className="type-caption font-medium text-navy">
-          {contact.fields.needs}
+          {t("forms:needs")}
           <RequiredMark />
         </legend>
         <div className="mt-3 grid gap-2 sm:grid-cols-2">
-          {needOptions.map((option) => (
-            <label key={option} className={`${choiceClass} flex items-center gap-3 text-navy`}>
+          {NEED_CHOICES.map((option) => (
+            <label key={option.value} className={`${choiceClass} flex items-center gap-3 text-navy`}>
               <input
                 type="checkbox"
-                checked={needs.includes(option)}
-                onChange={() => toggleNeed(option)}
+                checked={needs.includes(option.value)}
+                onChange={() => toggleNeed(option.value)}
                 className="h-4 w-4 accent-deep"
               />
-              {option}
+              {t(`forms:${option.labelKey}`)}
             </label>
           ))}
         </div>
@@ -297,13 +323,13 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
       <div className={split ? "grid gap-4 sm:grid-cols-2" : "space-y-5"}>
         <div>
           <label htmlFor="timeline" className="flex min-h-7 items-center type-caption font-medium text-navy">
-            {contact.fields.timeline}
+            {t("forms:timeline")}
           </label>
           <select id="timeline" name="inquiry-timeline" {...noSuggest} value={timeline} onChange={(event) => setTimeline(event.target.value)} className={fieldClass}>
-            <option value="">{contact.choose}</option>
-            {timelineOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
+            <option value="">{t("forms:choose")}</option>
+            {TIMELINE_CHOICES.map((option) => (
+              <option key={option.value} value={option.value}>
+                {t(`forms:${option.labelKey}`)}
               </option>
             ))}
           </select>
@@ -311,9 +337,9 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
         <div>
           <div className="flex min-h-7 items-center justify-between gap-3">
             <label htmlFor="budget" className="type-caption font-medium text-navy">
-              {contact.fields.budget}
+              {t("forms:budget")}
             </label>
-            <div className="flex shrink-0 rounded-md border border-mist p-0.5" role="group" aria-label={contact.fields.currency}>
+            <div className="flex shrink-0 rounded-md border border-mist p-0.5" role="group" aria-label={t("forms:currency")}>
               {(["GHS", "USD"] as const).map((code) => (
                 <button
                   key={code}
@@ -330,7 +356,7 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
             </div>
           </div>
           <select id="budget" name="inquiry-budget" {...noSuggest} value={budget} onChange={(event) => setBudget(event.target.value)} className={fieldClass}>
-            <option value="">{contact.choose}</option>
+            <option value="">{t("forms:choose")}</option>
             {budgetChoices.map((option) => (
               <option key={option} value={option}>
                 {option}
@@ -339,7 +365,7 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
           </select>
         </div>
       </div>
-      <Field label={contact.fields.message} htmlFor="message" mark>
+      <Field label={t("forms:message")} htmlFor="message" mark>
         <textarea
           id="message"
           name="inquiry-message"
@@ -351,7 +377,7 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
           className={`${fieldClass} resize-y`}
         />
       </Field>
-      <Field label={contact.fields.link} htmlFor="link">
+      <Field label={t("forms:link")} htmlFor="link">
         <input id="link" name="inquiry-link" {...noSuggest} value={link} onChange={(event) => setLink(event.target.value)} className={fieldClass} />
       </Field>
 
@@ -368,7 +394,7 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
         disabled={status === "sending"}
         className={`btn btn-inverse btn-full disabled:opacity-60 ${split ? "!rounded-md" : ""}`}
       >
-        {status === "sending" ? contact.sending : contact.submit}
+        {status === "sending" ? t("forms:sending") : t("forms:submit")}
         {split && status !== "sending" ? <ArrowUpRight className="ml-2 size-4" aria-hidden="true" /> : null}
       </button>
     </form>

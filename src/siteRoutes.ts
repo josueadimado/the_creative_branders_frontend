@@ -18,9 +18,19 @@ export function workPathsFor(slugs: string[]): string[] {
   return slugs.filter((slug) => slug.trim().length > 0).map((slug) => `/work/${slug}`);
 }
 
+/** French URL for a bare English path. English stays unprefixed. */
+export function frenchPath(path: string): string {
+  return path === "/" ? "/fr" : `/fr${path}`;
+}
+
+/** English routes plus their /fr twins for sitemap and prerender. */
+export function withFrenchRoutes(routes: string[]): string[] {
+  return [...routes, ...routes.map(frenchPath)];
+}
+
 /** Pages a search engine should list. Notes join only after three are published. */
 export function indexableRoutesFor(workPaths: string[], notePaths: string[] = notePathsFor([])): string[] {
-  return ["/", "/work", ...workPaths, ...afterWork, ...notePaths];
+  return withFrenchRoutes(["/", "/work", ...workPaths, ...afterWork, ...notePaths]);
 }
 
 /**
@@ -28,7 +38,7 @@ export function indexableRoutesFor(workPaths: string[], notePaths: string[] = no
  * Draft notes stay off this list. The sitemap uses indexableRoutesFor.
  */
 export function publicRoutesFor(workPaths: string[], notePaths: string[] = notePathsFor([])): string[] {
-  return ["/", "/work", ...workPaths, "/about", ...notePaths, ...afterWork.slice(1)];
+  return withFrenchRoutes(["/", "/work", ...workPaths, "/about", ...notePaths, ...afterWork.slice(1)]);
 }
 
 /** Starter list, used only when the project API cannot be reached at build time. */
