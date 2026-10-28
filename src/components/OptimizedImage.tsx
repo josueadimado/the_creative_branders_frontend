@@ -1,4 +1,4 @@
-import type { CSSProperties } from "react";
+import { useState, type CSSProperties } from "react";
 
 type OptimizedImageProps = {
   src: string;
@@ -23,6 +23,7 @@ function withEnding(src: string, ending: string) {
 /**
  * Offers the smallest copy the browser understands: AVIF, then WebP, then the original.
  * Width and height are the real pixel size, so the page does not jump when the photo arrives.
+ * If a modern format 404s (missing on the server), we fall back to the original file.
  */
 export default function OptimizedImage({
   src,
@@ -35,6 +36,7 @@ export default function OptimizedImage({
   style,
   decorative = false,
 }: OptimizedImageProps) {
+  const [useOriginalOnly, setUseOriginalOnly] = useState(false);
   const avif = withEnding(src, ".avif");
   const webp = withEnding(src, ".webp");
   // A phone does not need the full-size photo. The smaller copy is used when the slot is wide in the file.
@@ -54,11 +56,12 @@ export default function OptimizedImage({
       draggable={draggable}
       style={style}
       aria-hidden={decorative ? true : undefined}
+      onError={() => setUseOriginalOnly(true)}
     />
   );
 
   // Drawings and logos that are already SVG stay as they are.
-  if (avif === src) return image;
+  if (avif === src || useOriginalOnly) return image;
 
   return (
     <picture>
@@ -74,3 +77,4 @@ export default function OptimizedImage({
     </picture>
   );
 }
+
