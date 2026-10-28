@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { deskJson } from "../api";
-import type { DateRange } from "./sampleData";
+import type { ActivityItem, DateRange } from "./sampleData";
 import {
   activityFeed,
   activityMetrics,
@@ -244,22 +244,24 @@ export function useDeskAnalytics(range: DateRange) {
             .join(" · ")
         : "No case study opens yet",
     },
-    activityFeed: liveStudio
-      ? (studio?.activity || []).map((row) => ({
-          day: row.day,
-          time: row.time,
-          action: row.action,
-          detail: row.detail,
-          visit_id: row.visit_id || "",
-          device: row.device || "",
-          client_ip: row.client_ip || "",
-          source: row.source || "",
-          campaign: row.campaign || "",
-          referrer: row.referrer || "",
-          landing_page: row.landing_page || "",
-          visit_paths: row.visit_paths || [],
-        }))
-      : activityFeed,
+    activityFeed: (liveStudio
+      ? (studio?.activity || []).map(
+          (row): ActivityItem => ({
+            day: row.day,
+            time: row.time,
+            action: row.action,
+            detail: row.detail,
+            visit_id: row.visit_id || "",
+            device: row.device || "",
+            client_ip: row.client_ip || "",
+            source: row.source || "",
+            campaign: row.campaign || "",
+            referrer: row.referrer || "",
+            landing_page: row.landing_page || "",
+            visit_paths: row.visit_paths || [],
+          }),
+        )
+      : activityFeed) as ActivityItem[],
     topCta: studio?.top_cta || "No contact actions yet",
   };
 

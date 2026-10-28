@@ -184,6 +184,14 @@ export type ActivityItem = {
   action: string;
   detail: string;
   briefId?: number;
+  visit_id?: string;
+  device?: string;
+  client_ip?: string;
+  source?: string;
+  campaign?: string;
+  referrer?: string;
+  landing_page?: string;
+  visit_paths?: string[];
 };
 
 export const activityFeed: ActivityItem[] = [
