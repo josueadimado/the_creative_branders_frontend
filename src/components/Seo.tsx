@@ -26,10 +26,15 @@ export default function Seo({ title, description, path, image = DEFAULT_IMAGE, i
   const origin = siteOrigin();
   const barePath = stripLocale(path);
   const localized = localizedPath(barePath, locale);
+  // English home keeps the shell tagline so prerender matches index.html.
+  // French home uses the localized title so /fr is not stuck on the generic EN title.
   const fullTitle =
     barePath === "/"
-      ? `${SITE_NAME}${site.titleJoin}${site.tagline}`
+      ? locale === "fr"
+        ? `${SITE_NAME}${site.titleJoin}${title}`
+        : `${SITE_NAME}${site.titleJoin}${site.tagline}`
       : `${title}${site.titleJoin}${SITE_NAME}`;
+
   const pageUrl = origin ? `${origin}${localized === "/" ? "/" : localized}` : undefined;
   const imageUrl = image.startsWith("http") ? image : origin ? `${origin}${image}` : image;
   const blocks = [...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])];

@@ -84,7 +84,8 @@ try {
   for (const route of routes) {
     if (typeof route !== "string" || !route.startsWith("/")) fail(`bad route ${route}`);
     const url = `http://127.0.0.1:${port}${route}`;
-    const isHome = route === "/";
+    // Both language homes keep (or start from) the shell; /fr then swaps to the FR title.
+    const isHome = route === "/" || route === "/fr";
     await page.goto(url, { waitUntil: "load", timeout: 30000 });
     try {
       await page.waitForFunction(

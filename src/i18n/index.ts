@@ -1,6 +1,11 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import { DEFAULT_LOCALE } from "./locale";
+import { DEFAULT_LOCALE, localeFromPath } from "./locale";
+
+/** Match the URL on first paint so /fr is French before LocaleLayout runs. */
+const initialLng =
+  typeof window !== "undefined" ? localeFromPath(window.location.pathname) : DEFAULT_LOCALE;
+
 
 import enCommon from "./locales/en/common.json";
 import enNav from "./locales/en/nav.json";
@@ -51,7 +56,7 @@ void i18n.use(initReactI18next).init({
       legal: frLegal,
     },
   },
-  lng: DEFAULT_LOCALE,
+  lng: initialLng,
   fallbackLng: DEFAULT_LOCALE,
   defaultNS: "common",
   ns: ["common", "nav", "cta", "forms", "cookies", "home", "about", "contact", "work", "legal"],

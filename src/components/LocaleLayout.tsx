@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { localeFromPath, rememberLocale, type Locale } from "../i18n/locale";
@@ -9,7 +9,8 @@ export default function LocaleLayout({ forceLocale }: { forceLocale?: Locale }) 
   const { i18n } = useTranslation();
   const locale = forceLocale ?? localeFromPath(location.pathname);
 
-  useEffect(() => {
+  // useLayoutEffect so language is set before paint/prerender checks the title.
+  useLayoutEffect(() => {
     if (i18n.language !== locale) {
       void i18n.changeLanguage(locale);
     }
