@@ -59,3 +59,42 @@ export function rememberedLocale(): Locale | null {
     return null;
   }
 }
+
+/** True when the browser lists French ahead of English (or French only). */
+export function browserPreferredLocale(): Locale {
+  if (typeof navigator === "undefined") return DEFAULT_LOCALE;
+  const tags = [...(navigator.languages?.length ? navigator.languages : []), navigator.language].filter(
+    Boolean,
+  ) as string[];
+
+  for (const tag of tags) {
+    const lower = tag.toLowerCase();
+    if (lower === "fr" || lower.startsWith("fr-")) return "fr";
+    if (lower === "en" || lower.startsWith("en-")) return "en";
+  }
+
+  // Soft location hint when the browser does not list a language we know.
+  try {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+    if (
+      /Paris|Brussels|Montreal|Abidjan|Dakar|Bamako|Ouagadougou|Lome|Porto-Novo|Kinshasa|Brazzaville|Douala|Libreville|Yaounde|Algiers|Tunis|Casablanca|Geneva|Luxembourg|Niamey|Conakry|Nouakchott/i.test(
+        tz,
+      )
+    ) {
+      return "fr";
+    }
+  } catch {
+    /* ignore */
+  }
+
+  return DEFAULT_LOCALE;
+}
+
+/**
+ * Locale to open for this visit on an English URL.
+ * Saved choice wins; otherwise browser language / timezone hint.
+ * French URLs are never auto-switched away (shared links stay put).
+ */
+export function preferredLocaleForVisit(): Locale {
+  return rememberedLocale() ?? browserPreferredLocale();
+}

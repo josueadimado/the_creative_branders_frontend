@@ -6,6 +6,12 @@ Target: business French for West Africa + France visitors (`fr`, not `fr-CA`).
 - Always **vouvoiement** (`vous`).
 - Warm and plain, not stiff corporate French.
 
+## Locale detection
+- URL wins for the current page (`/fr…` stays French).
+- Saved `tcb-lang` wins on later English visits.
+- Otherwise: browser language list, then francophone timezone hint.
+- EN|FR click always updates `tcb-lang`.
+
 ## Preferred terms
 | EN | FR |
 |---|---|

@@ -14,7 +14,9 @@ import { isLocale, stripLocale } from "./i18n/locale";
 import { track } from "./lib/analytics";
 import { captureVisit } from "./lib/visit";
 import PageTransition from "./components/PageTransition";
+import PreferLocale from "./components/PreferLocale";
 import NotFound from "./pages/NotFound";
+
 
 const DeskApp = lazy(() => import("./desk/DeskApp"));
 
@@ -60,6 +62,7 @@ export default function App() {
           <script type="application/ld+json">{JSON.stringify(organizationSchema())}</script>
           <script type="application/ld+json">{JSON.stringify(professionalServiceSchema())}</script>
         </Helmet>
+        <PreferLocale />
         <WhatsAppButton />
         <BackToTop />
         <PageTransition>

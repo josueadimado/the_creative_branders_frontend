@@ -1,7 +1,10 @@
 {
   "langEn": "EN",
   "langFr": "FR",
+  "langEnName": "English",
+  "langFrName": "Français",
   "language": "Langue",
+
   "comingSoon": "Bientôt",
   "cookieSettings": "Paramètres des cookies",
   "viewSite": "Voir le site",
