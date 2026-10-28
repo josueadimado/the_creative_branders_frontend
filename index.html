@@ -15,6 +15,21 @@
     <title>The Creative Branders — Designed for Intelligent Growth</title>
     <!-- The production build waits for this to become true before saving the page. -->
     <script>window.prerenderReady = false;</script>
+    <!--
+      /desk and /dev are not prerendered. If this file is ever the homepage HTML
+      (index.html after build), hide that public markup until React takes over.
+    -->
+    <script>
+      (function () {
+        var p = location.pathname;
+        if (p === "/desk" || p.indexOf("/desk/") === 0 || p.indexOf("/dev/") === 0) {
+          document.documentElement.classList.add("tcb-spa-boot");
+        }
+      })();
+    </script>
+    <style>
+      html.tcb-spa-boot #root { visibility: hidden; }
+    </style>
     <link rel="icon" href="/brand/tcb-favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/brand/png/tcb-favicon-32.png" sizes="32x32" />
     <link rel="apple-touch-icon" href="/brand/png/tcb-app-icon-180.png" />

@@ -80,7 +80,13 @@ export default function App() {
   const location = useLocation();
   if (location.pathname === "/desk" || location.pathname.startsWith("/desk/")) {
     return (
-      <Suspense fallback={null}>
+      <Suspense
+        fallback={
+          <div className="flex min-h-screen items-center justify-center bg-paper text-sm text-slate">
+            Opening the studio desk…
+          </div>
+        }
+      >
         <DeskApp />
       </Suspense>
     );

@@ -235,19 +235,14 @@ function sendStudioEvent(event: string, params?: Record<string, string>) {
     device: readDeviceKind(),
   });
   const url = `${apiRoot()}/analytics/events/`;
-  try {
-    if (navigator.sendBeacon) {
-      const blob = new Blob([body], { type: "application/json" });
-      if (navigator.sendBeacon(url, blob)) return;
-    }
-  } catch {
-    // Fall through to fetch.
-  }
+  // Prefer fetch: sendBeacon + application/json often fails silently cross-origin
+  // (api.thecreativebranders.com vs thecreativebranders.com) because it cannot CORS-preflight.
   void fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body,
     keepalive: true,
+    mode: "cors",
   }).catch(() => undefined);
 }
 
@@ -258,6 +253,18 @@ export function track(event: string, params?: Record<string, string>) {
   }
   sendStudioEvent(event, params);
 }
+
+/**
+ * Turn analytics back on as soon as the module loads when Accept was saved earlier.
+ * Without this, the first page_view runs before CookieNotice and is skipped.
+ */
+function restoreGrantedFromSavedConsent() {
+  if (typeof window === "undefined") return;
+  if (readConsent()?.analytics === true) {
+    loadAnalytics();
+  }
+}
+restoreGrantedFromSavedConsent();
 
 /** Which WhatsApp link was used: floating, case-study, contact, or brief-success. */
 export function trackWhatsApp(button: string) {

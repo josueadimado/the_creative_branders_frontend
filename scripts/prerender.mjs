@@ -20,6 +20,10 @@ const routesFile = join(dist, ".prerender-routes.json");
 const shellHtml = readFileSync(join(dist, "index.html"), "utf8");
 const shellTitle = shellHtml.match(/<title>([^<]*)<\/title>/)?.[1] ?? "";
 
+// Keep an empty app shell for /desk and /dev. The homepage prerender replaces
+// index.html, and those routes must not flash the public site on reload.
+writeFileSync(join(dist, "spa.html"), shellHtml);
+
 const types = {
   ".css": "text/css",
   ".html": "text/html; charset=utf-8",

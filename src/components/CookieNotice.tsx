@@ -7,8 +7,10 @@ import {
   readConsent,
   saveConsent,
   stopAnalytics,
+  track,
   type ConsentChoice,
 } from "../lib/analytics";
+import { stripLocale } from "../i18n/locale";
 import { LocaleLink } from "./LocaleLink";
 
 export const OPEN_COOKIE_SETTINGS = "tcb-open-cookie-settings";
@@ -52,8 +54,13 @@ export default function CookieNotice() {
 
   function apply(choice: ConsentChoice) {
     saveConsent(choice);
-    if (choice.analytics) loadAnalytics();
-    else stopAnalytics();
+    if (choice.analytics) {
+      loadAnalytics();
+      // PageViews may already have run before Accept — count this page now.
+      track("page_view", { page_path: stripLocale(window.location.pathname || "/") });
+    } else {
+      stopAnalytics();
+    }
     setOpen(false);
   }
 
