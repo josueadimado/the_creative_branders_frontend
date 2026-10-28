@@ -47,7 +47,14 @@ export type DeskAnalyticsPayload = {
       briefs: number;
       kind: "all" | "case" | "insights" | "marketing";
     }[];
-    campaigns: { source: string; medium: string; campaign: string; sessions: number; briefs: number }[];
+    campaigns: {
+      source: string;
+      medium: string;
+      campaign: string;
+      sessions: number;
+      contacts?: number;
+      briefs: number;
+    }[];
     activity: {
       day: string;
       time: string;
@@ -204,8 +211,11 @@ export function useDeskAnalytics(range: DateRange) {
       campaignSessionsHint: useSampleGa
         ? sampleSources.campaignSessionsHint
         : "Sessions with a named UTM campaign",
+      campaignContacts:
+        studio?.campaigns.reduce((sum, row) => sum + (row.contacts || 0), 0) ?? 0,
+      campaignContactsHint: "WhatsApp / CTA clicks that still carried the campaign tags",
       campaignBriefs: studio?.campaigns.reduce((sum, row) => sum + row.briefs, 0) ?? 0,
-      campaignBriefsHint: "Of briefs with a UTM campaign on the form",
+      campaignBriefsHint: "Briefs that arrived with UTM tags on the form",
     },
     channels: useSampleGa ? sampleChannels : data?.ga.channels || [],
     campaigns: liveStudio ? studio?.campaigns || [] : sampleCampaigns,

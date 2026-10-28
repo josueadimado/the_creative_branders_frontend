@@ -148,6 +148,7 @@ export const campaigns = [
     medium: "social",
     campaign: "studio-refresh",
     sessions: 18,
+    contacts: 9,
     briefs: 2,
   },
   {
@@ -155,6 +156,7 @@ export const campaigns = [
     medium: "social",
     campaign: "work-that-works",
     sessions: 10,
+    contacts: 4,
     briefs: 1,
   },
   {
@@ -162,6 +164,7 @@ export const campaigns = [
     medium: "email",
     campaign: "october-notes",
     sessions: 4,
+    contacts: 1,
     briefs: 0,
   },
 ];

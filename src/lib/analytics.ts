@@ -4,6 +4,7 @@
  */
 
 import { apiRoot } from "./apiBase";
+import { readVisit } from "./visit";
 
 const GA_ID = import.meta.env.VITE_GA_ID || "";
 const CONSENT_KEY = "tcb-consent";
@@ -193,11 +194,30 @@ export function loadAnalytics() {
   gtagStub("config", GA_ID, { anonymize_ip: true, send_page_view: false });
 }
 
+/** Campaign tags from the first page of this visit (set by captureVisit). */
+function visitAttribution(): Record<string, string> {
+  const visit = readVisit();
+  const props: Record<string, string> = {};
+  for (const key of [
+    "utm_source",
+    "utm_medium",
+    "utm_campaign",
+    "utm_content",
+    "landing_page",
+    "referrer",
+  ] as const) {
+    const value = visit[key];
+    if (value) props[key] = value.slice(0, 200);
+  }
+  return props;
+}
+
 /** Fire-and-forget POST to our studio event log. Failures never block the page. */
 function sendStudioEvent(event: string, params?: Record<string, string>) {
   if (!STUDIO_EVENTS.has(event)) return;
   const page_path = params?.page_path || window.location.pathname || "/";
-  const props: Record<string, string> = {};
+  // Visit tags first; explicit params (button, case_study, …) win if both set.
+  const props: Record<string, string> = { ...visitAttribution() };
   for (const [key, value] of Object.entries(params || {})) {
     if (key === "page_path" || value == null || value === "") continue;
     props[key] = String(value).slice(0, 200);

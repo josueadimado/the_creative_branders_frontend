@@ -38,7 +38,7 @@ export default function SourcesAnalytics() {
         />
         <DateRangeBar value={range} onChange={setRange} live />
 
-        <div className="grid gap-4 sm:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <MetricCard
             label="Sessions"
             source="ga4"
@@ -50,6 +50,12 @@ export default function SourcesAnalytics() {
             source="ga4"
             value={data.sources.campaignSessions}
             hint={data.sources.campaignSessionsHint}
+          />
+          <MetricCard
+            label="Campaign contacts"
+            source="studio"
+            value={data.sources.campaignContacts}
+            hint={data.sources.campaignContactsHint}
           />
           <MetricCard
             label="Campaign briefs"
@@ -72,18 +78,21 @@ export default function SourcesAnalytics() {
             <ChannelBars rows={data.channels} />
           </Panel>
           <div className="rounded-[10px] border border-mist bg-white p-5">
-            <h2 className="text-sm font-semibold text-navy">Campaign → brief, not just a click</h2>
+            <h2 className="text-sm font-semibold text-navy">Click → contact → brief</h2>
             <p className="mt-2 text-[13px] leading-relaxed text-slate">
-              UTM source, medium, campaign and landing page are stored on each submitted lead in Inbox.
+              Tagged social links stick for the visit. WhatsApp and other CTAs keep those tags even when
+              nobody submits a brief yet.
             </p>
             {data.campaigns[0] ? (
               <div className="mt-4 rounded-md bg-[#eaf6f2] px-3 py-3 text-[11px] text-studio">
-                {data.campaigns[0].campaign} brought {data.campaigns[0].briefs} brief
-                {data.campaigns[0].briefs === 1 ? "" : "s"} from {data.campaigns[0].source} in this range.
+                {data.campaigns[0].campaign} from {data.campaigns[0].source}:{" "}
+                {data.campaigns[0].contacts || 0} contact
+                {(data.campaigns[0].contacts || 0) === 1 ? "" : "s"} · {data.campaigns[0].briefs} brief
+                {data.campaigns[0].briefs === 1 ? "" : "s"}.
               </div>
             ) : (
               <div className="mt-4 rounded-md bg-paper px-3 py-3 text-[11px] text-slate">
-                No UTM campaigns on briefs in this range yet.
+                No tagged campaigns in this range yet. Share links with utm_source and utm_campaign.
               </div>
             )}
           </div>
@@ -91,13 +100,14 @@ export default function SourcesAnalytics() {
 
         <Panel title="Campaign attribution">
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[40rem] text-left text-xs">
+            <table className="w-full min-w-[44rem] text-left text-xs">
               <thead className="text-[10px] font-semibold uppercase tracking-wide text-slate">
                 <tr className="border-b border-mist">
                   <th className="pb-2 font-semibold">utm_source</th>
                   <th className="pb-2 font-semibold">utm_medium</th>
                   <th className="pb-2 font-semibold">utm_campaign</th>
                   <th className="pb-2 font-semibold">Sessions</th>
+                  <th className="pb-2 font-semibold">Contacts</th>
                   <th className="pb-2 font-semibold">Briefs</th>
                   <th className="pb-2 font-semibold">Related briefs</th>
                 </tr>
@@ -105,17 +115,21 @@ export default function SourcesAnalytics() {
               <tbody>
                 {data.campaigns.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="py-8 text-slate">
-                      Campaign rows appear when a brief arrives with UTM tags.
+                    <td colSpan={7} className="py-8 text-slate">
+                      Rows appear when a tagged visit clicks a CTA or sends a brief.
                     </td>
                   </tr>
                 ) : (
                   data.campaigns.map((row) => (
-                    <tr key={`${row.source}-${row.campaign}`} className="border-b border-mist/70 last:border-0">
+                    <tr
+                      key={`${row.source}-${row.medium}-${row.campaign}`}
+                      className="border-b border-mist/70 last:border-0"
+                    >
                       <td className="py-3.5 font-medium text-navy">{row.source}</td>
                       <td className="py-3.5 text-slate">{row.medium}</td>
                       <td className="py-3.5 text-slate">{row.campaign}</td>
                       <td className="py-3.5 text-slate">{row.sessions || "—"}</td>
+                      <td className="py-3.5 text-slate">{row.contacts || 0}</td>
                       <td className="py-3.5 text-slate">{row.briefs}</td>
                       <td className="py-3.5">
                         {row.briefs > 0 ? (
