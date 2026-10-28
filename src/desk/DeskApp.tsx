@@ -1,9 +1,13 @@
 import { createContext, useContext, useEffect, useState, type FormEvent } from "react";
 import { Helmet } from "react-helmet-async";
 import {
+  Activity,
   ArrowUpRight,
+  ChartNoAxesCombined,
   Eye,
   EyeOff,
+  FileChartColumn,
+  Filter,
   GraduationCap,
   Inbox,
   LayoutDashboard,
@@ -14,6 +18,7 @@ import {
   NotebookPen,
   PanelsTopLeft,
   Settings,
+  Signpost,
   Users,
   X,
   type LucideIcon,
@@ -21,6 +26,11 @@ import {
 import { NavLink, Navigate, Outlet, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Logo from "../components/Logo";
 import { clearToken, deskJson, readToken, saveToken } from "./api";
+import ActivityAnalytics from "./analytics/ActivityAnalytics";
+import FunnelAnalytics from "./analytics/FunnelAnalytics";
+import OverviewAnalytics from "./analytics/OverviewAnalytics";
+import PagesAnalytics from "./analytics/PagesAnalytics";
+import SourcesAnalytics from "./analytics/SourcesAnalytics";
 import MessagesDesk from "./MessagesDesk";
 import NotesDesk from "./NotesDesk";
 import Overview from "./Overview";
@@ -73,6 +83,16 @@ const groups: { label: string; links: { to: string; label: string; icon: LucideI
       { to: "/desk/waitlist", label: "Waitlist", icon: Users },
       { to: "/desk/newsletter", label: "Newsletter", icon: Mail },
       { to: "/desk/academy", label: "Academy", icon: GraduationCap },
+    ],
+  },
+  {
+    label: "Analytics",
+    links: [
+      { to: "/desk/analytics", label: "Overview", end: true, icon: ChartNoAxesCombined },
+      { to: "/desk/analytics/pages", label: "Pages", icon: FileChartColumn },
+      { to: "/desk/analytics/funnel", label: "Funnel", icon: Filter },
+      { to: "/desk/analytics/sources", label: "Sources", icon: Signpost },
+      { to: "/desk/analytics/activity", label: "Activity", icon: Activity },
     ],
   },
 ];
@@ -226,6 +246,13 @@ function SideFoot({ collapsed, onSignOut }: { collapsed?: boolean; onSignOut: ()
   }`;
   return (
     <div className="mt-auto flex flex-col gap-1 border-t border-white/10 px-3 py-4">
+      {!collapsed ? (
+        <p className="px-3 pb-2 text-[11px] leading-relaxed text-white/45">
+          Private · noindex
+          <br />
+          CB · Studio workspace
+        </p>
+      ) : null}
       <a className={item} href="/" title="View the website">
         <ArrowUpRight size={18} aria-hidden="true" />
         <span className={collapsed ? "sr-only" : ""}>View the website</span>
@@ -363,6 +390,11 @@ function DeskRoutes() {
         <Route path="notes" element={<NotesDesk />} />
         <Route path="notes/:id" element={<NotesDesk />} />
         <Route path="settings" element={<SettingsDesk />} />
+        <Route path="analytics" element={<OverviewAnalytics />} />
+        <Route path="analytics/pages" element={<PagesAnalytics />} />
+        <Route path="analytics/funnel" element={<FunnelAnalytics />} />
+        <Route path="analytics/sources" element={<SourcesAnalytics />} />
+        <Route path="analytics/activity" element={<ActivityAnalytics />} />
         <Route path="briefs" element={<MessagesDesk kind="briefs" />} />
         <Route path="briefs/:id" element={<MessagesDesk kind="briefs" />} />
         <Route path="waitlist" element={<MessagesDesk kind="waitlist" />} />

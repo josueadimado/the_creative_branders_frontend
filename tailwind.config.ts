@@ -23,6 +23,8 @@ const config: Config = {
           tint: "rgb(var(--tcb-gold-tint) / <alpha-value>)",
         },
         tint: "rgb(var(--tcb-tint) / <alpha-value>)",
+        ga: "rgb(var(--tcb-ga) / <alpha-value>)",
+        studio: "rgb(var(--tcb-studio) / <alpha-value>)",
       },
       fontFamily: {
         sans: ["Inter Variable", "Inter", "-apple-system", "Segoe UI", "Helvetica Neue", "Arial", "sans-serif"],

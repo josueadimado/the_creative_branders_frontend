@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   bannerCanAppear,
-  hasAnalyticsId,
   hasMarketingTracker,
   loadAnalytics,
   readConsent,
@@ -25,7 +24,8 @@ export default function CookieNotice() {
   const [view, setView] = useState<"ask" | "settings">("ask");
   const [analytics, setAnalytics] = useState(false);
   const [marketing, setMarketing] = useState(false);
-  const showAnalytics = hasAnalyticsId();
+  // Studio analytics always needs a clear choice. GA is optional on top of that.
+  const showAnalytics = true;
   const showMarketing = hasMarketingTracker();
 
   useEffect(() => {

@@ -1,7 +1,9 @@
 /**
- * Google Analytics, loaded only after someone allows it.
- * If VITE_GA_ID is empty, none of this runs and no script is added.
+ * Google Analytics and the studio event log, only after someone allows analytics.
+ * GA script loads when VITE_GA_ID is set. Studio events still save to our API without it.
  */
+
+import { apiRoot } from "./apiBase";
 
 const GA_ID = import.meta.env.VITE_GA_ID || "";
 const CONSENT_KEY = "tcb-consent";
@@ -9,6 +11,19 @@ const CONSENT_KEY = "tcb-consent";
 const SIX_MONTHS = 60 * 60 * 24 * 182;
 /** True only after Accept has allowed analytics on this page view. */
 let analyticsGranted = false;
+
+/** Business actions we keep in our own database. Page views stay in GA4 only. */
+const STUDIO_EVENTS = new Set([
+  "start_project_click",
+  "audit_cta_click",
+  "case_study_view",
+  "work_filter",
+  "whatsapp_click",
+  "email_click",
+  "phone_click",
+  "brief_submit",
+  "waitlist_signup",
+]);
 
 export type ConsentChoice = {
   /** Always on. These cookies keep the site working. */
@@ -38,9 +53,9 @@ export function hasMarketingTracker() {
   return meta.length > 0 || linkedin.length > 0;
 }
 
-/** The banner and the footer link appear when there is a tracker to ask about. */
+/** The banner always appears — studio analytics needs a clear Accept even without GA. */
 export function bannerCanAppear() {
-  return hasAnalyticsId() || hasMarketingTracker();
+  return true;
 }
 
 function parseChoice(value: string | null | undefined): ConsentChoice | null {
@@ -155,18 +170,16 @@ function denyStorageByDefault() {
 }
 
 /**
- * Allows analytics cookies after the visitor clicks Accept.
- * The Google file is already on the page when the build included a measurement id.
- * Safe to call more than once. Does nothing until there is a measurement id.
+ * Allows analytics after the visitor clicks Accept.
+ * Studio events can save without a GA id. The Google script loads only when one is set.
  */
 export function loadAnalytics() {
-  if (!GA_ID) return;
   denyStorageByDefault();
   // Only analytics storage is allowed. Ads stay denied.
   gtagStub("consent", "update", { analytics_storage: "granted" });
-  // Set this before the early return, so Accept works again after Decline.
   analyticsGranted = true;
 
+  if (!GA_ID) return;
   if (document.querySelector("script[data-tcb-gtag]")) return;
 
   const script = document.createElement("script");
@@ -180,9 +193,39 @@ export function loadAnalytics() {
   gtagStub("config", GA_ID, { anonymize_ip: true, send_page_view: false });
 }
 
+/** Fire-and-forget POST to our studio event log. Failures never block the page. */
+function sendStudioEvent(event: string, params?: Record<string, string>) {
+  if (!STUDIO_EVENTS.has(event)) return;
+  const page_path = params?.page_path || window.location.pathname || "/";
+  const props: Record<string, string> = {};
+  for (const [key, value] of Object.entries(params || {})) {
+    if (key === "page_path" || value == null || value === "") continue;
+    props[key] = String(value).slice(0, 200);
+  }
+  const body = JSON.stringify({ name: event, page_path: page_path.slice(0, 300), props });
+  const url = `${apiRoot()}/analytics/events/`;
+  try {
+    if (navigator.sendBeacon) {
+      const blob = new Blob([body], { type: "application/json" });
+      if (navigator.sendBeacon(url, blob)) return;
+    }
+  } catch {
+    // Fall through to fetch.
+  }
+  void fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body,
+    keepalive: true,
+  }).catch(() => undefined);
+}
+
 export function track(event: string, params?: Record<string, string>) {
-  if (!GA_ID || !analyticsGranted || readConsent()?.analytics !== true || !window.gtag) return;
-  window.gtag("event", event, params);
+  if (!analyticsGranted || readConsent()?.analytics !== true) return;
+  if (GA_ID && window.gtag) {
+    window.gtag("event", event, params);
+  }
+  sendStudioEvent(event, params);
 }
 
 /** Which WhatsApp link was used: floating, case-study, contact, or brief-success. */

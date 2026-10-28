@@ -15,6 +15,9 @@
   /* Pale backgrounds. Blue tint and gold tint stay soft, never the bright gold. */
   --tcb-tint: 227 240 246;
   --tcb-gold-tint: 251 243 217;
+  /* Desk Analytics: GA4 traffic vs studio action log (Figma provenance colours). */
+  --tcb-ga: 49 91 222;
+  --tcb-studio: 20 125 115;
   /* How far the chat button sits from the bottom. The cookie question lifts it on a phone. */
   --tcb-float-bottom: max(1.25rem, env(safe-area-inset-bottom));
 }
