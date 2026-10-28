@@ -106,7 +106,10 @@ export function useDeskAnalytics(range: DateRange) {
   }, [range]);
 
   const studio = data?.studio;
-  const useSampleGa = !data?.ga_connected;
+  // Sample GA numbers only while Google is disconnected. Once the API answers, never
+  // fill empty studio charts with fake rows — show real zeros / empty lists instead.
+  const useSampleGa = Boolean(data) && data?.ga_connected !== true;
+  const liveStudio = Boolean(data);
   const breakdown = studio?.contact_breakdown;
 
   const view = {
@@ -133,14 +136,14 @@ export function useDeskAnalytics(range: DateRange) {
         : sampleOverview.briefsHint,
     },
     visitorDaily: useSampleGa ? sampleVisitorDaily : data?.ga.visitor_daily || [],
-    contactDaily: studio?.contact_daily?.length ? studio.contact_daily : sampleContactDaily,
+    contactDaily: liveStudio ? studio?.contact_daily || [] : sampleContactDaily,
     topPages: useSampleGa
       ? sampleTopPages
       : (data?.ga.top_pages || []).map((row) => ({
           ...row,
           briefs: studio?.page_rows.find((item) => item.path === row.path)?.briefs || 0,
         })),
-    workOpens: studio?.work_opens?.length ? studio.work_opens : sampleWorkOpens,
+    workOpens: liveStudio ? studio?.work_opens || [] : sampleWorkOpens,
     pagesMetrics: {
       pageViews: useSampleGa ? samplePagesMetrics.pageViews : data?.ga.page_views || 0,
       pageViewsHint: useSampleGa ? samplePagesMetrics.pageViewsHint : "From GA4",
@@ -154,7 +157,7 @@ export function useDeskAnalytics(range: DateRange) {
       attributedBriefs: studio?.briefs ?? 0,
       attributedHint: "Landing page saved with each brief",
     },
-    pageRows: studio?.page_rows?.length ? studio.page_rows : samplePageRows,
+    pageRows: liveStudio ? studio?.page_rows || [] : samplePageRows,
     funnel: {
       sessions: useSampleGa ? sampleFunnel.sessions : data?.ga.sessions || 0,
       contactOrBrief: studio?.contact_or_brief ?? 0,
@@ -205,12 +208,14 @@ export function useDeskAnalytics(range: DateRange) {
       campaignBriefsHint: "Of briefs with a UTM campaign on the form",
     },
     channels: useSampleGa ? sampleChannels : data?.ga.channels || [],
-    campaigns: studio?.campaigns?.length ? studio.campaigns : sampleCampaigns,
+    campaigns: liveStudio ? studio?.campaigns || [] : sampleCampaigns,
     activityMetrics: {
       contactActions: studio?.contact_actions ?? 0,
       contactBreakdown: breakdown
         ? `${breakdown.whatsapp} WhatsApp · ${breakdown.start_project} project · ${breakdown.email} email · ${breakdown.call} call`
-        : activityMetrics.contactBreakdown,
+        : liveStudio
+          ? "No contact actions yet"
+          : activityMetrics.contactBreakdown,
       briefs: studio?.briefs ?? 0,
       briefsHint: "Saved lead content stays in Inbox",
       caseOpens: studio?.case_opens ?? 0,
@@ -221,8 +226,8 @@ export function useDeskAnalytics(range: DateRange) {
             .join(" · ")
         : "No case study opens yet",
     },
-    activityFeed: studio?.activity?.length
-      ? studio.activity.map((row) => ({
+    activityFeed: liveStudio
+      ? (studio?.activity || []).map((row) => ({
           day: row.day,
           time: row.time,
           action: row.action,
