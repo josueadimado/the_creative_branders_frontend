@@ -61,6 +61,7 @@ export default function ActivityAnalytics() {
           title="Studio activity"
           lede="The meaningful actions on your site. Not a stream of every page view."
           connected={data.gaConnected}
+          connectionError={data.gaError}
         />
         <DateRangeBar value={range} onChange={setRange} live />
 

@@ -41,6 +41,7 @@ export default function OverviewAnalytics() {
           title="Analytics overview"
           lede="A clear view of who arrives, what resonates and where enquiries begin."
           connected={data.gaConnected}
+          connectionError={data.gaError}
         />
         <DateRangeBar value={range} onChange={setRange} live />
 

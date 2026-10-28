@@ -33,6 +33,7 @@ export default function FunnelAnalytics() {
           title="From interest to enquiry"
           lede="An aggregate directional funnel — not a joined, per-person journey."
           connected={data.gaConnected}
+          connectionError={data.gaError}
         />
         <DateRangeBar value={range} onChange={setRange} live />
 

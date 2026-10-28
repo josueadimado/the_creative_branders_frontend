@@ -34,6 +34,7 @@ export default function SourcesAnalytics() {
           title="Sources & campaigns"
           lede="Follow the signal from a campaign to a real project brief."
           connected={data.gaConnected}
+          connectionError={data.gaError}
         />
         <DateRangeBar value={range} onChange={setRange} live />
 

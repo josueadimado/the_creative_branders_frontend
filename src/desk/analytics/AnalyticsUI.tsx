@@ -43,16 +43,24 @@ export function AnalyticsHeading({
   title,
   lede,
   connected = true,
+  connectionError = "",
 }: {
   title: string;
   lede: string;
   connected?: boolean;
+  /** Why GA4 stayed disconnected — shown so we can fix env / access without guessing. */
+  connectionError?: string;
 }) {
   return (
     <div className="flex flex-wrap items-start justify-between gap-4">
       <div className="min-w-0 max-w-2xl">
         <h1 className="text-[28px] font-semibold tracking-tight text-navy">{title}</h1>
         <p className="mt-1 text-[13px] text-slate">{lede}</p>
+        {!connected && connectionError ? (
+          <p className="mt-2 max-w-xl text-[12px] leading-snug text-red-800" role="status">
+            GA4 error: {connectionError}
+          </p>
+        ) : null}
       </div>
       <DotStatus ok={connected} label={connected ? "Connected to GA4" : "GA4 disconnected"} />
     </div>

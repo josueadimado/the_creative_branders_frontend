@@ -113,6 +113,7 @@ export function useDeskAnalytics(range: DateRange) {
     loading,
     error,
     gaConnected: data?.ga_connected === true,
+    gaError: data?.ga_error || "",
     sampleTraffic: useSampleGa,
     updatedAt: data?.updated_at,
     overview: {

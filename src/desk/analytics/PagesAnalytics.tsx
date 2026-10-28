@@ -41,6 +41,7 @@ export default function PagesAnalytics() {
           title="Pages & case studies"
           lede="See which pages get traffic, which work gets opened, and which landings bring briefs."
           connected={data.gaConnected}
+          connectionError={data.gaError}
         />
         <DateRangeBar value={range} onChange={setRange} live />
 
