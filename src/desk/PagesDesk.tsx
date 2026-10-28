@@ -83,10 +83,7 @@ function PageList() {
 
   return (
     <section>
-      <DeskHeading
-        title="Pages"
-        lede="The sentences on the homepage, About, Work, and Contact. Leave a box empty to keep the sentence already on the site."
-      />
+      <DeskHeading title="Pages" />
       {error ? <p className="text-sm text-red-800">{error}</p> : null}
       <RecordList>
         {pages.map((page) => (
@@ -150,7 +147,7 @@ function PageEdit({ slug }: { slug: string }) {
 
   return (
     <section>
-      <DeskHeading title={pageName(slug)} lede="Refresh the public page after saving to see the new sentences.">
+      <DeskHeading title={pageName(slug)}>
         <BackLink to="/desk/pages">All pages</BackLink>
       </DeskHeading>
       <form onSubmit={onSubmit} className="grid gap-5">

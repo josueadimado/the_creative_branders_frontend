@@ -1,14 +1,17 @@
 import { useMemo, useState } from "react";
+import { BookStack, FilterList, Page, ReportColumns } from "iconoir-react";
 import {
   AnalyticsHeading,
   AnalyticsWorkspaceBar,
   BriefLink,
   DateRangeBar,
+  FilterChip,
   MetricCard,
   Panel,
   PrivacyNote,
   useAnalyticsRange,
 } from "./AnalyticsUI";
+import DeskLoader from "./DeskLoader";
 import { useDeskAnalytics } from "./useDeskAnalytics";
 
 type Filter = "all" | "case" | "insights" | "marketing";
@@ -26,7 +29,7 @@ export default function PagesAnalytics() {
     return (
       <section>
         <AnalyticsWorkspaceBar />
-        <div className="h-64 animate-pulse rounded-[10px] bg-white" />
+        <DeskLoader label="Loading pages…" />
       </section>
     );
   }
@@ -38,12 +41,11 @@ export default function PagesAnalytics() {
       <AnalyticsWorkspaceBar sample={data.sampleTraffic} />
       <div className="space-y-6">
         <AnalyticsHeading
-          title="Pages & case studies"
-          lede="See which pages get traffic, which work gets opened, and which landings bring briefs."
+          title="Pages"
           connected={data.gaConnected}
           connectionError={data.gaError}
         />
-        <DateRangeBar value={range} onChange={setRange} live />
+        <DateRangeBar value={range} onChange={setRange} live updatedAt={data.updatedAt} />
 
         <div className="grid gap-4 sm:grid-cols-3">
           <MetricCard
@@ -66,35 +68,44 @@ export default function PagesAnalytics() {
           />
         </div>
 
-        <Panel title="Content performance">
-          <div className="mb-4 flex flex-wrap gap-2 text-xs">
-            {(
-              [
-                ["all", "All pages"],
-                ["case", "Case studies"],
-                ["insights", "Insights"],
-                ["marketing", "Marketing pages"],
-              ] as const
-            ).map(([id, label]) => (
-              <button
-                key={id}
-                type="button"
-                onClick={() => setFilter(id)}
-                className={`rounded-full px-3 py-1.5 ${
-                  filter === id ? "bg-navy text-white" : "border border-mist bg-white text-slate"
-                }`}
-              >
-                {label}
-              </button>
-            ))}
+        <Panel title="By page">
+          <div className="mb-4 flex flex-wrap gap-2">
+            <FilterChip
+              active={filter === "all"}
+              onClick={() => setFilter("all")}
+              icon={<FilterList width={14} height={14} strokeWidth={1.6} />}
+            >
+              All
+            </FilterChip>
+            <FilterChip
+              active={filter === "case"}
+              onClick={() => setFilter("case")}
+              icon={<ReportColumns width={14} height={14} strokeWidth={1.6} />}
+            >
+              Case studies
+            </FilterChip>
+            <FilterChip
+              active={filter === "insights"}
+              onClick={() => setFilter("insights")}
+              icon={<BookStack width={14} height={14} strokeWidth={1.6} />}
+            >
+              Insights
+            </FilterChip>
+            <FilterChip
+              active={filter === "marketing"}
+              onClick={() => setFilter("marketing")}
+              icon={<Page width={14} height={14} strokeWidth={1.6} />}
+            >
+              Marketing
+            </FilterChip>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full min-w-[40rem] text-left text-xs">
               <thead className="text-[10px] font-semibold uppercase tracking-wide text-slate">
                 <tr className="border-b border-mist">
-                  <th className="pb-2 font-semibold">Page / case study</th>
+                  <th className="pb-2 font-semibold">Page</th>
                   <th className="pb-2 font-semibold">Views · GA4</th>
-                  <th className="pb-2 font-semibold">Opens / clicks · Studio</th>
+                  <th className="pb-2 font-semibold">Studio</th>
                   <th className="pb-2 font-semibold">Landing briefs</th>
                 </tr>
               </thead>
@@ -102,8 +113,7 @@ export default function PagesAnalytics() {
                 {rows.length === 0 ? (
                   <tr>
                     <td colSpan={4} className="py-8 text-slate">
-                      No rows in this filter yet. Browse the site after Accepting analytics to fill the studio
-                      log.
+                      Nothing in this filter yet.
                     </td>
                   </tr>
                 ) : (
@@ -121,31 +131,13 @@ export default function PagesAnalytics() {
               </tbody>
             </table>
           </div>
-          <p className="mt-4 text-[11px] text-slate">
-            Landing attribution belongs to the submitted brief. It is not a matched GA4 visitor journey.
-          </p>
+          {data.workOpens[0] ? (
+            <p className="mt-4 text-[13px] text-slate">
+              {data.workOpens[0].slug} · {data.workOpens[0].opens} opens ·{" "}
+              <BriefLink to="/desk/briefs">Briefs →</BriefLink>
+            </p>
+          ) : null}
         </Panel>
-
-        <div className="grid gap-5 xl:grid-cols-2">
-          <div className="rounded-[10px] border border-mist bg-white p-5">
-            <h2 className="text-sm font-semibold text-navy">The work bringing enquiries</h2>
-            <p className="mt-2 text-[13px] text-slate">
-              {data.workOpens[0]
-                ? `${data.workOpens[0].slug} leads this range with ${data.workOpens[0].opens} case study opens and ${data.workOpens[0].briefs} attributed briefs.`
-                : "Open a case study on the public site after Accepting analytics to see opens here."}
-            </p>
-            <p className="mt-3 text-[13px]">
-              <BriefLink to="/desk/briefs">View related project briefs →</BriefLink>
-            </p>
-          </div>
-          <div className="rounded-[10px] border border-mist bg-white p-5">
-            <h2 className="text-sm font-semibold text-navy">Two measures, two meanings</h2>
-            <p className="mt-2 text-[13px] text-slate">
-              GA4 counts page loads. The studio log counts meaningful clicks and form success. They are not
-              expected to match.
-            </p>
-          </div>
-        </div>
 
         <PrivacyNote />
       </div>

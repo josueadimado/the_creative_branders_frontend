@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { deskJson } from "../api";
-import type { ActivityItem, DateRange } from "./sampleData";
+import type { AnalyticsRangeValue } from "./AnalyticsUI";
+import type { ActivityItem } from "./sampleData";
 import {
   activityFeed,
   activityMetrics,
@@ -85,21 +86,37 @@ export type DeskAnalyticsPayload = {
   ga_error?: string;
 };
 
-function rangeQuery(range: DateRange): string {
-  if (range === "today") return "today";
-  if (range === "30d") return "30d";
-  return "7d";
+function rangeQuery(range: AnalyticsRangeValue): string {
+  const params = new URLSearchParams();
+  if (range.preset === "custom" && range.from && range.to) {
+    params.set("range", "custom");
+    params.set("from", range.from);
+    params.set("to", range.to);
+  } else if (range.preset === "today") {
+    params.set("range", "today");
+  } else if (range.preset === "30d") {
+    params.set("range", "30d");
+  } else {
+    params.set("range", "7d");
+  }
+  return params.toString();
 }
 
-export function useDeskAnalytics(range: DateRange) {
+export function useDeskAnalytics(range: AnalyticsRangeValue) {
   const [data, setData] = useState<DeskAnalyticsPayload | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
+    if (range.preset === "custom" && (!range.from || !range.to)) {
+      setLoading(false);
+      return () => {
+        cancelled = true;
+      };
+    }
     setLoading(true);
-    deskJson<DeskAnalyticsPayload>(`/analytics/?range=${rangeQuery(range)}`)
+    deskJson<DeskAnalyticsPayload>(`/analytics/?${rangeQuery(range)}`)
       .then((payload) => {
         if (!cancelled) {
           setData(payload);
@@ -118,11 +135,9 @@ export function useDeskAnalytics(range: DateRange) {
     return () => {
       cancelled = true;
     };
-  }, [range]);
+  }, [range.preset, range.from, range.to]);
 
   const studio = data?.studio;
-  // Sample GA numbers only while Google is disconnected. Once the API answers, never
-  // fill empty studio charts with fake rows — show real zeros / empty lists instead.
   const useSampleGa = Boolean(data) && data?.ga_connected !== true;
   const liveStudio = Boolean(data);
   const breakdown = studio?.contact_breakdown;
@@ -136,19 +151,17 @@ export function useDeskAnalytics(range: DateRange) {
     updatedAt: data?.updated_at,
     overview: {
       visitors: useSampleGa ? sampleOverview.visitors : data?.ga.visitors || 0,
-      visitorsHint: useSampleGa ? sampleOverview.visitorsHint : "From GA4 for this range",
+      visitorsHint: useSampleGa ? sampleOverview.visitorsHint : "GA4",
       sessions: useSampleGa ? sampleOverview.sessions : data?.ga.sessions || 0,
       sessionsHint: useSampleGa
         ? sampleOverview.sessionsHint
-        : `${data?.ga.page_views || 0} page views in this range`,
+        : `${data?.ga.page_views || 0} page views`,
       contactActions: studio?.contact_actions ?? 0,
       contactHint: breakdown
-        ? `${breakdown.whatsapp} WhatsApp · ${breakdown.start_project} Start a project · ${breakdown.email + breakdown.call + breakdown.audit + breakdown.other} other`
-        : "No contact actions yet",
+        ? `${breakdown.whatsapp} WA · ${breakdown.start_project} project · ${breakdown.email + breakdown.call + breakdown.audit + breakdown.other} other`
+        : "None yet",
       briefs: studio?.briefs ?? 0,
-      briefsHint: studio
-        ? `${studio.unread_briefs} unread · live studio log`
-        : sampleOverview.briefsHint,
+      briefsHint: studio ? `${studio.unread_briefs} unread` : sampleOverview.briefsHint,
     },
     visitorDaily: useSampleGa ? sampleVisitorDaily : data?.ga.visitor_daily || [],
     contactDaily: liveStudio ? studio?.contact_daily || [] : sampleContactDaily,
@@ -161,16 +174,16 @@ export function useDeskAnalytics(range: DateRange) {
     workOpens: liveStudio ? studio?.work_opens || [] : sampleWorkOpens,
     pagesMetrics: {
       pageViews: useSampleGa ? samplePagesMetrics.pageViews : data?.ga.page_views || 0,
-      pageViewsHint: useSampleGa ? samplePagesMetrics.pageViewsHint : "From GA4",
+      pageViewsHint: useSampleGa ? samplePagesMetrics.pageViewsHint : "GA4",
       caseOpens: studio?.case_opens ?? 0,
       caseOpensHint: studio?.work_opens?.length
         ? studio.work_opens
             .slice(0, 2)
             .map((row) => `${row.opens} ${row.slug}`)
             .join(" · ")
-        : "No case study opens yet",
+        : "None yet",
       attributedBriefs: studio?.briefs ?? 0,
-      attributedHint: "Landing page saved with each brief",
+      attributedHint: "From brief landing page",
     },
     pageRows: liveStudio ? studio?.page_rows || [] : samplePageRows,
     funnel: {
@@ -182,67 +195,65 @@ export function useDeskAnalytics(range: DateRange) {
           title: "Visited site",
           source: "ga4" as const,
           count: useSampleGa ? sampleFunnel.steps[0].count : data?.ga.sessions || 0,
-          detail: "Sessions with a site visit",
+          detail: "Sessions",
           drop: null as number | null,
         },
         {
-          title: "Viewed work / services",
+          title: "Work / services",
           source: "ga4" as const,
           count: useSampleGa
             ? sampleFunnel.steps[1].count
             : data?.ga.work_service_sessions || 0,
-          detail: "Sessions with /work, a case study, or /services",
+          detail: "/work · case study · /services",
           drop: useSampleGa ? 51.6 : null,
         },
         {
-          title: "Clicked a contact CTA",
+          title: "Contact CTA",
           source: "studio" as const,
           count: studio?.contact_actions ?? 0,
-          detail: "WhatsApp + Start a project + email + call",
+          detail: "WhatsApp · project · email · call",
           drop: null,
         },
         {
-          title: "Opened contact or sent brief",
+          title: "Contact or brief",
           source: "studio" as const,
           count: studio?.contact_or_brief ?? 0,
-          detail: "Contact CTAs + submitted briefs (combined studio signal)",
+          detail: "CTAs + briefs",
           drop: null,
         },
       ],
     },
     sources: {
       sessions: useSampleGa ? sampleSources.sessions : data?.ga.sessions || 0,
-      sessionsHint: useSampleGa ? sampleSources.sessionsHint : "From GA4",
+      sessionsHint: useSampleGa ? sampleSources.sessionsHint : "GA4",
       campaignSessions: useSampleGa
         ? sampleSources.campaignSessions
         : data?.ga.campaign_session_total || 0,
-      campaignSessionsHint: useSampleGa
-        ? sampleSources.campaignSessionsHint
-        : "Sessions with a named UTM campaign",
+      campaignSessionsHint: useSampleGa ? sampleSources.campaignSessionsHint : "With UTM campaign",
       campaignContacts:
         studio?.campaigns.reduce((sum, row) => sum + (row.contacts || 0), 0) ?? 0,
-      campaignContactsHint: "WhatsApp / CTA clicks that still carried the campaign tags",
+      campaignContactsHint: "Tagged CTA clicks",
       campaignBriefs: studio?.campaigns.reduce((sum, row) => sum + row.briefs, 0) ?? 0,
-      campaignBriefsHint: "Briefs that arrived with UTM tags on the form",
+      campaignBriefsHint: "Tagged briefs",
     },
     channels: useSampleGa ? sampleChannels : data?.ga.channels || [],
     campaigns: liveStudio ? studio?.campaigns || [] : sampleCampaigns,
     activityMetrics: {
       contactActions: studio?.contact_actions ?? 0,
       contactBreakdown: breakdown
-        ? `${breakdown.whatsapp} WhatsApp · ${breakdown.start_project} project · ${breakdown.email} email · ${breakdown.call} call`
+        ? `${breakdown.whatsapp} WA · ${breakdown.start_project} project · ${breakdown.email} email · ${breakdown.call} call`
         : liveStudio
-          ? "No contact actions yet"
+          ? "None yet"
           : activityMetrics.contactBreakdown,
       briefs: studio?.briefs ?? 0,
-      briefsHint: "Saved lead content stays in Inbox",
+      briefsHint: "Inbox",
       caseOpens: studio?.case_opens ?? 0,
       caseBreakdown: studio?.work_opens?.length
         ? studio.work_opens
             .slice(0, 2)
             .map((row) => `${row.opens} ${row.slug}`)
             .join(" · ")
-        : "No case study opens yet",
+        : "None yet",
     },
     activityFeed: (liveStudio
       ? (studio?.activity || []).map(

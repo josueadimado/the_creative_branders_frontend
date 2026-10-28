@@ -30,32 +30,27 @@ type Row = {
   referrer?: string;
 };
 
-const copy: Record<Kind, { title: string; lede: string; path: string; empty: string; emptyDetail?: string; icon: LucideIcon }> = {
+const copy: Record<Kind, { title: string; path: string; empty: string; icon: LucideIcon }> = {
   briefs: {
     title: "Project briefs",
-    lede: "Messages from the Start a project page.",
     path: "/inquiries/",
-    empty: "No briefs yet",
-    emptyDetail: "When someone sends a brief from the website, it appears here and a copy goes to your email.",
+    empty: "No briefs yet.",
     icon: Inbox,
   },
   waitlist: {
     title: "Waitlist",
-    lede: "People waiting to hear about SmartCRM.",
     path: "/waitlist/",
-    empty: "Nobody has joined the waitlist yet.",
+    empty: "No waitlist signups yet.",
     icon: Users,
   },
   newsletter: {
     title: "Newsletter",
-    lede: "People who asked for studio news.",
     path: "/newsletter/",
-    empty: "Nobody has joined the newsletter yet.",
+    empty: "No newsletter signups yet.",
     icon: Mail,
   },
   academy: {
     title: "Academy",
-    lede: "People who asked about the Academy.",
     path: "/academy/",
     empty: "No academy messages yet.",
     icon: GraduationCap,
@@ -88,7 +83,7 @@ function MessageList({ kind }: { kind: Kind }) {
 
   return (
     <section>
-      <DeskHeading title={info.title} lede={info.lede} />
+      <DeskHeading title={info.title} />
       <div className="mb-4 max-w-md">
         <TextInput placeholder="Search" value={query} onChange={(event) => setQuery(event.target.value)} />
       </div>
@@ -99,7 +94,6 @@ function MessageList({ kind }: { kind: Kind }) {
             <info.icon size={22} aria-hidden="true" />
           </span>
           <p className="mt-4 text-lg font-semibold">{info.empty}</p>
-          {info.emptyDetail ? <p className="mx-auto mt-2 max-w-sm text-sm text-slate">{info.emptyDetail}</p> : null}
           {kind === "briefs" ? (
             <a className="btn mt-5 rounded-full border border-mist bg-white text-navy" href="/contact">
               <ArrowUpRight size={16} aria-hidden="true" />

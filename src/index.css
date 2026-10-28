@@ -1,6 +1,32 @@
 /* Latin letters only. The full font packages also ship Greek and Cyrillic, which this site does not use. */
 @import "./fonts.css";
 
+/* Desk loader — dual ring in the spirit of loading.io / loading.dev. */
+.desk-dual-ring {
+  display: inline-block;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 9999px;
+  border: 2.5px solid rgb(var(--tcb-mist));
+  border-top-color: rgb(var(--tcb-deep));
+  border-right-color: rgb(var(--tcb-deep));
+  animation: desk-dual-ring 0.75s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .desk-dual-ring {
+    animation: none;
+    border-color: rgb(var(--tcb-deep));
+    opacity: 0.55;
+  }
+}
+
+@keyframes desk-dual-ring {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 :root {
   /* Space-separated channels so Tailwind can add opacity, e.g. bg-navy/80. */
   --tcb-navy: 14 30 43;

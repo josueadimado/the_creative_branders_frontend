@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import { ArrowUpRight, ChevronRight, LayoutTemplate, PanelsTopLeft, Plus } from "lucide-react";
 import { deskJson } from "./api";
 import { familyLabel } from "./choices";
-import { PrivacyNote } from "./analytics/AnalyticsUI";
+import { defaultAnalyticsRange } from "./analytics/AnalyticsUI";
+import DeskLoader from "./analytics/DeskLoader";
 import { useDeskAnalytics } from "./analytics/useDeskAnalytics";
 
 type Inquiry = {
@@ -67,7 +68,7 @@ function budgetLine(brief: Inquiry): string {
 export default function Overview() {
   const [data, setData] = useState<OverviewData | null>(null);
   const [error, setError] = useState("");
-  const analytics = useDeskAnalytics("7d");
+  const analytics = useDeskAnalytics(defaultAnalyticsRange());
 
   useEffect(() => {
     deskJson<OverviewData>("/overview/")
@@ -77,13 +78,7 @@ export default function Overview() {
 
   if (error) return <p className="text-sm text-red-800">{error}</p>;
   if (!data) {
-    return (
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3" aria-hidden="true">
-        {Array.from({ length: 6 }, (_, index) => (
-          <div key={index} className="h-36 animate-pulse rounded-[10px] bg-white" />
-        ))}
-      </div>
-    );
+    return <DeskLoader label="Loading…" />;
   }
 
   const waiting = data.unread_inquiries > 0;
@@ -94,19 +89,16 @@ export default function Overview() {
     <section className="space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="font-display text-[28px] font-semibold tracking-tight text-navy">Your studio, at a glance</h1>
-          <p className="mt-1 text-[13px] text-slate">
-            {weekdayLine()}. A little less admin, a little more making.
-          </p>
+          <h1 className="font-display text-[28px] font-semibold tracking-tight text-navy">Overview</h1>
+          <p className="mt-1 text-[13px] text-slate">{weekdayLine()}</p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <p className="text-[11px] text-slate">
-            {analytics.sampleTraffic ? "Sample traffic · live studio log" : "Live analytics"} · Accra, Ghana ·
-            GMT
+            {analytics.sampleTraffic ? "Sample" : "Live"} · Accra · GMT
           </p>
           <a className="inline-flex items-center gap-1.5 rounded-full border border-mist bg-white px-3.5 py-2 text-sm text-navy" href="/">
             <ArrowUpRight size={16} aria-hidden="true" />
-            View live site
+            View site
           </a>
         </div>
       </div>
@@ -115,14 +107,13 @@ export default function Overview() {
         <div className="flex flex-wrap items-center justify-between gap-4 rounded-[10px] bg-navy px-5 py-4 text-white">
           <div className="min-w-0">
             <p className="font-semibold">
-              {data.unread_inquiries} unread brief{data.unread_inquiries === 1 ? "" : "s"}. Your next conversation
-              is waiting.
+              {data.unread_inquiries} unread brief{data.unread_inquiries === 1 ? "" : "s"}
             </p>
             {topBrief ? (
               <p className="mt-1 text-sm text-white/70">
-                {(topBrief.name || topBrief.email).split(" ")[0]} sent a{" "}
-                {(topBrief.needs[0] || "project").toLowerCase()} brief
-                {topBrief.budget_range ? ` — ${budgetLine(topBrief)}` : ""}.
+                {topBrief.name || topBrief.email}
+                {topBrief.needs[0] ? ` · ${topBrief.needs[0]}` : ""}
+                {topBrief.budget_range ? ` · ${budgetLine(topBrief)}` : ""}
               </p>
             ) : null}
           </div>
@@ -130,44 +121,39 @@ export default function Overview() {
             to="/desk/briefs"
             className="inline-flex shrink-0 items-center rounded-full bg-signal px-4 py-2 text-sm font-semibold text-navy"
           >
-            Open project briefs
+            Open briefs
           </Link>
         </div>
       ) : null}
 
       <div>
-        <h2 className="mb-3 text-sm font-semibold text-navy">Site this week</h2>
+        <h2 className="mb-3 text-sm font-semibold text-navy">This week</h2>
         <div className="grid gap-4 sm:grid-cols-3">
           <Link to="/desk/analytics" className="rounded-[10px] border border-mist bg-white p-5 hover:border-deep/30">
             <p className="text-xs text-slate">
               Visitors <span className="text-[10px] font-medium text-ga">· GA4</span>
             </p>
             <p className="mt-2 text-[32px] font-semibold tracking-tight text-navy">{analytics.overview.visitors}</p>
-            <p className="mt-2 text-[11px] text-slate">
-              {analytics.overview.sessions} sessions
-              {analytics.sampleTraffic ? " — sample until GA connects" : " — visits are coming in"}
-            </p>
+            <p className="mt-2 text-[11px] text-slate">{analytics.overview.sessions} sessions</p>
           </Link>
           <Link
             to="/desk/analytics/activity"
             className="rounded-[10px] border border-mist bg-white p-5 hover:border-deep/30"
           >
             <p className="text-xs text-slate">
-              Contact actions <span className="text-[10px] font-medium text-studio">· Studio log</span>
+              Contact actions <span className="text-[10px] font-medium text-studio">· Studio</span>
             </p>
             <p className="mt-2 text-[32px] font-semibold tracking-tight text-navy">
               {analytics.overview.contactActions}
             </p>
-            <p className="mt-2 text-[11px] text-slate">Top CTA: {analytics.topCta}</p>
+            <p className="mt-2 text-[11px] text-slate">{analytics.topCta}</p>
           </Link>
           <Link to="/desk/briefs" className="rounded-[10px] border border-mist bg-white p-5 hover:border-deep/30">
             <p className="text-xs text-slate">
-              New briefs <span className="text-[10px] font-medium text-studio">· Studio log</span>
+              Briefs <span className="text-[10px] font-medium text-studio">· Studio</span>
             </p>
             <p className="mt-2 text-[32px] font-semibold tracking-tight text-navy">{analytics.overview.briefs}</p>
-            <p className="mt-2 text-[11px] text-slate">
-              {data.unread_inquiries} unread · live studio log
-            </p>
+            <p className="mt-2 text-[11px] text-slate">{data.unread_inquiries} unread</p>
           </Link>
         </div>
       </div>
@@ -177,16 +163,16 @@ export default function Overview() {
           <div className="flex items-center justify-between px-5 py-4">
             <h2 className="text-sm font-semibold text-navy">Latest briefs</h2>
             <Link className="text-sm text-deep" to="/desk/briefs">
-              View all {data.inquiries || data.latest_inquiries.length} project briefs
+              All ({data.inquiries || data.latest_inquiries.length})
             </Link>
           </div>
           {data.latest_inquiries.length === 0 ? (
-            <p className="px-5 pb-8 text-sm text-slate">New messages from Start a project will show here.</p>
+            <p className="px-5 pb-8 text-sm text-slate">No briefs yet.</p>
           ) : (
             <table className="w-full text-left text-sm">
               <thead className="text-[10px] uppercase tracking-wide text-slate">
                 <tr>
-                  <th className="px-5 py-2 font-medium">Prospect / request</th>
+                  <th className="px-5 py-2 font-medium">Name</th>
                   <th className="hidden px-3 py-2 font-medium sm:table-cell">Budget</th>
                   <th className="px-5 py-2 text-right font-medium">Status</th>
                 </tr>
@@ -220,52 +206,49 @@ export default function Overview() {
 
         <section className="rounded-[10px] border border-mist bg-white p-5">
           <div className="flex items-center justify-between gap-3">
-            <h2 className="text-sm font-semibold text-navy">Work that works</h2>
+            <h2 className="text-sm font-semibold text-navy">Case study opens</h2>
             <Link className="text-sm text-deep" to="/desk/analytics/pages">
-              Analytics → Pages
+              Pages →
             </Link>
           </div>
           <ul className="mt-4 space-y-3">
-            {(analytics.workOpens.length ? analytics.workOpens : []).slice(0, 3).map((item, index) => (
+            {(analytics.workOpens.length ? analytics.workOpens : []).slice(0, 3).map((item) => (
               <li key={item.slug} className="rounded-xl border border-mist bg-paper/60 px-4 py-3">
                 <p className="font-medium text-navy">{item.slug}</p>
                 <p className="mt-1 text-[11px] text-slate">
-                  {item.opens} case study opens
-                  {item.gaViews ? ` · ${item.gaViews} GA4 views` : ""}
-                  {index === 0 ? " · leading this week" : ""}
+                  {item.opens} opens
+                  {item.gaViews ? ` · ${item.gaViews} views` : ""}
                 </p>
               </li>
             ))}
-            {!analytics.workOpens.length ? (
-              <li className="text-sm text-slate">No case study opens in the studio log yet.</li>
-            ) : null}
+            {!analytics.workOpens.length ? <li className="text-sm text-slate">No opens yet.</li> : null}
           </ul>
           {data.leading_projects[0] ? (
             <p className="mt-4 text-[11px] text-slate">
-              Featured on the site: {data.leading_projects.map((p) => p.public_name).slice(0, 2).join(", ")}
-              {data.leading_projects.length > 2 ? "…" : ""}.{" "}
-              {data.leading_projects[0] ? familyLabel(data.leading_projects[0].family) : null}
+              Featured: {data.leading_projects.map((p) => p.public_name).slice(0, 2).join(", ")}
+              {data.leading_projects.length > 2 ? "…" : ""}
+              {data.leading_projects[0] ? ` · ${familyLabel(data.leading_projects[0].family)}` : ""}
             </p>
           ) : null}
         </section>
       </div>
 
       <section className="rounded-[10px] border border-mist bg-white p-5">
-        <h2 className="text-sm font-semibold text-navy">Keep the website moving</h2>
+        <h2 className="text-sm font-semibold text-navy">Shortcuts</h2>
         <div className="mt-4 flex flex-wrap gap-3">
           <Link
             to="/desk/pages"
             className="inline-flex items-center gap-2 rounded-full border border-mist bg-paper px-4 py-2 text-sm font-medium text-navy hover:border-deep/30"
           >
             <LayoutTemplate size={16} aria-hidden="true" />
-            Edit pages
+            Pages
           </Link>
           <Link
             to="/desk/projects"
             className="inline-flex items-center gap-2 rounded-full border border-mist bg-paper px-4 py-2 text-sm font-medium text-navy hover:border-deep/30"
           >
             <PanelsTopLeft size={16} aria-hidden="true" />
-            Manage projects
+            Projects
           </Link>
           <Link
             to="/desk/notes"
@@ -276,27 +259,24 @@ export default function Overview() {
           </Link>
         </div>
         <p className="mt-4 text-[11px] text-slate">
-          {data.pages} published pages · {featured || data.published_projects} featured / live projects ·{" "}
-          {data.notes} notes
-          {data.published_notes ? ` (${data.published_notes} published)` : ""}
+          {data.pages} pages · {featured || data.published_projects} live projects · {data.notes} notes
+          {data.published_notes ? ` (${data.published_notes} live)` : ""}
         </p>
       </section>
 
       <div className="flex flex-wrap items-center justify-between gap-3 rounded-[10px] border border-mist bg-white px-5 py-3 text-sm">
         <p className="text-slate">
-          <span className="font-medium text-navy">Latest action</span>
+          <span className="font-medium text-navy">Latest</span>
           <span className="mx-2 text-mist">·</span>
           {analytics.activityFeed[0]
             ? `${analytics.activityFeed[0].time} · ${analytics.activityFeed[0].action} · ${analytics.activityFeed[0].detail}`
-            : "Nothing in the studio log yet"}
+            : "No activity yet"}
         </p>
         <Link className="inline-flex items-center gap-1 text-deep" to="/desk/analytics/activity">
-          See activity
+          Activity
           <ChevronRight size={14} aria-hidden="true" />
         </Link>
       </div>
-
-      <PrivacyNote />
     </section>
   );
 }

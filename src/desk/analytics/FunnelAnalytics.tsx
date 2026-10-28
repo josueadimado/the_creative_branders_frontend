@@ -8,6 +8,7 @@ import {
   PrivacyNote,
   useAnalyticsRange,
 } from "./AnalyticsUI";
+import DeskLoader from "./DeskLoader";
 import { useDeskAnalytics } from "./useDeskAnalytics";
 
 export default function FunnelAnalytics() {
@@ -18,7 +19,7 @@ export default function FunnelAnalytics() {
     return (
       <section>
         <AnalyticsWorkspaceBar />
-        <div className="h-64 animate-pulse rounded-[10px] bg-white" />
+        <DeskLoader label="Loading funnel…" />
       </section>
     );
   }
@@ -30,68 +31,44 @@ export default function FunnelAnalytics() {
       <AnalyticsWorkspaceBar sample={data.sampleTraffic} />
       <div className="space-y-6">
         <AnalyticsHeading
-          title="From interest to enquiry"
-          lede="An aggregate directional funnel — not a joined, per-person journey."
+          title="Funnel"
           connected={data.gaConnected}
           connectionError={data.gaError}
         />
-        <DateRangeBar value={range} onChange={setRange} live />
+        <DateRangeBar value={range} onChange={setRange} live updatedAt={data.updatedAt} />
 
         <div className="grid gap-4 sm:grid-cols-3">
           <MetricCard
-            label="Site sessions"
+            label="Sessions"
             source="ga4"
             value={data.funnel.sessions}
-            hint={data.sampleTraffic ? "Sample traffic baseline" : "Traffic baseline, not a cohort."}
+            hint={data.sampleTraffic ? "Sample" : "GA4"}
           />
           <MetricCard
-            label="Contact or brief events"
+            label="Contact or brief"
             source="studio"
             value={data.funnel.contactOrBrief}
-            hint="Combined studio signal — CTAs + briefs."
+            hint="CTAs + briefs"
           />
           <MetricCard
-            label="Briefs only"
+            label="Briefs"
             source="studio"
             value={data.funnel.briefsOnly}
-            hint="Submitted briefs in this range."
+            hint="Submitted"
           />
         </div>
 
         <section className="rounded-[10px] border border-mist bg-white p-[22px]">
-          <h2 className="text-sm font-semibold text-navy">Directional funnel</h2>
+          <h2 className="text-sm font-semibold text-navy">Steps</h2>
           <div className="mt-5">
             <FunnelBars steps={data.funnel.steps} />
           </div>
-          <p className="mt-5 text-[11px] text-slate">
-            Percentages show drop-off in aggregate counts, not individual abandonment or a person-level
-            conversion rate.
+          <p className="mt-5 text-[13px]">
+            <BriefLink to="/desk/briefs">
+              {data.funnel.briefsOnly} brief{data.funnel.briefsOnly === 1 ? "" : "s"} →
+            </BriefLink>
           </p>
         </section>
-
-        <div className="grid gap-5 xl:grid-cols-2">
-          <div className="rounded-[10px] border border-mist bg-white p-5">
-            <h2 className="text-sm font-semibold text-navy">Read this as direction, not attribution</h2>
-            <p className="mt-2 text-[13px] leading-relaxed text-slate">
-              The first two steps use GA4 session counts
-              {data.sampleTraffic ? " (sample until GA is connected)" : ""}. The next steps use the live studio
-              event log. Sources are not joined across systems, and both require cookie acceptance.
-            </p>
-          </div>
-          <div className="rounded-[10px] border border-mist bg-white p-5">
-            <h2 className="text-sm font-semibold text-navy">The meaningful outcome</h2>
-            <p className="mt-2 text-[13px] leading-relaxed text-slate">
-              Briefs-only conversions are submitted forms. Contact opens help, but a brief is the studio
-              outcome that matters most.
-            </p>
-            <p className="mt-3 text-[13px]">
-              <BriefLink to="/desk/briefs">
-                Review the {data.funnel.briefsOnly} submitted brief
-                {data.funnel.briefsOnly === 1 ? "" : "s"} →
-              </BriefLink>
-            </p>
-          </div>
-        </div>
 
         <PrivacyNote />
       </div>

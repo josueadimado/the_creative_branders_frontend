@@ -1,8 +1,3 @@
-/**
- * Sample analytics for Desk, matching the Figma mock (21–27 Oct 2026).
- * Real GA4 + studio-event APIs can replace this later; the UI reads this shape.
- */
-
 export type DateRange = "today" | "7d" | "30d" | "custom";
 
 export type Provenance = "ga4" | "studio";
@@ -12,13 +7,13 @@ export const sampleUpdated = "Updated 2 min ago";
 
 export const overviewMetrics = {
   visitors: 420,
-  visitorsHint: "48 → 64 visitors per day",
+  visitorsHint: "Sample",
   sessions: 512,
-  sessionsHint: "936 page views this week",
+  sessionsHint: "936 page views",
   contactActions: 38,
-  contactHint: "18 WhatsApp · 12 Start a project · 8 other",
+  contactHint: "18 WA · 12 project · 8 other",
   briefs: 6,
-  briefsHint: "3 unread · 1 new today",
+  briefsHint: "3 unread",
 };
 
 export const visitorDaily = [
@@ -63,11 +58,11 @@ export const countries = [
 
 export const pagesMetrics = {
   pageViews: 936,
-  pageViewsHint: "Across 7 published pages",
+  pageViewsHint: "Sample",
   caseOpens: 74,
-  caseOpensHint: "46 elevate-tribe-analytics · 28 secure-counseling",
+  caseOpensHint: "46 elevate · 28 secure",
   attributedBriefs: 6,
-  attributedHint: "Landing page saved with each brief",
+  attributedHint: "Sample",
 };
 
 export type PageRow = {
@@ -94,44 +89,20 @@ export const funnel = {
   contactOrBrief: 24,
   briefsOnly: 6,
   steps: [
-    {
-      title: "Visited site",
-      source: "ga4" as Provenance,
-      count: 512,
-      detail: "Sessions with a site visit",
-      drop: null as number | null,
-    },
-    {
-      title: "Viewed work / services",
-      source: "ga4" as Provenance,
-      count: 248,
-      detail: "Sessions with /work, a case study, or /services",
-      drop: 51.6,
-    },
-    {
-      title: "Clicked a contact CTA",
-      source: "studio" as Provenance,
-      count: 38,
-      detail: "WhatsApp + Start a project + email + call",
-      drop: 84.7,
-    },
-    {
-      title: "Opened contact or sent brief",
-      source: "studio" as Provenance,
-      count: 24,
-      detail: "Contact-page opens + submitted briefs (combined)",
-      drop: 36.8,
-    },
+    { title: "Visited site", source: "ga4" as Provenance, count: 512, detail: "Sessions", drop: null as number | null },
+    { title: "Work / services", source: "ga4" as Provenance, count: 248, detail: "/work · case · /services", drop: 51.6 },
+    { title: "Contact CTA", source: "studio" as Provenance, count: 38, detail: "WhatsApp · project · email · call", drop: 84.7 },
+    { title: "Contact or brief", source: "studio" as Provenance, count: 24, detail: "CTAs + briefs", drop: 36.8 },
   ],
 };
 
 export const sourcesMetrics = {
   sessions: 512,
-  sessionsHint: "5 mutually exclusive channel groups",
+  sessionsHint: "Sample",
   campaignSessions: 32,
-  campaignSessionsHint: "Sessions with a named UTM campaign",
+  campaignSessionsHint: "Sample",
   campaignBriefs: 3,
-  campaignBriefsHint: "Of 6 total briefs — saved form attribution",
+  campaignBriefsHint: "Sample",
 };
 
 export const channels = [
@@ -171,11 +142,11 @@ export const campaigns = [
 
 export const activityMetrics = {
   contactActions: 38,
-  contactBreakdown: "18 WhatsApp · 12 project · 5 email · 3 call",
+  contactBreakdown: "18 WA · 12 project · 5 email · 3 call",
   briefs: 6,
-  briefsHint: "Saved lead content stays in Inbox",
+  briefsHint: "Inbox",
   caseOpens: 74,
-  caseBreakdown: "46 elevate-tribe-analytics · 28 secure-counseling",
+  caseBreakdown: "46 elevate · 28 secure",
 };
 
 export type ActivityItem = {

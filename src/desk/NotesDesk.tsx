@@ -48,10 +48,7 @@ function NoteList() {
 
   return (
     <section>
-      <DeskHeading
-        title="Notes"
-        lede="A published note is a story on Insights. The menu link stays closed until you decide to open it."
-      >
+      <DeskHeading title="Notes">
         <button type="button" className="btn btn-inverse" onClick={createNote} disabled={busy}>
           {busy ? "Creating…" : "New note"}
         </button>

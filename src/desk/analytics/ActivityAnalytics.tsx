@@ -1,13 +1,16 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
+import { ChatBubble, FilterList, Mail, Page, ReportColumns } from "iconoir-react";
 import {
   AnalyticsHeading,
   AnalyticsWorkspaceBar,
   BriefLink,
   DateRangeBar,
+  FilterChip,
   MetricCard,
   PrivacyNote,
   useAnalyticsRange,
 } from "./AnalyticsUI";
+import DeskLoader from "./DeskLoader";
 import { useDeskAnalytics } from "./useDeskAnalytics";
 
 type Filter = "all" | "contact" | "case" | "briefs" | "more";
@@ -23,6 +26,14 @@ function matches(filter: Filter, action: string): boolean {
     action,
   );
 }
+
+const FILTERS: { id: Filter; label: string; icon: ReactNode }[] = [
+  { id: "all", label: "All actions", icon: <FilterList width={14} height={14} strokeWidth={1.6} /> },
+  { id: "contact", label: "Contact CTAs", icon: <ChatBubble width={14} height={14} strokeWidth={1.6} /> },
+  { id: "case", label: "Case study opens", icon: <ReportColumns width={14} height={14} strokeWidth={1.6} /> },
+  { id: "briefs", label: "Briefs", icon: <Mail width={14} height={14} strokeWidth={1.6} /> },
+  { id: "more", label: "More types", icon: <Page width={14} height={14} strokeWidth={1.6} /> },
+];
 
 export default function ActivityAnalytics() {
   const [range, setRange] = useAnalyticsRange();
@@ -46,7 +57,7 @@ export default function ActivityAnalytics() {
     return (
       <section>
         <AnalyticsWorkspaceBar />
-        <div className="h-64 animate-pulse rounded-[10px] bg-white" />
+        <DeskLoader label="Loading activity…" />
       </section>
     );
   }
@@ -58,12 +69,11 @@ export default function ActivityAnalytics() {
       <AnalyticsWorkspaceBar sample={data.sampleTraffic} />
       <div className="space-y-6">
         <AnalyticsHeading
-          title="Studio activity"
-          lede="Where they came from, what they opened, device and IP — after they allow analytics."
+          title="Activity"
           connected={data.gaConnected}
           connectionError={data.gaError}
         />
-        <DateRangeBar value={range} onChange={setRange} live />
+        <DateRangeBar value={range} onChange={setRange} live updatedAt={data.updatedAt} />
 
         <div className="grid gap-4 sm:grid-cols-3">
           <MetricCard
@@ -86,40 +96,25 @@ export default function ActivityAnalytics() {
           />
         </div>
 
-        <div className="flex flex-wrap gap-2 text-xs">
-          {(
-            [
-              ["all", "All actions"],
-              ["contact", "Contact CTAs"],
-              ["case", "Case study opens"],
-              ["briefs", "Briefs"],
-              ["more", "More types"],
-            ] as const
-          ).map(([id, label]) => (
-            <button
-              key={id}
-              type="button"
-              onClick={() => setFilter(id)}
-              className={`rounded-full px-3 py-1.5 ${
-                filter === id ? "bg-navy text-white" : "border border-mist bg-white text-slate"
-              }`}
+        <div className="flex flex-wrap gap-2">
+          {FILTERS.map((item) => (
+            <FilterChip
+              key={item.id}
+              active={filter === item.id}
+              onClick={() => setFilter(item.id)}
+              icon={item.icon}
             >
-              {label}
-            </button>
+              {item.label}
+            </FilterChip>
           ))}
         </div>
 
         <section className="rounded-[10px] border border-mist bg-white">
           <div className="border-b border-mist px-5 py-4">
-            <h2 className="text-sm font-semibold text-navy">
-              Recent actions <span className="font-normal text-slate">· Studio log</span>
-            </h2>
+            <h2 className="text-sm font-semibold text-navy">Recent</h2>
           </div>
           {days.length === 0 ? (
-            <p className="px-5 py-10 text-sm text-slate">
-              No actions yet. Accept analytics on the public site, then click WhatsApp, Start a project, or open
-              a case study.
-            </p>
+            <p className="px-5 py-10 text-sm text-slate">No actions yet.</p>
           ) : (
             days.map(([day, rows]) => (
               <div key={day}>
@@ -155,7 +150,7 @@ export default function ActivityAnalytics() {
                         {context.length || paths || row.referrer ? (
                           <div className="mt-1.5 space-y-0.5 pl-[3.75rem] text-[11px] text-slate">
                             {context.length ? <p>{context.join(" · ")}</p> : null}
-                            {paths ? <p>In this visit: {paths}</p> : null}
+                            {paths ? <p>{paths}</p> : null}
                             {row.referrer ? <p className="truncate">Referrer: {row.referrer}</p> : null}
                           </div>
                         ) : null}
@@ -168,10 +163,6 @@ export default function ActivityAnalytics() {
           )}
         </section>
 
-        <p className="text-[11px] text-slate">
-          Recent studio actions · GMT. IP and device are stored only after analytics Accept, to help you
-          reply when someone reaches out — not to sell lead lists.
-        </p>
         <PrivacyNote />
       </div>
     </section>

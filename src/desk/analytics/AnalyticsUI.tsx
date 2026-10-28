@@ -1,4 +1,5 @@
-import { useState, type ReactNode } from "react";
+import { useMemo, useState, type ReactNode } from "react";
+import { Calendar, NavArrowDown, Refresh } from "iconoir-react";
 import { Link } from "react-router-dom";
 import {
   sampleRangeLabel,
@@ -6,6 +7,31 @@ import {
   type DateRange,
   type Provenance,
 } from "./sampleData";
+
+export type AnalyticsRangeValue = {
+  preset: DateRange;
+  from: string;
+  to: string;
+};
+
+function todayIso() {
+  const now = new Date();
+  const month = `${now.getMonth() + 1}`.padStart(2, "0");
+  const day = `${now.getDate()}`.padStart(2, "0");
+  return `${now.getFullYear()}-${month}-${day}`;
+}
+
+function daysAgoIso(days: number) {
+  const now = new Date();
+  now.setDate(now.getDate() - days);
+  const month = `${now.getMonth() + 1}`.padStart(2, "0");
+  const day = `${now.getDate()}`.padStart(2, "0");
+  return `${now.getFullYear()}-${month}-${day}`;
+}
+
+export function defaultAnalyticsRange(): AnalyticsRangeValue {
+  return { preset: "7d", from: daysAgoIso(6), to: todayIso() };
+}
 
 export function ProvenanceMark({ source }: { source: Provenance }) {
   if (source === "ga4") {
@@ -32,8 +58,8 @@ export function AnalyticsWorkspaceBar({ sample = true }: { sample?: boolean }) {
         Creative Branders <span className="text-mist">/</span> Analytics
       </p>
       <p className="text-[11px]">
-        {sample ? "Sample traffic · live studio log" : "Live analytics"}
-        <span className="mx-1">·</span> Accra, Ghana · GMT
+        {sample ? "Sample · studio log" : "Live"}
+        <span className="mx-1">·</span> Accra · GMT
       </p>
     </div>
   );
@@ -46,16 +72,15 @@ export function AnalyticsHeading({
   connectionError = "",
 }: {
   title: string;
-  lede: string;
+  lede?: string;
   connected?: boolean;
-  /** Why GA4 stayed disconnected — shown so we can fix env / access without guessing. */
   connectionError?: string;
 }) {
   return (
     <div className="flex flex-wrap items-start justify-between gap-4">
       <div className="min-w-0 max-w-2xl">
         <h1 className="font-display text-[28px] font-semibold tracking-tight text-navy">{title}</h1>
-        <p className="mt-1 text-[13px] text-slate">{lede}</p>
+        {lede ? <p className="mt-1 text-[13px] text-slate">{lede}</p> : null}
         {!connected && connectionError ? (
           <p className="mt-2 max-w-xl text-[12px] leading-snug text-red-800" role="status">
             GA4 error: {connectionError}
@@ -71,36 +96,111 @@ export function DateRangeBar({
   value,
   onChange,
   live = false,
+  updatedAt,
 }: {
-  value: DateRange;
-  onChange: (next: DateRange) => void;
+  value: AnalyticsRangeValue;
+  onChange: (next: AnalyticsRangeValue) => void;
   live?: boolean;
+  updatedAt?: string;
 }) {
   const options: { id: DateRange; label: string }[] = [
     { id: "today", label: "Today" },
     { id: "7d", label: "7 days" },
     { id: "30d", label: "30 days" },
-    { id: "custom", label: "Custom range ↓" },
+    { id: "custom", label: "Custom range" },
   ];
+
+  const rangeLabel = useMemo(() => {
+    if (value.preset === "custom" && value.from && value.to) {
+      return `${value.from} → ${value.to}`;
+    }
+    if (value.preset === "today") return "Today";
+    if (value.preset === "30d") return "Last 30 days";
+    if (value.preset === "7d") return "Last 7 days";
+    return sampleRangeLabel;
+  }, [value]);
+
+  function pickPreset(preset: DateRange) {
+    if (preset === "today") {
+      const day = todayIso();
+      onChange({ preset, from: day, to: day });
+      return;
+    }
+    if (preset === "30d") {
+      onChange({ preset, from: daysAgoIso(29), to: todayIso() });
+      return;
+    }
+    if (preset === "7d") {
+      onChange({ preset, from: daysAgoIso(6), to: todayIso() });
+      return;
+    }
+    onChange({
+      preset: "custom",
+      from: value.from || daysAgoIso(6),
+      to: value.to || todayIso(),
+    });
+  }
+
   return (
-    <div className="flex flex-wrap items-center justify-between gap-3">
-      <div className="inline-flex flex-wrap gap-4 rounded-[7px] border border-mist bg-white px-3.5 py-2 text-xs">
-        {options.map((option) => (
-          <button
-            key={option.id}
-            type="button"
-            className={value === option.id ? "font-semibold text-ga" : "font-normal text-slate"}
-            onClick={() => onChange(option.id)}
-          >
-            {option.label}
-          </button>
-        ))}
+    <div className="space-y-3">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="inline-flex flex-wrap items-center gap-1 rounded-[7px] border border-mist bg-white p-1 text-xs">
+          {options.map((option) => (
+            <button
+              key={option.id}
+              type="button"
+              className={`inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 ${
+                value.preset === option.id ? "bg-navy font-semibold text-white" : "font-normal text-slate"
+              }`}
+              onClick={() => pickPreset(option.id)}
+            >
+              {option.id === "custom" ? <Calendar width={14} height={14} strokeWidth={1.6} /> : null}
+              {option.label}
+              {option.id === "custom" ? <NavArrowDown width={12} height={12} strokeWidth={1.6} /> : null}
+            </button>
+          ))}
+        </div>
+        <p className="inline-flex items-center gap-1.5 text-xs text-slate">
+          <Refresh width={14} height={14} strokeWidth={1.6} aria-hidden="true" />
+          {live ? rangeLabel : sampleRangeLabel}
+          <span className="mx-0.5">·</span>
+          {live
+            ? updatedAt
+              ? `Updated ${new Date(updatedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`
+              : "Updated just now"
+            : sampleUpdated}
+        </p>
       </div>
-      <p className="text-xs text-slate">
-        {live ? "Live studio range" : sampleRangeLabel}
-        <span className="mx-1">·</span>
-        {live ? "Updated just now" : sampleUpdated}
-      </p>
+
+      {value.preset === "custom" ? (
+        <div className="flex flex-wrap items-end gap-3 rounded-[10px] border border-mist bg-white px-4 py-3">
+          <label className="text-xs text-slate">
+            From
+            <input
+              type="date"
+              className="mt-1 block rounded-md border border-mist bg-paper px-3 py-2 text-sm text-navy outline-none focus:border-deep"
+              value={value.from}
+              max={value.to || todayIso()}
+              onChange={(event) =>
+                onChange({ preset: "custom", from: event.target.value, to: value.to || todayIso() })
+              }
+            />
+          </label>
+          <label className="text-xs text-slate">
+            To
+            <input
+              type="date"
+              className="mt-1 block rounded-md border border-mist bg-paper px-3 py-2 text-sm text-navy outline-none focus:border-deep"
+              value={value.to}
+              min={value.from || undefined}
+              max={todayIso()}
+              onChange={(event) =>
+                onChange({ preset: "custom", from: value.from || daysAgoIso(6), to: event.target.value })
+              }
+            />
+          </label>
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -114,7 +214,7 @@ export function MetricCard({
   label: string;
   source: Provenance;
   value: string | number;
-  hint: string;
+  hint?: string;
 }) {
   return (
     <div className="flex min-h-[7.5rem] flex-col gap-2.5 rounded-[10px] border border-mist bg-white p-5">
@@ -123,7 +223,7 @@ export function MetricCard({
         <ProvenanceMark source={source} />
       </p>
       <p className="text-[32px] font-semibold leading-none tracking-tight text-navy">{value}</p>
-      <p className="mt-auto text-[11px] text-slate">{hint}</p>
+      {hint ? <p className="mt-auto text-[11px] text-slate">{hint}</p> : null}
     </div>
   );
 }
@@ -135,6 +235,9 @@ export function DailyBars({
   values: { label: string; value: number }[];
   tone: "ga" | "studio";
 }) {
+  if (!values.length) {
+    return <p className="py-8 text-center text-sm text-slate">No data yet.</p>;
+  }
   const max = Math.max(...values.map((item) => item.value), 1);
   const bar = tone === "ga" ? "bg-ga" : "bg-studio";
   return (
@@ -165,6 +268,9 @@ export function ChannelBars({
 }: {
   rows: { name: string; sessions: number; briefs: number }[];
 }) {
+  if (!rows.length) {
+    return <p className="py-8 text-center text-sm text-slate">No channels yet.</p>;
+  }
   const max = Math.max(...rows.map((row) => row.sessions), 1);
   return (
     <ul className="space-y-3">
@@ -205,11 +311,7 @@ export function FunnelBars({
             </div>
             <div className="text-right">
               <p className="text-lg font-semibold text-navy">{step.count}</p>
-              {step.drop != null ? (
-                <p className="text-[11px] text-slate">{step.drop}% lower volume</p>
-              ) : (
-                <p className="text-[11px] text-slate">Starting volume</p>
-              )}
+              {step.drop != null ? <p className="text-[11px] text-slate">{step.drop}% drop</p> : null}
             </div>
           </div>
           <div className="h-2.5 overflow-hidden rounded-full bg-mist">
@@ -225,12 +327,7 @@ export function FunnelBars({
 }
 
 export function PrivacyNote() {
-  return (
-    <p className="text-[10px] leading-relaxed text-slate">
-      Consent-first aggregates only. No visitor profiles, heatmaps or session recordings. Desk is private and
-      noindex.
-    </p>
-  );
+  return null;
 }
 
 export function Panel({
@@ -257,7 +354,7 @@ export function Panel({
 }
 
 export function useAnalyticsRange() {
-  return useState<DateRange>("7d");
+  return useState<AnalyticsRangeValue>(() => defaultAnalyticsRange());
 }
 
 export function BriefLink({ to, children }: { to: string; children: ReactNode }) {
@@ -265,5 +362,30 @@ export function BriefLink({ to, children }: { to: string; children: ReactNode })
     <Link className="font-medium text-deep hover:text-deep-hover" to={to}>
       {children}
     </Link>
+  );
+}
+
+export function FilterChip({
+  active,
+  onClick,
+  children,
+  icon,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: ReactNode;
+  icon?: ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs ${
+        active ? "bg-navy text-white" : "border border-mist bg-white text-slate"
+      }`}
+    >
+      {icon}
+      {children}
+    </button>
   );
 }

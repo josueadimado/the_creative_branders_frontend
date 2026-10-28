@@ -10,6 +10,7 @@ type Settings = {
   linkedin_url: string;
   instagram_url: string;
   facebook_url: string;
+  x_url: string;
 };
 
 const empty: Settings = {
@@ -20,6 +21,7 @@ const empty: Settings = {
   linkedin_url: "",
   instagram_url: "",
   facebook_url: "",
+  x_url: "",
 };
 
 export default function SettingsDesk() {
@@ -59,10 +61,7 @@ export default function SettingsDesk() {
 
   return (
     <section>
-      <DeskHeading
-        title="Studio details"
-        lede="The name, the public email, and the social links. The inbox that receives form copies is set on the server, not here."
-      />
+      <DeskHeading title="Studio details" />
       <form onSubmit={onSubmit} className="grid gap-5">
         <Panel title="Studio">
         <Field label="Studio name">
@@ -87,6 +86,9 @@ export default function SettingsDesk() {
         </Field>
         <Field label="Facebook">
           <TextInput value={settings.facebook_url} onChange={(event) => set("facebook_url", event.target.value)} />
+        </Field>
+        <Field label="X">
+          <TextInput value={settings.x_url} onChange={(event) => set("x_url", event.target.value)} />
         </Field>
         </Panel>
         <SaveBar busy={busy} label="Save details" status={status} error={error} />

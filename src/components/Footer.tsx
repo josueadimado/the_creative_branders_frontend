@@ -1,11 +1,13 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { Phone } from "lucide-react";
 import { Link } from "react-router-dom";
 import { site } from "../content/site";
 import { useInsightsMenu } from "../content/contentDesk";
+import { hasNewsletterSubscribed } from "../lib/newsletter";
 import { OPEN_COOKIE_SETTINGS } from "./CookieNotice";
 import { bannerCanAppear, track } from "../lib/analytics";
 import Logo from "./Logo";
+import NewsletterForm from "./NewsletterForm";
 import SocialLinks from "./SocialLinks";
 
 const studioLinks = [
@@ -48,7 +50,6 @@ function Item({ to, label }: { to: string; label: string }) {
   );
 }
 
-/** A product that is not open yet. Plain text, with a small badge, not a link. */
 function UpcomingProduct({ label }: { label: string }) {
   return (
     <li>
@@ -63,8 +64,27 @@ function UpcomingProduct({ label }: { label: string }) {
 export default function Footer() {
   const showInsights = useInsightsMenu();
   const links = showInsights ? [...studioLinks, { to: "/insights", label: "Insights" }] : studioLinks;
+  const [showNewsletter, setShowNewsletter] = useState(() => !hasNewsletterSubscribed());
+
   return (
-    <footer className="dot-grid border-t border-white/[0.06] bg-navy">
+    <footer className="border-t border-white/[0.06]">
+      {showNewsletter ? (
+        <div className="border-b border-mist bg-paper">
+          <div className="mx-auto flex max-w-6xl flex-col gap-6 px-6 py-12 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
+            <div className="max-w-md">
+              <h2 className="font-display text-2xl font-semibold tracking-tight text-navy sm:text-[1.75rem]">
+                Subscribe to our newsletter
+              </h2>
+              <p className="mt-2 text-sm leading-6 text-slate">Launches and case studies.</p>
+            </div>
+            <div className="w-full max-w-xl">
+              <NewsletterForm onSubscribed={() => setShowNewsletter(false)} />
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      <div className="dot-grid bg-navy">
       <div className="mx-auto grid max-w-6xl gap-14 px-6 py-20 sm:grid-cols-2 lg:grid-cols-[16rem_repeat(3,minmax(0,1fr))]">
         <div className="w-full sm:col-span-2 lg:col-span-1 lg:w-64">
           <div className="flex w-max max-w-full flex-col items-center">
@@ -118,7 +138,6 @@ export default function Footer() {
         </div>
       </div>
       <div className="border-t border-white/[0.06] px-6 py-6">
-        {/* On a phone the copyright and the legal links sit in the middle. On a wider screen they sit at each end. */}
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 text-center text-sm text-white/80 sm:flex-row sm:justify-between sm:text-left">
           <p>
             © {new Date().getFullYear()} {site.legalName}.
@@ -144,6 +163,7 @@ export default function Footer() {
             ) : null}
           </ul>
         </div>
+      </div>
       </div>
     </footer>
   );
