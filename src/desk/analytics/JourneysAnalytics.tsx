@@ -50,7 +50,8 @@ function JourneyDetail({
             {journey.started_label}
           </p>
           <p className="mt-1 text-[12px] text-slate">
-            {journey.device || "device unknown"}
+            {journey.location_label || "Place unknown"}
+            {journey.device ? ` · ${journey.device}` : ""}
             {journey.source ? ` · ${journey.source}` : ""}
             {journey.campaign ? ` / ${journey.campaign}` : ""}
           </p>
@@ -62,7 +63,11 @@ function JourneyDetail({
         </span>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-4">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="rounded-[10px] border border-mist bg-white p-3">
+          <p className="text-[11px] text-slate">From</p>
+          <p className="mt-1 truncate text-[13px] text-navy">{journey.location_label || "—"}</p>
+        </div>
         <div className="rounded-[10px] border border-mist bg-white p-3">
           <p className="text-[11px] text-slate">Landing</p>
           <p className="mt-1 truncate text-[13px] text-navy">{journey.landing_page || "—"}</p>
@@ -216,20 +221,38 @@ export default function JourneysAnalytics() {
                 </ul>
               </Panel>
 
-              <Panel title="Common exit pages" source="studio">
-                {data.journeys.top_exit_pages.length ? (
-                  <ul className="space-y-2">
-                    {data.journeys.top_exit_pages.map((row) => (
-                      <li key={row.path} className="flex items-baseline justify-between gap-3 text-[13px]">
-                        <span className="truncate text-navy">{row.path}</span>
-                        <span className="shrink-0 tabular-nums text-slate">{row.count}</span>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="text-[13px] text-slate">No exit pattern yet.</p>
-                )}
-              </Panel>
+              <div className="space-y-5">
+                <Panel title="Where visitors are from" source="studio">
+                  {data.journeys.top_countries?.length ? (
+                    <ul className="space-y-2">
+                      {data.journeys.top_countries.map((row) => (
+                        <li key={row.country} className="flex items-baseline justify-between gap-3 text-[13px]">
+                          <span className="truncate text-navy">{row.country}</span>
+                          <span className="shrink-0 tabular-nums text-slate">{row.count}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-[13px] text-slate">
+                      Place is estimated from IP after Accept. None yet.
+                    </p>
+                  )}
+                </Panel>
+                <Panel title="Common exit pages" source="studio">
+                  {data.journeys.top_exit_pages.length ? (
+                    <ul className="space-y-2">
+                      {data.journeys.top_exit_pages.map((row) => (
+                        <li key={row.path} className="flex items-baseline justify-between gap-3 text-[13px]">
+                          <span className="truncate text-navy">{row.path}</span>
+                          <span className="shrink-0 tabular-nums text-slate">{row.count}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-[13px] text-slate">No exit pattern yet.</p>
+                  )}
+                </Panel>
+              </div>
             </div>
 
             <div className="flex flex-wrap gap-2">
@@ -267,6 +290,9 @@ export default function JourneysAnalytics() {
                         className="flex w-full flex-wrap items-center gap-x-4 gap-y-2 py-3 text-left hover:bg-paper/80"
                       >
                         <span className="w-28 shrink-0 text-[12px] text-slate">{row.started_label}</span>
+                        <span className="w-28 shrink-0 truncate text-[12px] text-slate">
+                          {row.location_label || "—"}
+                        </span>
                         <span className="min-w-0 flex-1 truncate text-[13px] text-navy">
                           {row.landing_page}
                           {row.exit_page && row.exit_page !== row.landing_page

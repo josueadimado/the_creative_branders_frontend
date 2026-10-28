@@ -32,6 +32,12 @@ export type JourneyItem = {
   started_at: string;
   started_label: string;
   device: string;
+  client_ip: string;
+  country_code: string;
+  country: string;
+  city: string;
+  region: string;
+  location_label: string;
   landing_page: string;
   exit_page: string;
   pages: string[];
@@ -59,6 +65,7 @@ export type JourneysPayload = {
   };
   tips: { title: string; detail: string; severity: string }[];
   top_exit_pages: { path: string; count: number }[];
+  top_countries: { country: string; count: number }[];
   common_errors: { message: string; count: number }[];
   items: JourneyItem[];
 };
@@ -74,6 +81,7 @@ const emptyJourneys: JourneysPayload = {
   },
   tips: [],
   top_exit_pages: [],
+  top_countries: [],
   common_errors: [],
   items: [],
 };
