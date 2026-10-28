@@ -17,6 +17,7 @@ import {
   Menu,
   NotebookPen,
   PanelsTopLeft,
+  Map,
   Settings,
   Signpost,
   Users,
@@ -28,6 +29,7 @@ import Logo from "../components/Logo";
 import { clearToken, deskJson, readToken, saveToken } from "./api";
 import ActivityAnalytics from "./analytics/ActivityAnalytics";
 import FunnelAnalytics from "./analytics/FunnelAnalytics";
+import JourneysAnalytics from "./analytics/JourneysAnalytics";
 import OverviewAnalytics from "./analytics/OverviewAnalytics";
 import PagesAnalytics from "./analytics/PagesAnalytics";
 import SourcesAnalytics from "./analytics/SourcesAnalytics";
@@ -92,6 +94,7 @@ const groups: { label: string; links: { to: string; label: string; icon: LucideI
       { to: "/desk/analytics/pages", label: "Pages", icon: FileChartColumn },
       { to: "/desk/analytics/funnel", label: "Funnel", icon: Filter },
       { to: "/desk/analytics/sources", label: "Sources", icon: Signpost },
+      { to: "/desk/analytics/journeys", label: "Journeys", icon: Map },
       { to: "/desk/analytics/activity", label: "Activity", icon: Activity },
     ],
   },
@@ -394,6 +397,7 @@ function DeskRoutes() {
         <Route path="analytics/pages" element={<PagesAnalytics />} />
         <Route path="analytics/funnel" element={<FunnelAnalytics />} />
         <Route path="analytics/sources" element={<SourcesAnalytics />} />
+        <Route path="analytics/journeys" element={<JourneysAnalytics />} />
         <Route path="analytics/activity" element={<ActivityAnalytics />} />
         <Route path="briefs" element={<MessagesDesk kind="briefs" />} />
         <Route path="briefs/:id" element={<MessagesDesk kind="briefs" />} />

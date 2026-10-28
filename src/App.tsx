@@ -12,6 +12,7 @@ import { ContentDeskProvider } from "./content/contentDesk";
 import { organizationSchema, professionalServiceSchema } from "./content/schema";
 import { isLocale, stripLocale } from "./i18n/locale";
 import { track } from "./lib/analytics";
+import { installJourneyErrorCapture } from "./lib/journeyCapture";
 import { captureVisit } from "./lib/visit";
 import PageTransition from "./components/PageTransition";
 import PreferLocale from "./components/PreferLocale";
@@ -20,12 +21,43 @@ import NotFound from "./pages/NotFound";
 
 const DeskApp = lazy(() => import("./desk/DeskApp"));
 
+/**
+ * Records each page open and how long the visitor stayed.
+ * Only saves after cookie consent (track() already checks that).
+ */
 function PageViews() {
   const { pathname } = useLocation();
 
   useEffect(() => {
+    installJourneyErrorCapture();
+  }, []);
+
+  useEffect(() => {
     captureVisit();
-    track("page_view", { page_path: stripLocale(pathname) });
+    const path = stripLocale(pathname);
+    const entered = Date.now();
+    let left = false;
+    track("page_view", { page_path: path });
+
+    const sendLeave = () => {
+      if (left) return;
+      left = true;
+      const sec = Math.round((Date.now() - entered) / 1000);
+      if (sec < 1) return;
+      track("page_leave", { page_path: path, duration_sec: String(sec) });
+    };
+
+    const onVisibility = () => {
+      if (document.visibilityState === "hidden") sendLeave();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("pagehide", sendLeave);
+
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("pagehide", sendLeave);
+      sendLeave();
+    };
   }, [pathname]);
 
   return null;

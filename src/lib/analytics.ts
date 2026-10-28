@@ -13,7 +13,7 @@ const SIX_MONTHS = 60 * 60 * 24 * 182;
 /** True only after Accept has allowed analytics on this page view. */
 let analyticsGranted = false;
 
-/** Business actions we keep in our own database. Page views stay in GA4 only. */
+/** Studio-log events we store ourselves (business actions + visitor journeys). */
 const STUDIO_EVENTS = new Set([
   "start_project_click",
   "audit_cta_click",
@@ -24,6 +24,11 @@ const STUDIO_EVENTS = new Set([
   "phone_click",
   "brief_submit",
   "waitlist_signup",
+  // Journey signals for the Desk Journeys tab
+  "page_view",
+  "page_leave",
+  "js_error",
+  "form_error",
 ]);
 
 export type ConsentChoice = {

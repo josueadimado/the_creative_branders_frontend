@@ -8,6 +8,7 @@ import { countries, countryByCode } from "../data/countries";
 import { whatsappLink } from "../data/socials";
 import { postInquiry } from "../lib/api";
 import { track, trackWhatsApp } from "../lib/analytics";
+import { trackFormError } from "../lib/journeyCapture";
 import { hasBriefSubmitted, markBriefSubmitted } from "../lib/inquiry";
 
 
@@ -97,11 +98,13 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
     if (needs.length === 0) {
       setStatus("error");
       setError(t("needsError"));
+      trackFormError("brief", "needs_required");
       return;
     }
     if (!consent) {
       setStatus("error");
       setError(t("consentError"));
+      trackFormError("brief", "consent_required");
       return;
     }
     setStatus("sending");
@@ -147,6 +150,7 @@ export default function InquiryForm({ layout = "stack" }: { layout?: "stack" | "
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "We could not send that. Please try again.");
+      trackFormError("brief", "submit_failed");
     }
   }
 

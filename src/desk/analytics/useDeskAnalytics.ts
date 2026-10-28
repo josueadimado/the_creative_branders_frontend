@@ -18,6 +18,66 @@ import {
   workOpens as sampleWorkOpens,
 } from "./sampleData";
 
+export type JourneyStep = {
+  time: string;
+  name: string;
+  label: string;
+  path: string;
+  detail: string;
+  created_at: string;
+};
+
+export type JourneyItem = {
+  visit_id: string;
+  started_at: string;
+  started_label: string;
+  device: string;
+  landing_page: string;
+  exit_page: string;
+  pages: string[];
+  page_count: number;
+  duration_sec: number;
+  event_count: number;
+  error_count: number;
+  converted: boolean;
+  outcome: string;
+  outcome_label: string;
+  source: string;
+  campaign: string;
+  referrer: string;
+  steps: JourneyStep[];
+};
+
+export type JourneysPayload = {
+  stats: {
+    visits: number;
+    converted: number;
+    bounced: number;
+    with_errors: number;
+    avg_duration_sec: number;
+    avg_pages: number;
+  };
+  tips: { title: string; detail: string; severity: string }[];
+  top_exit_pages: { path: string; count: number }[];
+  common_errors: { message: string; count: number }[];
+  items: JourneyItem[];
+};
+
+const emptyJourneys: JourneysPayload = {
+  stats: {
+    visits: 0,
+    converted: 0,
+    bounced: 0,
+    with_errors: 0,
+    avg_duration_sec: 0,
+    avg_pages: 0,
+  },
+  tips: [],
+  top_exit_pages: [],
+  common_errors: [],
+  items: [],
+};
+
 export type DeskAnalyticsPayload = {
   range: string;
   ga_connected: boolean;
@@ -72,6 +132,7 @@ export type DeskAnalyticsPayload = {
       landing_page?: string;
       visit_paths?: string[];
     }[];
+    journeys?: JourneysPayload;
   };
   ga: {
     visitors: number;
@@ -274,6 +335,7 @@ export function useDeskAnalytics(range: AnalyticsRangeValue) {
         )
       : activityFeed) as ActivityItem[],
     topCta: studio?.top_cta || "No contact actions yet",
+    journeys: studio?.journeys || emptyJourneys,
   };
 
   return view;

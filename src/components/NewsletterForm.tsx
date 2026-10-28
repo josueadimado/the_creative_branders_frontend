@@ -5,6 +5,7 @@ import { useBotGuard } from "./BotGuard";
 import ConsentCheckbox from "./ConsentCheckbox";
 import { LocaleLink } from "./LocaleLink";
 import { postNewsletter } from "../lib/api";
+import { trackFormError } from "../lib/journeyCapture";
 import { markNewsletterSubscribed } from "../lib/newsletter";
 import { site } from "../content/site";
 
@@ -26,6 +27,7 @@ export default function NewsletterForm({ onSubscribed }: { onSubscribed?: () => 
     if (!consent) {
       setStatus("error");
       setError(t("consentRequired"));
+      trackFormError("newsletter", "consent_required");
       return;
     }
     try {
@@ -36,6 +38,7 @@ export default function NewsletterForm({ onSubscribed }: { onSubscribed?: () => 
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : t("couldNotSubscribe"));
+      trackFormError("newsletter", "submit_failed");
     }
   }
 
