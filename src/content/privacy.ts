@@ -36,7 +36,7 @@ export const privacy = {
         },
         {
           label: "Cookies and analytics",
-          text: "Only if you accept analytics cookies.",
+          text: "Only if you accept analytics cookies. That can include technical details such as pages you open on our site, campaign tags on the link you used, device type, and IP address, so we can understand how people find the studio.",
         },
         {
           label: "WhatsApp and email",

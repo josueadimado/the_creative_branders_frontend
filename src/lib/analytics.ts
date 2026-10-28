@@ -4,7 +4,7 @@
  */
 
 import { apiRoot } from "./apiBase";
-import { readVisit } from "./visit";
+import { readDeviceKind, readVisit, readVisitId } from "./visit";
 
 const GA_ID = import.meta.env.VITE_GA_ID || "";
 const CONSENT_KEY = "tcb-consent";
@@ -222,7 +222,13 @@ function sendStudioEvent(event: string, params?: Record<string, string>) {
     if (key === "page_path" || value == null || value === "") continue;
     props[key] = String(value).slice(0, 200);
   }
-  const body = JSON.stringify({ name: event, page_path: page_path.slice(0, 300), props });
+  const body = JSON.stringify({
+    name: event,
+    page_path: page_path.slice(0, 300),
+    props,
+    visit_id: readVisitId(),
+    device: readDeviceKind(),
+  });
   const url = `${apiRoot()}/analytics/events/`;
   try {
     if (navigator.sendBeacon) {

@@ -59,7 +59,7 @@ export default function ActivityAnalytics() {
       <div className="space-y-6">
         <AnalyticsHeading
           title="Studio activity"
-          lede="The meaningful actions on your site. Not a stream of every page view."
+          lede="Where they came from, what they opened, device and IP — after they allow analytics."
           connected={data.gaConnected}
           connectionError={data.gaError}
         />
@@ -127,19 +127,41 @@ export default function ActivityAnalytics() {
                   {day}
                 </p>
                 <ul>
-                  {rows.map((row) => (
-                    <li
-                      key={`${row.day}-${row.time}-${row.action}-${row.detail}`}
-                      className="flex flex-wrap items-start gap-3 border-t border-mist px-5 py-3.5 text-sm"
-                    >
-                      <span className="w-12 shrink-0 tabular-nums text-slate">{row.time}</span>
-                      <span className="min-w-[8rem] font-medium text-navy">{row.action}</span>
-                      <span className="min-w-0 flex-1 text-slate">{row.detail}</span>
-                      {row.action === "Brief submitted" ? (
-                        <BriefLink to="/desk/briefs">Open briefs →</BriefLink>
-                      ) : null}
-                    </li>
-                  ))}
+                  {rows.map((row, index) => {
+                    const origin = [row.source, row.campaign].filter(Boolean).join(" / ");
+                    const context = [
+                      row.device || null,
+                      row.client_ip || null,
+                      origin ? `via ${origin}` : null,
+                      row.landing_page ? `landed ${row.landing_page}` : null,
+                    ].filter(Boolean);
+                    const paths =
+                      row.visit_paths && row.visit_paths.length > 1
+                        ? row.visit_paths.join(" → ")
+                        : "";
+                    return (
+                      <li
+                        key={`${row.day}-${row.time}-${row.action}-${row.detail}-${index}`}
+                        className="border-t border-mist px-5 py-3.5 text-sm"
+                      >
+                        <div className="flex flex-wrap items-start gap-3">
+                          <span className="w-12 shrink-0 tabular-nums text-slate">{row.time}</span>
+                          <span className="min-w-[8rem] font-medium text-navy">{row.action}</span>
+                          <span className="min-w-0 flex-1 text-slate">{row.detail}</span>
+                          {row.action === "Brief submitted" ? (
+                            <BriefLink to="/desk/briefs">Open briefs →</BriefLink>
+                          ) : null}
+                        </div>
+                        {context.length || paths || row.referrer ? (
+                          <div className="mt-1.5 space-y-0.5 pl-[3.75rem] text-[11px] text-slate">
+                            {context.length ? <p>{context.join(" · ")}</p> : null}
+                            {paths ? <p>In this visit: {paths}</p> : null}
+                            {row.referrer ? <p className="truncate">Referrer: {row.referrer}</p> : null}
+                          </div>
+                        ) : null}
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             ))
@@ -147,7 +169,8 @@ export default function ActivityAnalytics() {
         </section>
 
         <p className="text-[11px] text-slate">
-          Recent studio actions · GMT. Aggregate events, not individual visitor profiles.
+          Recent studio actions · GMT. IP and device are stored only after analytics Accept, to help you
+          reply when someone reaches out — not to sell lead lists.
         </p>
         <PrivacyNote />
       </div>

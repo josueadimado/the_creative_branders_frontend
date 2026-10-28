@@ -1,5 +1,6 @@
 /** Where this visit started. Kept for the rest of the browser session. */
 const KEY = "tcb-visit";
+const ID_KEY = "tcb-visit-id";
 
 export type VisitDetails = {
   utm_source: string;
@@ -19,12 +20,38 @@ const emptyVisit: VisitDetails = {
   referrer: "",
 };
 
+/** One id for this browser tab session, so Desk can group related actions. */
+export function readVisitId(): string {
+  try {
+    const existing = sessionStorage.getItem(ID_KEY);
+    if (existing) return existing.slice(0, 64);
+    const id =
+      typeof crypto !== "undefined" && "randomUUID" in crypto
+        ? crypto.randomUUID()
+        : `v-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+    sessionStorage.setItem(ID_KEY, id);
+    return id.slice(0, 64);
+  } catch {
+    return "";
+  }
+}
+
+/** Rough device class for the studio log. The server may refine this from User-Agent. */
+export function readDeviceKind(): "mobile" | "tablet" | "desktop" {
+  if (typeof navigator === "undefined") return "desktop";
+  const ua = navigator.userAgent || "";
+  if (/iPad|Tablet|Android(?!.*Mobile)/i.test(ua)) return "tablet";
+  if (/Mobi|Android|iPhone|iPod/i.test(ua)) return "mobile";
+  return "desktop";
+}
+
 /**
  * Remember the first page of this visit, including the campaign tags in the address.
  * A later page does not replace it.
  */
 export function captureVisit() {
   try {
+    readVisitId();
     if (sessionStorage.getItem(KEY)) return;
     const params = new URLSearchParams(window.location.search);
     const visit: VisitDetails = {

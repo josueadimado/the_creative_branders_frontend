@@ -62,6 +62,14 @@ export type DeskAnalyticsPayload = {
       name: string;
       detail: string;
       created_at: string;
+      visit_id?: string;
+      device?: string;
+      client_ip?: string;
+      source?: string;
+      campaign?: string;
+      referrer?: string;
+      landing_page?: string;
+      visit_paths?: string[];
     }[];
   };
   ga: {
@@ -242,6 +250,14 @@ export function useDeskAnalytics(range: DateRange) {
           time: row.time,
           action: row.action,
           detail: row.detail,
+          visit_id: row.visit_id || "",
+          device: row.device || "",
+          client_ip: row.client_ip || "",
+          source: row.source || "",
+          campaign: row.campaign || "",
+          referrer: row.referrer || "",
+          landing_page: row.landing_page || "",
+          visit_paths: row.visit_paths || [],
         }))
       : activityFeed,
     topCta: studio?.top_cta || "No contact actions yet",
