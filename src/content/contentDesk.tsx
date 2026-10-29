@@ -111,6 +111,11 @@ function useDesk() {
   return useContext(ContentDesk);
 }
 
+/** loading | ready | fallback — used by the small site boot bar. */
+export function useContentDeskStatus() {
+  return useDesk().status;
+}
+
 /** A filled-in desk sentence, or the sentence that already ships with the site. */
 function prefer(next: string | undefined, current: string) {
   const value = next?.trim();

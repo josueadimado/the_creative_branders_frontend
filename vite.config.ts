@@ -151,15 +151,27 @@ function collectPlaceholders(value: unknown, found: string[]) {
   }
 }
 
-/** Writes sitemap.xml and robots.txt when the production site is built. */
+/** Build id open tabs check so a new deploy can soft-reload without a hard refresh. */
+function buildId(): string {
+  return process.env.GITHUB_SHA?.slice(0, 12) || process.env.SOURCE_COMMIT?.slice(0, 12) || `local-${Date.now()}`;
+}
+
+/** Writes sitemap.xml, robots.txt, and version.json when the production site is built. */
 function siteFiles(): Plugin {
   return {
     name: "tcb-site-files",
     configureServer(server) {
       let cached: ReturnType<typeof routesForBuild> | null = null;
+      const localVersion = JSON.stringify({ buildId: buildId() });
       server.middlewares.use(rejectMissingCatalog);
       server.middlewares.use((req, res, next) => {
         const path = req.url?.split("?")[0];
+        if (path === "/version.json") {
+          res.setHeader("Content-Type", "application/json");
+          res.setHeader("Cache-Control", "no-store");
+          res.end(localVersion);
+          return;
+        }
         if (path !== "/sitemap.xml" && path !== "/robots.txt") {
           next();
           return;
@@ -191,6 +203,7 @@ function siteFiles(): Plugin {
       }
       writeFileSync(resolve(outDir, "sitemap.xml"), sitemapXml(routes.indexable, routes.projects));
       writeFileSync(resolve(outDir, "robots.txt"), robotsTxt());
+      writeFileSync(resolve(outDir, "version.json"), `${JSON.stringify({ buildId: buildId() })}\n`);
       // Same list the sitemap uses, plus the notes. The prerender script reads it, then deletes it.
       writeFileSync(resolve(outDir, ".prerender-routes.json"), JSON.stringify(routes.publicRoutes));
     },

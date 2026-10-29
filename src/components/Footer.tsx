@@ -6,7 +6,6 @@ import { useInsightsMenu } from "../content/contentDesk";
 import { hasNewsletterSubscribed } from "../lib/newsletter";
 import { OPEN_COOKIE_SETTINGS } from "./CookieNotice";
 import { bannerCanAppear, track } from "../lib/analytics";
-import LanguageSwitcher from "./LanguageSwitcher";
 import { LocaleLink } from "./LocaleLink";
 import Logo from "./Logo";
 import NewsletterForm from "./NewsletterForm";
@@ -92,9 +91,6 @@ export default function Footer() {
                 <Logo variant="dark" size="large" />
               </LocaleLink>
               <p className="mt-3 text-center text-xs leading-snug text-white/60">{site.tagline}</p>
-              <div className="mt-4">
-                <LanguageSwitcher tone="dark" />
-              </div>
             </div>
           </div>
 

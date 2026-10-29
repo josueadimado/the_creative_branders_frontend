@@ -16,7 +16,9 @@ import { installJourneyErrorCapture } from "./lib/journeyCapture";
 import { captureVisit } from "./lib/visit";
 import PageTransition from "./components/PageTransition";
 import PreferLocale from "./components/PreferLocale";
+import SiteLoader from "./components/SiteLoader";
 import NotFound from "./pages/NotFound";
+import { watchDeploy } from "./lib/watchDeploy";
 
 
 const DeskApp = lazy(() => import("./desk/DeskApp"));
@@ -78,6 +80,11 @@ function PublicCatchAll() {
 
 export default function App() {
   const location = useLocation();
+
+  useEffect(() => {
+    watchDeploy();
+  }, []);
+
   if (location.pathname === "/desk" || location.pathname.startsWith("/desk/")) {
     return (
       <Suspense
@@ -101,6 +108,7 @@ export default function App() {
           <script type="application/ld+json">{JSON.stringify(professionalServiceSchema())}</script>
         </Helmet>
         <PreferLocale />
+        <SiteLoader />
         <WhatsAppButton />
         <BackToTop />
         <PageTransition>
@@ -108,7 +116,13 @@ export default function App() {
             <>
               <Navbar />
               <main className="flex-1">
-                <Suspense fallback={null}>
+                <Suspense
+                  fallback={
+                    <div className="flex min-h-[40vh] items-center justify-center" role="status" aria-busy="true">
+                      <span className="site-dual-ring" aria-hidden="true" />
+                    </div>
+                  }
+                >
                   <Routes location={location}>
                     <Route element={<LocaleLayout forceLocale="en" />}>{publicRouteElements("")}</Route>
                     <Route element={<LocaleLayout forceLocale="fr" />}>{publicRouteElements("/fr")}</Route>

@@ -27,6 +27,61 @@
   }
 }
 
+/* Public site — thin top progress bar while the content desk answers. */
+.site-load-bar {
+  height: 2px;
+  width: 100%;
+  transform-origin: left center;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgb(var(--tcb-signal)) 35%,
+    rgb(var(--tcb-gold)) 70%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: site-load-bar 1.1s ease-in-out infinite;
+}
+
+.site-dual-ring {
+  display: inline-block;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 9999px;
+  border: 2px solid rgb(var(--tcb-mist));
+  border-top-color: rgb(var(--tcb-deep));
+  border-right-color: rgb(var(--tcb-deep));
+  animation: desk-dual-ring 0.75s linear infinite;
+}
+
+@keyframes site-load-bar {
+  0% {
+    background-position: 100% 0;
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    background-position: -100% 0;
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-load-bar {
+    animation: none;
+    background: rgb(var(--tcb-signal));
+    opacity: 0.7;
+  }
+
+  .site-dual-ring {
+    animation: none;
+    border-color: rgb(var(--tcb-deep));
+    opacity: 0.55;
+  }
+}
+
 :root {
   /* Space-separated channels so Tailwind can add opacity, e.g. bg-navy/80. */
   --tcb-navy: 14 30 43;
