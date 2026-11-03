@@ -99,14 +99,8 @@
   /* Desk Analytics: GA4 traffic vs studio action log (Figma provenance colours). */
   --tcb-ga: 49 91 222;
   --tcb-studio: 20 125 115;
-  /* How far the chat button sits from the bottom. The cookie question lifts it on a phone. */
+  /* How far the chat button sits from the bottom. */
   --tcb-float-bottom: max(1.25rem, env(safe-area-inset-bottom));
-}
-
-@media (max-width: 639px) {
-  body[data-cookie-banner="open"] {
-    --tcb-float-bottom: calc(env(safe-area-inset-bottom) + 11.5rem);
-  }
 }
 
 .tcb-chat {
@@ -119,6 +113,16 @@
 
 body[data-chat-hidden="true"] .tcb-top {
   bottom: var(--tcb-float-bottom);
+}
+
+/*
+  On a phone the cookie sheet covers the bottom. Chat used to sit on top of Accept
+  (higher z-index) and steal the tap. Hide float buttons while the question is open.
+*/
+body[data-cookie-banner="open"] .tcb-chat,
+body[data-cookie-banner="open"] .tcb-top {
+  visibility: hidden;
+  pointer-events: none;
 }
 
 @tailwind base;

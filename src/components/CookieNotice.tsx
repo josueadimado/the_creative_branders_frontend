@@ -79,8 +79,9 @@ export default function CookieNotice() {
   return (
     <div
       role="dialog"
+      aria-modal="true"
       aria-label={t("aria")}
-      className="fixed bottom-0 left-0 right-0 z-40 rounded-t-2xl border border-mist bg-white p-4 text-navy shadow-[0_8px_30px_rgba(14,30,43,0.08)] sm:bottom-4 sm:left-4 sm:right-auto sm:w-full sm:max-w-[360px] sm:rounded-2xl"
+      className="fixed bottom-0 left-0 right-0 z-[70] rounded-t-2xl border border-mist bg-white px-4 pt-4 text-navy shadow-[0_8px_30px_rgba(14,30,43,0.08)] max-sm:pb-[max(1rem,env(safe-area-inset-bottom))] sm:bottom-4 sm:left-4 sm:right-auto sm:w-full sm:max-w-[360px] sm:rounded-2xl sm:p-4"
     >
       {view === "ask" ? (
         <>
@@ -91,14 +92,22 @@ export default function CookieNotice() {
             </LocaleLink>
           </p>
           <div className="mt-4 grid grid-cols-2 gap-2">
-            <button type="button" className="btn w-full border border-mist bg-white text-navy" onClick={() => apply(declined)}>
+            <button
+              type="button"
+              className="btn min-h-11 w-full border border-mist bg-white text-navy"
+              onClick={() => apply(declined)}
+            >
               {t("decline")}
             </button>
-            <button type="button" className="btn w-full border border-mist bg-white text-navy" onClick={accept}>
+            <button type="button" className="btn min-h-11 w-full border border-mist bg-white text-navy" onClick={accept}>
               {t("accept")}
             </button>
           </div>
-          <button type="button" className="mt-3 text-sm font-medium text-deep underline" onClick={() => setView("settings")}>
+          <button
+            type="button"
+            className="mt-3 inline-flex min-h-11 items-center text-sm font-medium text-deep underline"
+            onClick={() => setView("settings")}
+          >
             {t("settings")}
           </button>
         </>
@@ -124,7 +133,7 @@ export default function CookieNotice() {
                   checked={analytics}
                   onChange={(event) => setAnalytics(event.target.checked)}
                   aria-label={t("analyticsAria")}
-                  className="mt-1"
+                  className="mt-1 size-5"
                 />
               </li>
             ) : null}
@@ -139,12 +148,12 @@ export default function CookieNotice() {
                   checked={marketing}
                   onChange={(event) => setMarketing(event.target.checked)}
                   aria-label={t("marketingAria")}
-                  className="mt-1"
+                  className="mt-1 size-5"
                 />
               </li>
             ) : null}
           </ul>
-          <button type="button" className="btn btn-inverse mt-4 w-full border border-deep" onClick={saveSettings}>
+          <button type="button" className="btn btn-inverse mt-4 min-h-11 w-full border border-deep" onClick={saveSettings}>
             {t("save")}
           </button>
         </>
